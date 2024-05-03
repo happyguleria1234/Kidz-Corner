@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Poppins-SemiBold.otf">
+            <string>Poppins-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="InvoiceDetailFooter" rowHeight="198" id="TQ9-ah-SnD" customClass="InvoiceDetailFooter" customModule="KidzCorner" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="546" height="198"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TQ9-ah-SnD" id="HpW-Rj-lMR">
+                <rect key="frame" x="0.0" y="0.0" width="546" height="198"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A0p-5g-oHS">
+                        <rect key="frame" x="10" y="5" width="526" height="176"/>
+                        <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="16"/>
+                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                        <state key="normal" title="View Invoice PDF">
+                            <color key="titleColor" name="statsColor"/>
+                        </state>
+                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kwl-xj-jRQ">
+                        <rect key="frame" x="136.5" y="186" width="273" height="2"/>
+                        <color key="backgroundColor" name="statsColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="2" id="dnp-fj-Rvp"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="kwl-xj-jRQ" firstAttribute="centerX" secondItem="A0p-5g-oHS" secondAttribute="centerX" id="7LW-N0-EG6"/>
+                    <constraint firstItem="kwl-xj-jRQ" firstAttribute="width" secondItem="HpW-Rj-lMR" secondAttribute="width" multiplier="0.5" id="AOg-lE-MWt"/>
+                    <constraint firstItem="A0p-5g-oHS" firstAttribute="leading" secondItem="HpW-Rj-lMR" secondAttribute="leading" constant="10" id="SaR-ZB-UdE"/>
+                    <constraint firstItem="kwl-xj-jRQ" firstAttribute="top" secondItem="A0p-5g-oHS" secondAttribute="bottom" constant="5" id="gj0-wm-NCU"/>
+                    <constraint firstAttribute="bottom" secondItem="kwl-xj-jRQ" secondAttribute="bottom" constant="10" id="hdq-IO-mo0"/>
+                    <constraint firstAttribute="trailing" secondItem="A0p-5g-oHS" secondAttribute="trailing" constant="10" id="hpx-jR-qIU"/>
+                    <constraint firstItem="A0p-5g-oHS" firstAttribute="top" secondItem="HpW-Rj-lMR" secondAttribute="top" constant="5" id="kSo-bL-1Vd"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="viewInvoice" destination="A0p-5g-oHS" id="7H5-Qz-uCS"/>
+            </connections>
+            <point key="canvasLocation" x="224.63768115942031" y="95.089285714285708"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <namedColor name="statsColor">
+            <color red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

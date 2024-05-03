@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Poppins-Light.otf">
+            <string>Poppins-Light</string>
+        </array>
+        <array key="Poppins-Medium.otf">
+            <string>Poppins-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="StudentProfileCell" customModule="KidzCorner" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="595" height="222"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="595" height="222"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RUc-vP-zNe">
+                        <rect key="frame" x="20" y="5" width="555" height="212"/>
+                        <subviews>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iSP-bh-mbI">
+                                <rect key="frame" x="20" y="21" width="170" height="170"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholderImage" translatesAutoresizingMaskIntoConstraints="NO" id="FqN-Fl-wVv">
+                                        <rect key="frame" x="0.0" y="0.0" width="170" height="170"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="iSP-bh-mbI" secondAttribute="height" id="9O1-ee-NQM"/>
+                                    <constraint firstAttribute="bottom" secondItem="FqN-Fl-wVv" secondAttribute="bottom" id="Ynz-Sr-XFt"/>
+                                    <constraint firstAttribute="trailing" secondItem="FqN-Fl-wVv" secondAttribute="trailing" id="apJ-Om-lLo"/>
+                                    <constraint firstItem="FqN-Fl-wVv" firstAttribute="leading" secondItem="iSP-bh-mbI" secondAttribute="leading" id="vow-Gh-PAa"/>
+                                    <constraint firstItem="FqN-Fl-wVv" firstAttribute="top" secondItem="iSP-bh-mbI" secondAttribute="top" id="yEK-K8-28O"/>
+                                </constraints>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="YrI-R2-zgh">
+                                <rect key="frame" x="200" y="76.666666666666671" width="345" height="59.000000000000014"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Huang Wen Ze" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ewD-Hx-2Pv">
+                                        <rect key="frame" x="0.0" y="0.0" width="345" height="31"/>
+                                        <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="22"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Class: K1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ryw-At-QM3">
+                                        <rect key="frame" x="0.0" y="31" width="345" height="28"/>
+                                        <fontDescription key="fontDescription" name="Poppins-Light" family="Poppins" pointSize="20"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="YrI-R2-zgh" secondAttribute="trailing" constant="10" id="DVJ-i4-2hw"/>
+                            <constraint firstAttribute="bottom" secondItem="iSP-bh-mbI" secondAttribute="bottom" constant="21" id="Gef-V2-C5A"/>
+                            <constraint firstItem="iSP-bh-mbI" firstAttribute="leading" secondItem="RUc-vP-zNe" secondAttribute="leading" constant="20" id="L0q-Rc-Mzn"/>
+                            <constraint firstItem="YrI-R2-zgh" firstAttribute="leading" secondItem="iSP-bh-mbI" secondAttribute="trailing" constant="10" id="Zq6-Hb-evp"/>
+                            <constraint firstItem="YrI-R2-zgh" firstAttribute="centerY" secondItem="RUc-vP-zNe" secondAttribute="centerY" id="s7q-nC-Hl8"/>
+                            <constraint firstItem="iSP-bh-mbI" firstAttribute="top" secondItem="RUc-vP-zNe" secondAttribute="top" constant="21" id="tP3-4r-aKQ"/>
+                            <constraint firstItem="YrI-R2-zgh" firstAttribute="top" relation="greaterThanOrEqual" secondItem="RUc-vP-zNe" secondAttribute="top" constant="5" id="yrU-jj-Mbp"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <integer key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="RUc-vP-zNe" secondAttribute="bottom" constant="5" id="2HD-1O-t32"/>
+                <constraint firstItem="RUc-vP-zNe" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="DjO-iI-ASx"/>
+                <constraint firstItem="RUc-vP-zNe" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="RTj-Jc-XNx"/>
+                <constraint firstAttribute="trailing" secondItem="RUc-vP-zNe" secondAttribute="trailing" constant="20" id="zPS-Wb-GSP"/>
+            </constraints>
+            <size key="customSize" width="595" height="222"/>
+            <connections>
+                <outlet property="classLabel" destination="Ryw-At-QM3" id="4kz-io-SPB"/>
+                <outlet property="nameLabel" destination="ewD-Hx-2Pv" id="TAn-29-6uw"/>
+                <outlet property="profileOuterView" destination="iSP-bh-mbI" id="qR0-k1-tIT"/>
+                <outlet property="studentImage" destination="FqN-Fl-wVv" id="1lE-AV-raw"/>
+            </connections>
+            <point key="canvasLocation" x="493.89312977099235" y="80.281690140845072"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="placeholderImage" width="300" height="300"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

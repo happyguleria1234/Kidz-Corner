@@ -1,0 +1,6 @@
+framework module RYCOMSDK {
+  umbrella header "RYCOMSDK.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Poppins-Medium.otf">
+            <string>Poppins-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ClassesCell" rowHeight="220" id="ZwD-to-cXV" customClass="ClassesCell" customModule="KidzCorner" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="526" height="220"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZwD-to-cXV" id="N9Z-Pr-Y0k">
+                <rect key="frame" x="0.0" y="0.0" width="526" height="220"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Class Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="50t-Y5-4gO">
+                        <rect key="frame" x="5" y="5" width="516" height="204"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" name="myDarkGreen"/>
+                        <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="18"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DzY-NN-9d3">
+                        <rect key="frame" x="66" y="214" width="394.5" height="1"/>
+                        <color key="backgroundColor" white="1" alpha="0.50377338435374153" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="etS-Yf-7aS"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="DzY-NN-9d3" firstAttribute="top" secondItem="50t-Y5-4gO" secondAttribute="bottom" constant="5" id="6TS-bn-9zN"/>
+                    <constraint firstAttribute="bottom" secondItem="DzY-NN-9d3" secondAttribute="bottom" constant="5" id="HmG-DS-1TX"/>
+                    <constraint firstItem="DzY-NN-9d3" firstAttribute="width" secondItem="N9Z-Pr-Y0k" secondAttribute="width" multiplier="0.75" id="UgE-BH-AQI"/>
+                    <constraint firstItem="DzY-NN-9d3" firstAttribute="centerX" secondItem="N9Z-Pr-Y0k" secondAttribute="centerX" id="ZJD-pG-qCy"/>
+                    <constraint firstItem="50t-Y5-4gO" firstAttribute="leading" secondItem="N9Z-Pr-Y0k" secondAttribute="leading" constant="5" id="ql7-JS-Fut"/>
+                    <constraint firstAttribute="trailing" secondItem="50t-Y5-4gO" secondAttribute="trailing" constant="5" id="spp-ZA-CRG"/>
+                    <constraint firstItem="50t-Y5-4gO" firstAttribute="top" secondItem="N9Z-Pr-Y0k" secondAttribute="top" constant="5" id="zaW-mt-gq3"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="labelName" destination="50t-Y5-4gO" id="NmT-ol-MBb"/>
+                <outlet property="viewSeperator" destination="DzY-NN-9d3" id="NKg-MT-WGG"/>
+            </connections>
+            <point key="canvasLocation" x="179.71014492753625" y="119.86607142857142"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <namedColor name="myDarkGreen">
+            <color red="0.21568627450980393" green="0.50980392156862742" blue="0.50980392156862742" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

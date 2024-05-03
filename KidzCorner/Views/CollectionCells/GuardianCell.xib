@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Poppins-Regular.otf">
+            <string>Poppins-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="GuardianCell" id="oOw-RO-oFq" customClass="GuardianCell" customModule="KidzCorner" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="369" height="326"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="TUR-MV-5eF">
+                <rect key="frame" x="0.0" y="0.0" width="369" height="326"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholderImage" translatesAutoresizingMaskIntoConstraints="NO" id="YpY-JO-rge">
+                        <rect key="frame" x="86.5" y="10" width="196" height="195.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="YpY-JO-rge" secondAttribute="height" id="WeB-tQ-qBv"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3B3-ra-c3S">
+                        <rect key="frame" x="86.5" y="215.5" width="196" height="105.5"/>
+                        <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="14"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hML-jZ-E3v">
+                        <rect key="frame" x="242.5" y="165.5" width="50" height="50"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus" translatesAutoresizingMaskIntoConstraints="NO" id="Wpi-Ax-5gr">
+                                <rect key="frame" x="12.5" y="12.5" width="25" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Wpi-Ax-5gr" secondAttribute="height" id="L3J-sr-k4s"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5z5-s6-aHO">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="5z5-s6-aHO" secondAttribute="bottom" id="HCk-11-ylx"/>
+                            <constraint firstItem="5z5-s6-aHO" firstAttribute="top" secondItem="hML-jZ-E3v" secondAttribute="top" id="Jh5-iF-ihP"/>
+                            <constraint firstAttribute="trailing" secondItem="5z5-s6-aHO" secondAttribute="trailing" id="LGp-NE-gJm"/>
+                            <constraint firstAttribute="width" constant="50" id="P7i-i0-tk6"/>
+                            <constraint firstItem="Wpi-Ax-5gr" firstAttribute="centerY" secondItem="hML-jZ-E3v" secondAttribute="centerY" id="Psv-eK-Fuj"/>
+                            <constraint firstItem="5z5-s6-aHO" firstAttribute="leading" secondItem="hML-jZ-E3v" secondAttribute="leading" id="VTt-1I-IEJ"/>
+                            <constraint firstItem="Wpi-Ax-5gr" firstAttribute="centerX" secondItem="hML-jZ-E3v" secondAttribute="centerX" id="gYA-kk-Iy5"/>
+                            <constraint firstAttribute="width" secondItem="hML-jZ-E3v" secondAttribute="height" id="u1i-9i-NkY"/>
+                            <constraint firstItem="Wpi-Ax-5gr" firstAttribute="width" secondItem="hML-jZ-E3v" secondAttribute="width" multiplier="0.5" id="xsG-w8-Ezn"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="YpY-JO-rge" firstAttribute="top" secondItem="TUR-MV-5eF" secondAttribute="top" constant="10" id="8tH-tZ-Lus"/>
+                    <constraint firstItem="YpY-JO-rge" firstAttribute="centerX" secondItem="TUR-MV-5eF" secondAttribute="centerX" id="DYL-NP-u0P"/>
+                    <constraint firstItem="3B3-ra-c3S" firstAttribute="trailing" secondItem="YpY-JO-rge" secondAttribute="trailing" id="DqE-lL-INX"/>
+                    <constraint firstAttribute="bottom" secondItem="3B3-ra-c3S" secondAttribute="bottom" constant="5" id="Kqp-dP-GIb"/>
+                    <constraint firstItem="YpY-JO-rge" firstAttribute="height" secondItem="TUR-MV-5eF" secondAttribute="height" multiplier="0.6" id="NBj-9G-G42"/>
+                    <constraint firstItem="hML-jZ-E3v" firstAttribute="bottom" secondItem="YpY-JO-rge" secondAttribute="bottom" constant="10" id="Prt-C5-RxB"/>
+                    <constraint firstItem="3B3-ra-c3S" firstAttribute="top" secondItem="YpY-JO-rge" secondAttribute="bottom" constant="10" id="brP-ij-2Xr"/>
+                    <constraint firstItem="hML-jZ-E3v" firstAttribute="trailing" secondItem="YpY-JO-rge" secondAttribute="trailing" constant="10" id="gBK-i3-s8s"/>
+                    <constraint firstItem="3B3-ra-c3S" firstAttribute="leading" secondItem="YpY-JO-rge" secondAttribute="leading" id="tQc-tr-sCW"/>
+                </constraints>
+            </collectionViewCellContentView>
+            <size key="customSize" width="369" height="326"/>
+            <connections>
+                <outlet property="buttonAddImage" destination="5z5-s6-aHO" id="UXe-G0-sRu"/>
+                <outlet property="imageGuardian" destination="YpY-JO-rge" id="jJb-yZ-sbG"/>
+                <outlet property="labelName" destination="3B3-ra-c3S" id="eTC-dE-6nb"/>
+                <outlet property="viewAddImage" destination="hML-jZ-E3v" id="XJF-HE-UD9"/>
+            </connections>
+            <point key="canvasLocation" x="363.04347826086962" y="153.34821428571428"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="placeholderImage" width="300" height="300"/>
+        <image name="plus" width="256" height="256"/>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

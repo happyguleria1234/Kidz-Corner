@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Poppins-Light.otf">
+            <string>Poppins-Light</string>
+        </array>
+        <array key="Poppins-Medium.otf">
+            <string>Poppins-Medium</string>
+        </array>
+        <array key="Poppins-Regular.otf">
+            <string>Poppins-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="AnnouncementCell" rowHeight="170" id="xwF-XZ-awz" customClass="AnnouncementCell" customModule="KidzCorner" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="500" height="170"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xwF-XZ-awz" id="elw-Om-Xho">
+                <rect key="frame" x="0.0" y="0.0" width="500" height="170"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="obK-Tj-l9h">
+                        <rect key="frame" x="15" y="10" width="470" height="150"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholderImage" translatesAutoresizingMaskIntoConstraints="NO" id="5yj-Pd-jf6">
+                                <rect key="frame" x="20" y="10" width="130" height="130"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="5yj-Pd-jf6" secondAttribute="height" id="xXJ-Qj-TSs"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="M8m-Nm-bwG">
+                                <rect key="frame" x="170" y="28.5" width="280" height="93"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sports Day" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9xN-EZ-iNH">
+                                        <rect key="frame" x="0.0" y="0.0" width="280" height="31"/>
+                                        <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="22"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2nd Jan 2022" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MHZ-V6-nnu">
+                                        <rect key="frame" x="0.0" y="31" width="280" height="31"/>
+                                        <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="18"/>
+                                        <color key="textColor" name="placeholderColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="View &gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T7r-tS-3Ah">
+                                        <rect key="frame" x="0.0" y="62" width="280" height="31"/>
+                                        <fontDescription key="fontDescription" name="Poppins-Light" family="Poppins" pointSize="12"/>
+                                        <color key="textColor" systemColor="systemTealColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="M8m-Nm-bwG" firstAttribute="leading" secondItem="5yj-Pd-jf6" secondAttribute="trailing" constant="20" id="5FN-IP-lpM"/>
+                            <constraint firstItem="M8m-Nm-bwG" firstAttribute="centerY" secondItem="5yj-Pd-jf6" secondAttribute="centerY" id="9iI-or-x6G"/>
+                            <constraint firstItem="5yj-Pd-jf6" firstAttribute="top" secondItem="obK-Tj-l9h" secondAttribute="top" constant="10" id="C58-UF-tUX"/>
+                            <constraint firstItem="5yj-Pd-jf6" firstAttribute="leading" secondItem="obK-Tj-l9h" secondAttribute="leading" constant="20" id="V7A-Kr-6tc"/>
+                            <constraint firstAttribute="bottom" secondItem="5yj-Pd-jf6" secondAttribute="bottom" constant="10" id="aFt-C1-DbZ"/>
+                            <constraint firstAttribute="trailing" secondItem="M8m-Nm-bwG" secondAttribute="trailing" constant="20" id="es3-Ke-UsT"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="obK-Tj-l9h" secondAttribute="trailing" constant="15" id="6lg-iN-868"/>
+                    <constraint firstItem="obK-Tj-l9h" firstAttribute="top" secondItem="elw-Om-Xho" secondAttribute="top" constant="10" id="KWV-MJ-UuW"/>
+                    <constraint firstItem="obK-Tj-l9h" firstAttribute="leading" secondItem="elw-Om-Xho" secondAttribute="leading" constant="15" id="jgK-fK-HSv"/>
+                    <constraint firstAttribute="bottom" secondItem="obK-Tj-l9h" secondAttribute="bottom" constant="10" id="oiZ-1V-dPX"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="imageAnnouncement" destination="5yj-Pd-jf6" id="GdH-BP-gcU"/>
+                <outlet property="labelDate" destination="MHZ-V6-nnu" id="9IH-yn-FUv"/>
+                <outlet property="labelTitle" destination="9xN-EZ-iNH" id="SFY-NZ-HGx"/>
+                <outlet property="labelView" destination="T7r-tS-3Ah" id="bR9-0I-zYV"/>
+                <outlet property="stackLabels" destination="M8m-Nm-bwG" id="qFT-Y0-vug"/>
+                <outlet property="viewOuter" destination="obK-Tj-l9h" id="c3m-XZ-2wa"/>
+            </connections>
+            <point key="canvasLocation" x="194.20289855072465" y="105.80357142857143"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="placeholderImage" width="300" height="300"/>
+        <namedColor name="placeholderColor">
+            <color red="0.52941176470588236" green="0.52941176470588236" blue="0.52941176470588236" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemTealColor">
+            <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>73837094971-epeala2rjtg2qsupl0fm86th62vkgaoq.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.73837094971-epeala2rjtg2qsupl0fm86th62vkgaoq</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCAEryGZU_t8x9CMIn9TGSuuNMdTp3pk2Q</string>
+	<key>GCM_SENDER_ID</key>
+	<string>73837094971</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.colin.KidsCorner</string>
+	<key>PROJECT_ID</key>
+	<string>kidzcorner-ae58b</string>
+	<key>STORAGE_BUCKET</key>
+	<string>kidzcorner-ae58b.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:73837094971:ios:8d24e1017dada3987f941e</string>
+</dict>
+</plist>

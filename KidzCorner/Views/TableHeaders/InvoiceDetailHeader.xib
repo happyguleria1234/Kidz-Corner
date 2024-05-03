@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Poppins-Medium.otf">
+            <string>Poppins-Medium</string>
+        </array>
+        <array key="Poppins-Regular.otf">
+            <string>Poppins-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="InvoiceDetailHeader" rowHeight="368" id="h5X-LQ-L2F" customClass="InvoiceDetailHeader" customModule="KidzCorner" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="553" height="368"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="h5X-LQ-L2F" id="EWX-YM-7Gv">
+                <rect key="frame" x="0.0" y="0.0" width="553" height="368"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f13-uY-qGi">
+                        <rect key="frame" x="10" y="10" width="533" height="175"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Sx1-fY-KC1">
+                                <rect key="frame" x="20" y="20" width="79.5" height="135"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Qn-VY-kUN">
+                                        <rect key="frame" x="0.0" y="0.0" width="52" height="19"/>
+                                        <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
+                                        <color key="textColor" name="statsColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invoice Id:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DSV-d9-WBT">
+                                        <rect key="frame" x="0.0" y="29" width="79.5" height="19"/>
+                                        <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
+                                        <color key="textColor" name="statsColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cycle:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bBg-F5-XoK">
+                                        <rect key="frame" x="0.0" y="58" width="48.5" height="19"/>
+                                        <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
+                                        <color key="textColor" name="statsColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Due Date:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5AB-eN-jVB">
+                                        <rect key="frame" x="0.0" y="87" width="77.5" height="19"/>
+                                        <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
+                                        <color key="textColor" name="statsColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Z0-mF-vN4">
+                                        <rect key="frame" x="0.0" y="116" width="54" height="19"/>
+                                        <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
+                                        <color key="textColor" name="statsColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="1uv-OX-WML">
+                                <rect key="frame" x="134.5" y="20" width="188.5" height="135"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Colin" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dbh-1T-D7j">
+                                        <rect key="frame" x="0.0" y="0.0" width="41.5" height="19"/>
+                                        <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="16"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="01245" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iIa-Mo-T6O">
+                                        <rect key="frame" x="0.0" y="29" width="46" height="19"/>
+                                        <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="16"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20.03.2022 - 20.04.2022" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9qe-tm-y2u">
+                                        <rect key="frame" x="0.0" y="58" width="188.5" height="19"/>
+                                        <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="16"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="29.04.2022" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bu7-Ur-je5">
+                                        <rect key="frame" x="0.0" y="87" width="86" height="19"/>
+                                        <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="16"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Paid" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2XU-Yu-rnQ">
+                                        <rect key="frame" x="0.0" y="116" width="35.5" height="19"/>
+                                        <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="16"/>
+                                        <color key="textColor" name="gradientBottom"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="1uv-OX-WML" secondAttribute="trailing" constant="10" id="IPM-KC-m6i"/>
+                            <constraint firstItem="1uv-OX-WML" firstAttribute="leading" secondItem="Sx1-fY-KC1" secondAttribute="trailing" constant="35" id="NLL-1g-be7"/>
+                            <constraint firstAttribute="bottom" secondItem="1uv-OX-WML" secondAttribute="bottom" constant="20" id="TDx-Cd-kD5"/>
+                            <constraint firstAttribute="height" constant="175" id="WtD-lz-eVM"/>
+                            <constraint firstAttribute="bottom" secondItem="Sx1-fY-KC1" secondAttribute="bottom" constant="20" id="bgi-eu-kw9"/>
+                            <constraint firstItem="Sx1-fY-KC1" firstAttribute="leading" secondItem="f13-uY-qGi" secondAttribute="leading" constant="20" id="hdS-Ys-9Y3"/>
+                            <constraint firstItem="Sx1-fY-KC1" firstAttribute="top" secondItem="f13-uY-qGi" secondAttribute="top" constant="20" id="x7A-lS-Hif"/>
+                            <constraint firstItem="1uv-OX-WML" firstAttribute="top" secondItem="f13-uY-qGi" secondAttribute="top" constant="20" id="yNa-N1-hpR"/>
+                        </constraints>
+                    </view>
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="d2X-00-IEV">
+                        <rect key="frame" x="20" y="235" width="513" height="128"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FcS-9K-WZ1">
+                                <rect key="frame" x="0.0" y="53" width="256.5" height="22.5"/>
+                                <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="16"/>
+                                <color key="textColor" name="statsColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebb-Vl-acH">
+                                <rect key="frame" x="256.5" y="53" width="256.5" height="22.5"/>
+                                <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="16"/>
+                                <color key="textColor" name="statsColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="d2X-00-IEV" secondAttribute="trailing" constant="20" id="7tf-Eg-eQL"/>
+                    <constraint firstAttribute="bottom" secondItem="d2X-00-IEV" secondAttribute="bottom" constant="5" id="CyT-gi-60d"/>
+                    <constraint firstAttribute="trailing" secondItem="f13-uY-qGi" secondAttribute="trailing" constant="10" id="FQS-zk-k9r"/>
+                    <constraint firstItem="f13-uY-qGi" firstAttribute="top" secondItem="EWX-YM-7Gv" secondAttribute="top" constant="10" id="Lzm-5R-Nya"/>
+                    <constraint firstItem="d2X-00-IEV" firstAttribute="leading" secondItem="EWX-YM-7Gv" secondAttribute="leading" constant="20" id="cgc-lH-5cE"/>
+                    <constraint firstItem="d2X-00-IEV" firstAttribute="top" secondItem="f13-uY-qGi" secondAttribute="bottom" constant="50" id="kvB-EA-a1y"/>
+                    <constraint firstItem="f13-uY-qGi" firstAttribute="leading" secondItem="EWX-YM-7Gv" secondAttribute="leading" constant="10" id="vhZ-hC-Tim"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="labelCycle" destination="9qe-tm-y2u" id="mYO-nC-0bt"/>
+                <outlet property="labelDueDate" destination="Bu7-Ur-je5" id="jo8-HO-zB4"/>
+                <outlet property="labelId" destination="iIa-Mo-T6O" id="ZAE-KS-S8W"/>
+                <outlet property="labelName" destination="Dbh-1T-D7j" id="wYR-Lx-o2x"/>
+                <outlet property="labelStatus" destination="2XU-Yu-rnQ" id="IuV-iF-9pj"/>
+                <outlet property="viewDetails" destination="f13-uY-qGi" id="RPQ-4E-iSV"/>
+            </connections>
+            <point key="canvasLocation" x="235.50724637681162" y="131.25"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <namedColor name="gradientBottom">
+            <color red="0.27450980392156865" green="0.63529411764705879" blue="0.63921568627450975" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="statsColor">
+            <color red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>
