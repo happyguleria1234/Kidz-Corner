@@ -9,26 +9,34 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     var imageDataArray: [Data]?
       
     var categoriesData: CategoryModel?
-    
+    var classAttendance: ClassAttendanceModel?
     var allClassesData: [ClassName]? {
         didSet {
             let selectedClasses = allClassesData?.filter({ $0.isSelected == true }).map({ $0.name ?? "" }).joined(separator: ", ")
+            selectedStudentID2 = allClassesData?.filter({ $0.isSelected == true }).map({ $0.id ?? 0 }) ?? []
             self.tfClass.text = selectedClasses
         }
     }
     
+    var currentDate: String = Date().shortDate
+    
+    @IBOutlet weak var tf_studentName: UITextField!
     var selectedAlbum: Int = -1
     var selectedDomain: Int = -1
     var selectedSkill: Int = -1
-    
+    var selectedStudentID: Int = -1
+    var selectedStudentID2 = [Int]()
+
     var albumArr: [String]?
     var domainArr: [String]?
     var skillArr: [String]?
-        
+    var classId: Int?
+
     let albumsDropdown = DropDown()
     let domainDropdown = DropDown()
     let skillDropdown = DropDown()
-    
+    let studentName = DropDown()
+
     weak var delegate: afterAdding?
     var layoutDirection: CollageViewLayoutDirection = .horizontal
     
@@ -87,6 +95,9 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         
     }
     
+    @IBAction func btnStudent(_ sender: Any) {
+        studentName.show()
+    }
     @IBAction func backFunc(_ sender: Any) {
         self.navigationController?.popToRootViewController(animated: true)
     }
@@ -184,6 +195,24 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
 //        collectionImages.dataSource = self
 //    }
     
+    func getAttendance(classId: Int,date: String) {
+        var params = [String: Any]()
+        params = ["date": date,
+                  "class_id": String(classId)]
+        
+        ApiManager.shared.Request(type: ClassAttendanceModel.self, methodType: .Get, url: baseUrl+apiClassAttendance, parameter: params) { error, myObject, msgString, statusCode in
+            if statusCode == 200 {
+                DispatchQueue.main.async { [self] in
+                    self.classAttendance = myObject
+                    self.studentName.dataSource = self.classAttendance?.data?.compactMap({ $0.name }) ?? []
+                }
+            }
+            else {
+                Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+            }
+        }
+    }
+    
     func creatingImageData(imageArray: [UIImage]) -> [Data] {
         var dataArr: [Data]?
         for image in imageArray {
@@ -229,15 +258,18 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         albumsDropdown.dismissMode = .onTap
         domainDropdown.dismissMode = .onTap
         skillDropdown.dismissMode = .onTap
-        
+        studentName.dismissMode = .onTap
+
         albumsDropdown.anchorView = textAlbum
         domainDropdown.anchorView = textDomain
         skillDropdown.anchorView = textSkill
-        
+        studentName.anchorView = tf_studentName
+
         albumsDropdown.bottomOffset = CGPoint(x: 0, y: textAlbum.bounds.height)
         domainDropdown.bottomOffset = CGPoint(x: 0, y: textDomain.bounds.height)
         skillDropdown.topOffset = CGPoint(x: 0, y: textSkill.bounds.height)
-        
+        studentName.topOffset = CGPoint(x: 0, y: tf_studentName.bounds.height)
+
         //ageDropdown.dataSource = ["Poupons", "Bambins", "Prescolaires", "Scolaires"]
         
         self.setupDomains()
@@ -246,6 +278,16 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
             self?.textAlbum.text = item
             self?.selectedAlbum = index
         }
+        
+        studentName.selectionAction = { [weak self] (index, item) in
+            self?.tf_studentName.text = item
+            self?.classAttendance?.data?.forEach({ data in
+                if item == data.name {
+                    self?.selectedStudentID = data.id ?? 0
+                }
+            })
+        }
+        
         domainDropdown.selectionAction = { [weak self] (index, item) in
             self?.textDomain.text = item
             self?.selectedDomain = index
@@ -253,11 +295,31 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
             self?.textSkill.text = ""
             self?.selectedSkill = -1
         }
+        
         skillDropdown.selectionAction = { [weak self] (index, item) in
             self?.textSkill.text = item
             self?.selectedSkill = index
         }
+
     }
+    
+//    func getClasses() {
+//        DispatchQueue.main.async {
+//            startAnimating(self.view)
+//        }
+//        
+//        let params = [String: String]()
+//        ApiManager.shared.Request(type: AllClassesModel.self, methodType: .Get, url: baseUrl+apiGetAllClasses, parameter: params) { error, myObject, msgString, statusCode in
+//            if statusCode == 200 {
+//                UserDefaults.standard.setValue(myObject?.data?[0].id, forKey: myClass)
+//                self.classId = myObject?.data?[0].id
+//                self.getAttendance(classId: selectedSkill, date: self.currentDate)
+//            }
+//            else {
+//               printt("Error fetching classes")
+//            }
+//        }
+//    }
     
     func setupDomains() {
         let domainArr = self.categoriesData?.data?.domain?.compactMap {
@@ -425,6 +487,8 @@ extension ConfirmPost: UITextViewDelegate {
 extension ConfirmPost: ClassSelectionVCDelegate {
     func updatedData(data: [ClassName]) {
         self.allClassesData = data
+        selectedStudentID2 = data.filter({ $0.isSelected == true }).map({ $0.id ?? 0 })
+        self.getAttendance(classId: selectedStudentID2.first ?? 0, date: self.currentDate)
     }
 }
 

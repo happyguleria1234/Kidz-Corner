@@ -7,17 +7,139 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1204AD04-CFE1-4B66-B33A-EFD74520F26E"
+            uuid = "9D444E69-95B1-456A-884C-D2D0B1207293"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "KidzCorner/Controllers/Teacher/ConfimPost.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "547"
-            endingLineNumber = "547"
-            landmarkName = "collageViewNumberOfRowOrColoumn(_:)"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
+            landmarkName = "getAttendance(classId:date:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B2E6C29C-ED36-4886-9D7B-45E9AFA2F403"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "KidzCorner/Controllers/Teacher/ConfimPost.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "203"
+            endingLineNumber = "203"
+            landmarkName = "getAttendance(classId:date:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B2E6C29C-ED36-4886-9D7B-45E9AFA2F403 - 9b4766750c4fb0b7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "KidzCorner.ConfirmPost.getAttendance(classId: Swift.Int, date: Swift.String) -&gt; ()"
+                  moduleName = "KidzCorner"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Teacher/ConfimPost.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "203"
+                  endingLineNumber = "203">
+               </Location>
+               <Location
+                  uuid = "B2E6C29C-ED36-4886-9D7B-45E9AFA2F403 - 8fd4bd177bfa8d36"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;KidzCorner.ClassAttendanceModel&gt;, Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Swift.Int&gt;) -&gt; () in KidzCorner.ConfirmPost.getAttendance(classId: Swift.Int, date: Swift.String) -&gt; ()"
+                  moduleName = "KidzCorner"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Teacher/ConfimPost.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "204"
+                  endingLineNumber = "204">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2D6FF246-F6DB-4D44-94F6-CA7402CE2EDD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "KidzCorner/Controllers/Teacher/ConfimPost.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "491"
+            endingLineNumber = "491"
+            landmarkName = "updatedData(data:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "40BB7E13-6FC3-471E-AE79-1E2F743508FC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "KidzCorner/Controllers/Teacher/ConfimPost.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "490"
+            endingLineNumber = "490"
+            landmarkName = "updatedData(data:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "40BB7E13-6FC3-471E-AE79-1E2F743508FC - cf30a8890e911db0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "KidzCorner.ConfirmPost.updatedData(data: Swift.Array&lt;KidzCorner.ClassName&gt;) -&gt; ()"
+                  moduleName = "KidzCorner"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Teacher/ConfimPost.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "490"
+                  endingLineNumber = "490">
+               </Location>
+               <Location
+                  uuid = "40BB7E13-6FC3-471E-AE79-1E2F743508FC - 9d325a06626ed4fc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (KidzCorner.ClassName) -&gt; Swift.Bool in KidzCorner.ConfirmPost.updatedData(data: Swift.Array&lt;KidzCorner.ClassName&gt;) -&gt; ()"
+                  moduleName = "KidzCorner"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Teacher/ConfimPost.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "490"
+                  endingLineNumber = "490">
+               </Location>
+               <Location
+                  uuid = "40BB7E13-6FC3-471E-AE79-1E2F743508FC - c1c61e486e4682cc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (KidzCorner.ClassName) -&gt; Swift.Int in KidzCorner.ConfirmPost.updatedData(data: Swift.Array&lt;KidzCorner.ClassName&gt;) -&gt; ()"
+                  moduleName = "KidzCorner"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Teacher/ConfimPost.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "490"
+                  endingLineNumber = "490">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

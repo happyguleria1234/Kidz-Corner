@@ -62,13 +62,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="This is default text and will be replaced by the actual description added by the users." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZPQ-I2-noE">
-                                <rect key="frame" x="20" y="148.5" width="483" height="61.5"/>
+                                <rect key="frame" x="20" y="148.5" width="483" height="105.5"/>
                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="13"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bxG-qR-xRU">
-                                <rect key="frame" x="20" y="590" width="151" height="35"/>
+                                <rect key="frame" x="20" y="634" width="151" height="35"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bookmark" translatesAutoresizingMaskIntoConstraints="NO" id="LPs-YY-zkk">
                                         <rect key="frame" x="10" y="7.5" width="20" height="20"/>
@@ -97,7 +97,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oki-ms-aqU">
-                                <rect key="frame" x="395" y="535" width="108" height="45"/>
+                                <rect key="frame" x="395" y="579" width="108" height="45"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w6T-p5-zYk">
                                         <rect key="frame" x="0.0" y="0.0" width="54" height="45"/>
@@ -202,10 +202,10 @@
                                 </constraints>
                             </view>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="rz3-i1-dtO">
-                                <rect key="frame" x="203.5" y="499" width="116.5" height="26"/>
+                                <rect key="frame" x="203.5" y="543" width="116.5" height="26"/>
                             </pageControl>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="HeM-uT-k0d">
-                                <rect key="frame" x="20" y="225" width="483" height="300"/>
+                                <rect key="frame" x="20" y="269" width="483" height="300"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" id="NcT-DS-2gd"/>
@@ -218,7 +218,7 @@
                                 </collectionViewFlowLayout>
                             </collectionView>
                             <view alpha="0.25" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l9K-B4-810">
-                                <rect key="frame" x="466" y="537.5" width="20" height="20"/>
+                                <rect key="frame" x="466" y="581.5" width="20" height="20"/>
                                 <color key="backgroundColor" name="gradientTop"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="l9K-B4-810" secondAttribute="height" id="6eu-Il-zgh"/>
@@ -226,24 +226,24 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fIU-UN-yNp">
-                                <rect key="frame" x="472.5" y="544" width="7.5" height="7.5"/>
+                                <rect key="frame" x="472.5" y="588" width="7.5" height="7.5"/>
                                 <color key="backgroundColor" name="myDarkGreen"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="fIU-UN-yNp" secondAttribute="height" id="OIW-al-3Fh"/>
                                     <constraint firstAttribute="width" constant="7.5" id="tzm-9o-XCd"/>
                                 </constraints>
                             </view>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wfQ-Wg-fZL">
-                                <rect key="frame" x="20" y="640" width="483" height="45"/>
+                            <textField hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wfQ-Wg-fZL">
+                                <rect key="frame" x="20" y="684" width="483" height="1"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HiN-th-Hdi">
-                                <rect key="frame" x="20" y="640" width="483" height="45"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HiN-th-Hdi">
+                                <rect key="frame" x="20" y="684" width="483" height="1"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="Xi2-Us-mur"/>
+                                    <constraint firstAttribute="height" constant="1" id="Xi2-Us-mur"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                             </button>
