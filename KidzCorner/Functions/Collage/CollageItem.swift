@@ -8,12 +8,19 @@
 
 import UIKit
 
-public struct CollageItem {
-    
-    public private(set) var borderWidth : CGFloat = 2.0
-    public private(set) var borderColor : UIColor = .white
-    public private(set) var contentMode : UIView.ContentMode = .scaleAspectFill
-    public private(set) var rowIndex  = (0, 0)
-    public private(set) var indexForImageArray = 0
+public class CollageItem {
+    public var borderWidth: CGFloat
+    public var borderColor: UIColor
+    public var contentMode: UIView.ContentMode
+    public var rowIndex: (x: Int, y: Int)
+    public var indexForImageArray: Int // Ensure this property has both getter and setter
+
+    public init(borderWidth: CGFloat, borderColor: UIColor, contentMode: UIView.ContentMode, rowIndex: (x: Int, y: Int), indexForImageArray: Int) {
+        self.borderWidth = borderWidth
+        self.borderColor = borderColor
+        self.contentMode = contentMode
+        self.rowIndex = rowIndex
+        self.indexForImageArray = indexForImageArray
+    }
 }
 

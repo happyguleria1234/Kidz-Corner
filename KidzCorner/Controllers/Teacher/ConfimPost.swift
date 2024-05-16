@@ -7,7 +7,7 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     var studentId: String?
     var selectedImages: [UIImage]?
     var imageDataArray: [Data]?
-      
+    var selectedType = Int()
     var categoriesData: CategoryModel?
     var classAttendance: ClassAttendanceModel?
     var allClassesData: [ClassName]? {
@@ -38,7 +38,7 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     let studentName = DropDown()
 
     weak var delegate: afterAdding?
-    var layoutDirection: CollageViewLayoutDirection = .horizontal
+    var layoutDirection: CollageViewLayoutDirection = .vertical
     
     @IBOutlet weak var imgPostt: UIImageView!
     @IBOutlet weak var collageImage: CollageView!
@@ -67,11 +67,8 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupViews()
-//        setupCollection()
+        self.collectionImages.register(UINib(nibName: "DashboardCollectionCell", bundle: Bundle.main), forCellWithReuseIdentifier: "DashboardCollectionCell")
         getCategories()
-        
-       // getParentsList()
         initialSetup()
     }
     
@@ -81,6 +78,17 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     }
     
     func initialSetup() {
+        if selectedType == 1 {
+            collectionImages.isHidden = true
+            collageImage.isHidden = false
+        } else {
+            collectionImages.isHidden = false
+            collageImage.isHidden = true
+            
+        }
+        
+        collectionImages.delegate    = self
+        collectionImages.dataSource  = self
         collageImage.delegate    = self
         collageImage.dataSource  = self
         collageImage.reload()
@@ -92,6 +100,17 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
             fileNameLabel.superview?.isHidden = false
             self.fileNameLabel.text = pdfUrl?.lastPathComponent ?? "-"
         }
+        collectionImages.reloadData()
+        
+        selectedImages?.forEach({ data in
+            do {
+                let imgData = try! data.jpegData(compressionQuality: 0.1)
+                imageDataArr.append(imgData!)
+            }
+            catch {
+                print("Error converting image to data")
+            }
+        })
         
     }
     
@@ -135,7 +154,7 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
 //       Toast.toast(message: "This feature is being worked on", controller: self)
 
 //            if let images = selectedImages {
-//          imageDataArray = creatingImageData(imageArray: images)
+//                imageDataArray = creatingImageData(imageArray: images)
 //            }
 
             if textTitle.text == "" {
@@ -338,11 +357,7 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         DispatchQueue.main.async {
             startAnimating(self.view)
         }
-        
         var postDescription: String = ""
-        
-        
-        
         if textDescription.text.trimmingCharacters(in: .whitespacesAndNewlines) == "Write your caption here" {
             postDescription = ""
         }
@@ -351,27 +366,76 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         }
         
         var params = [String: Any]()
-        params = [
-            //  "student_id" : "26",
-            "age_group_id" : albumId,
-            "domain_id" : domainId,
-            //                  "skill_id" : skillId,
-            "title": self.textTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "",
-            "post_content" : postDescription,
-            "post_date" : Date().shortDate,
-            "is_dashboard" : "1",
-            "class_id": classIds
-        ]
-        
+        if selectedStudentID == -1 {
+            params = [
+                //  "student_id" : "26",
+                "age_group_id" : albumId,
+                "domain_id" : domainId,
+                //                  "skill_id" : skillId,
+                "title": self.textTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "",
+                "post_content" : postDescription,
+                "post_date" : Date().shortDate,
+                "is_dashboard" : "1",
+                "class_id": classIds,
+                "is_collage":selectedType == 0 ? 0 : 1
+            ]
+        } else {
+            
+            params = [
+                //  "student_id" : "26",
+                "age_group_id" : albumId,
+                "domain_id" : domainId,
+                //                  "skill_id" : skillId,
+                "title": self.textTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "",
+                "post_content" : postDescription,
+                "post_date" : Date().shortDate,
+                "is_dashboard" : "1",
+                "class_id": classIds,
+                "user_id": selectedStudentID,
+                "is_collage":selectedType == 0 ? 0 : 1
+            ]
+        }
         print(params)
         
         //        if imageDataArray != nil {
         
         //   print("ImageArrCount")
         //   print(imageDataArray?.count)
-        if let screenshot = captureScreenshot(of: collageImage) {
+        
+        
+        
+        if selectedType == 1 {
+            let screenshot = captureScreenshot(of: collageImage)
             let imageView = UIImageView(image: screenshot)
             ApiManager.shared.requestWithImage(type: BaseModel.self, url: baseUrl+apiPostPortfolio, parameter: params, imageNames: ["image1"], imageKeyName: "images[]", images: [convertImageToData(image: imageView.image ?? UIImage()) ?? Data()]) { error, myObject, messageStr, statusCode in
+                debugPrint(error)
+                if statusCode == 200 {
+                    print("Successfully uploaded")
+                    print(myObject)
+                    DispatchQueue.main.async {
+                        self.textTitle.text = ""
+                        self.textDescription.text = ""
+                        self.selectedAlbum = -1
+                        self.selectedDomain = -1
+                        self.selectedSkill = -1
+                        self.textAlbum.text = ""
+                        self.textDomain.text = ""
+                        self.textSkill.text = ""
+                        self.navigationController?.popViewController(animated: true, completion: {
+                            self.delegate?.afterAdding()
+                        })
+                        
+                        //      self.tabBarController?.selectedIndex = 0
+                    }
+                    
+                    //                    }
+                } else {
+                    Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+                }
+            }
+        } else {
+                        
+            ApiManager.shared.requestWithImage(type: BaseModel.self, url: baseUrl+apiPostPortfolio, parameter: params, imageNames: ["image1"], imageKeyName: "images[]", images: imageDataArr) { error, myObject, messageStr, statusCode in
                 debugPrint(error)
                 if statusCode == 200 {
                     print("Successfully uploaded")
@@ -437,34 +501,34 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     }
 }
 
-//extension ConfirmPost: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-//    
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        pageControl.numberOfPages = selectedImages?.count ?? 0
-//        return selectedImages?.count ?? 0
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardCollectionCell", for: indexPath) as! DashboardCollectionCell
-//        
-//        cell.imagePost.image = selectedImages?[indexPath.row]
-//        return cell
-//    }
-//    
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        if scrollView == collectionImages {
-//        let offSet = scrollView.contentOffset.x
-//            let width = scrollView.frame.width
-//            let horizontalCenter = width / 2
-//
-//            pageControl.currentPage = Int(offSet + horizontalCenter) / Int(width)
-//    }
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: collectionImages.bounds.width, height: collectionImages.bounds.height)
-//    }
-//}
+extension ConfirmPost: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        pageControl.numberOfPages = selectedImages?.count ?? 0
+        return selectedImages?.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardCollectionCell", for: indexPath) as! DashboardCollectionCell
+        
+        cell.imagePost.image = selectedImages?[indexPath.row]
+        return cell
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView == collectionImages {
+        let offSet = scrollView.contentOffset.x
+            let width = scrollView.frame.width
+            let horizontalCenter = width / 2
+
+            pageControl.currentPage = Int(offSet + horizontalCenter) / Int(width)
+    }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionImages.bounds.width, height: collectionImages.bounds.height)
+    }
+}
 
 extension ConfirmPost: UITextViewDelegate {
     
@@ -512,17 +576,37 @@ extension ConfirmPost {
         }
         
         var params = [String: Any]()
-        params = [
+        
+        if selectedStudentID == -1 {
+            params = [
                 //  "student_id" : "26",
-                  "age_group_id" : albumId,
-                  "domain_id" : domainId,
-//                  "skill_id" : skillId,
-                  "title": self.textTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "",
-                  "post_content" : postDescription,
-                  "post_date" : Date().shortDate,
-                  "is_dashboard" : "1",
-                  "class_id": classIds
-                ]
+                "age_group_id" : albumId,
+                "domain_id" : domainId,
+                //                  "skill_id" : skillId,
+                "title": self.textTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "",
+                "post_content" : postDescription,
+                "post_date" : Date().shortDate,
+                "is_dashboard" : "1",
+                "class_id": classIds,
+                "is_collage":selectedType == 0 ? 0 : 1
+            ]
+        } else {
+            
+            params = [
+                //  "student_id" : "26",
+                "age_group_id" : albumId,
+                "domain_id" : domainId,
+                //                  "skill_id" : skillId,
+                "title": self.textTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "",
+                "post_content" : postDescription,
+                "post_date" : Date().shortDate,
+                "is_dashboard" : "1",
+                "class_id": classIds,
+                "user_id": selectedStudentID,
+                "is_collage":selectedType == 0 ? 0 : 1
+            ]
+        }
+        
         
         print(params)
         
@@ -612,6 +696,24 @@ extension ConfirmPost: CollageViewDataSource {
         }
     }
     
+//    func collageViewNumberOfRowOrColoumn(_ collageView: CollageView) -> Int {
+//        let totalImages = selectedImages?.count ?? 0
+//        let targetRowCountOrColumnCount = 3
+//        
+//        let rowCountOrColumnCount = (totalImages + targetRowCountOrColumnCount - 1) / targetRowCountOrColumnCount
+//        if rowCountOrColumnCount > 1 && totalImages == 5 {
+//            // Calculate width of each column
+//            let columnWidth = collageView.bounds.width / CGFloat(targetRowCountOrColumnCount)
+//            // Set content mode of image views in the collage view
+//            collageView.setImageColumnWidth(columnWidth)
+//            return 5
+//        } else if rowCountOrColumnCount == 1 && totalImages == 3 {
+//            return 2
+//        } else {
+//            return max(rowCountOrColumnCount, 1) // Ensure at least 1 row/column
+//        }
+//    }
+    
     func collageViewLayoutDirection(_ collageView: CollageView) -> CollageViewLayoutDirection {
         return layoutDirection
     }
@@ -666,4 +768,19 @@ func convertImageToData(image: UIImage) -> Data? {
         return imageData
     }
     return nil
+}
+
+// Extension to set width of images within each column in CollageView
+extension CollageView {
+    func setImageColumnWidth(_ columnWidth: CGFloat) {
+        // Calculate the number of images per column
+        let imagesPerColumn = (self.subviews.count + 2) / 3 // Adding 2 for rounding purposes
+        // Iterate through image views in the collage view and set width
+        for (index, imageView) in self.subviews.enumerated() {
+            if let imageView = imageView as? UIImageView {
+                let columnIndex = index / imagesPerColumn
+                imageView.widthAnchor.constraint(equalToConstant: columnWidth).isActive = true
+            }
+        }
+    }
 }

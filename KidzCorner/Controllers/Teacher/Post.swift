@@ -2,11 +2,15 @@ import UIKit
 import YPImagePicker
 import MobileCoreServices
 
+var imageDataArr: [Data] = []
+
 class Post: UIViewController, afterAdding {
+    
+    var selectType = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+        
         setupViews()
         
     }
@@ -20,29 +24,31 @@ class Post: UIViewController, afterAdding {
     func setupViews() {
         
     }
-
+    
     @IBAction func didTapPhotos(_ sender: Any) {
+        selectType = 0
         showPicker()
     }
-
+    
     @IBAction func didTapPdf(_ sender: Any) {
         presentDocumentPicker()
     }
     
+    @IBAction func btnCollage(_ sender: UIButton) {
+        selectType = 1
+        showPicker()
+    }
+    
+    
     @objc func showPicker() {
         
         self.tabBarController?.hidesBottomBarWhenPushed = true
-        
         var config = YPImagePickerConfiguration()
         config.library.mediaType = .photo
-        
         config.shouldSaveNewPicturesToAlbum = false
-       // config.video.compression = AVAssetExportPresetMediumQuality
         config.startOnScreen = .photo
         config.showsPhotoFilters = false
-      //  config.showsFilters = false
         config.screens = [.photo,.library]
-     //   config.screens = [.library,.photo]
         config.video.libraryTimeLimit = 500.0
         config.showsCrop = .none
         config.wordings.libraryTitle = "Gallery"
@@ -59,7 +65,7 @@ class Post: UIViewController, afterAdding {
                 //print("Picker was canceled")
                 picker.dismiss(animated: true, completion: {
                     // TODO: Commented on 18 july 53 line
-//                    self.tabBarController?.selectedIndex = 0
+                    //                    self.tabBarController?.selectedIndex = 0
                     //self.navigationController?.popViewController(animated: true)
                 })
                 return
@@ -86,13 +92,14 @@ class Post: UIViewController, afterAdding {
                 }
                 picker.dismiss(animated: true, completion: { [weak self] in
                     
-                     let vc = self?.storyboard?.instantiateViewController(withIdentifier: "ConfirmPost") as! ConfirmPost
-//                        vc.imageDataArray = imageDataArr
-                        vc.selectedImages = imageArray
-                         vc.studentId = ""
+                    let vc = self?.storyboard?.instantiateViewController(withIdentifier: "ConfirmPost") as! ConfirmPost
+                    vc.imageDataArray = imageDataArr
+                    vc.selectedImages = imageArray
+                    vc.studentId = ""
                     vc.delegate = self
                     vc.isPostImages = true
-                        self?.navigationController?.pushViewController(vc, animated: true)
+                    vc.selectedType = self?.selectType ?? 0
+                    self?.navigationController?.pushViewController(vc, animated: true)
                     
                 })
             }
