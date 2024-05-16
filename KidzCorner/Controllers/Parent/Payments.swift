@@ -1,19 +1,45 @@
 import UIKit
+import DropDown
 
 class Payments: UIViewController {
     
+    @IBOutlet weak var tf_search: UITextField!
     @IBOutlet weak var tablePayments: UITableView!
-    @IBOutlet weak var namelbl: UILabel!
     @IBOutlet weak var amountCollectionView: UICollectionView!
-    
-    
+        
+    @IBOutlet weak var pageControl: UIPageControl!
     
     var paymentsData: PaymentsModel?
     
+    var childInfo: ChildAttendanceModel?
+    var childrenData: [ChildData]? {
+        didSet {
+            self.amountCollectionView.reloadData()
+        }
+    }
+    
+    let albumsDropdown = DropDown()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setDropDownData()
+        getAllChildsAPI()
         registerTable()
         setupCollectionView()
+    }
+    
+    func setDropDownData() {
+        albumsDropdown.dismissMode = .onTap
+        albumsDropdown.anchorView = tf_search
+        albumsDropdown.bottomOffset = CGPoint(x: 0, y: tf_search.bounds.height)
+        albumsDropdown.dataSource = ["3 Month","6 Month","9 Month","1 Year"]
+        albumsDropdown.selectionAction = { [weak self] (index, item) in
+            self?.tf_search.text = item
+        }
+    }
+    
+    @IBAction func btnDrop(_ sender: UIButton) {
+        albumsDropdown.show()
     }
     
     func setupCollectionView() {
@@ -56,6 +82,20 @@ class Payments: UIViewController {
         amountCollectionView.dataSource = self
         amountCollectionView.delegate = self
         
+    }
+    
+    func getAllChildsAPI() {
+        
+        ApiManager.shared.Request(type: AllChildrenModel.self, methodType: .Get, url: baseUrl+apiParentAllChild, parameter: [:]) { error, myObject, msgString, statusCode in
+            DispatchQueue.main.async {
+                if statusCode == 200 {
+                    self.childrenData = myObject?.data
+                }
+                else {
+                    Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+                }
+            }
+        }
     }
     
     func getPayments() {
@@ -139,17 +179,17 @@ extension Payments: UITableViewDelegate, UITableViewDataSource {
 
 extension Payments: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        pageControl.numberOfPages = childrenData?.count ?? 0
+        return childrenData?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InvoiceHeadCollectionCell", for: indexPath) as! InvoiceHeadCollectionCell
         cell.leftBtn.tag = indexPath.item
         cell.rightBtn.tag = indexPath.item
-        
+        cell.lblName.text = childrenData?[indexPath.item].name ?? ""
         cell.leftBtn.addTarget(self, action: #selector(scrollLeft(_:)), for: .touchUpInside)
         cell.rightBtn.addTarget(self, action: #selector(scrollRight(_:)), for: .touchUpInside)
-        
         return cell
     }
     
@@ -162,6 +202,16 @@ extension Payments: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         if currentIndex > 0 {
             let previousIndex = IndexPath(item: currentIndex - 1, section: 0)
             amountCollectionView.scrollToItem(at: previousIndex, at: .centeredHorizontally, animated: true)
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView == amountCollectionView {
+            let offSet = scrollView.contentOffset.x
+            let width = scrollView.frame.width
+            let horizontalCenter = width / 2
+            
+            pageControl.currentPage = Int(offSet + horizontalCenter) / Int(width)
         }
     }
     

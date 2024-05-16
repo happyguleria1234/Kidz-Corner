@@ -9,6 +9,7 @@ import UIKit
 
 class InvoiceHeadCollectionCell: UICollectionViewCell {
     
+    @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var leftBtn: UIButton!
     @IBOutlet weak var rightBtn: UIButton!
     @IBOutlet weak var amountLbl: UILabel!
