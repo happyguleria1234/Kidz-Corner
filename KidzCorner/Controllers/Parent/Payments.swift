@@ -10,7 +10,7 @@ class Payments: UIViewController {
     @IBOutlet weak var pageControl: UIPageControl!
     
     var paymentsData: PaymentsModel?
-    
+    var filteredPaymentsData: [PaymentsData] = []
     var childInfo: ChildAttendanceModel?
     var childrenData: [ChildData]? {
         didSet {
@@ -35,6 +35,15 @@ class Payments: UIViewController {
         albumsDropdown.dataSource = ["3 Month","6 Month","9 Month","1 Year"]
         albumsDropdown.selectionAction = { [weak self] (index, item) in
             self?.tf_search.text = item
+            if item == "3 Month" {
+                self?.filteredPaymentsData = self?.filterPayments(forMonths: 3) ?? []
+            } else if item == "6 Month" {
+                self?.filteredPaymentsData = self?.filterPayments(forMonths: 6) ?? []
+            } else if item == "6 Month" {
+                self?.filteredPaymentsData = self?.filterPayments(forMonths: 9) ?? []
+            } else {
+                self?.filteredPaymentsData = self?.filterPayments(forMonths: 12) ?? []
+            }
         }
     }
     
@@ -98,6 +107,20 @@ class Payments: UIViewController {
         }
     }
     
+    func filterPayments(forMonths months: Int) -> [PaymentsData] {
+           let dateFormatter = ISO8601DateFormatter()
+           let calendar = Calendar.current
+           let currentDate = Date()
+           guard let startDate = calendar.date(byAdding: .month, value: -months, to: currentDate) else { return [] }
+
+        return paymentsData?.data?.filter { payment in
+               if let paymentDate = dateFormatter.date(from: payment.createdAt ?? "") {
+                   return paymentDate >= startDate && paymentDate <= currentDate
+               }
+               return false
+        } ?? []
+       }
+    
     func getPayments() {
         DispatchQueue.main.async {
             startAnimating((self.tabBarController?.view)!)
@@ -106,6 +129,7 @@ class Payments: UIViewController {
         ApiManager.shared.Request(type: PaymentsModel.self, methodType: .Get, url: baseUrl+apiGetAllPayments, parameter: parameters) { error, myObject, msgString, statusCode in
             if statusCode == 200 {
                 self.paymentsData = myObject
+                self.filteredPaymentsData = myObject?.data ?? []
                 print(myObject)
                 DispatchQueue.main.async {
                     self.tablePayments.reloadData()
