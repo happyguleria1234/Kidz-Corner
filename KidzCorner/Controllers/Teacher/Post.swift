@@ -2,7 +2,7 @@ import UIKit
 import YPImagePicker
 import MobileCoreServices
 
-var imageDataArr: [Data] = []
+//var imageDataArr: [Data] = []
 
 class Post: UIViewController, afterAdding {
     

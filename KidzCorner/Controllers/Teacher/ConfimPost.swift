@@ -7,6 +7,7 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     var studentId: String?
     var selectedImages: [UIImage]?
     var imageDataArray: [Data]?
+    var imageDataArr: [Data] = []
     var selectedType = Int()
     var categoriesData: CategoryModel?
     var classAttendance: ClassAttendanceModel?
@@ -86,7 +87,10 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
             collageImage.isHidden = true
             
         }
-        
+        labelName.text = UserDefaults.standard.string(forKey: myName)
+        labelDate.text = getCurrentDateString(format: "EEEE, MMM d, yyyy")
+        imageProfile.sd_setImage(with: URL(string: imageBaseUrl+(UserDefaults.standard.string(forKey: myImage) ?? "")), placeholderImage: .placeholderImage)
+
         collectionImages.delegate    = self
         collectionImages.dataSource  = self
         collageImage.delegate    = self
@@ -112,6 +116,21 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
             }
         })
         
+    }
+    
+    func getCurrentDateString(format: String = "yyyy-MM-dd HH:mm:ss") -> String {
+        // Step 1: Create a Date object
+        let currentDate = Date()
+        
+        // Step 2: Create and configure a DateFormatter
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format // Use the format passed as a parameter
+        
+        // Step 3: Format the date
+        let dateString = dateFormatter.string(from: currentDate)
+        
+        // Return the formatted date string
+        return dateString
     }
     
     @IBAction func btnStudent(_ sender: Any) {
@@ -186,34 +205,6 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         print(sender)
     }
     
-//    func setupViews() {
-//        DispatchQueue.main.async { [self] in
-//            
-//            defaultTextfields(tfs: [textTitle,textSkill,textDomain,textAlbum, tfClass])
-//            
-//            labelName.text = UserDefaults.standard.string(forKey: myName)
-//            imageProfile.sd_setImage(with: URL(string: imageBaseUrl+(UserDefaults.standard.string(forKey: myImage) ?? "")), placeholderImage: .placeholderImage)
-//            
-//            imageProfile.layer.cornerRadius = imageProfile.bounds.height/2.0
-//            collectionImages.layer.cornerRadius = 20
-//            
-//            textDescription.layer.borderColor = UIColor.lightGray.cgColor
-//            textDescription.layer.borderWidth = 0.5
-//            textDescription.layer.cornerRadius = 5
-//            textDescription.contentInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-//            textDescription.delegate = self
-//            textDescription.text = "Write your caption here"
-//            textDescription.textColor = UIColor.lightGray
-//            
-//        }
-//    }
-    
-//    func setupCollection() {
-//        collectionImages.register(UINib(nibName: "DashboardCollectionCell", bundle: nil), forCellWithReuseIdentifier:   "DashboardCollectionCell")
-//        collectionImages.delegate = self
-//        collectionImages.dataSource = self
-//    }
-    
     func getAttendance(classId: Int,date: String) {
         var params = [String: Any]()
         params = ["date": date,
@@ -271,9 +262,7 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     func setupDropDown() {
         
         dropDownDataDelegate()
-        
         DropDown.setupDefaultAppearance()
-    
         albumsDropdown.dismissMode = .onTap
         domainDropdown.dismissMode = .onTap
         skillDropdown.dismissMode = .onTap
@@ -319,26 +308,7 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
             self?.textSkill.text = item
             self?.selectedSkill = index
         }
-
     }
-    
-//    func getClasses() {
-//        DispatchQueue.main.async {
-//            startAnimating(self.view)
-//        }
-//        
-//        let params = [String: String]()
-//        ApiManager.shared.Request(type: AllClassesModel.self, methodType: .Get, url: baseUrl+apiGetAllClasses, parameter: params) { error, myObject, msgString, statusCode in
-//            if statusCode == 200 {
-//                UserDefaults.standard.setValue(myObject?.data?[0].id, forKey: myClass)
-//                self.classId = myObject?.data?[0].id
-//                self.getAttendance(classId: selectedSkill, date: self.currentDate)
-//            }
-//            else {
-//               printt("Error fetching classes")
-//            }
-//        }
-//    }
     
     func setupDomains() {
         let domainArr = self.categoriesData?.data?.domain?.compactMap {
@@ -397,13 +367,6 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         }
         print(params)
         
-        //        if imageDataArray != nil {
-        
-        //   print("ImageArrCount")
-        //   print(imageDataArray?.count)
-        
-        
-        
         if selectedType == 1 {
             let screenshot = captureScreenshot(of: collageImage)
             let imageView = UIImageView(image: screenshot)
@@ -452,11 +415,7 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
                         self.navigationController?.popViewController(animated: true, completion: {
                             self.delegate?.afterAdding()
                         })
-                        
-                        //      self.tabBarController?.selectedIndex = 0
                     }
-                    
-                    //                    }
                 }
                 else {
                     Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)

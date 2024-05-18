@@ -124,9 +124,7 @@ extension ParentDashboard: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardTableCell", for: indexPath) as! DashboardTableCell
-        let data = self.portfolioData?[indexPath.row]
-        //        let data = self.dashboardData?[indexPath.row]
-        
+        let data = self.portfolioData?[indexPath.row]        
         cell.cellContent = self.portfolioData?[indexPath.row].portfolioImage
         cell.collectionImages.tag = indexPath.row
         cell.collectionImages.reloadData()
