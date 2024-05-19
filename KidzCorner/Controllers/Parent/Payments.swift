@@ -32,20 +32,52 @@ class Payments: UIViewController {
         albumsDropdown.dismissMode = .onTap
         albumsDropdown.anchorView = tf_search
         albumsDropdown.bottomOffset = CGPoint(x: 0, y: tf_search.bounds.height)
-        albumsDropdown.dataSource = ["3 Month","6 Month","9 Month","1 Year"]
+        albumsDropdown.dataSource = ["3 Month", "6 Month", "9 Month", "1 Year"]
         albumsDropdown.selectionAction = { [weak self] (index, item) in
             self?.tf_search.text = item
-            if item == "3 Month" {
+            switch item {
+            case "3 Month":
+                print("Filtering for 3 months")
                 self?.filteredPaymentsData = self?.filterPayments(forMonths: 3) ?? []
-            } else if item == "6 Month" {
+            case "6 Month":
+                print("Filtering for 6 months")
                 self?.filteredPaymentsData = self?.filterPayments(forMonths: 6) ?? []
-            } else if item == "6 Month" {
+            case "9 Month":
+                print("Filtering for 9 months")
                 self?.filteredPaymentsData = self?.filterPayments(forMonths: 9) ?? []
-            } else {
+            case "1 Year":
+                print("Filtering for 1 year")
                 self?.filteredPaymentsData = self?.filterPayments(forMonths: 12) ?? []
+            default:
+                self?.filteredPaymentsData = []
             }
+            print("Filtered payments: \(self?.filteredPaymentsData ?? [])")
         }
     }
+
+    func filterPayments(forMonths months: Int) -> [PaymentsData] {
+        let dateFormatter = ISO8601DateFormatter()
+        let calendar = Calendar.current
+        let currentDate = Date()
+        
+        guard let startDate = calendar.date(byAdding: .month, value: -months, to: currentDate) else {
+            print("Could not calculate start date")
+            return []
+        }
+        
+        print("Start date: \(startDate), Current date: \(currentDate)")
+
+        return paymentsData?.data?.filter { payment in
+            if let createdAt = payment.createdAt,
+               let paymentDate = dateFormatter.date(from: createdAt) {
+                print("Payment date: \(paymentDate)")
+                return paymentDate >= startDate && paymentDate <= currentDate
+            }
+            print("Invalid date format for payment: \(payment)")
+            return false
+        } ?? []
+    }
+
     
     @IBAction func btnDrop(_ sender: UIButton) {
         albumsDropdown.show()
@@ -106,20 +138,6 @@ class Payments: UIViewController {
             }
         }
     }
-    
-    func filterPayments(forMonths months: Int) -> [PaymentsData] {
-           let dateFormatter = ISO8601DateFormatter()
-           let calendar = Calendar.current
-           let currentDate = Date()
-           guard let startDate = calendar.date(byAdding: .month, value: -months, to: currentDate) else { return [] }
-
-        return paymentsData?.data?.filter { payment in
-               if let paymentDate = dateFormatter.date(from: payment.createdAt ?? "") {
-                   return paymentDate >= startDate && paymentDate <= currentDate
-               }
-               return false
-        } ?? []
-       }
     
     func getPayments() {
         DispatchQueue.main.async {
