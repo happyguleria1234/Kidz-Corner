@@ -6,7 +6,7 @@ target 'KidzCorner' do
   use_frameworks!
 
   # Pods for KidzCorner
-  pod 'DropDown' , '2.3.13'
+pod 'DropDown' , '2.3.13'
 pod 'SDWebImage' , '5.2.2'
 pod 'YPImagePicker'
 pod 'IQKeyboardManagerSwift'

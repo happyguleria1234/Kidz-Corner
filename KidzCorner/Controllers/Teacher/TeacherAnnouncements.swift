@@ -86,16 +86,18 @@ extension TeacherAnnouncements: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-         let vc = self.storyboard?.instantiateViewController(withIdentifier: "TeacherAnnouncement") as! TeacherAnnouncement
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "TeacherAnnouncement") as! TeacherAnnouncement
         let data = self.announcementsData?.data?[indexPath.row]
         vc.anouncementData = data
         vc.announcementId = data?.id
         vc.announcementDate = data?.date
         vc.announcementTitle = data?.title
         vc.announcementDescription = data?.description
-        vc.announcementImage = data?.attachment
+        vc.announcementImage = data?.file
         vc.announcementStatus = data?.status
+        vc.announcementPDF = data?.attachment
         vc.announcementType = data?.announcementType
+        vc.anouncementData = data
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

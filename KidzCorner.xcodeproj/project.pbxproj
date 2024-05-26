@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		181CD6262BFD0E56006917F3 /* PdfVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CD6252BFD0E56006917F3 /* PdfVC.swift */; };
+		181CD6282BFF9F18006917F3 /* PdfVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CD6272BFF9F18006917F3 /* PdfVC2.swift */; };
 		188D7F692BE40D7F007000D3 /* CollageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188D7F662BE40D7E007000D3 /* CollageItem.swift */; };
 		188D7F6A2BE40D7F007000D3 /* CollageItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188D7F672BE40D7E007000D3 /* CollageItemView.swift */; };
 		188D7F6B2BE40D7F007000D3 /* CollageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188D7F682BE40D7E007000D3 /* CollageView.swift */; };
@@ -153,6 +155,8 @@
 
 /* Begin PBXFileReference section */
 		151C8956AD6F0EAC3335600A /* Pods-KidzCorner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KidzCorner.debug.xcconfig"; path = "Target Support Files/Pods-KidzCorner/Pods-KidzCorner.debug.xcconfig"; sourceTree = "<group>"; };
+		181CD6252BFD0E56006917F3 /* PdfVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfVC.swift; sourceTree = "<group>"; };
+		181CD6272BFF9F18006917F3 /* PdfVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfVC2.swift; sourceTree = "<group>"; };
 		188D7F662BE40D7E007000D3 /* CollageItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollageItem.swift; sourceTree = "<group>"; };
 		188D7F672BE40D7E007000D3 /* CollageItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollageItemView.swift; sourceTree = "<group>"; };
 		188D7F682BE40D7E007000D3 /* CollageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollageView.swift; sourceTree = "<group>"; };
@@ -538,6 +542,7 @@
 				53B5913427EB5AFC009D301A /* Payments.swift */,
 				53B5914227EB675A009D301A /* PaymentDetail.swift */,
 				53FE22112804AA09003AE636 /* InvoicePdf.swift */,
+				181CD6252BFD0E56006917F3 /* PdfVC.swift */,
 			);
 			path = Parent;
 			sourceTree = "<group>";
@@ -561,6 +566,7 @@
 				B7E07DAD2A43493F009FC8D8 /* CalendarVC.swift */,
 				B7B09F342A44BBBE00D7ABBD /* ClassSelectionVC.swift */,
 				18D150DD2AF037FA004BDF97 /* AddActivityVC.swift */,
+				181CD6272BFF9F18006917F3 /* PdfVC2.swift */,
 			);
 			path = Teacher;
 			sourceTree = "<group>";
@@ -846,6 +852,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				181CD6282BFF9F18006917F3 /* PdfVC2.swift in Sources */,
 				188D7F6B2BE40D7F007000D3 /* CollageView.swift in Sources */,
 				53B5913D27EB64EB009D301A /* InvoiceDetailCell.swift in Sources */,
 				53B5913527EB5AFC009D301A /* Payments.swift in Sources */,
@@ -933,6 +940,7 @@
 				53C196D927B17F9200EF16A3 /* StatsHeader.swift in Sources */,
 				531EDA1827B96F4500CA667A /* AuthModel.swift in Sources */,
 				53FE22122804AA09003AE636 /* InvoicePdf.swift in Sources */,
+				181CD6262BFD0E56006917F3 /* PdfVC.swift in Sources */,
 				B72E68A62ADB0C54003433F2 /* StudentProfileCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1079,7 +1087,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = RZA7HJJ3MF;
 				ENABLE_BITCODE = NO;
@@ -1107,12 +1115,16 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.6;
+				MARKETING_VERSION = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = distrubution13May;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "KidzCorner/BluetoothFrameworks/SchoolAttendance-Bridging-Header.h";
@@ -1131,7 +1143,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = RZA7HJJ3MF;
 				ENABLE_BITCODE = NO;
@@ -1159,12 +1171,16 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.6;
+				MARKETING_VERSION = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = distrubution13May;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "KidzCorner/BluetoothFrameworks/SchoolAttendance-Bridging-Header.h";

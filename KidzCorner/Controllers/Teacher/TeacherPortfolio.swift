@@ -1148,7 +1148,7 @@ extension TeacherPortfolio {
         config.wordings.libraryTitle = "Gallery"
         config.hidesStatusBar = false
         config.hidesBottomBar = false
-        config.library.maxNumberOfItems = 5
+        config.library.maxNumberOfItems = 9
         config.library.skipSelectionsGallery = true
         let picker = YPImagePicker(configuration: config)
         

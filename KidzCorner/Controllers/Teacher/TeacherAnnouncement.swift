@@ -10,7 +10,9 @@ class TeacherAnnouncement: UIViewController {
     var announcementDate: String?
     var announcementImage: String?
     var announcementType: Int?
+    var announcementPDF: String?
     
+    @IBOutlet weak var viewPFD: UIStackView!
     @IBOutlet weak var viewOuter: UIView!
     @IBOutlet weak var imageAnnouncement: UIImageView!
     @IBOutlet weak var labelTitle: UILabel!
@@ -30,6 +32,7 @@ class TeacherAnnouncement: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         checkViewType()
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     @IBAction func backFunc(_ sender: Any) {
@@ -37,17 +40,23 @@ class TeacherAnnouncement: UIViewController {
     }
     
     @IBAction func acceptFunc(_ sender: Any) {
-    acceptRejectAnnouncement(status: "1")
+        acceptRejectAnnouncement(status: "1")
     }
     
     @IBAction func denyFunc(_ sender: Any) {
-    acceptRejectAnnouncement(status: "2")
+        acceptRejectAnnouncement(status: "2")
     }
-
+    
     @IBAction func didTapAttachment(_ sender: Any) {
-        if let urlStr = self.anouncementData?.attachment, let url = URL(string: imageBaseUrl + urlStr) {
-            UIApplication.shared.open(url)
-        }
+        //        if announcementPDF?.contains(".pdf") == true {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "PdfVC2") as! PdfVC2
+        vc.anouncementData = anouncementData
+        self.navigationController?.pushViewController(vc, animated: true)
+        //        } else {
+        //            if let urlStr = self.anouncementData?.attachment, let url = URL(string: imageBaseUrl + urlStr) {
+        //                UIApplication.shared.open(url)
+        //            }
+        //        }
     }
     
     func checkViewType() {
@@ -80,47 +89,63 @@ class TeacherAnnouncement: UIViewController {
             labelDescription.text = announcementDescription ?? ""
             imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(announcementImage ?? "")), placeholderImage: .announcementPlaceholder)
             labelDate.text = announcementDate
+//            
+//            if let url = self.anouncementData?.attachment  {
+//                self.attachmentLabel.text = "Attachment" + "." + (URL(string: imageBaseUrl + url)?.pathExtension ?? "")
+//                self.attachmentLabel.superview?.isHidden = false
+//            } else {
+//                self.attachmentLabel.superview?.isHidden = true
+//            }
             
-            if let url = self.anouncementData?.attachment  {
-                self.attachmentLabel.text = "Attachment" + "." + (URL(string: imageBaseUrl + url)?.pathExtension ?? "")
+            if self.announcementPDF != "" {
+                self.attachmentLabel.text = "Attachment" + "." + (URL(string: imageBaseUrl + (announcementPDF ?? ""))?.pathExtension ?? "")
                 self.attachmentLabel.superview?.isHidden = false
             } else {
-                self.attachmentLabel.superview?.isHidden = true
+                self.attachmentLabel.text = "Attachment" + "." + (URL(string: imageBaseUrl + (announcementPDF ?? ""))?.pathExtension ?? "")
+                self.attachmentLabel.superview?.isHidden = false
             }
+            
         }
     }
     
     func setupAnnouncementStatus() {
         if announcementType == 1 {
-        switch announcementStatus {
-        case 0:
-            labelStatus.isHidden = true
-            stackButtons.isHidden = false
-        case 1:
-        ///Accepted
-            stackButtons.isHidden = true
-            labelStatus.isHidden = false
-            labelStatus.text = "Accepted"
-            labelStatus.textColor = UIColor(named: "acceptColor")
-        case 2:
-            ///Rejected
-            stackButtons.isHidden = true
-            labelStatus.isHidden = false
-            labelStatus.text = "Rejected"
-            labelStatus.textColor = UIColor(named: "denyColor")
-            ///Not Defined
-        case .none:
-            printt("None")
-            labelStatus.isHidden = true
-            stackButtons.isHidden = false
-        case .some(_):
-            printt("Some")
-            labelStatus.isHidden = true
-            stackButtons.isHidden = false
+            switch announcementStatus {
+            case 0:
+                labelStatus.isHidden = true
+                stackButtons.isHidden = false
+            case 1:
+                ///Accepted
+                stackButtons.isHidden = true
+                labelStatus.isHidden = false
+                labelStatus.text = "Accepted"
+                self.attachmentLabel.superview?.isHidden = false
+                labelStatus.textColor = UIColor(named: "acceptColor")
+            case 2:
+                ///Rejected
+                stackButtons.isHidden = true
+                labelStatus.isHidden = false
+                labelStatus.text = "Rejected"
+                labelStatus.textColor = UIColor(named: "denyColor")
+                ///Not Defined
+            case .none:
+                printt("None")
+                labelStatus.isHidden = true
+                stackButtons.isHidden = false
+            case .some(_):
+                printt("Some")
+                labelStatus.isHidden = true
+                stackButtons.isHidden = false
+            }
         }
+        
+        if anouncementData?.attachment == nil && anouncementData?.file == nil{
+            viewPFD.isHidden = true
+        } else {
+            viewPFD.isHidden = false
         }
     }
-
+    
     ///Status = 0 - Not Read, 1 - Accept, 2 - Reject
     func acceptRejectAnnouncement(status: String) {
         DispatchQueue.main.async {

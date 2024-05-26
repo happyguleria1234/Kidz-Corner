@@ -19,7 +19,7 @@ class ParentDashboard: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //        getDashboard()
+        getDashboard()
         getChildrenList()
         
     }
@@ -61,25 +61,24 @@ class ParentDashboard: UIViewController {
                     
                     // Assuming this code is inside a UIViewController subclass
                     self.present(alertController, animated: true, completion: nil)
+                } else {
+                    self.dismiss(animated: true)
                 }
             }
-            
-            
         }
     }
     
     func getDashboard(page: Int = 1) {
-        DispatchQueue.main.async {
-            startAnimating((self.tabBarController?.view)!)
-        }
+//        DispatchQueue.main.async {
+//            startAnimating((self.tabBarController?.view)!)
+//        }
+//        
         let params: [String: String] = ["page": "\(page)", "per_page": "4"]
         self.isLoading = true
-        
         ApiManager.shared.Request(type: DashboardModelNew.self, methodType: .Get, url: baseUrl+apiDashboard, parameter: params) { error, myObject, msgString, statusCode in
             if statusCode == 200 {
                 
                 if let latestVersion = myObject?.latest_version {
-                    printt("Latest Version \(latestVersion)")
                     DispatchQueue.main.async {
                         self.updateToLatestVersion(latestVersion: latestVersion)
                     }
@@ -108,6 +107,48 @@ class ParentDashboard: UIViewController {
             }
         }
     }
+    
+//    func getDashboard(page: Int = 1) {
+//        DispatchQueue.main.async {
+//            startAnimating((self.tabBarController?.view)!)
+//        }
+//        let params: [String: String] = ["page": "\(page)", "per_page": "4"]
+//        self.isLoading = true
+//        
+//        ApiManager.shared.Request(type: DashboardModelNew.self, methodType: .Get, url: baseUrl+apiDashboard, parameter: params) { error, myObject, msgString, statusCode in
+//            
+//            if statusCode == 200 {
+//                    
+//                if let latestVersion = myObject?.latest_version {
+//                    printt("Latest Version \(latestVersion)")
+//                    DispatchQueue.main.async {
+//                        self.updateToLatestVersion(latestVersion: latestVersion)
+//                    }
+//                }
+//                
+//                self.isLoading = false
+//                self.currentPage = myObject?.data?.currentPage ?? 1
+//                if myObject?.data?.nextPageURL != nil {
+//                    self.nextPage = self.currentPage + 1
+//                } else {
+//                    self.nextPage = 0
+//                }
+//                
+//                if self.currentPage == 1 {
+//                    self.dashboardData = myObject?.data?.data
+//                } else {
+//                    self.dashboardData?.append(contentsOf: myObject?.data?.data ?? [])
+//                }
+//                
+//                DispatchQueue.main.async {
+//                    self.tableHome.reloadData()
+//                }
+//            }
+//            else {
+//                Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+//            }
+//        }
+//    }
     
     @IBAction func didTapNotification(_ sender: Any) {
         if let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "NotificationsVC") as? NotificationsVC {

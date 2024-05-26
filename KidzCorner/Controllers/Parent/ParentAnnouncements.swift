@@ -133,9 +133,11 @@ extension ParentAnnouncements: UITableViewDelegate, UITableViewDataSource {
         vc.announcementDate = data?.date
         vc.announcementTitle = data?.title
         vc.announcementDescription = data?.announcmentDescription
-        vc.announcementImage = data?.attachment
+        vc.announcementImage = data?.file
         vc.announcementStatus = data?.status
         vc.announcementType = data?.announcementType 
+        vc.announcementPDF = data?.attachment
+        vc.anouncementData = data
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
