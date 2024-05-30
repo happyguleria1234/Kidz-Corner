@@ -48,24 +48,15 @@ class DashboardTableCell: UITableViewCell {
     func setupTextField() {
         // Customize the text field appearance
         textWriteComment.text = "Write a comment."
-//        textWriteComment.backgroundColor = .lightGray // Set the background color as needed
-        
         textWriteComment.layer.cornerRadius = 22.5 // Set the corner radius as needed
         textWriteComment.layer.borderWidth = 1.0 // Set the border width as needed
-//        textWriteComment.layer.borderColor = UIColor.lightGray.cgColor // Set the border color as needed
         textWriteComment.textColor = .darkGray // Set the text color as needed
         textWriteComment.font = UIFont.systemFont(ofSize: 14) // Set the font size as needed
         textWriteComment.layer.masksToBounds = false
         textWriteComment.layer.masksToBounds = true
         textWriteComment.layer.borderColor = UIColor.clear.cgColor
-//        textWriteComment.backgroundColor = UIColor.init(red: 237.0, green: 241.0, blue: 242.0, alpha: 1)
-        
-        // Set placeholder text color if needed
-//        if let placeholder = textWriteComment.placeholder {
-//            textWriteComment.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-//        }
-        
     }
+    
     func hideUnreadCommentViews(_ hide: Bool) {
         if hide == true {
             viewUnreadComments.isHidden = true
@@ -121,15 +112,6 @@ extension DashboardTableCell: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardCollectionCell", for: indexPath) as! DashboardCollectionCell
         print(cellContent?.count)
-        
-        /*
-         if let url = URL(string: imageBaseUrl+(cellContent?[indexPath.item].image ?? "")) {
-         print(url)
-         cell.imagePost.sd_setImage(with: url, placeholderImage: .placeholderImage)
-         
-         }
-         */
-        
         let portfolioData = self.cellContent?[indexPath.row]
         if let memType = portfolioData?.memType {
             switch memType {
@@ -144,7 +126,6 @@ extension DashboardTableCell: UICollectionViewDelegate, UICollectionViewDataSour
             default: break
             }
         }
-        
         return cell
     }
     
