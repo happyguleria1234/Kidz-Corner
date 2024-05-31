@@ -1536,6 +1536,7 @@
                         <outlet property="collectionImages" destination="1O8-2H-uN5" id="XmT-h9-9BC"/>
                         <outlet property="fileNameLabel" destination="Hsk-b3-cwf" id="AU4-ef-DLQ"/>
                         <outlet property="imageProfile" destination="f21-vi-FHM" id="7Lw-DR-4WG"/>
+                        <outlet property="imageViewHeight" destination="vcq-X5-0EL" id="weu-QI-Y9Q"/>
                         <outlet property="imgPostt" destination="Kw5-FG-P6j" id="Pjx-on-cVN"/>
                         <outlet property="labelDate" destination="4ZX-RM-VB4" id="Xuf-pL-aqP"/>
                         <outlet property="labelName" destination="v5T-q6-iEj" id="N0q-J5-NSq"/>

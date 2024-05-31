@@ -127,16 +127,20 @@ extension ParentDashboard: UITableViewDelegate, UITableViewDataSource {
         cell.cellContent = self.portfolioData?[indexPath.row].portfolioImage
         cell.collectionImages.tag = indexPath.row
         cell.collectionImages.reloadData()
-        
         cell.imageProfile.sd_setImage(with: URL(string: imageBaseUrl+(data?.teacher?.image ?? "")), placeholderImage: .placeholderImage)
-        
+        cell.postData2 = data
+        cell.comesFrom = "Parent"
         cell.labelName.text = data?.teacher?.name ?? ""
         cell.labelTitle.text = data?.title ?? ""
         cell.labelDescription.text = data?.postContent ?? ""
         cell.labelTime.text = data?.postDate ?? ""
         
         cell.labelDomain.text = data?.domain?.name ?? ""
-        
+        if data?.is_collage == 0 {
+            cell.collectionHeight.constant = 350
+        } else {
+            cell.collectionHeight.constant = 280
+        }
         cell.buttonLike.setImage(UIImage(named: "likeEmpty"), for: .normal)
         cell.buttonLike.setImage(UIImage(named: "likeFilled"), for: .selected)
         

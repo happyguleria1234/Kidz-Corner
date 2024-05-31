@@ -21,6 +21,7 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     
     var currentDate: String = Date().shortDate
     
+    @IBOutlet weak var imageViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tf_studentName: UITextField!
     var selectedAlbum: Int = -1
     var selectedDomain: Int = -1
@@ -80,9 +81,11 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     
     func initialSetup() {
         if selectedType == 1 {
+            imageViewHeight.constant = 280
             collectionImages.isHidden = true
             collageImage.isHidden = false
         } else {
+            imageViewHeight.constant = 350
             collectionImages.isHidden = false
             collageImage.isHidden = true
             
@@ -565,7 +568,7 @@ extension ConfirmPost {
                 "is_collage":selectedType == 0 ? 0 : 1
             ]
         }
-        
+//        is_collage
         
         print(params)
         
@@ -739,12 +742,26 @@ extension ConfirmPost: CollageViewDataSource {
         return selectedImages?.count ?? 0
     }
     
-    func collageViewNumberOfRowOrColoumn(_ collageView: CollageView) -> Int {
-        let totalImages = selectedImages?.count ?? 0
-        let maxColumns = 3
-        let rows = (totalImages + maxColumns - 1) / maxColumns
-        return rows
-    }
+//    func collageViewNumberOfRowOrColoumn(_ collageView: CollageView) -> Int {
+//        let totalImages = selectedImages?.count ?? 0
+//        let maxColumns = 3
+//        let rows = (totalImages + maxColumns - 1) / maxColumns
+//        return rows
+//    }
+    
+        func collageViewNumberOfRowOrColoumn(_ collageView: CollageView) -> Int {
+            let totalImages = selectedImages?.count ?? 0
+            let targetRowCountOrColumnCount = 3
+    
+            let rowCountOrColumnCount = (totalImages + targetRowCountOrColumnCount - 1) / targetRowCountOrColumnCount
+            if rowCountOrColumnCount > 1 && selectedImages?.count == 5 {
+                return 3
+            } else if rowCountOrColumnCount == 1 && selectedImages?.count == 3{
+                return 2
+            } else {
+                return rowCountOrColumnCount > 0 ? rowCountOrColumnCount : 1 // Ensure at least 1 row/column
+            }
+        }
     
     func collageViewLayoutDirection(_ collageView: CollageView) -> CollageViewLayoutDirection {
         return layoutDirection

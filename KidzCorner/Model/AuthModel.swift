@@ -99,9 +99,9 @@ struct DashboardModelData: Codable {
     let skillID, domainID, ageGroupID: Int?
     let title: String?
     let postDate: String?
-    let isDashboard: Int?
+    let isDashboard, is_collage: Int?
     let postContent: String?
-    let createdAt, updatedAt: String?
+    let createdAt, updatedAt, postType: String?
     var totalComments, isLike: Int?
     var totalLikes: Int?
     var unreadComment: Int?
@@ -131,7 +131,8 @@ struct DashboardModelData: Codable {
         case teacher, student
         case portfolioImage = "portfolio_image"
         case ageGroup = "age_group"
-        case domain, skills
+        case domain, skills, is_collage
+        case postType = "post_type"
     }
 }
 
@@ -235,9 +236,9 @@ struct ChildPortfolioModelData: Codable {
     let skillID, domainID, ageGroupID: Int?
     let title: String?
     let postDate: String?
-    let isDashboard: Int?
+    let isDashboard, is_collage: Int?
     let postContent: String?
-    let createdAt, updatedAt: String?
+    let createdAt, updatedAt,postType: String?
     let teacher: TeacherData?
     let student: Student?
     let portfolioImage: [PortfolioImage]?
@@ -268,7 +269,9 @@ struct ChildPortfolioModelData: Codable {
         case totalComments = "comment"
         case isLike = "is_like"
         case totalLikes = "likes_count"
-        case unreadComment
+        case unreadComment, is_collage
+        case postType = "post_type"
+        
     }
 }
 

@@ -54,6 +54,11 @@ class Post: UIViewController, afterAdding {
         config.wordings.libraryTitle = "Gallery"
         config.hidesStatusBar = false
         config.hidesBottomBar = false
+        if selectType == 1 {
+            config.library.minNumberOfItems = 2
+        } else {
+            config.library.minNumberOfItems = 1
+        }
         config.library.maxNumberOfItems = 9
         config.library.skipSelectionsGallery = true
         let picker = YPImagePicker(configuration: config)

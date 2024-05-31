@@ -4,7 +4,9 @@ import SDWebImage
 class DashboardTableCell: UITableViewCell {
     
     var cellContent: [PortfolioImage]?
-    
+    var postData: DashboardModelData?
+    var postData2: ChildPortfolioModelData?
+    var comesFrom = String()
     @IBOutlet weak var viewOuter: UIView!
     
     @IBOutlet weak var imageProfile: UIImageView!
@@ -18,6 +20,7 @@ class DashboardTableCell: UITableViewCell {
     
     @IBOutlet weak var labelDescription: UILabel!
     
+    @IBOutlet weak var collectionHeight: NSLayoutConstraint!
     @IBOutlet weak var viewDomain: UIView!
     @IBOutlet weak var labelDomain: UILabel!
     
@@ -39,7 +42,6 @@ class DashboardTableCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         setupViews()
         setupCollection()
         setupTextField()
@@ -124,6 +126,19 @@ extension DashboardTableCell: UICollectionViewDelegate, UICollectionViewDataSour
                     cell.imagePost.sd_setImage(with: url, placeholderImage: .placeholderImage)
                 }
             default: break
+            }
+        }
+        if comesFrom == "Parent" {
+            if postData2?.is_collage == 1 {
+                cell.imagePost.contentMode = .scaleAspectFill
+            } else {
+                cell.imagePost.contentMode = .scaleAspectFill
+            }
+        } else {
+            if postData?.is_collage == 1 {
+                cell.imagePost.contentMode = .scaleAspectFill
+            } else {
+                cell.imagePost.contentMode = .scaleAspectFill
             }
         }
         return cell

@@ -316,6 +316,7 @@
                 <outlet property="buttonMore" destination="dOB-22-jv7" id="C7W-Yn-ge0"/>
                 <outlet property="buttonShare" destination="wBc-Ay-xqX" id="72G-Nm-7Dj"/>
                 <outlet property="buttonWriteComment" destination="HiN-th-Hdi" id="AR5-Dw-gse"/>
+                <outlet property="collectionHeight" destination="NcT-DS-2gd" id="Jbw-1E-sfi"/>
                 <outlet property="collectionImages" destination="HeM-uT-k0d" id="kWg-T2-nH4"/>
                 <outlet property="imageProfile" destination="Xqp-Ld-ygW" id="yvH-PZ-OOb"/>
                 <outlet property="labelComments" destination="Kaj-qD-8hT" id="ACe-cu-BBh"/>
