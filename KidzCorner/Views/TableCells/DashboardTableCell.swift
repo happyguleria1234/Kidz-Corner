@@ -123,7 +123,9 @@ extension DashboardTableCell: UICollectionViewDelegate, UICollectionViewDataSour
             case portfolioType.image.rawValue:
                 if let url = URL(string: imageBaseUrl+(cellContent?[indexPath.item].image ?? "")) {
                     print(url)
-                    cell.imagePost.sd_setImage(with: url, placeholderImage: .placeholderImage)
+//                    cell.imagePost.sd_setImage(with: url, placeholderImage: .placeholderImage)
+                    cell.imagePost.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
+
                 }
             default: break
             }

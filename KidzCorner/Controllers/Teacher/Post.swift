@@ -54,6 +54,7 @@ class Post: UIViewController, afterAdding {
         config.wordings.libraryTitle = "Gallery"
         config.hidesStatusBar = false
         config.hidesBottomBar = false
+        config.targetImageSize = YPImageSize.cappedTo(size: 512)
         if selectType == 1 {
             config.library.minNumberOfItems = 2
         } else {
