@@ -22,12 +22,8 @@ class PdfVC2: UIViewController, WKNavigationDelegate {
         super.viewDidLoad()
         self.tabBarController?.tabBar.isHidden = true
         var data = String()
-        if anouncementData?.file == "" {
-            data = anouncementData?.attachment ?? ""
-        } else {
-            data = anouncementData?.file ?? ""
-        }
-        if let url = URL(string: imageBaseUrl + data) {
+      
+        if let url = URL(string: imageBaseUrl + (anouncementData?.attachment ?? "")) {
             // Create a URLRequest from the URL
             let request = URLRequest(url: url)
             

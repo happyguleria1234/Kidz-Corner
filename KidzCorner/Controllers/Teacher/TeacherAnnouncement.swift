@@ -87,7 +87,7 @@ class TeacherAnnouncement: UIViewController {
             // ALSO IMAGE ANNOUNCEMENT
             labelTitle.text = announcementTitle ?? ""
             labelDescription.text = announcementDescription ?? ""
-            imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(announcementImage ?? "")), placeholderImage: .announcementPlaceholder)
+            imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(anouncementData?.file ?? "")), placeholderImage: .announcementPlaceholder)
             labelDate.text = announcementDate
 //            
 //            if let url = self.anouncementData?.attachment  {
@@ -139,9 +139,14 @@ class TeacherAnnouncement: UIViewController {
             }
         }
         
-        if anouncementData?.attachment == nil && anouncementData?.file == nil{
+        if anouncementData?.attachment == nil{
             viewPFD.isHidden = true
         } else {
+            if anouncementData?.attachment?.contains(".pfd") == true {
+                attachmentLabel.text = "announcement.pfd"
+            } else {
+                attachmentLabel.text = "image.jpg"
+            }
             viewPFD.isHidden = false
         }
     }

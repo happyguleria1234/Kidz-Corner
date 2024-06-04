@@ -16,6 +16,7 @@ class ParentAnnouncement: UIViewController {
     @IBOutlet weak var viewPFD: UIStackView!
     @IBOutlet weak var viewOuter: UIView!
     
+    @IBOutlet weak var lblFile: UILabel!
     @IBOutlet weak var imageAnnouncement: UIImageView!
     @IBOutlet weak var labelName: UILabel!
     @IBOutlet weak var labelTitle: UILabel!
@@ -72,11 +73,6 @@ class ParentAnnouncement: UIViewController {
 //            viewPFD.isHidden = false
             stackButtons.isHidden = false
         case 2:
-//            if announcementPDF != "" {
-//                viewPFD.isHidden = false
-//            } else if announcementType == 1 {
-//                viewPFD.isHidden = true
-//            }
             stackButtons.isHidden = true
             labelStatus.isHidden = true
         default:
@@ -85,9 +81,14 @@ class ParentAnnouncement: UIViewController {
             labelStatus.isHidden = true
         }
         
-        if anouncementData?.attachment == nil && anouncementData?.file == nil{
+        if anouncementData?.attachment == nil{
             viewPFD.isHidden = true
         } else {
+            if anouncementData?.attachment?.contains(".pfd") == true {
+                lblFile.text = "announcement.pfd"
+            } else {
+                lblFile.text = "image.jpg"
+            }
             viewPFD.isHidden = false
         }
         setupAnnouncementStatus()
@@ -103,7 +104,7 @@ class ParentAnnouncement: UIViewController {
             // ALSO IMAGE ANNOUNCEMENT
             labelTitle.text = announcementTitle ?? ""
             labelDescription.text = announcementDescription ?? ""
-            imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(announcementImage ?? "")), placeholderImage: .announcementPlaceholder)
+            imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(anouncementData?.file ?? "")), placeholderImage: .announcementPlaceholder)
             labelDate.text = announcementDate
             labelName.text = "\(childName ?? "")"
             
@@ -118,7 +119,7 @@ class ParentAnnouncement: UIViewController {
                 labelStatus.text = ""
                 viewPFD.isHidden = false
             case 1:
-                ///Accepted
+                //Accepted
                 stackButtons.isHidden = true
                 labelStatus.isHidden = false
                 labelStatus.text = "Accepted"
@@ -129,33 +130,29 @@ class ParentAnnouncement: UIViewController {
                     viewPFD.isHidden = true
                 }
             case 2:
-                ///Rejected
+                //Rejected
                 stackButtons.isHidden = true
                 labelStatus.isHidden = false
                 labelStatus.text = "Rejected"
                 viewPFD.isHidden = true
                 labelStatus.textColor = UIColor(named: "denyColor")
-                ///Not Defined
+                //Not Defined
             case .none:
                 printt("None")
                 viewPFD.isHidden = true
-                //            labelStatus.isHidden = true
-                //            stackButtons.isHidden = false
             case .some(_):
                 printt("Some")
                 viewPFD.isHidden = true
-                //            labelStatus.isHidden = true
-                //            stackButtons.isHidden = false
             }
         }
-        if anouncementData?.attachment == nil && anouncementData?.file == nil{
+        if anouncementData?.attachment == nil{
             viewPFD.isHidden = true
         } else {
             viewPFD.isHidden = false
         }
     }
 
-    ///Status = 0 - Not Read, 1 - Accept, 2 - Reject
+    //Status = 0 - Not Read, 1 - Accept, 2 - Reject
     func acceptRejectAnnouncement(status: String) {
         DispatchQueue.main.async {
             startAnimating(self.view)
