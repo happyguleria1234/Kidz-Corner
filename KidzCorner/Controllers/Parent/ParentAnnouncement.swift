@@ -49,14 +49,9 @@ class ParentAnnouncement: UIViewController {
     }
     
     @IBAction func btnAttachment(_ sender: Any) {
-        
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "PdfVC") as! PdfVC
         vc.anouncementData = anouncementData
         self.navigationController?.pushViewController(vc, animated: true)
-//
-//        if let urlStr = self.announcementPDF, let url = URL(string: imageBaseUrl + urlStr) {
-//            UIApplication.shared.open(url)
-//        }
     }
     
     @IBAction func acceptFunc(_ sender: Any) {
@@ -70,13 +65,11 @@ class ParentAnnouncement: UIViewController {
     func checkViewType() {
         switch announcementType {
         case 1:
-//            viewPFD.isHidden = false
             stackButtons.isHidden = false
         case 2:
             stackButtons.isHidden = true
             labelStatus.isHidden = true
         default:
-//            viewPFD.isHidden = true
             stackButtons.isHidden = true
             labelStatus.isHidden = true
         }
@@ -84,8 +77,8 @@ class ParentAnnouncement: UIViewController {
         if anouncementData?.attachment == nil{
             viewPFD.isHidden = true
         } else {
-            if anouncementData?.attachment?.contains(".pfd") == true {
-                lblFile.text = "announcement.pfd"
+            if anouncementData?.attachment?.contains(".pdf") == true {
+                lblFile.text = "announcement.pdf"
             } else {
                 lblFile.text = "image.jpg"
             }

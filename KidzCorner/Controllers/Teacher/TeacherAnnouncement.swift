@@ -48,21 +48,12 @@ class TeacherAnnouncement: UIViewController {
     }
     
     @IBAction func didTapAttachment(_ sender: Any) {
-        //        if announcementPDF?.contains(".pdf") == true {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "PdfVC2") as! PdfVC2
         vc.anouncementData = anouncementData
         self.navigationController?.pushViewController(vc, animated: true)
-        //        } else {
-        //            if let urlStr = self.anouncementData?.attachment, let url = URL(string: imageBaseUrl + urlStr) {
-        //                UIApplication.shared.open(url)
-        //            }
-        //        }
     }
     
     func checkViewType() {
-        
-        print("AType \(announcementType)")
-        print("AStatus \(announcementStatus)")
         
         switch announcementType {
         case 1:
@@ -89,14 +80,6 @@ class TeacherAnnouncement: UIViewController {
             labelDescription.text = announcementDescription ?? ""
             imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(anouncementData?.file ?? "")), placeholderImage: .announcementPlaceholder)
             labelDate.text = announcementDate
-//            
-//            if let url = self.anouncementData?.attachment  {
-//                self.attachmentLabel.text = "Attachment" + "." + (URL(string: imageBaseUrl + url)?.pathExtension ?? "")
-//                self.attachmentLabel.superview?.isHidden = false
-//            } else {
-//                self.attachmentLabel.superview?.isHidden = true
-//            }
-            
             if self.announcementPDF != "" {
                 self.attachmentLabel.text = "Attachment" + "." + (URL(string: imageBaseUrl + (announcementPDF ?? ""))?.pathExtension ?? "")
                 self.attachmentLabel.superview?.isHidden = false
@@ -142,8 +125,8 @@ class TeacherAnnouncement: UIViewController {
         if anouncementData?.attachment == nil{
             viewPFD.isHidden = true
         } else {
-            if anouncementData?.attachment?.contains(".pfd") == true {
-                attachmentLabel.text = "announcement.pfd"
+            if anouncementData?.attachment?.contains(".pdf") == true {
+                attachmentLabel.text = "announcement.pdf"
             } else {
                 attachmentLabel.text = "image.jpg"
             }
@@ -151,7 +134,7 @@ class TeacherAnnouncement: UIViewController {
         }
     }
     
-    ///Status = 0 - Not Read, 1 - Accept, 2 - Reject
+    //Status = 0 - Not Read, 1 - Accept, 2 - Reject
     func acceptRejectAnnouncement(status: String) {
         DispatchQueue.main.async {
             startAnimating(self.view)

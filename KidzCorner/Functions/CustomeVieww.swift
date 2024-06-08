@@ -22,8 +22,8 @@ class CustomView: UIView {
     private func setupView() {
         // You can set default properties here
         self.layer.cornerRadius = 8
-        self.layer.borderWidth = 1.0
-        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.borderWidth = 0
+        self.layer.borderColor = UIColor.clear.cgColor
     }
     
     // MARK: - Customization Methods

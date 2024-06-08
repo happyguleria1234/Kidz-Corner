@@ -85,12 +85,18 @@ class Payments: UIViewController {
         total = 0
         let parameters = ["userId": userId]
         ApiManager.shared.Request(type: PaymentsModel.self, methodType: .Get, url: baseUrl+apiGetAllPayments, parameter: parameters) { [weak self] error, myObject, msgString, statusCode in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [self] in
                 guard let self = self else { return }
                 if statusCode == 200 {
                     self.paymentsData = myObject
                     self.filteredPaymentsData = myObject?.data ?? []
-                    self.total = myObject?.data?.reduce(0, { $0 + (Int($1.amount ?? "") ?? 0) }) ?? 0
+                    myObject?.data?.forEach({ data in
+                        if data.status != "2" {
+                            let amount = Int(data.amount ?? "")
+                            self.total = self.total + (amount ?? 0)
+                        }
+                    })
+//                    self.total = myObject?.data?.reduce(0, { $0 + (Int($1.amount ?? "") ?? 0) }) ?? 0
                     self.tablePayments.reloadData()
                     self.amountCollectionView.reloadData()
                 } else {

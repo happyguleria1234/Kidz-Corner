@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SenderCell" rowHeight="90" id="Gn9-94-xTh" customClass="SenderCell" customModule="KidzCorner" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Gn9-94-xTh" id="6VJ-cZ-guH">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X3X-vq-5uK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fwP-2f-Tbq" customClass="CustomView" customModule="KidzCorner" customModuleProvider="target">
+                                <rect key="frame" x="26.666666666666657" y="5" width="338.33333333333337" height="75"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.&quot;" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Bg-yS-gJn">
+                                        <rect key="frame" x="20" y="14" width="308.33333333333331" height="46"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.31764705882352939" green="0.67450980392156867" blue="0.67843137254901964" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="2Bg-yS-gJn" firstAttribute="top" secondItem="fwP-2f-Tbq" secondAttribute="top" constant="14" id="JPB-xg-cd7"/>
+                                    <constraint firstAttribute="trailing" secondItem="2Bg-yS-gJn" secondAttribute="trailing" constant="10" id="JVS-FO-skV"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="LW5-Te-Cvh"/>
+                                    <constraint firstAttribute="bottom" secondItem="2Bg-yS-gJn" secondAttribute="bottom" constant="15" id="VLs-AU-9oB"/>
+                                    <constraint firstItem="2Bg-yS-gJn" firstAttribute="leading" secondItem="fwP-2f-Tbq" secondAttribute="leading" constant="20" id="xkb-du-VML"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" name="gradientTop"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="fwP-2f-Tbq" secondAttribute="bottom" constant="10" id="9C8-Ii-qbS"/>
+                            <constraint firstItem="fwP-2f-Tbq" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="X3X-vq-5uK" secondAttribute="leading" constant="20" id="DDy-HQ-mJB"/>
+                            <constraint firstItem="fwP-2f-Tbq" firstAttribute="top" secondItem="X3X-vq-5uK" secondAttribute="top" constant="5" id="aPY-2k-ceI"/>
+                            <constraint firstAttribute="trailing" secondItem="fwP-2f-Tbq" secondAttribute="trailing" constant="10" id="r5t-sH-qqz"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="X3X-vq-5uK" firstAttribute="top" secondItem="6VJ-cZ-guH" secondAttribute="top" id="HDK-Xh-WUD"/>
+                    <constraint firstItem="X3X-vq-5uK" firstAttribute="leading" secondItem="6VJ-cZ-guH" secondAttribute="leading" id="ilB-2k-ct3"/>
+                    <constraint firstAttribute="bottom" secondItem="X3X-vq-5uK" secondAttribute="bottom" id="l1E-9f-bTb"/>
+                    <constraint firstAttribute="trailing" secondItem="X3X-vq-5uK" secondAttribute="trailing" id="xGZ-69-1vf"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="senderView" destination="fwP-2f-Tbq" id="CJa-6k-qBM"/>
+            </connections>
+            <point key="canvasLocation" x="-140" y="20"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <namedColor name="gradientTop">
+            <color red="0.41176470588235292" green="0.75686274509803919" blue="0.76078431372549016" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

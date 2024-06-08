@@ -6,7 +6,6 @@ class ParentAnnouncements: UIViewController {
     var childrenData: [ChildData]?
     
     @IBOutlet weak var buttonBack: UIButton!
-    @IBOutlet weak var buttonAdd: UIButton!
     @IBOutlet weak var tableAnnouncements: UITableView!
     
     @IBOutlet weak var labelNoAnnouncements: UILabel!
@@ -38,6 +37,7 @@ class ParentAnnouncements: UIViewController {
         tableAnnouncements.delegate = self
         tableAnnouncements.dataSource = self
         tableAnnouncements.backgroundColor = .clear
+        tabBarController?.tabBar.isHidden = false
     }
     
     func getAnnouncements() {
@@ -83,7 +83,14 @@ class ParentAnnouncements: UIViewController {
         }
     }
     
-    @IBAction func didTapNotification(_ sender: Any) {
+    @IBAction func btnChats(_ sender: UIButton) {
+        if let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "ChatsVC") as? ChatsVC {
+            self.navigationController?.pushViewController(nextVC, animated: true)
+        }
+    }
+    
+    
+    @IBAction func didTapNotification(_ sender: UIButton) {
         if let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "NotificationsVC") as? NotificationsVC {
             self.navigationController?.pushViewController(nextVC, animated: true)
         }

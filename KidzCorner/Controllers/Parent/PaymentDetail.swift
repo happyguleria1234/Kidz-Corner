@@ -57,6 +57,10 @@ extension PaymentDetail: UITableViewDelegate, UITableViewDataSource {
         case "2":
             cell.labelStatus.text = "Paid"
             cell.labelStatus.textColor = myGreenColor
+        case "4":
+            cell.labelStatus.text = "Partial"
+            cell.labelStatus.textColor = .systemOrange
+
         case .none:
             printt("No status")
         case .some(_):

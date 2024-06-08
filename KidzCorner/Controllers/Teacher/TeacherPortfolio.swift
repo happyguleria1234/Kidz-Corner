@@ -1034,53 +1034,53 @@ extension TeacherPortfolio {
         let currentTime: String = .currentTime
         
         var params = [String: Any]()
-       
-            params = ["user_id": self.studentId,
-                      "time_in": currentTime,
-                      "temperature": "\(self.labelMorningTemperature.text ?? "")",
-//                      "temperature": "35C",
-                      "temprature_type": "1",
-                      "send_by": self.guardianData?.data?.childrenParents?[selectedMorningGuardianIndex].id ?? 0,
-                      "date": currentDate
-            ]
+        
+        params = ["user_id": self.studentId,
+                  "time_in": currentTime,
+                  "temperature": "\(self.labelMorningTemperature.text ?? "")",
+                  //                      "temperature": "35C",
+                  "temprature_type": "1",
+                  "send_by": self.guardianData?.data?.childrenParents?[selectedMorningGuardianIndex].id ?? 0,
+                  "date": currentDate
+        ]
         
         print(params)
         ApiManager.shared.requestWithImage(type: BaseModel.self, url: baseUrl+apiAddAttendance, parameter: params, imageNames: ["attendanceImage"], imageKeyName: "parent", images: imageData) { error, myObject, messageStr, statusCode in
-                        if statusCode == 200 {
-                            DispatchQueue.main.async {
-                                self.buttonSync.isHidden = true
-                                self.syncMorning = false
-                                Toast.toast(message: "Morning Attendance Synced Successfully", controller: self)
-                                self.navigationController?.popViewController(animated: true)
-                            }
-                        }
-                        else {
-                            Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
-                        }
-                    }
+            if statusCode == 200 {
+                DispatchQueue.main.async {
+                    self.buttonSync.isHidden = true
+                    self.syncMorning = false
+                    Toast.toast(message: "Morning Attendance Synced Successfully", controller: self)
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+            else {
+                Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+            }
+        }
     }
     
     func syncMiddleTemperature() {
         var params = [String: Any]()
-            params = ["user_id": self.studentId,
-                      "temperature": "\(self.labelEveningTemperature.text ?? "")",
-//                      "temperature": "\(self.labelEveningTemperature.text ?? "")F",
-                      "temprature_type": "2",
-                      "date": currentDate
-            ]
+        params = ["user_id": self.studentId,
+                  "temperature": "\(self.labelEveningTemperature.text ?? "")",
+                  //                      "temperature": "\(self.labelEveningTemperature.text ?? "")F",
+                  "temprature_type": "2",
+                  "date": currentDate
+        ]
         print(params)
-                    ApiManager.shared.Request(type: BaseModel.self, methodType: .Post, url: baseUrl+apiAddMiddleAttendance, parameter: params) { error, myObject, msgString, statusCode in
-                        if statusCode == 200 {
-                            DispatchQueue.main.async {
-                                Toast.toast(message: "Temperature Added Successfully", controller: self)
-                                self.buttonSync.isHidden = true
-                                self.navigationController?.popViewController(animated: true)
-                            }
-                        }
-                        else {
-                            Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
-                        }
-                    }
+        ApiManager.shared.Request(type: BaseModel.self, methodType: .Post, url: baseUrl+apiAddMiddleAttendance, parameter: params) { error, myObject, msgString, statusCode in
+            if statusCode == 200 {
+                DispatchQueue.main.async {
+                    Toast.toast(message: "Temperature Added Successfully", controller: self)
+                    self.buttonSync.isHidden = true
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+            else {
+                Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+            }
+        }
     }
     
     func syncEveningTemperature() {
@@ -1100,18 +1100,18 @@ extension TeacherPortfolio {
             let imgData = try? Data(contentsOf: imageUrl)
             imageData.append(imgData ?? Data())
         }
-    
+        
         let currentTime: String = .currentTime
         
         var params = [String: Any]()
-            params = ["user_id": self.studentId,
-                      "time_out": currentTime,
-                      "temperature": "\(self.labelEveningTemperature.text ?? "")",
-//                      "temperature": "\(self.labelEveningTemperature.text ?? "")F",
-                      "temprature_type": "1",
-                      "pick_by": self.guardianData?.data?.childrenParents?[selectedEveningGuardianIndex].id ?? 0,
-                      "date": currentDate
-            ]
+        params = ["user_id": self.studentId,
+                  "time_out": currentTime,
+                  "temperature": "\(self.labelEveningTemperature.text ?? "")",
+                  //                      "temperature": "\(self.labelEveningTemperature.text ?? "")F",
+                  "temprature_type": "1",
+                  "pick_by": self.guardianData?.data?.childrenParents?[selectedEveningGuardianIndex].id ?? 0,
+                  "date": currentDate
+        ]
         print(params)
         
         ApiManager.shared.requestWithImage(type: BaseModel.self, url: baseUrl+apiAddMiddleAttendance, parameter: params, imageNames: ["attendanceImage"], imageKeyName: "parent", images: imageData) { error, myObject, messageStr, statusCode in
@@ -1127,7 +1127,7 @@ extension TeacherPortfolio {
                 Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
             }
         }
-        }
+    }
 }
 
 extension TeacherPortfolio {

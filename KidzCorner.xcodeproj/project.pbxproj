@@ -9,9 +9,16 @@
 /* Begin PBXBuildFile section */
 		181CD6262BFD0E56006917F3 /* PdfVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CD6252BFD0E56006917F3 /* PdfVC.swift */; };
 		181CD6282BFF9F18006917F3 /* PdfVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CD6272BFF9F18006917F3 /* PdfVC2.swift */; };
+		18209CA42C13950500D59EAB /* MessageListingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA32C13950500D59EAB /* MessageListingVC.swift */; };
+		18209CA62C14140B00D59EAB /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA52C14140B00D59EAB /* CustomView.swift */; };
 		188D7F692BE40D7F007000D3 /* CollageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188D7F662BE40D7E007000D3 /* CollageItem.swift */; };
 		188D7F6A2BE40D7F007000D3 /* CollageItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188D7F672BE40D7E007000D3 /* CollageItemView.swift */; };
 		188D7F6B2BE40D7F007000D3 /* CollageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188D7F682BE40D7E007000D3 /* CollageView.swift */; };
+		188D95A62C1383FB00BC7A80 /* SenderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188D95A42C1383FB00BC7A80 /* SenderCell.swift */; };
+		188D95A72C1383FB00BC7A80 /* SenderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188D95A52C1383FB00BC7A80 /* SenderCell.xib */; };
+		188D95AA2C13840A00BC7A80 /* RecieverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188D95A82C13840A00BC7A80 /* RecieverCell.swift */; };
+		188D95AB2C13840A00BC7A80 /* RecieverCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188D95A92C13840A00BC7A80 /* RecieverCell.xib */; };
+		188D95AD2C138B0100BC7A80 /* ChatsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188D95AC2C138B0100BC7A80 /* ChatsVC.swift */; };
 		18BC90312BF3C92C00F14A43 /* CustomeVieww.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BC90302BF3C92C00F14A43 /* CustomeVieww.swift */; };
 		18BC90352BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18BC90342BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib */; };
 		18BC90362BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BC90332BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift */; };
@@ -157,9 +164,16 @@
 		151C8956AD6F0EAC3335600A /* Pods-KidzCorner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KidzCorner.debug.xcconfig"; path = "Target Support Files/Pods-KidzCorner/Pods-KidzCorner.debug.xcconfig"; sourceTree = "<group>"; };
 		181CD6252BFD0E56006917F3 /* PdfVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfVC.swift; sourceTree = "<group>"; };
 		181CD6272BFF9F18006917F3 /* PdfVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfVC2.swift; sourceTree = "<group>"; };
+		18209CA32C13950500D59EAB /* MessageListingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListingVC.swift; sourceTree = "<group>"; };
+		18209CA52C14140B00D59EAB /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		188D7F662BE40D7E007000D3 /* CollageItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollageItem.swift; sourceTree = "<group>"; };
 		188D7F672BE40D7E007000D3 /* CollageItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollageItemView.swift; sourceTree = "<group>"; };
 		188D7F682BE40D7E007000D3 /* CollageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollageView.swift; sourceTree = "<group>"; };
+		188D95A42C1383FB00BC7A80 /* SenderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenderCell.swift; sourceTree = "<group>"; };
+		188D95A52C1383FB00BC7A80 /* SenderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SenderCell.xib; sourceTree = "<group>"; };
+		188D95A82C13840A00BC7A80 /* RecieverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecieverCell.swift; sourceTree = "<group>"; };
+		188D95A92C13840A00BC7A80 /* RecieverCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecieverCell.xib; sourceTree = "<group>"; };
+		188D95AC2C138B0100BC7A80 /* ChatsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsVC.swift; sourceTree = "<group>"; };
 		18BC90302BF3C92C00F14A43 /* CustomeVieww.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomeVieww.swift; sourceTree = "<group>"; };
 		18BC90332BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceHeadCollectionCell.swift; sourceTree = "<group>"; };
 		18BC90342BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InvoiceHeadCollectionCell.xib; sourceTree = "<group>"; };
@@ -344,6 +358,19 @@
 			path = Collage;
 			sourceTree = "<group>";
 		};
+		188D95A32C1383D600BC7A80 /* Chats */ = {
+			isa = PBXGroup;
+			children = (
+				188D95A42C1383FB00BC7A80 /* SenderCell.swift */,
+				188D95A52C1383FB00BC7A80 /* SenderCell.xib */,
+				188D95A82C13840A00BC7A80 /* RecieverCell.swift */,
+				188D95A92C13840A00BC7A80 /* RecieverCell.xib */,
+				188D95AC2C138B0100BC7A80 /* ChatsVC.swift */,
+				18209CA32C13950500D59EAB /* MessageListingVC.swift */,
+			);
+			path = Chats;
+			sourceTree = "<group>";
+		};
 		18BC90322BF3E33800F14A43 /* Invoice */ = {
 			isa = PBXGroup;
 			children = (
@@ -504,6 +531,7 @@
 		53C1968127B17F9200EF16A3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				188D95A32C1383D600BC7A80 /* Chats */,
 				53C1968227B17F9200EF16A3 /* Auth */,
 				53C1968427B17F9200EF16A3 /* ActivityContainer.swift */,
 				53C1968527B17F9200EF16A3 /* Parent */,
@@ -641,6 +669,7 @@
 				53C196BF27B17F9200EF16A3 /* Toast.swift */,
 				B72E68A82ADB194A003433F2 /* UserdefaultsExt.swift */,
 				18E4D9CB2AF96948005A3C58 /* MiscExt.swift */,
+				18209CA52C14140B00D59EAB /* CustomView.swift */,
 				18BC90302BF3C92C00F14A43 /* CustomeVieww.swift */,
 			);
 			path = Functions;
@@ -759,10 +788,12 @@
 				53C196F627B17F9200EF16A3 /* Poppins-Medium.otf in Resources */,
 				53C196CE27B17F9200EF16A3 /* DashboardCollectionCell.xib in Resources */,
 				53C196FE27B17F9200EF16A3 /* Poppins-BlackItalic.otf in Resources */,
+				188D95A72C1383FB00BC7A80 /* SenderCell.xib in Resources */,
 				53C1965927B17D7200EF16A3 /* LaunchScreen.storyboard in Resources */,
 				53C1965627B17D7200EF16A3 /* Assets.xcassets in Resources */,
 				53B708B227B56AA10008BAAF /* Parent.storyboard in Resources */,
 				537CB3C027C9221400813956 /* GuardianCell.xib in Resources */,
+				188D95AB2C13840A00BC7A80 /* RecieverCell.xib in Resources */,
 				53C196F827B17F9200EF16A3 /* Poppins-Italic.otf in Resources */,
 				53C196D027B17F9200EF16A3 /* DashboardTableCell.xib in Resources */,
 				53C196F527B17F9200EF16A3 /* Poppins-BoldItalic.otf in Resources */,
@@ -867,6 +898,7 @@
 				53C1970E27B17F9200EF16A3 /* GradientView.swift in Sources */,
 				53C1966627B17D9C00EF16A3 /* UIView+Extension.m in Sources */,
 				53C196E427B17F9200EF16A3 /* ParentDashboard.swift in Sources */,
+				188D95AD2C138B0100BC7A80 /* ChatsVC.swift in Sources */,
 				53C196E627B17F9200EF16A3 /* ClassStats.swift in Sources */,
 				53C196E527B17F9200EF16A3 /* TeacherAnnouncement.swift in Sources */,
 				53C196DD27B17F9200EF16A3 /* ParentActivityContainer.swift in Sources */,
@@ -896,12 +928,14 @@
 				53C1966527B17D9C00EF16A3 /* NSString+Extension.m in Sources */,
 				53C196E827B17F9200EF16A3 /* TeacherAnnouncements.swift in Sources */,
 				53C196E327B17F9200EF16A3 /* ParentAnnouncement.swift in Sources */,
+				18209CA62C14140B00D59EAB /* CustomView.swift in Sources */,
 				53B5914327EB675A009D301A /* PaymentDetail.swift in Sources */,
 				5356715B2866D7AF005ABFC5 /* CommentsCell.swift in Sources */,
 				53C196CD27B17F9200EF16A3 /* DashboardCollectionCell.swift in Sources */,
 				53C1966C27B17DAB00EF16A3 /* RYBlueToothTool.m in Sources */,
 				B72E68AB2ADDB9D3003433F2 /* ChildrenModel.swift in Sources */,
 				533FB3BD27D4A43100FFB0B1 /* ClassesCell.swift in Sources */,
+				18209CA42C13950500D59EAB /* MessageListingVC.swift in Sources */,
 				53C196D127B17F9200EF16A3 /* DashboardTableCell.swift in Sources */,
 				533FB3B927D49F6900FFB0B1 /* SelectClass.swift in Sources */,
 				53C196D727B17F9200EF16A3 /* DevicesHeader.swift in Sources */,
@@ -918,6 +952,7 @@
 				53C196DB27B17F9200EF16A3 /* SignIn.swift in Sources */,
 				53C0380028819CE000D8D85C /* BluetoothCode.swift in Sources */,
 				53C196EC27B17F9200EF16A3 /* Devices.swift in Sources */,
+				188D95AA2C13840A00BC7A80 /* RecieverCell.swift in Sources */,
 				53B5914627EB7D1E009D301A /* InvoiceDetailFooter.swift in Sources */,
 				53C196DE27B17F9200EF16A3 /* ParentPortfolio.swift in Sources */,
 				B7928B232A5094FB0083B77E /* NotificationsVC.swift in Sources */,
@@ -925,6 +960,7 @@
 				18E4D9CC2AF96948005A3C58 /* MiscExt.swift in Sources */,
 				53C196D327B17F9200EF16A3 /* StatsCell.swift in Sources */,
 				53C1970A27B17F9200EF16A3 /* Common.swift in Sources */,
+				188D95A62C1383FB00BC7A80 /* SenderCell.swift in Sources */,
 				5315773D29E1320F001C273C /* ParentPortfolioCell.swift in Sources */,
 				53C1970C27B17F9200EF16A3 /* UIViewFunctions.swift in Sources */,
 				53C1970827B17F9200EF16A3 /* Enums.swift in Sources */,
@@ -1108,14 +1144,13 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Auth;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.3;
+				MARKETING_VERSION = 5.5;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1164,14 +1199,13 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Auth;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.3;
+				MARKETING_VERSION = 5.5;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
