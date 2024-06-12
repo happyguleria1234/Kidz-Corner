@@ -19,7 +19,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IuJ-8i-BtF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholderImage" translatesAutoresizingMaskIntoConstraints="NO" id="g2h-Ko-mal" customClass="CustomImageView" customModule="BYOUTIBIZ" customModuleProvider="target">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholderImage" translatesAutoresizingMaskIntoConstraints="NO" id="g2h-Ko-mal" customClass="CustomImageView" customModule="KidzCorner" customModuleProvider="target">
                                 <rect key="frame" x="10" y="10" width="1" height="1"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="1" id="9vJ-9z-xNG"/>
@@ -32,10 +32,10 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uvj-xu-VFG" customClass="CustomView" customModule="KidzCorner" customModuleProvider="target">
-                                <rect key="frame" x="21" y="10" width="328.33333333333331" height="60"/>
+                                <rect key="frame" x="21" y="10" width="136.33333333333334" height="46"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.&quot;" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dVE-UQ-jtJ">
-                                        <rect key="frame" x="20" y="14" width="278.33333333333331" height="31"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="How are you." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dVE-UQ-jtJ">
+                                        <rect key="frame" x="20" y="14" width="86.333333333333329" height="17"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>

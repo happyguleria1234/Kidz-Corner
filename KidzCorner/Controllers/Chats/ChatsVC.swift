@@ -14,6 +14,9 @@ class ChatsVC : UIViewController {
     
     //MARK: Varibles and Outlets
     
+    var socket = SocketIOManager()
+    var userList: [MessageList] = []
+    
     @IBOutlet weak var tf_search: UITextField!
     @IBOutlet weak var tblChats: UITableView!
     
@@ -23,6 +26,12 @@ class ChatsVC : UIViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func setSocketConnectionAndKeys() {
+        fetchChatDialogs {
+            self.tblChats.reloadData()
+        }
     }
     
     //------------------------------------------------------
@@ -49,6 +58,7 @@ class ChatsVC : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tblChats.reloadData()
+        setSocketConnectionAndKeys()
         tblChats.backgroundColor = .clear
         tabBarController?.tabBar.isHidden = true
     }
@@ -64,7 +74,7 @@ class ChatsVC : UIViewController {
 
 extension ChatsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -96,5 +106,19 @@ class ChatsCell: UITableViewCell {
     
     override class func awakeFromNib() {
         super.awakeFromNib()
+        
+    }
+}
+
+
+extension ChatsVC {
+    
+    func fetchChatDialogs(onSuccess: @escaping(()->())) {
+        SocketIOManager.sharedInstance.messageListing()
+        SocketIOManager.sharedInstance.messageListingListener { [weak self] messageDialogs in
+            print(messageDialogs)
+            self?.userList = messageDialogs
+            onSuccess()
+        }
     }
 }

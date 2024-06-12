@@ -15,6 +15,7 @@ class MessageListingVC : UIViewController {
     
     //MARK: Varibles and Outlets
     
+  
     @IBOutlet weak var lbl_type: UILabel!
     @IBOutlet weak var lbl_name: UILabel!
     @IBOutlet weak var imgProfile: UIImageView!
@@ -109,3 +110,4 @@ extension MessageListingVC {
         }
     }
 }
+

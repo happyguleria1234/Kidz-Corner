@@ -13,6 +13,7 @@ pod 'IQKeyboardManagerSwift'
 pod 'ReachabilitySwift'
 pod 'SwipeCellKit'
 pod 'FSCalendar'
+pod 'Socket.IO-Client-Swift'
 #pod 'Firebase/Messaging'
 
 end

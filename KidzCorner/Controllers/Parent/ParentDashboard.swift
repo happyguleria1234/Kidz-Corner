@@ -310,7 +310,6 @@ extension ParentDashboard {
                                 DispatchQueue.main.async {
                                     self.tableHome.reloadData()
                                 }
-                                
                             }
                             else {
                                 Toast.toast(message: "No activity posts yet", controller: self)

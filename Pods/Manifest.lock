@@ -7,6 +7,9 @@ PODS:
   - SDWebImage (5.2.2):
     - SDWebImage/Core (= 5.2.2)
   - SDWebImage/Core (5.2.2)
+  - Socket.IO-Client-Swift (16.1.0):
+    - Starscream (~> 4.0.6)
+  - Starscream (4.0.8)
   - SteviaLayout (5.1.2)
   - SwipeCellKit (2.7.1)
   - YPImagePicker (5.2.2):
@@ -19,6 +22,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - ReachabilitySwift
   - SDWebImage (= 5.2.2)
+  - Socket.IO-Client-Swift
   - SwipeCellKit
   - YPImagePicker
 
@@ -30,6 +34,8 @@ SPEC REPOS:
     - PryntTrimmerView
     - ReachabilitySwift
     - SDWebImage
+    - Socket.IO-Client-Swift
+    - Starscream
     - SteviaLayout
     - SwipeCellKit
     - YPImagePicker
@@ -41,10 +47,12 @@ SPEC CHECKSUMS:
   PryntTrimmerView: 6a43cc90df5d99addeabd33d4ba09b1365322130
   ReachabilitySwift: 2128f3a8c9107e1ad33574c6e58e8285d460b149
   SDWebImage: 5fcdb02cc35e05fc35791ec514b191d27189f872
+  Socket.IO-Client-Swift: ee4b8f80a3db18dd7f32b266ddf273310609443c
+  Starscream: 19b5533ddb925208db698f0ac508a100b884a1b9
   SteviaLayout: 05424e528d643657d39ce72c786e4adf13cfc5f2
   SwipeCellKit: 3972254a826da74609926daf59b08d6c72e619ea
   YPImagePicker: afc81b3cffab05a6e7261c5daf80dc31b4e917b4
 
-PODFILE CHECKSUM: 765d0e2b7890d4a40574f7adeda33cf763eda4d9
+PODFILE CHECKSUM: 24d7800acb977b4f4f3709face6b2fcccb35220f
 
 COCOAPODS: 1.15.2

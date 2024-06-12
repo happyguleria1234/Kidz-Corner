@@ -11,6 +11,8 @@
 		181CD6282BFF9F18006917F3 /* PdfVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CD6272BFF9F18006917F3 /* PdfVC2.swift */; };
 		18209CA42C13950500D59EAB /* MessageListingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA32C13950500D59EAB /* MessageListingVC.swift */; };
 		18209CA62C14140B00D59EAB /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA52C14140B00D59EAB /* CustomView.swift */; };
+		18209CAC2C15A7DB00D59EAB /* SocketConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA92C15A7DB00D59EAB /* SocketConstants.swift */; };
+		18209CAD2C15A7DB00D59EAB /* SocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CAA2C15A7DB00D59EAB /* SocketIOManager.swift */; };
 		188D7F692BE40D7F007000D3 /* CollageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188D7F662BE40D7E007000D3 /* CollageItem.swift */; };
 		188D7F6A2BE40D7F007000D3 /* CollageItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188D7F672BE40D7E007000D3 /* CollageItemView.swift */; };
 		188D7F6B2BE40D7F007000D3 /* CollageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188D7F682BE40D7E007000D3 /* CollageView.swift */; };
@@ -25,6 +27,7 @@
 		18D150DB2AED1272004BDF97 /* ParentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D150D92AED1272004BDF97 /* ParentCell.swift */; };
 		18D150DC2AED1272004BDF97 /* ParentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D150DA2AED1272004BDF97 /* ParentCell.xib */; };
 		18D150DE2AF037FA004BDF97 /* AddActivityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D150DD2AF037FA004BDF97 /* AddActivityVC.swift */; };
+		18DB93BA2C194D1E009C6C11 /* MessageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DB93B92C194D1E009C6C11 /* MessageList.swift */; };
 		18E4D9CA2AF965B7005A3C58 /* AcitivitiesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E4D9C92AF965B7005A3C58 /* AcitivitiesModel.swift */; };
 		18E4D9CC2AF96948005A3C58 /* MiscExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E4D9CB2AF96948005A3C58 /* MiscExt.swift */; };
 		4749BFE3E3F12B4BB055B8BC /* Pods_KidzCorner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2844218C5D841292CD1CA438 /* Pods_KidzCorner.framework */; };
@@ -166,6 +169,8 @@
 		181CD6272BFF9F18006917F3 /* PdfVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfVC2.swift; sourceTree = "<group>"; };
 		18209CA32C13950500D59EAB /* MessageListingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListingVC.swift; sourceTree = "<group>"; };
 		18209CA52C14140B00D59EAB /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
+		18209CA92C15A7DB00D59EAB /* SocketConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketConstants.swift; sourceTree = "<group>"; };
+		18209CAA2C15A7DB00D59EAB /* SocketIOManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
 		188D7F662BE40D7E007000D3 /* CollageItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollageItem.swift; sourceTree = "<group>"; };
 		188D7F672BE40D7E007000D3 /* CollageItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollageItemView.swift; sourceTree = "<group>"; };
 		188D7F682BE40D7E007000D3 /* CollageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollageView.swift; sourceTree = "<group>"; };
@@ -180,6 +185,7 @@
 		18D150D92AED1272004BDF97 /* ParentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentCell.swift; sourceTree = "<group>"; };
 		18D150DA2AED1272004BDF97 /* ParentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ParentCell.xib; sourceTree = "<group>"; };
 		18D150DD2AF037FA004BDF97 /* AddActivityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddActivityVC.swift; sourceTree = "<group>"; };
+		18DB93B92C194D1E009C6C11 /* MessageList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageList.swift; sourceTree = "<group>"; };
 		18E4D9C92AF965B7005A3C58 /* AcitivitiesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcitivitiesModel.swift; sourceTree = "<group>"; };
 		18E4D9CB2AF96948005A3C58 /* MiscExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscExt.swift; sourceTree = "<group>"; };
 		2844218C5D841292CD1CA438 /* Pods_KidzCorner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KidzCorner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -348,6 +354,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		18209CAB2C15A7DB00D59EAB /* Socket Manager */ = {
+			isa = PBXGroup;
+			children = (
+				18209CA92C15A7DB00D59EAB /* SocketConstants.swift */,
+				18209CAA2C15A7DB00D59EAB /* SocketIOManager.swift */,
+			);
+			path = "Socket Manager";
+			sourceTree = "<group>";
+		};
 		188D7F652BE40CE0007000D3 /* Collage */ = {
 			isa = PBXGroup;
 			children = (
@@ -367,6 +382,8 @@
 				188D95A92C13840A00BC7A80 /* RecieverCell.xib */,
 				188D95AC2C138B0100BC7A80 /* ChatsVC.swift */,
 				18209CA32C13950500D59EAB /* MessageListingVC.swift */,
+				18209CAB2C15A7DB00D59EAB /* Socket Manager */,
+				18DB93B92C194D1E009C6C11 /* MessageList.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -905,6 +922,7 @@
 				53C196E127B17F9200EF16A3 /* ParentAnnouncements.swift in Sources */,
 				B7928B2B2A5882DE0083B77E /* VerifyOtpVC.swift in Sources */,
 				53B5913127EB5A10009D301A /* InvoiceCell.swift in Sources */,
+				18209CAC2C15A7DB00D59EAB /* SocketConstants.swift in Sources */,
 				18BC90312BF3C92C00F14A43 /* CustomeVieww.swift in Sources */,
 				18BC90362BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift in Sources */,
 				95CE785C2BB30C6800F0CAD3 /* DisplayImage.swift in Sources */,
@@ -929,6 +947,7 @@
 				53C196E827B17F9200EF16A3 /* TeacherAnnouncements.swift in Sources */,
 				53C196E327B17F9200EF16A3 /* ParentAnnouncement.swift in Sources */,
 				18209CA62C14140B00D59EAB /* CustomView.swift in Sources */,
+				18DB93BA2C194D1E009C6C11 /* MessageList.swift in Sources */,
 				53B5914327EB675A009D301A /* PaymentDetail.swift in Sources */,
 				5356715B2866D7AF005ABFC5 /* CommentsCell.swift in Sources */,
 				53C196CD27B17F9200EF16A3 /* DashboardCollectionCell.swift in Sources */,
@@ -944,6 +963,7 @@
 				B7B09F352A44BBBE00D7ABBD /* ClassSelectionVC.swift in Sources */,
 				53C196E027B17F9200EF16A3 /* ParentAttendanceContainer.swift in Sources */,
 				53C196EA27B17F9200EF16A3 /* TeacherTabbar.swift in Sources */,
+				18209CAD2C15A7DB00D59EAB /* SocketIOManager.swift in Sources */,
 				53B5913727EB5DB5009D301A /* InvoiceHeader.swift in Sources */,
 				B72E689A2AD8548B003433F2 /* ActivityCell.swift in Sources */,
 				B7928B292A5882800083B77E /* ResetPasswordVC.swift in Sources */,

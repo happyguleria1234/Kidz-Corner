@@ -70,7 +70,7 @@ class Payments: UIViewController {
                 if statusCode == 200 {
                     self.childrenData = myObject?.data ?? []
                     self.amountCollectionView.reloadData()
-                    self.getPayments(userId: myObject?.data?.last?.id ?? 0)
+                    self.getPayments(userId: myObject?.data?.first?.id ?? 0)
                 } else {
                     Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
                 }
@@ -186,8 +186,8 @@ extension Payments: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         cell.rightBtn.tag = indexPath.item
         cell.lblName.text = userData[indexPath.item].name ?? ""
         cell.amountLbl.text = "$\(total)"
-        cell.leftBtn.addTarget(self, action: #selector(scrollLeft(_:)), for: .touchUpInside)
-        cell.rightBtn.addTarget(self, action: #selector(scrollRight(_:)), for: .touchUpInside)
+//        cell.leftBtn.addTarget(self, action: #selector(scrollLeft(_:)), for: .touchUpInside)
+//        cell.rightBtn.addTarget(self, action: #selector(scrollRight(_:)), for: .touchUpInside)
         
         if childrenData.count <= 1 {
             cell.leftBtn.isHidden = true
@@ -204,23 +204,23 @@ extension Payments: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         return CGSize(width: collectionView.frame.size.width, height: collectionView.frame.size.height)
     }
     
-    @objc func scrollLeft(_ sender: UIButton) {
-        let currentIndex = sender.tag
-        if currentIndex > 0 {
-            let previousIndex = IndexPath(item: currentIndex - 1, section: 0)
-            amountCollectionView.scrollToItem(at: previousIndex, at: .centeredHorizontally, animated: true)
-            getPayments(userId: childrenData[sender.tag].id ?? 0)
-        }
-    }
-    
-    @objc func scrollRight(_ sender: UIButton) {
-        let currentIndex = sender.tag
-        if currentIndex < collectionView(amountCollectionView, numberOfItemsInSection: 0) - 1 {
-            getPayments(userId: childrenData[sender.tag].id ?? 0)
-            let nextIndex = IndexPath(item: currentIndex + 1, section: 0)
-            amountCollectionView.scrollToItem(at: nextIndex, at: .centeredHorizontally, animated: true)
-        }
-    }
+//    @objc func scrollLeft(_ sender: UIButton) {
+//        let currentIndex = sender.tag
+//        if currentIndex > 0 {
+//            let previousIndex = IndexPath(item: currentIndex - 1, section: 0)
+//            amountCollectionView.scrollToItem(at: previousIndex, at: .centeredHorizontally, animated: true)
+//            getPayments(userId: childrenData[sender.tag].id ?? 0)
+//        }
+//    }
+//    
+//    @objc func scrollRight(_ sender: UIButton) {
+//        let currentIndex = sender.tag
+//        if currentIndex < collectionView(amountCollectionView, numberOfItemsInSection: 0) - 1 {
+//            getPayments(userId: childrenData[sender.tag].id ?? 0)
+//            let nextIndex = IndexPath(item: currentIndex + 1, section: 0)
+//            amountCollectionView.scrollToItem(at: nextIndex, at: .centeredHorizontally, animated: true)
+//        }
+//    }
     
     // MARK: - UIScrollViewDelegate
     
