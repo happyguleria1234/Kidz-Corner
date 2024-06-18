@@ -68,9 +68,12 @@ public let apiComments = "comments"
 
 public let apiGetAllPayments = "invoice"
 public let apiGetPaymentDetail = "invoice"
- 
+public let teachersList = "all_teachers"
+public let parentList = "all_children"
+
 public let invoicePdfUrl = "https://kidzcorner.live/generate_invoice_pdf/"
 public let invoicePdfKey = "/5023fa9c3fd7c91f81f9c5bf2bb84368"
+
 
 extension UIImage {
     static var placeholderImage: UIImage {

@@ -14,9 +14,10 @@ class ChatsVC : UIViewController {
     
     //MARK: Varibles and Outlets
     
+    var isComming = String()
+    var userList: MessageList?
     var socket = SocketIOManager()
-    var userList: [MessageList] = []
-    
+
     @IBOutlet weak var tf_search: UITextField!
     @IBOutlet weak var tblChats: UITableView!
     
@@ -44,7 +45,13 @@ class ChatsVC : UIViewController {
     
     //MARK: Action
     
-    @IBAction func btnSearch(_ sender: Any) {
+    @IBAction func btnSearch(_ sender: UIButton) {
+    }
+    
+    @IBAction func btnAddUsers(_ sender: UIButton) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "UsersListVC") as! UsersListVC
+        vc.isComing = isComming
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func btnBack(_ sender: UIButton) {
@@ -74,11 +81,14 @@ class ChatsVC : UIViewController {
 
 extension ChatsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        return userList?.data.data.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatsCell", for: indexPath) as! ChatsCell
+        if let data = userList?.data.data[indexPath.row] {
+            cell.setData(userData: data)
+        }
         return cell
     }
     
@@ -108,16 +118,21 @@ class ChatsCell: UITableViewCell {
         super.awakeFromNib()
         
     }
+    
+    func setData(userData: MessageListUsers) {
+        lbl_message.text = userData.message
+        imgProfile.sd_setImage(with: URL(string: imageBaseUrl+(userData.profileImage)), placeholderImage: .announcementPlaceholder)
+    }
 }
-
 
 extension ChatsVC {
     
     func fetchChatDialogs(onSuccess: @escaping(()->())) {
-        SocketIOManager.sharedInstance.messageListing()
+        SocketIOManager.sharedInstance.getUsers()
         SocketIOManager.sharedInstance.messageListingListener { [weak self] messageDialogs in
             print(messageDialogs)
             self?.userList = messageDialogs
+            self?.tblChats.reloadData()
             onSuccess()
         }
     }

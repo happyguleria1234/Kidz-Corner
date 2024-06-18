@@ -87,6 +87,7 @@ class DashboardTableCell: UITableViewCell {
     
     func setupCollection() {
         collectionImages.register(UINib(nibName: "DashboardCollectionCell", bundle: nil), forCellWithReuseIdentifier: "DashboardCollectionCell")
+        collectionImages.register(UINib(nibName: "TypesCell", bundle: nil), forCellWithReuseIdentifier: "TypesCell")
         collectionImages.delegate = self
         collectionImages.dataSource = self
     }
@@ -123,7 +124,6 @@ extension DashboardTableCell: UICollectionViewDelegate, UICollectionViewDataSour
             case portfolioType.image.rawValue:
                 if let url = URL(string: imageBaseUrl+(cellContent?[indexPath.item].image ?? "")) {
                     print(url)
-//                    cell.imagePost.sd_setImage(with: url, placeholderImage: .placeholderImage)
                     cell.imagePost.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
 
                 }

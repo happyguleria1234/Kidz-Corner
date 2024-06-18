@@ -10,8 +10,14 @@ import UIKit
 class SenderCell: UITableViewCell {
 
     @IBOutlet weak var senderView: UIView!
+    @IBOutlet weak var lbl_message: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
     }
+    
+    func setMessageData(messageData: UserMessagesListDatum) {
+        lbl_message.text = messageData.message
+    }
+    
 }

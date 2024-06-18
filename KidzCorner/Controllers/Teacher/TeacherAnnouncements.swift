@@ -16,6 +16,10 @@ class TeacherAnnouncements: UIViewController {
         setupViews()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         getAnnouncements()
@@ -23,6 +27,12 @@ class TeacherAnnouncements: UIViewController {
     @IBAction func backFunc(_ sender: Any) {
     }
     
+    @IBAction func btnChats(_ sender: Any) {
+        let vc = UIStoryboard.init(name: "Parent", bundle: Bundle.main).instantiateViewController(withIdentifier: "ChatsVC") as? ChatsVC
+        vc?.isComming = "Teachers"
+        self.navigationController?.pushViewController(vc!, animated: true)
+
+    }
     func setupViews() {
         
     }

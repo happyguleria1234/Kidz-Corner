@@ -9,17 +9,22 @@ import UIKit
 import Foundation
 import IQKeyboardManagerSwift
 
-class MessageListingVC : UIViewController {
+class MessageListingVC: UIViewController {
     
     //------------------------------------------------------
     
-    //MARK: Varibles and Outlets
+    //MARK: Variables and Outlets
     
-  
+    var messageListing: UserMessagesList?
+    
+    @IBOutlet weak var tf_message: UITextField!
     @IBOutlet weak var lbl_type: UILabel!
     @IBOutlet weak var lbl_name: UILabel!
     @IBOutlet weak var imgProfile: UIImageView!
     @IBOutlet weak var tblMessages: UITableView!
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    
+    private var hiddenTextView: UITextView!
     
     //------------------------------------------------------
     
@@ -38,18 +43,44 @@ class MessageListingVC : UIViewController {
         tblMessages.register(UINib(nibName: "RecieverCell", bundle: nil), forCellReuseIdentifier: "RecieverCell")
     }
     
-    //------------------------------------------------------
+    func setSocketConnectionAndKeys() {
+        fetchChatDialogs {
+            self.tblMessages.reloadData()
+        }
+    }
     
-    deinit { //same like dealloc in ObjectiveC
-        
+    private func setupHiddenTextView() {
+        hiddenTextView = UITextView(frame: .zero)
+        hiddenTextView.isHidden = true
+        view.addSubview(hiddenTextView)
     }
     
     //------------------------------------------------------
     
-    //MARK: Action
+    deinit { //same like dealloc in ObjectiveC
+    }
+    
+    //------------------------------------------------------
+    
+    //MARK: Actions
     
     @IBAction func btnBack(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func btnSendMessage(_ sender: UIButton) {
+        
+        if let messageData = tf_message.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
+            if messageData != "" {
+                sendMesage(message: messageData) { [weak self] in
+                    self?.setSocketConnectionAndKeys()
+                }
+            }
+        }
+    }
+    
+    @IBAction func btnSendEmoji(_ sender: UIButton) {
+        hiddenTextView.becomeFirstResponder()
     }
     
     //------------------------------------------------------
@@ -59,6 +90,9 @@ class MessageListingVC : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setData()
+        keyboardHandling()
+        setSocketConnectionAndKeys()
+        setupHiddenTextView()
     }
     
     //------------------------------------------------------
@@ -70,20 +104,58 @@ class MessageListingVC : UIViewController {
     //------------------------------------------------------
 }
 
+extension MessageListingVC {
+    func keyboardHandling(){
+        IQKeyboardManager.shared.disabledDistanceHandlingClasses.append(MessageListingVC.self)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        self.bottomConstraint.constant = 20
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification){
+        tableViewScrollToBottom()
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if UIDevice().userInterfaceIdiom == .phone {
+                switch UIScreen.main.nativeBounds.height {
+                case 1136,1334,1920, 2208:
+                    print("")
+                    self.bottomConstraint.constant = -(keyboardSize.height - self.view.safeAreaInsets.bottom+6)
+                case 2436,2688,1792:
+                    print("")
+                    self.bottomConstraint.constant = -(keyboardSize.height - self.view.safeAreaInsets.bottom+9)
+                default:
+                    print("")
+                    self.bottomConstraint.constant = -(keyboardSize.height - self.view.safeAreaInsets.bottom+9)
+                }
+            }
+            self.view.layoutIfNeeded()
+            self.view.setNeedsLayout()
+        }
+    }
+}
+
 extension MessageListingVC : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return messageListing?.data.data.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0{
-            let senderCell = tableView.dequeueReusableCell(withIdentifier: "SenderCell", for: indexPath) as! SenderCell
-            return senderCell
-        } else {
-            let recieverCell = tableView.dequeueReusableCell(withIdentifier: "RecieverCell", for: indexPath) as! RecieverCell
-            return recieverCell
+        if let data = messageListing?.data.data[indexPath.row] {
+            if data.senderID == 905 {
+                let senderCell = tableView.dequeueReusableCell(withIdentifier: "SenderCell", for: indexPath) as! SenderCell
+                senderCell.setMessageData(messageData: data)
+                return senderCell
+            } else {
+                let recieverCell = tableView.dequeueReusableCell(withIdentifier: "RecieverCell", for: indexPath) as! RecieverCell
+                recieverCell.setMessageData(messageData: data)
+                return recieverCell
+            }
         }
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -93,7 +165,6 @@ extension MessageListingVC : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
-    
 }
 
 extension MessageListingVC {
@@ -109,5 +180,28 @@ extension MessageListingVC {
             }
         }
     }
+}
+
+
+extension MessageListingVC {
+    
+    func fetchChatDialogs(onSuccess: @escaping(()->())) {
+        SocketIOManager.sharedInstance.userMessagesEmitter()
+        SocketIOManager.sharedInstance.userMessagesListener { [weak self] messageDialogs in
+            print(messageDialogs)
+            self?.messageListing = messageDialogs
+            onSuccess()
+        }
+    }
+    
+    func sendMesage(message: String, mediaStr: String = "", thumbnailStr:String = "", onSuccess: @escaping(()->())) {
+        SocketIOManager.sharedInstance.sendMessageEmitter(messageStr: message,mediaStr: mediaStr,thumbnailStr: thumbnailStr)
+        SocketIOManager.sharedInstance.sendMessageListener { [weak self] messageDialogs in
+            print(messageDialogs)
+            self?.messageListing = messageDialogs
+            onSuccess()
+        }
+    }
+    
 }
 

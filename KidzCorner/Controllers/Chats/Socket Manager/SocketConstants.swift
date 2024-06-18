@@ -43,20 +43,10 @@ enum SocketKeys : String {
 
 enum SocketEmitters:String{
     
-    case disconnect_user          = "disconnect_user"
-    case chat_listing             = "user_joins"
     case connect_user             = "user_status"
-    case send_message             = "send_message"
-    case get_message              = "message_listing"
-    case report_user              = "reportuser"
-    case block_user               = "blocked_user"
-    case delete_chat              = "delete_chat"
-    case cont_unread_msg          = "cont_unread_msg"
-    case mute_notification        = "mute_notification"
-    case get_group_messages       = "get_group_messages"
-    case live_location_track      = "tracking_user"
-    case block_status             = "block_status"
-    case user_booking_data        = "user_booking_data"
+    case chat_listing             = "user_joins"
+    case send_message             = "sendMessage"
+    case message_listing          = "chat-history"
     
     var instance : String {
         return self.rawValue
@@ -65,22 +55,11 @@ enum SocketEmitters:String{
 
 enum SocketListeners:String{
     
-    case disconnect_listener      = "disconnect_listener"
-    case chat_listing_listener    = "user_joins"
-    case send_message_listner     = "send_message"
     case connect_listener         = "user_status"
-    case my_chat                  = "message_listing"
-    case report_data              = "report_data"
-    case delete_data              = "delete_chat"
-    case block_data               = "block_data"
-    case mute_notification_data   = "mute_notification_data"
-    case get_group_messages       = "get_group_messages"
-    case live_location_final      = "live_location_final"
-    case block_status             = "block_status"
-    case block_unblock            = "blocked_user"
-    case report_user              = "reportuser"
-    case user_booking_data        = "user_booking_data"
-    case cont_unread_msg          = "cont_unread_msg"
+    case chat_listing_listener    = "chat-threads"
+    case message_listing_listner  = "chat-history"
+    case send_message_listner     = "receiveMessage"
+
     
     var instance : String {
         return self.rawValue

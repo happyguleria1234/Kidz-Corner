@@ -71,10 +71,10 @@ class SocketIOManager: NSObject {
     }
     
     //MARK: close socket connection
+    
     func closeConnection() {
         socket.disconnect()
     }
-    
 }
 
 //MARK: - custom functions
@@ -90,35 +90,77 @@ extension SocketIOManager{
     
     func connect_user_listener(){
         socket.on(SocketListeners.connect_listener.instance){arrOfAny, ack in
-//            self.addListner()
             print("User Connected Successfully")
             NotificationCenter.default.post(name: Notification.Name("socketConnected"), object: nil, userInfo: nil)
         }
     }
     
+    //MARK: - User Chats
+    
     func getUsers() {
-        let param: parameter = ["user_id": UserDefaults.standard.string(forKey: myUserid) ?? ""]
-        socket.emit(SocketEmitters.chat_listing.instance, param)
+        let param: parameter = ["page":"1","limit":"1","user_id":905]
+        let data = try! JSONSerialization.data(withJSONObject: param)
+        socket.emit(SocketEmitters.chat_listing.instance, data) { [self] in
+            print(socket.status)
+        }        
     }
     
-    //MARK: - Get MessageList
-    func messageListing() {
-        let param: parameter = ["user_id": UserDefaults.standard.string(forKey: myUserid) ?? "","page":"1","limit":"1"]
-        socket.emit(SocketEmitters.chat_listing.instance, param)
-        print(param)
-    }
-    
-    func messageListingListener(onSuccess: @escaping(_ messageInfo:[MessageList]) -> Void) {
+    func messageListingListener(onSuccess: @escaping(_ messageInfo:MessageList) -> Void) {
         socket.on(SocketListeners.chat_listing_listener.instance) { arrOfAny, ack  in
             print("messages listing get successfully")
             do{
                 let jsonData = try JSONSerialization.data(withJSONObject: arrOfAny[0], options: [])
-                let newMszs = try JSONDecoder().decode([MessageList].self, from: jsonData)
+                let newMszs = try JSONDecoder().decode(MessageList.self, from: jsonData)
                 onSuccess(newMszs)
             }catch{
                 print("Error \(error)")
             }
-            
+        }
+    }
+    
+    //MARK: - User Messages Listing
+    
+    func userMessagesEmitter() {
+        let param: parameter = [/*"page":"1","limit":"1",*/"type":1,"thread_id":1]
+        let data = try! JSONSerialization.data(withJSONObject: param)
+        socket.emit(SocketEmitters.message_listing.instance, data) { [self] in
+            print(socket.status)
+        }
+    }
+    
+    func userMessagesListener(onSuccess: @escaping(_ messageInfo:UserMessagesList) -> Void) {
+        socket.on(SocketListeners.message_listing_listner.instance) { arrOfAny, ack  in
+            print("User Messages Listing")
+            do{
+                let jsonData = try JSONSerialization.data(withJSONObject: arrOfAny[0], options: [])
+                let newMszs = try JSONDecoder().decode(UserMessagesList.self, from: jsonData)
+                onSuccess(newMszs)
+            }catch{
+                print("Error \(error)")
+            }
+        }
+    }
+    
+    //MARK: - Send Message
+    
+    func sendMessageEmitter(messageStr: String,mediaStr: String,thumbnailStr:String) {
+        let param: parameter = ["sender_id":905,"receiver_id":2,"message":messageStr,"message_type":1,"thread_id":1,"media":mediaStr,"media_thumbnail":thumbnailStr]
+        let data = try! JSONSerialization.data(withJSONObject: param)
+        socket.emit(SocketEmitters.send_message.instance, data) { [self] in
+            print(socket.status)
+        }
+    }
+   
+    func sendMessageListener(onSuccess: @escaping(_ messageInfo:UserMessagesList) -> Void) {
+        socket.on(SocketListeners.send_message_listner.instance) { arrOfAny, ack  in
+            print("User Messages Listing")
+            do{
+                let jsonData = try JSONSerialization.data(withJSONObject: arrOfAny[0], options: [])
+                let newMszs = try JSONDecoder().decode(UserMessagesList.self, from: jsonData)
+                onSuccess(newMszs)
+            }catch{
+                print("Error \(error)")
+            }
         }
     }
     

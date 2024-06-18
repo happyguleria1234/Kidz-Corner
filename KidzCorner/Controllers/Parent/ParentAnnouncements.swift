@@ -18,6 +18,10 @@ class ParentAnnouncements: UIViewController {
         getChildrenList()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         getAnnouncements()
@@ -85,6 +89,7 @@ class ParentAnnouncements: UIViewController {
     
     @IBAction func btnChats(_ sender: UIButton) {
         if let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "ChatsVC") as? ChatsVC {
+            nextVC.isComming = "Parent"
             self.navigationController?.pushViewController(nextVC, animated: true)
         }
     }

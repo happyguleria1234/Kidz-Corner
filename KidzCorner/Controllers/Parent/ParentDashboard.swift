@@ -34,6 +34,7 @@ class ParentDashboard: UIViewController {
     
     func setupTable() {
         tableHome.register(UINib(nibName: "DashboardTableCell", bundle: nil), forCellReuseIdentifier: "DashboardTableCell")
+        tableHome.register(UINib(nibName: "DashboardTypesCell", bundle: nil), forCellReuseIdentifier: "DashboardTypesCell")
         tableHome.delegate = self
         tableHome.dataSource = self
     }
@@ -69,10 +70,6 @@ class ParentDashboard: UIViewController {
     }
     
     func getDashboard(page: Int = 1) {
-//        DispatchQueue.main.async {
-//            startAnimating((self.tabBarController?.view)!)
-//        }
-//        
         let params: [String: String] = ["page": "\(page)", "per_page": "4"]
         self.isLoading = true
         ApiManager.shared.Request(type: DashboardModelNew.self, methodType: .Get, url: baseUrl+apiDashboard, parameter: params) { error, myObject, msgString, statusCode in
@@ -122,70 +119,103 @@ extension ParentDashboard: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardTableCell", for: indexPath) as! DashboardTableCell
-        let data = self.portfolioData?[indexPath.row]        
-        cell.cellContent = self.portfolioData?[indexPath.row].portfolioImage
-        cell.collectionImages.tag = indexPath.row
-        cell.collectionImages.reloadData()
-        cell.imageProfile.sd_setImage(with: URL(string: imageBaseUrl+(data?.teacher?.image ?? "")), placeholderImage: .placeholderImage)
-        cell.postData2 = data
-        cell.comesFrom = "Parent"
-        cell.labelName.text = data?.teacher?.name ?? ""
-        cell.labelTitle.text = data?.title ?? ""
-        cell.labelDescription.text = data?.postContent ?? ""
-        cell.labelTime.text = data?.postDate ?? ""
         
-        cell.labelDomain.text = data?.domain?.name ?? ""
-        if data?.is_collage == 0 {
-            cell.collectionHeight.constant = 350
+        if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardTypesCell", for: indexPath) as! DashboardTypesCell
+            cell.btnTap1.addTarget(self, action: #selector(buttonTap1(sender:)), for: .touchUpInside)
+            cell.btnTap2.addTarget(self, action: #selector(buttonTap2(sender:)), for: .touchUpInside)
+            cell.btnTap3.addTarget(self, action: #selector(buttonTap3(sender:)), for: .touchUpInside)
+            cell.btnTap4.addTarget(self, action: #selector(buttonTap4(sender:)), for: .touchUpInside)
+            cell.btnTap5.addTarget(self, action: #selector(buttonTap5(sender:)), for: .touchUpInside)
+            cell.btnTap6.addTarget(self, action: #selector(buttonTap6(sender:)), for: .touchUpInside)
+            return cell
         } else {
-            cell.collectionHeight.constant = 280
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardTableCell", for: indexPath) as! DashboardTableCell
+            let data = self.portfolioData?[indexPath.row]
+            cell.cellContent = self.portfolioData?[indexPath.row].portfolioImage
+            cell.collectionImages.tag = indexPath.row
+            cell.collectionImages.reloadData()
+            cell.imageProfile.sd_setImage(with: URL(string: imageBaseUrl+(data?.teacher?.image ?? "")), placeholderImage: .placeholderImage)
+            cell.postData2 = data
+            cell.comesFrom = "Parent"
+            cell.labelName.text = data?.teacher?.name ?? ""
+            cell.labelTitle.text = data?.title ?? ""
+            cell.labelDescription.text = data?.postContent ?? ""
+            cell.labelTime.text = data?.postDate ?? ""
+            
+            cell.labelDomain.text = data?.domain?.name ?? ""
+            if data?.is_collage == 0 {
+                cell.collectionHeight.constant = 350
+            } else {
+                cell.collectionHeight.constant = 280
+            }
+            cell.buttonLike.setImage(UIImage(named: "likeEmpty"), for: .normal)
+            cell.buttonLike.setImage(UIImage(named: "likeFilled"), for: .selected)
+            
+            if data?.isLike == 1 {
+                cell.buttonLike.isSelected = true
+            }
+            else if data?.isLike == 0 {
+                cell.buttonLike.isSelected = false
+            }
+            
+            cell.buttonLike.tag = indexPath.row
+            cell.buttonComment.tag = indexPath.row
+            cell.buttonShare.tag = indexPath.row
+            cell.buttonWriteComment.tag = indexPath.row
+            
+            cell.buttonLike.addTarget(self, action: #selector(likeFunc), for: .touchUpInside)
+            cell.buttonComment.addTarget(self, action: #selector(commentFunc), for: .touchUpInside)
+            cell.buttonWriteComment.addTarget(self, action: #selector(commentFunc), for: .touchUpInside)
+            
+            cell.labelComments.text = String(data?.totalComments ?? 0)
+            printt("Unread \(data?.unreadComment ?? -1)")
+            if data?.unreadComment == 1 {
+                cell.hideUnreadCommentViews(false)
+            }
+            else {
+                cell.hideUnreadCommentViews(true)
+            }
+            cell.labelLikes.text = String(data?.totalLikes ?? 0)
+            cell.viewOuter.defaultShadow()
+            cell.backgroundColor = .clear
+            return cell
         }
-        cell.buttonLike.setImage(UIImage(named: "likeEmpty"), for: .normal)
-        cell.buttonLike.setImage(UIImage(named: "likeFilled"), for: .selected)
-        
-        if data?.isLike == 1 {
-            cell.buttonLike.isSelected = true
-        }
-        else if data?.isLike == 0 {
-            cell.buttonLike.isSelected = false
-        }
-        
-        cell.buttonLike.tag = indexPath.row
-        cell.buttonComment.tag = indexPath.row
-        cell.buttonShare.tag = indexPath.row
-        cell.buttonWriteComment.tag = indexPath.row
-        
-        cell.buttonLike.addTarget(self, action: #selector(likeFunc), for: .touchUpInside)
-        cell.buttonComment.addTarget(self, action: #selector(commentFunc), for: .touchUpInside)
-        cell.buttonWriteComment.addTarget(self, action: #selector(commentFunc), for: .touchUpInside)
-        
-        cell.labelComments.text = String(data?.totalComments ?? 0)
-        printt("Unread \(data?.unreadComment ?? -1)")
-        if data?.unreadComment == 1 {
-            cell.hideUnreadCommentViews(false)
-        }
-        else {
-            cell.hideUnreadCommentViews(true)
-        }
-        
-        cell.labelLikes.text = String(data?.totalLikes ?? 0)
-        
-        cell.viewOuter.defaultShadow()
-        cell.backgroundColor = .clear
-        return cell
     }
     
-    //    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    //        let offsetY = scrollView.contentOffset.y
-    //        let contentHeight = scrollView.contentSize.height
-    //        let tableViewHeight = scrollView.frame.size.height
-    //
-    //        if offsetY > contentHeight - tableViewHeight - 100 && self.nextPage != 0 && !isLoading {
-    //            printt("Bottom")
-    //            getDashboard(page: nextPage)
-    //        }
-    //    }
+    @objc func buttonTap1(sender: UIButton) {
+        print("1")
+    }
+    
+    @objc func buttonTap2(sender: UIButton) {
+        print("2")
+    }
+    
+    @objc func buttonTap3(sender: UIButton) {
+        print("3")
+    }
+    
+    @objc func buttonTap4(sender: UIButton) {
+        print("4")
+    }
+    
+    @objc func buttonTap5(sender: UIButton) {
+        print("5")
+    }
+    
+    @objc func buttonTap6(sender: UIButton) {
+        print("6")
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return 330
+        } else {
+            return UITableView.automaticDimension
+        }
+    }
+    
 }
 
 //MARK: Obj-C Functions

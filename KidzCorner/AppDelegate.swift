@@ -23,10 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         IQKeyboardManager.shared.enable = true
         DropDown.startListeningToKeyboard()
+        SocketIOManager.sharedInstance.connectUser()
         bluetooth?.cancelAllPeripheralsConnection()
         RYBlueToothTool.sharedInstance().cancelScan()
-        SocketIOManager.sharedInstance.socket.connect()
-        SocketIOManager.sharedInstance.connectUser()
         if (UserDefaults.standard.string(forKey: "BluetoothUUID") != nil){
             UserDefaults.standard.removeObject(forKey: "BluetoothUUID")
         }
