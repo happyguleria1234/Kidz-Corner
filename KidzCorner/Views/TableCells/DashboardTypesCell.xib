@@ -218,7 +218,7 @@
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logs" translatesAutoresizingMaskIntoConstraints="NO" id="2ev-jj-Nd4">
                                                         <rect key="frame" x="14.999999999999972" y="5" width="73.666666666666671" height="79.666666666666671"/>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logs" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="azH-Ob-M4z">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Announcement" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="azH-Ob-M4z">
                                                         <rect key="frame" x="1" y="99.666666666666657" width="101.66666666666667" height="18"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="18" id="v3A-8k-bPA"/>

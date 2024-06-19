@@ -383,7 +383,7 @@
         <image name="back" width="256" height="256"/>
         <image name="download" width="512" height="512"/>
         <image name="pdfIcon" width="729.5" height="411"/>
-        <image name="send" width="64" height="64"/>
+        <image name="send" width="24" height="24"/>
         <image name="tabPlus" width="25" height="25"/>
         <namedColor name="backgroundColor">
             <color red="0.94099998474121094" green="0.94099998474121094" blue="0.94099998474121094" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

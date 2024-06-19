@@ -16,7 +16,7 @@ class TeacherPortfolio: UIViewController {
     var isSyncEnabled: Bool = false
     
     var currentDate: String = Date().shortDate
-    
+    var comesFrom = String()
     var studentId: Int = 0
     var classId = 0
     var studentName: String = ""
@@ -115,9 +115,8 @@ class TeacherPortfolio: UIViewController {
         buttonSync.isHidden = false
         
         AttendanceContainer().delegate = self
-        setupViews()
         attendanceContainer()
-        
+        setupViews()
         registerCollection()
         registerTable()
         
@@ -365,15 +364,10 @@ class TeacherPortfolio: UIViewController {
             viewOuter.defaultShadow()
             viewOuter.layer.cornerRadius = 20
             
-       //     viewTableActivity.layer.cornerRadius = 20
             viewAttendance.layer.cornerRadius = 20
             viewActivity.layer.cornerRadius = 20
             setDownTriangle(triangleView: attendanceTriangle)
             setDownTriangle(triangleView: activityTriangle)
-            
-//            buttonSync.layer.borderWidth = 1
-//            buttonSync.layer.borderColor = UIColor.white.cgColor
-//            buttonSync.layer.cornerRadius = 10
             
             profileOuterView.superview?.giveShadowAndRoundCorners(shadowOffset: .zero, shadowRadius: 4, opacity: 0.2
                                                                     , shadowColor: .black, cornerRadius: 10)
@@ -398,7 +392,9 @@ class TeacherPortfolio: UIViewController {
             } else {
                 buttonSync.isHidden = true
             }
-            
+            if comesFrom == "Home" {
+                attendanceContainer()
+            }
         }
     }
     

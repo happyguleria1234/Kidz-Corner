@@ -60,7 +60,8 @@ class ParentPortfolio: UIViewController {
     
     var isPickerPresented: Bool = false
     var datePicker = UIDatePicker()
-    
+    var comesFrom = String()
+
     var childrenIds: [Int] {
         if let ids = UserDefaults.standard.array(forKey: myChildrenIds) as? [Int] {
             return ids
@@ -97,9 +98,8 @@ class ParentPortfolio: UIViewController {
         
         AttendanceContainer().delegate = self
         buttonDate.addTarget(self, action: #selector(dateSelected), for: .touchUpInside)
-        setupViews()
         attendanceContainer()
-        
+        setupViews()
         self.calendar.scope = .week
         calendar.delegate = self
     }
@@ -255,6 +255,11 @@ class ParentPortfolio: UIViewController {
             parentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
             self.viewDropOff.giveShadowAndRoundCorners(shadowOffset: .zero, shadowRadius: 4, opacity: 0.2, shadowColor: .black, cornerRadius: 8)
             self.viewPickup.giveShadowAndRoundCorners(shadowOffset: .zero, shadowRadius: 4, opacity: 0.2, shadowColor: .black, cornerRadius: 8)
+            
+            if comesFrom == "Home" {
+                attendanceContainer()
+            }
+            
         }
     }
   

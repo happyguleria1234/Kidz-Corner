@@ -197,6 +197,7 @@ extension TeacherDashboard: UITableViewDelegate, UITableViewDataSource {
     
     @objc func buttonTap1(sender: UIButton) {
         print("1")
+        tabBarController?.selectedIndex = 2
     }
     
     @objc func buttonTap2(sender: UIButton) {
@@ -205,6 +206,7 @@ extension TeacherDashboard: UITableViewDelegate, UITableViewDataSource {
     
     @objc func buttonTap3(sender: UIButton) {
         print("3")
+        tabBarController?.selectedIndex = 3
     }
     
     @objc func buttonTap4(sender: UIButton) {
@@ -217,6 +219,7 @@ extension TeacherDashboard: UITableViewDelegate, UITableViewDataSource {
     
     @objc func buttonTap6(sender: UIButton) {
         print("6")
+        tabBarController?.selectedIndex = 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

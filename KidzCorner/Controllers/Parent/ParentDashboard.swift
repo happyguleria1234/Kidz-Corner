@@ -186,6 +186,11 @@ extension ParentDashboard: UITableViewDelegate, UITableViewDataSource {
     
     @objc func buttonTap1(sender: UIButton) {
         print("1")
+//        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentPortfolio") as! ParentPortfolio
+//        vc.comesFrom = "Home"
+//        tabBarController?.selectedIndex = 2
+//        self.navigationController?.pushViewController(vc, animated: true)
+        tabBarController?.selectedIndex = 2
     }
     
     @objc func buttonTap2(sender: UIButton) {
@@ -193,7 +198,7 @@ extension ParentDashboard: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func buttonTap3(sender: UIButton) {
-        print("3")
+        tabBarController?.selectedIndex = 3
     }
     
     @objc func buttonTap4(sender: UIButton) {
@@ -206,6 +211,11 @@ extension ParentDashboard: UITableViewDelegate, UITableViewDataSource {
     
     @objc func buttonTap6(sender: UIButton) {
         print("6")
+//        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncements") as! ParentAnnouncements
+//        tabBarController?.selectedIndex = 1
+//        self.navigationController?.pushViewController(vc, animated: true)
+        tabBarController?.selectedIndex = 1
+
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
