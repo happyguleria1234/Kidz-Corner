@@ -12,16 +12,15 @@ class TeacherDashboard: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupViews()
         setupTable()
-        
+        getDashboard()
      
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        getDashboard()
+//        getDashboard()
     }
    
     @IBAction func logoutFunc(_ sender: Any) {
@@ -202,6 +201,7 @@ extension TeacherDashboard: UITableViewDelegate, UITableViewDataSource {
     
     @objc func buttonTap2(sender: UIButton) {
         print("2")
+        
     }
     
     @objc func buttonTap3(sender: UIButton) {
@@ -215,6 +215,8 @@ extension TeacherDashboard: UITableViewDelegate, UITableViewDataSource {
     
     @objc func buttonTap5(sender: UIButton) {
         print("5")
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "PortfolioNewVC") as! PortfolioNewVC
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func buttonTap6(sender: UIButton) {
@@ -224,7 +226,7 @@ extension TeacherDashboard: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            return 330
+            return 300
         } else {
             return UITableView.automaticDimension
         }
