@@ -14,8 +14,12 @@ class MessageListingVC: UIViewController {
     //------------------------------------------------------
     
     //MARK: Variables and Outlets
-    
-    var messageListing: UserMessagesList?
+    public var userName:String?
+    public var userProfileImage:String?
+    public var id:Int?
+    public var threadID:Int?
+    var comesFrom = String()
+    var messageListing = [MessagesModelListingDatum]()
     
     @IBOutlet weak var tf_message: UITextField!
     @IBOutlet weak var lbl_type: UILabel!
@@ -43,12 +47,6 @@ class MessageListingVC: UIViewController {
         tblMessages.register(UINib(nibName: "RecieverCell", bundle: nil), forCellReuseIdentifier: "RecieverCell")
     }
     
-    func setSocketConnectionAndKeys() {
-        fetchChatDialogs {
-            self.tblMessages.reloadData()
-        }
-    }
-    
     private func setupHiddenTextView() {
         hiddenTextView = UITextView(frame: .zero)
         hiddenTextView.isHidden = true
@@ -69,11 +67,10 @@ class MessageListingVC: UIViewController {
     }
     
     @IBAction func btnSendMessage(_ sender: UIButton) {
-        
         if let messageData = tf_message.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
             if messageData != "" {
                 sendMesage(message: messageData) { [weak self] in
-                    self?.setSocketConnectionAndKeys()
+                    self?.tf_message.text = ""
                 }
             }
         }
@@ -90,8 +87,12 @@ class MessageListingVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setData()
+        populateData()
         keyboardHandling()
-        setSocketConnectionAndKeys()
+        if comesFrom == "New Chat" {
+            SocketIOManager.sharedInstance.joinRoomEmitter(userID: id)
+        }
+        getMessages()
         setupHiddenTextView()
     }
     
@@ -135,27 +136,35 @@ extension MessageListingVC {
             self.view.setNeedsLayout()
         }
     }
+    
+    private func populateData() {
+        lbl_name.text = userName
+        imgProfile.contentMode = .scaleAspectFill
+        if let userProfileUrl = userProfileImage {
+            imgProfile.sd_setImage(with: URL(string: imageBaseUrl+(userProfileUrl)),
+                                   placeholderImage: .announcementPlaceholder)
+        }
+    }
 }
 
 extension MessageListingVC : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messageListing?.data.data.count ?? 0
+        return messageListing.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let data = messageListing?.data.data[indexPath.row] {
-            if data.senderID == 905 {
-                let senderCell = tableView.dequeueReusableCell(withIdentifier: "SenderCell", for: indexPath) as! SenderCell
-                senderCell.setMessageData(messageData: data)
-                return senderCell
-            } else {
-                let recieverCell = tableView.dequeueReusableCell(withIdentifier: "RecieverCell", for: indexPath) as! RecieverCell
-                recieverCell.setMessageData(messageData: data)
-                return recieverCell
-            }
+        let userID = UserDefaults.standard.value(forKey: myUserid) as? Int ?? 0
+        let data = messageListing[indexPath.row]
+        if data.message?.senderID == userID {
+            let senderCell = tableView.dequeueReusableCell(withIdentifier: "SenderCell", for: indexPath) as! SenderCell
+            senderCell.setMessageData(messageData: data)
+            return senderCell
+        } else {
+            let recieverCell = tableView.dequeueReusableCell(withIdentifier: "RecieverCell", for: indexPath) as! RecieverCell
+            recieverCell.setMessageData(messageData: data)
+            return recieverCell
         }
-        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -185,20 +194,42 @@ extension MessageListingVC {
 
 extension MessageListingVC {
     
-    func fetchChatDialogs(onSuccess: @escaping(()->())) {
-        SocketIOManager.sharedInstance.userMessagesEmitter()
-        SocketIOManager.sharedInstance.userMessagesListener { [weak self] messageDialogs in
-            print(messageDialogs)
-            self?.messageListing = messageDialogs
-            onSuccess()
+    private func showIndicator() {
+        DispatchQueue.main.async {
+            startAnimating(self.view)
+        }
+    }
+    
+    private func stopIndicator() {
+        DispatchQueue.main.async {
+            stopAnimating()
+        }
+    }
+    
+    func getMessages() {
+        showIndicator()
+        ApiManager.shared.Request(type: MessagesModelListing.self,methodType: .Get,url: baseUrl+chatRoom,parameter: ["id":threadID ?? 0]) { error, resp, msgString, statusCode in
+            guard error == nil,
+                  let userlist = resp?.data.data,
+                  statusCode == 200 else {
+                self.stopIndicator()
+                return }
+            
+            DispatchQueue.main.async {
+                self.stopIndicator()
+                self.messageListing = userlist
+                self.tblMessages.scrollToBottom()
+                self.tblMessages.reloadData()
+                print("CharRoomResp: \(userlist)")
+            }
         }
     }
     
     func sendMesage(message: String, mediaStr: String = "", thumbnailStr:String = "", onSuccess: @escaping(()->())) {
-        SocketIOManager.sharedInstance.sendMessageEmitter(messageStr: message,mediaStr: mediaStr,thumbnailStr: thumbnailStr)
+        guard let userID = UserDefaults.standard.value(forKey: myUserid) as? Int else { return }
+        guard let recieverID = id else { return }
+        SocketIOManager.sharedInstance.sendMessageEmitter(messageStr: message,senderId: userID,recieverID: recieverID,threadID: threadID ?? 0)
         SocketIOManager.sharedInstance.sendMessageListener { [weak self] messageDialogs in
-            print(messageDialogs)
-            self?.messageListing = messageDialogs
             onSuccess()
         }
     }

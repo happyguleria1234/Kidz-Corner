@@ -1,15 +1,7 @@
-//
-//  ChatsVC.swift
-//  KidzCorner
-//
-//  Created by Happy Guleria on 08/06/24.
-//
-
 import UIKit
-import Foundation
 
-class ChatsVC : UIViewController {
-    
+class TeacherChatVC: UIViewController, OpenChatVCProtocol {
+
     //------------------------------------------------------
     
     //MARK: Varibles and Outlets
@@ -54,8 +46,8 @@ class ChatsVC : UIViewController {
     }
     
     @IBAction func btnAddUsers(_ sender: UIButton) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "UsersListVC") as! UsersListVC
-        vc.isComing = isComming
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "TeacherUsersListVC") as! TeacherUsersListVC
+        vc.delegate = self
         vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -71,9 +63,7 @@ class ChatsVC : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tblChats.reloadData()
-        //setSocketConnectionAndKeys()
         tblChats.backgroundColor = .clear
-        //tabBarController?.tabBar.isHidden = true
         tf_search.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
     
@@ -93,16 +83,13 @@ class ChatsVC : UIViewController {
     }
 }
 
-extension ChatsVC: UITableViewDelegate, UITableViewDataSource {
+extension TeacherChatVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return charRoomResp.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatsCell", for: indexPath) as! ChatsCell
-//        if let data = userList?.data.data[indexPath.row] {
-//            cell.setData(userData: data)
-//        }
         let data = charRoomResp[indexPath.row]
         cell.populateData(data)
         return cell
@@ -111,7 +98,8 @@ extension ChatsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let data = charRoomResp[indexPath.row]
         guard let studentID = data.studentID else { return }
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
+        let sb = UIStoryboard(name: "Parent", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
         vc.id = studentID
         vc.threadID = data.id
         vc.userName = "\(data.student?.name ?? "")"
@@ -129,59 +117,7 @@ extension ChatsVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-class ChatsCell: UITableViewCell {
-    
-    @IBOutlet weak var lbl_message: UILabel!
-    @IBOutlet weak var lbl_name: UILabel!
-    @IBOutlet weak var lbl_count: UILabel!
-    @IBOutlet weak var lbl_time: UILabel!
-    @IBOutlet weak var imgProfile: UIImageView!
-    
-    override class func awakeFromNib() {
-        super.awakeFromNib()
-        
-    }
-    
-    public func populateData(_ data:ChatData) {
-        lbl_message.text = data.message?.message
-        lbl_name.text = data.student?.name
-        lbl_count.isHidden = true
-        lbl_time.text = " "
-        imgProfile.contentMode = .scaleAspectFill
-        if let userProfileUrl = data.student?.image {
-            imgProfile.sd_setImage(with: URL(string: imageBaseUrl+(userProfileUrl)),
-                                   placeholderImage: .announcementPlaceholder)
-        }
-        
-        if let messageDate = data.message?.createdAt {
-            lbl_time.text = formatDateString(dateString: messageDate)
-        }
-    }
-    
-    func setData(userData: MessageListUsers) {
-        lbl_message.text = userData.message
-        imgProfile.sd_setImage(with: URL(string: imageBaseUrl+(userData.profileImage)), placeholderImage: .announcementPlaceholder)
-    }
-    
-    private func formatDateString(dateString: String) -> String {
-        let inputDateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = inputDateFormat
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-        guard let date = dateFormatter.date(from: dateString) else {
-            return " "
-        }
-        let calendar = Calendar.current
-        if calendar.isDateInToday(date) {
-            dateFormatter.dateFormat = "hh:mm a"
-        } else {
-            dateFormatter.dateFormat = "MM dd yyyy"
-        }
-        return dateFormatter.string(from: date)
-    }
-}
-
-extension ChatsVC {
+extension TeacherChatVC {
     
     func fetchChatDialogs(onSuccess: @escaping(()->())) {
         SocketIOManager.sharedInstance.messageListingListener { [weak self] messageDialogs in
@@ -192,20 +128,28 @@ extension ChatsVC {
         }
         SocketIOManager.sharedInstance.getUsers()
     }
+    
+    func openChat(_ studentID:Int,_ userProfileImage:String?,_ userName:String?) {
+        DispatchQueue.main.async {
+            let sb = UIStoryboard(name: "Parent", bundle: nil)
+            let vc = sb.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
+            vc.id = studentID
+            vc.userName = userName
+            vc.userProfileImage = userProfileImage
+            vc.comesFrom = "New Chat"
+            vc.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 }
-
-
-// New work
-
-extension ChatsVC {
+extension TeacherChatVC {
     
     private func handleChatUserSearch(_ searchedText: String?) {
         var filteredUserList = [ChatData]()
         
         if let searchedText = searchedText?.lowercased(), !searchedText.isEmpty {
             filteredUserList = charRoomResp.filter { chatData in
-                if var name = chatData.student?.name {
-                    name = name.lowercased()
+                if let name = chatData.student?.name {
                     return name.contains(searchedText)
                 }
                 return false

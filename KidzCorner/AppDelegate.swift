@@ -4,6 +4,7 @@ import IQKeyboardManagerSwift
 import DropDown
 //import Firebase
 //import FirebaseMessaging
+// com.colin.KidsCorner
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

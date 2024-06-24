@@ -89,6 +89,7 @@ class ApiManager  {
 //        }
         
         if let myToken = UserDefaults.standard.string(forKey: myToken) {
+            print(myToken)
         request.setValue("Bearer \(myToken)", forHTTPHeaderField: "Authorization")
         }
         //YOU CAN PASS OTHER HEADERS ACCORDING TO YOUR REQUIREMENT

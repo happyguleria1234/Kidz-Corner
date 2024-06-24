@@ -13,6 +13,7 @@
 		18209CA62C14140B00D59EAB /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA52C14140B00D59EAB /* CustomView.swift */; };
 		18209CAC2C15A7DB00D59EAB /* SocketConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA92C15A7DB00D59EAB /* SocketConstants.swift */; };
 		18209CAD2C15A7DB00D59EAB /* SocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CAA2C15A7DB00D59EAB /* SocketIOManager.swift */; };
+		188BBBEB2C29E76D0059FDCD /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188BBBEA2C29E76D0059FDCD /* MessageModel.swift */; };
 		188D7F692BE40D7F007000D3 /* CollageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188D7F662BE40D7E007000D3 /* CollageItem.swift */; };
 		188D7F6A2BE40D7F007000D3 /* CollageItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188D7F672BE40D7E007000D3 /* CollageItemView.swift */; };
 		188D7F6B2BE40D7F007000D3 /* CollageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188D7F682BE40D7E007000D3 /* CollageView.swift */; };
@@ -151,6 +152,9 @@
 		53CB200627CB85430027A346 /* SelectActivityPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CB200527CB85430027A346 /* SelectActivityPost.swift */; };
 		53D709142809E18300025C34 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D709132809E18300025C34 /* WebKit.framework */; };
 		53FE22122804AA09003AE636 /* InvoicePdf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FE22112804AA09003AE636 /* InvoicePdf.swift */; };
+		7E494F692C26FF5500348190 /* ChatInboxModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E494F682C26FF5500348190 /* ChatInboxModel.swift */; };
+		7E494F6B2C27221E00348190 /* TeacherChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E494F6A2C27221E00348190 /* TeacherChatVC.swift */; };
+		7E494F6D2C2724E700348190 /* TeacherUsersListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E494F6C2C2724E700348190 /* TeacherUsersListVC.swift */; };
 		95CE785C2BB30C6800F0CAD3 /* DisplayImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CE785B2BB30C6800F0CAD3 /* DisplayImage.swift */; };
 		B72E68962AD84ED4003433F2 /* ActivityHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E68942AD84ED4003433F2 /* ActivityHeaderCell.swift */; };
 		B72E68972AD84ED4003433F2 /* ActivityHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B72E68952AD84ED4003433F2 /* ActivityHeaderCell.xib */; };
@@ -186,6 +190,7 @@
 		18209CA52C14140B00D59EAB /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		18209CA92C15A7DB00D59EAB /* SocketConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketConstants.swift; sourceTree = "<group>"; };
 		18209CAA2C15A7DB00D59EAB /* SocketIOManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
+		188BBBEA2C29E76D0059FDCD /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		188D7F662BE40D7E007000D3 /* CollageItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollageItem.swift; sourceTree = "<group>"; };
 		188D7F672BE40D7E007000D3 /* CollageItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollageItemView.swift; sourceTree = "<group>"; };
 		188D7F682BE40D7E007000D3 /* CollageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollageView.swift; sourceTree = "<group>"; };
@@ -331,6 +336,9 @@
 		53CB200527CB85430027A346 /* SelectActivityPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectActivityPost.swift; sourceTree = "<group>"; };
 		53D709132809E18300025C34 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		53FE22112804AA09003AE636 /* InvoicePdf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoicePdf.swift; sourceTree = "<group>"; };
+		7E494F682C26FF5500348190 /* ChatInboxModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInboxModel.swift; sourceTree = "<group>"; };
+		7E494F6A2C27221E00348190 /* TeacherChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherChatVC.swift; sourceTree = "<group>"; };
+		7E494F6C2C2724E700348190 /* TeacherUsersListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherUsersListVC.swift; sourceTree = "<group>"; };
 		902BB953E310C2410FCFBD30 /* Pods-KidzCorner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KidzCorner.release.xcconfig"; path = "Target Support Files/Pods-KidzCorner/Pods-KidzCorner.release.xcconfig"; sourceTree = "<group>"; };
 		95CE785B2BB30C6800F0CAD3 /* DisplayImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayImage.swift; sourceTree = "<group>"; };
 		B72E68942AD84ED4003433F2 /* ActivityHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityHeaderCell.swift; sourceTree = "<group>"; };
@@ -416,6 +424,7 @@
 				18209CA32C13950500D59EAB /* MessageListingVC.swift */,
 				18A79C3E2C1EA10F00F08D92 /* UsersListVC.swift */,
 				18209CAB2C15A7DB00D59EAB /* Socket Manager */,
+				7E494F6A2C27221E00348190 /* TeacherChatVC.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -425,6 +434,7 @@
 			children = (
 				18DB93B92C194D1E009C6C11 /* MessageList.swift */,
 				18A79C3C2C1DF96500F08D92 /* UserMessagesList.swift */,
+				188BBBEA2C29E76D0059FDCD /* MessageModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -671,6 +681,7 @@
 				B7B09F342A44BBBE00D7ABBD /* ClassSelectionVC.swift */,
 				18D150DD2AF037FA004BDF97 /* AddActivityVC.swift */,
 				181CD6272BFF9F18006917F3 /* PdfVC2.swift */,
+				7E494F6C2C2724E700348190 /* TeacherUsersListVC.swift */,
 			);
 			path = Teacher;
 			sourceTree = "<group>";
@@ -763,6 +774,7 @@
 				B7D10FB92A6D27BF0010E831 /* NotificationModel.swift */,
 				B72E68AA2ADDB9D3003433F2 /* ChildrenModel.swift */,
 				18E4D9C92AF965B7005A3C58 /* AcitivitiesModel.swift */,
+				7E494F682C26FF5500348190 /* ChatInboxModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -978,6 +990,7 @@
 				18E4D9CA2AF965B7005A3C58 /* AcitivitiesModel.swift in Sources */,
 				18A79C3D2C1DF96500F08D92 /* UserMessagesList.swift in Sources */,
 				53C196D627B17F9200EF16A3 /* DevicesCell.swift in Sources */,
+				7E494F6B2C27221E00348190 /* TeacherChatVC.swift in Sources */,
 				53C1970727B17F9200EF16A3 /* Constants.swift in Sources */,
 				53C1970B27B17F9200EF16A3 /* ActivityIndicator.swift in Sources */,
 				B7928B2D2A5883010083B77E /* ChangePasswordVC.swift in Sources */,
@@ -997,10 +1010,13 @@
 				95CE785C2BB30C6800F0CAD3 /* DisplayImage.swift in Sources */,
 				53C196DC27B17F9200EF16A3 /* ActivityContainer.swift in Sources */,
 				B7D10FBA2A6D27BF0010E831 /* NotificationModel.swift in Sources */,
+				7E494F692C26FF5500348190 /* ChatInboxModel.swift in Sources */,
 				18A79C5C2C25D5D500F08D92 /* PortfolioVC.swift in Sources */,
 				53C196EB27B17F9200EF16A3 /* Post.swift in Sources */,
 				53B2348A27B403D900583C75 /* ForgotPassword.swift in Sources */,
 				53C1970D27B17F9200EF16A3 /* Connectivity.swift in Sources */,
+				7E494F6D2C2724E700348190 /* TeacherUsersListVC.swift in Sources */,
+				188BBBEB2C29E76D0059FDCD /* MessageModel.swift in Sources */,
 				B7E0F5AF2A5B370600C8B58D /* ResetPasswordModel.swift in Sources */,
 				53C196E927B17F9200EF16A3 /* ConfimPost.swift in Sources */,
 				B7928B262A50A3330083B77E /* NotificationCell.swift in Sources */,
@@ -1217,11 +1233,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = KidzCorner/KidzCorner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = RZA7HJJ3MF;
+				DEVELOPMENT_TEAM = QUM623UT8W;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1248,10 +1262,9 @@
 				);
 				MARKETING_VERSION = 5.5;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
+				PRODUCT_BUNDLE_IDENTIFIER = com.asitkumar.HealM3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = distrubution13May;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1272,11 +1285,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = KidzCorner/KidzCorner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = RZA7HJJ3MF;
+				DEVELOPMENT_TEAM = QUM623UT8W;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1303,10 +1314,9 @@
 				);
 				MARKETING_VERSION = 5.5;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
+				PRODUCT_BUNDLE_IDENTIFIER = com.asitkumar.HealM3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = distrubution13May;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

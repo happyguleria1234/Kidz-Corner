@@ -89,7 +89,7 @@ extension SocketIOManager{
     }
     
     func connect_user_listener(){
-        socket.on(SocketListeners.connect_listener.instance){arrOfAny, ack in
+        socket.on(SocketListeners.connect_listener.instance) { arrOfAny, ack in
             print("User Connected Successfully")
             NotificationCenter.default.post(name: Notification.Name("socketConnected"), object: nil, userInfo: nil)
         }
@@ -98,7 +98,10 @@ extension SocketIOManager{
     //MARK: - User Chats
     
     func getUsers() {
-        let param: parameter = ["page":"1","limit":"1","user_id":905]
+        guard let userID = UserDefaults.standard.value(forKey: myUserid) as? Int else { return }
+        let param: parameter = ["page":"1",
+                                "limit":"100",
+                                "user_id":userID]
         let data = try! JSONSerialization.data(withJSONObject: param)
         socket.emit(SocketEmitters.chat_listing.instance, data) { [self] in
             print(socket.status)
@@ -120,8 +123,8 @@ extension SocketIOManager{
     
     //MARK: - User Messages Listing
     
-    func userMessagesEmitter() {
-        let param: parameter = [/*"page":"1","limit":"1",*/"type":1,"thread_id":1]
+    func userMessagesEmitter(threadID:Int) {
+        let param: parameter = ["id":threadID]
         let data = try! JSONSerialization.data(withJSONObject: param)
         socket.emit(SocketEmitters.message_listing.instance, data) { [self] in
             print(socket.status)
@@ -143,16 +146,43 @@ extension SocketIOManager{
     
     //MARK: - Send Message
     
-    func sendMessageEmitter(messageStr: String,mediaStr: String,thumbnailStr:String) {
-        let param: parameter = ["sender_id":905,"receiver_id":2,"message":messageStr,"message_type":1,"thread_id":1,"media":mediaStr,"media_thumbnail":thumbnailStr]
+    func sendMessageEmitter(messageStr: String,senderId:Int,recieverID:Int,threadID:Int) {
+        var param: parameter = ["sender_id":senderId,
+                                "student_id":recieverID,
+                                "message":messageStr,
+                                "message_type":1,
+                                "thread_id":threadID]
         let data = try! JSONSerialization.data(withJSONObject: param)
         socket.emit(SocketEmitters.send_message.instance, data) { [self] in
             print(socket.status)
         }
     }
    
-    func sendMessageListener(onSuccess: @escaping(_ messageInfo:UserMessagesList) -> Void) {
+    func sendMessageListener(onSuccess: @escaping(String) -> Void) {
         socket.on(SocketListeners.send_message_listner.instance) { arrOfAny, ack  in
+            print("User Messages Listing")
+            onSuccess("message")
+//            do{
+//                let jsonData = try JSONSerialization.data(withJSONObject: arrOfAny[0], options: [])
+//                let newMszs = try JSONDecoder().decode(UserMessagesList.self, from: jsonData)
+//                onSuccess(newMszs)
+//            }catch{
+//                print("Error \(error)")
+//            }
+        }
+    }
+    
+    func joinRoomEmitter(userID:Int?) {
+        guard let userID = userID else { return }
+        let param: parameter = ["userId":userID]
+        let data = try! JSONSerialization.data(withJSONObject: param)
+        socket.emit(SocketEmitters.joinRoom.instance, data) { [self] in
+            print(socket.status)
+        }
+    }
+    
+    func joinRoomListner(onSuccess: @escaping(_ messageInfo:UserMessagesList) -> Void) {
+        socket.on(SocketListeners.chatroomUsers.instance) { arrOfAny, ack  in
             print("User Messages Listing")
             do{
                 let jsonData = try JSONSerialization.data(withJSONObject: arrOfAny[0], options: [])

@@ -16,8 +16,8 @@ class SenderCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    func setMessageData(messageData: UserMessagesListDatum) {
-        lbl_message.text = messageData.message
+    func setMessageData(messageData: MessagesModelListingDatum) {
+        lbl_message.text = messageData.message?.message
     }
     
 }

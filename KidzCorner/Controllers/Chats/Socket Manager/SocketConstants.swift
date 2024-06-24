@@ -4,7 +4,7 @@
 //
 //  Created by apple on 23/02/21.
 //  Copyright © 2021 Cqlsys MacBook Pro. All rights reserved.
-//
+// 
 
 import Foundation
 
@@ -47,6 +47,7 @@ enum SocketEmitters:String{
     case chat_listing             = "user_joins"
     case send_message             = "sendMessage"
     case message_listing          = "chat-history"
+    case joinRoom                 = "joinRoom"
     
     var instance : String {
         return self.rawValue
@@ -59,6 +60,7 @@ enum SocketListeners:String{
     case chat_listing_listener    = "chat-threads"
     case message_listing_listner  = "chat-history"
     case send_message_listner     = "receiveMessage"
+    case chatroomUsers            = "chatroomUsers"
 
     
     var instance : String {
@@ -66,7 +68,3 @@ enum SocketListeners:String{
     }
     
 }
-
-
-
-
