@@ -146,11 +146,11 @@ extension SocketIOManager{
     
     //MARK: - Send Message
     
-    func sendMessageEmitter(messageStr: String,senderId:Int,recieverID:Int,threadID:Int) {
-        var param: parameter = ["sender_id":senderId,
+    func sendMessageEmitter(messageStr: String,senderId:Int,recieverID:Int,threadID:Int, messageType: Int) {
+        let param: parameter = ["sender_id":senderId,
                                 "student_id":recieverID,
                                 "message":messageStr,
-                                "message_type":1,
+                                "message_type":messageType,
                                 "thread_id":threadID]
         let data = try! JSONSerialization.data(withJSONObject: param)
         socket.emit(SocketEmitters.send_message.instance, data) { [self] in
@@ -158,17 +158,16 @@ extension SocketIOManager{
         }
     }
    
-    func sendMessageListener(onSuccess: @escaping(String) -> Void) {
+    func sendMessageListener(onSuccess: @escaping(Response) -> Void) {
         socket.on(SocketListeners.send_message_listner.instance) { arrOfAny, ack  in
             print("User Messages Listing")
-            onSuccess("message")
-//            do{
-//                let jsonData = try JSONSerialization.data(withJSONObject: arrOfAny[0], options: [])
-//                let newMszs = try JSONDecoder().decode(UserMessagesList.self, from: jsonData)
-//                onSuccess(newMszs)
-//            }catch{
-//                print("Error \(error)")
-//            }
+            do{
+                let jsonData = try JSONSerialization.data(withJSONObject: arrOfAny[0], options: [])
+                let newMszs = try JSONDecoder().decode(Response.self, from: jsonData)
+                onSuccess(newMszs)
+            }catch{
+                print("Error \(error)")
+            }
         }
     }
     

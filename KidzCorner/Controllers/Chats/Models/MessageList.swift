@@ -120,3 +120,40 @@ struct Links: Codable {
         case currentPage = "current_page"
     }
 }
+
+
+import Foundation
+
+struct SendMessageData: Codable {
+    var createdAt: String
+    var id: Int
+    var isRead: Int
+    var media: String?
+    var mediaThumbnail: String?
+    var message: String
+    var messageType: Int
+    var senderId: Int
+    var studentId: Int
+    var threadId: Int
+    var updatedAt: String
+    
+    enum CodingKeys: String, CodingKey {
+        case createdAt = "created_at"
+        case id
+        case isRead = "isread"
+        case media
+        case mediaThumbnail = "media_thumbnail"
+        case message
+        case messageType = "message_type"
+        case senderId = "sender_id"
+        case studentId = "student_id"
+        case threadId = "thread_id"
+        case updatedAt = "updated_at"
+    }
+}
+
+struct Response: Codable {
+    var data: MessagesModelListingDatum
+    var message: String
+    var status: Int
+}

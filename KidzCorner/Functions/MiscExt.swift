@@ -24,6 +24,7 @@ extension UITableView {
 extension UITableView {
 
     func scrollToBottom(isAnimated:Bool = true){
+
         DispatchQueue.main.async {
             let indexPath = IndexPath(
                 row: self.numberOfRows(inSection:  self.numberOfSections-1) - 1,

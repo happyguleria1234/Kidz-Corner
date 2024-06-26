@@ -9,6 +9,7 @@ import UIKit
 
 class SenderCell: UITableViewCell {
 
+    @IBOutlet weak var btnTap: UIButton!
     @IBOutlet weak var senderView: UIView!
     @IBOutlet weak var lbl_message: UILabel!
     
@@ -17,7 +18,11 @@ class SenderCell: UITableViewCell {
     }
     
     func setMessageData(messageData: MessagesModelListingDatum) {
-        lbl_message.text = messageData.message?.message
+        if messageData.message == "" {
+            lbl_message.text = messageData.media
+        } else {
+            lbl_message.text = messageData.message
+        }
     }
     
 }

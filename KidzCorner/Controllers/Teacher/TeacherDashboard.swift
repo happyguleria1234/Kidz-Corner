@@ -14,13 +14,13 @@ class TeacherDashboard: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupTable()
-        getDashboard()
+//        getDashboard()
      
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        getDashboard()
+        getDashboard()
     }
    
     @IBAction func logoutFunc(_ sender: Any) {

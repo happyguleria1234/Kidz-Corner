@@ -72,7 +72,7 @@ class NetworkManager {
         loader.startAnimatingLoading(view)
         
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+        request.httpMethod = "GET"
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
@@ -101,6 +101,61 @@ class NetworkManager {
         task.resume()
     }
 
+    func getRequestWithParams<T: Decodable>(urlString: String, parameters: [String: Any], responseType: T.Type, fromView view: UIView, completion: @escaping (Result<T, APIError>) -> Void) {
+        // Construct URL with parameters
+        guard var urlComponents = URLComponents(string: urlString) else {
+            completion(.failure(.invalidURL))
+            return
+        }
+        
+        urlComponents.queryItems = parameters.compactMap { (key, value) in
+            if let stringValue = value as? String {
+                return URLQueryItem(name: key, value: stringValue)
+            } else if let intValue = value as? Int {
+                return URLQueryItem(name: key, value: String(intValue))
+            } else if let doubleValue = value as? Double {
+                return URLQueryItem(name: key, value: String(doubleValue))
+            } else {
+                return nil
+            }
+        }
+        
+        guard let url = urlComponents.url else {
+            completion(.failure(.invalidURL))
+            return
+        }
+        
+        loader.startAnimatingLoading(view)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                self.loader.stopAnimatingLoading()
+                
+                if let error = error {
+                    completion(.failure(.serverError(error.localizedDescription)))
+                    return
+                }
+                
+                guard let data = data else {
+                    completion(.failure(.noData))
+                    return
+                }
+                do {
+                    let jsonString = String(data: data, encoding: .utf8) ?? ""
+                    print("JSON Response String: \(jsonString)")
+                    let decodedResponse = try JSONDecoder().decode(T.self, from: data)
+                    completion(.success(decodedResponse))
+                } catch {
+                    completion(.failure(.decodingError))
+                }
+            }
+        }
+        
+        task.resume()
+    }
 
     
     func postRequest<T: Decodable, U: Encodable>(urlString: String, requestBody: U, responseType: T.Type, fromView view: UIView, completion: @escaping (Result<T, APIError>) -> Void) {

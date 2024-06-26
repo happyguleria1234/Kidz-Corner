@@ -14,14 +14,14 @@ class ParentDashboard: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupTable()
-        getDashboard()
-        getChildrenList()
+//        getDashboard()
+//        getChildrenList()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        getDashboard()
-//        getChildrenList()
+        getDashboard()
+        getChildrenList()
         
     }
     
