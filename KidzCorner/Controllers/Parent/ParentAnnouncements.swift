@@ -16,10 +16,10 @@ class ParentAnnouncements: UIViewController {
         setupTable()
         setupViews()
         getChildrenList()
+        tabBarController?.tabBar.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -29,7 +29,7 @@ class ParentAnnouncements: UIViewController {
     }
     
     @IBAction func backFunc(_ sender: Any) {
-        
+        self.navigationController?.popViewController(animated: true)
     }
     
     func setupViews() {

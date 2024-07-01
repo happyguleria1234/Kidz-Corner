@@ -23,16 +23,42 @@ extension UITableView {
 
 extension UITableView {
 
-    func scrollToBottom(isAnimated:Bool = true){
-
+//    func scrollToBottom(isAnimated:Bool = true){
+//
+//        DispatchQueue.main.async {
+//            let indexPath = IndexPath(
+//                row: self.numberOfRows(inSection:  self.numberOfSections-1) - 1,
+//                section: self.numberOfSections - 1)
+//            if self.hasRowAtIndexPath(indexPath: indexPath) {
+//                self.scrollToRow(at: indexPath, at: .bottom, animated: isAnimated)
+//            }
+//        }
+//    }
+    
+    func scrollToBottom(isAnimated: Bool = true) {
         DispatchQueue.main.async {
-            let indexPath = IndexPath(
-                row: self.numberOfRows(inSection:  self.numberOfSections-1) - 1,
-                section: self.numberOfSections - 1)
+            let numberOfSections = self.numberOfSections
+            guard numberOfSections > 0 else {
+                // No sections available
+                return
+            }
+
+            let lastSection = numberOfSections - 1
+            let numberOfRowsInLastSection = self.numberOfRows(inSection: lastSection)
+            guard numberOfRowsInLastSection > 0 else {
+                // No rows in the last section
+                return
+            }
+
+            let indexPath = IndexPath(row: numberOfRowsInLastSection - 1, section: lastSection)
             if self.hasRowAtIndexPath(indexPath: indexPath) {
                 self.scrollToRow(at: indexPath, at: .bottom, animated: isAnimated)
             }
         }
+    }
+
+    func hasRowAtIndexPath(indexPath: IndexPath) -> Bool {
+        return indexPath.section < self.numberOfSections && indexPath.row < self.numberOfRows(inSection: indexPath.section)
     }
 
     func scrollToTop(isAnimated:Bool = true) {
@@ -45,7 +71,7 @@ extension UITableView {
         }
     }
 
-    func hasRowAtIndexPath(indexPath: IndexPath) -> Bool {
-        return indexPath.section < self.numberOfSections && indexPath.row < self.numberOfRows(inSection: indexPath.section)
-    }
+//    func hasRowAtIndexPath(indexPath: IndexPath) -> Bool {
+//        return indexPath.section < self.numberOfSections && indexPath.row < self.numberOfRows(inSection: indexPath.section)
+//    }
 }

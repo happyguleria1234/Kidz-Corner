@@ -190,6 +190,56 @@ extension Date {
     var longDate: String { longDescription(date: .long, time: .none)}
 }
 
+extension Date {
+    func toLocalTime() -> Date {
+        let timezone = TimeZone.current
+        let seconds = TimeInterval(timezone.secondsFromGMT(for: self))
+        return Date(timeInterval: seconds, since: self)
+    }
+}
+
+extension Date {
+    func timeAgoDisplayNew() -> String {
+        let secondsAgo = Int(Date().timeIntervalSince(self))
+        
+        let minute = 60
+        let hour = 60 * minute
+        let day = 24 * hour
+        let week = 7 * day
+        let month = 30 * day
+        let year = 365 * day
+        
+        if secondsAgo < minute {
+            return "Just now"
+        } else if secondsAgo < hour {
+            return "\(secondsAgo / minute) minute\(secondsAgo / minute > 1 ? "s" : "") ago"
+        } else if secondsAgo < day {
+            return "\(secondsAgo / hour) hour\(secondsAgo / hour > 1 ? "s" : "") ago"
+        } else if secondsAgo < week {
+            return "\(secondsAgo / day) day\(secondsAgo / day > 1 ? "s" : "") ago"
+        } else if secondsAgo < month {
+            return "\(secondsAgo / week) week\(secondsAgo / week > 1 ? "s" : "") ago"
+        } else if secondsAgo < year {
+            return "\(secondsAgo / month) month\(secondsAgo / month > 1 ? "s" : "") ago"
+        } else {
+            return "\(secondsAgo / year) year\(secondsAgo / year > 1 ? "s" : "") ago"
+        }
+    }
+}
+
+func convertStrToDate(strDate: String) -> Date? {
+    let dateFormatter = ISO8601DateFormatter()
+    return dateFormatter.date(from: strDate)
+}
+
+func getDate(strDate: String) -> Date? {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ" // Adjusted format
+    dateFormatter.timeZone = TimeZone.current
+    dateFormatter.locale = Locale.current
+    return dateFormatter.date(from: strDate)
+}
+
 extension Formatter {
     static let date = DateFormatter()
 }
@@ -297,4 +347,17 @@ import UIKit
             return layer.cornerRadius
         }
     }
+}
+
+func extractTime(strDate: String) -> String? {
+    let dateFormatter = ISO8601DateFormatter()
+    dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+    
+    guard let date = dateFormatter.date(from: strDate) else {
+        return nil
+    }
+    
+    let timeFormatter = DateFormatter()
+    timeFormatter.dateFormat = "HH:mm"
+    return timeFormatter.string(from: date)
 }

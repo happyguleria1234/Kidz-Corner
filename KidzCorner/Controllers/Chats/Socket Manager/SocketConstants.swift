@@ -48,6 +48,7 @@ enum SocketEmitters:String{
     case send_message             = "sendMessage"
     case message_listing          = "chat-history"
     case joinRoom                 = "joinRoom"
+    case userStatus               = "checkStatus"
     
     var instance : String {
         return self.rawValue
@@ -61,7 +62,6 @@ enum SocketListeners:String{
     case message_listing_listner  = "chat-history"
     case send_message_listner     = "receiveMessage"
     case chatroomUsers            = "chatroomUsers"
-
     
     var instance : String {
         return self.rawValue

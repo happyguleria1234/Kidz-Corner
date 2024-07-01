@@ -34,7 +34,7 @@ struct ChatDataClass: Codable {
 
 // MARK: - Datum
 struct ChatData: Codable {
-    let id, studentID, messageID, isActive: Int?
+    let id, studentID, messageID, isActive, thread_id, unread_message : Int?
     let createdAt, updatedAt: String?
     let message: Message?
     let media, mediaThumbnail: String?
@@ -48,7 +48,7 @@ struct ChatData: Codable {
         case isActive = "is_active"
         case createdAt = "created_at"
         case updatedAt = "updated_at"
-        case message, media
+        case message, media, thread_id, unread_message
         case mediaThumbnail = "media_thumbnail"
         case messageType = "message_type"
         case deletedByuserid1 = "deleted_byuserid_1"

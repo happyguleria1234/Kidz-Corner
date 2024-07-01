@@ -32,7 +32,7 @@ socket.connect()
 ```
 
 ## Features
-- Supports Socket.IO server 2.0+/3.0+/4.0+ (see the [compatibility table](https://nuclearace.github.io/Socket.IO-Client-Swift/Compatibility.html))
+- Supports socket.io 2.0+/3.0+.
 - Supports Binary
 - Supports Polling and WebSockets
 - Supports TLS/SSL

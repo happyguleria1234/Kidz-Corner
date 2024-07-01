@@ -136,6 +136,7 @@ struct SendMessageData: Codable {
     var studentId: Int
     var threadId: Int
     var updatedAt: String
+    var student, user: Student
     
     enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -149,6 +150,7 @@ struct SendMessageData: Codable {
         case studentId = "student_id"
         case threadId = "thread_id"
         case updatedAt = "updated_at"
+        case student, user
     }
 }
 
@@ -156,4 +158,10 @@ struct Response: Codable {
     var data: MessagesModelListingDatum
     var message: String
     var status: Int
+}
+
+// MARK: - UploadModel
+struct UploadModel: Codable {
+    let status: Int
+    let data: String
 }

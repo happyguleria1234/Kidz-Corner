@@ -2,12 +2,14 @@ import UIKit
 import RYCOMSDK
 import IQKeyboardManagerSwift
 import DropDown
-//import Firebase
-//import FirebaseMessaging
+import Firebase
+import FirebaseMessaging
 // com.colin.KidsCorner
 
+var loggedUSer = String()
+
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
 
     var window: UIWindow? 
     var bluetooth : BabyBluetooth? = BabyBluetooth.share()
@@ -39,16 +41,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             switch roleId {
             case 2:
+                loggedUSer = "Teacher"
                 let sb = UIStoryboard(name: "Teacher", bundle: nil)
                 let vc = sb.instantiateViewController(withIdentifier: "TeacherTabbar") as! TeacherTabbar
                 UIApplication.shared.windows.first?.rootViewController = vc
                 UIApplication.shared.windows.first?.makeKeyAndVisible()
             case 4:
+                loggedUSer = "User"
                 let sb = UIStoryboard(name: "Parent", bundle: nil)
                 let vc = sb.instantiateViewController(withIdentifier: "ParentTabbar") as! ParentTabbar
                 UIApplication.shared.windows.first?.rootViewController = vc
                 UIApplication.shared.windows.first?.makeKeyAndVisible()
             case 5:
+                loggedUSer = "Teacher"
                 let sb = UIStoryboard(name: "Teacher", bundle: nil)
                 let vc = sb.instantiateViewController(withIdentifier: "TeacherTabbar") as! TeacherTabbar
                 UIApplication.shared.windows.first?.rootViewController = vc
@@ -58,8 +63,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-//        FirebaseApp.configure()
-//        Messaging.messaging().delegate = self
+       
+//        Messaging.messaging().token { token, error in
+//          if let error = error {
+//            print("Error fetching FCM registration token: \(error)")
+//          } else if let token = token {
+//            print("FCM registration token: \(token)")
+//            
+//          }
+//        }
        
 //        UNUserNotificationCenter.current().delegate = self
 //        let authOptions: UNAuthorizationOptions = [.alert, .sound,.badge]
@@ -88,75 +100,102 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            }
 //            handlePushNotification(response: notification)
 //        }
+        registerForPushNotifications()
         return true
     }
     
+    func registerForPushNotifications() {
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        //        UIApplication.shared.cancelAllLocalNotifications()
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {
+            (granted, error) in
+            print("Permission granted: \(granted)")
+            // 1. Check if permission granted
+            guard granted else { return }
+            // 2. Attempt registration for remote notifications on the main thread
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+                FirebaseApp.configure()
+                Messaging.messaging().delegate = self
+                Messaging.messaging().isAutoInitEnabled = true
+            }
+        }
+    }
     
 }
 
 // MARK: -  Push Notification Delegates
 extension AppDelegate: UNUserNotificationCenterDelegate {
-//    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-//        let deviceToken = deviceToken.hexString
-//        UserDefaults.standard.setValue(deviceToken, forKey: myDeviceToken)
-//        print(deviceToken)
-//    }
-//    
-//    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-//        print("Failed to register push notification")
-//    }
+   
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        UserDefaults.standard.setValue(fcmToken, forKey: myDeviceToken)
+        print(fcmToken,"fcmToken")
+    }
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let deviceToke = deviceToken.hexString
+//        UserDefaults.standard.setValue(deviceToke, forKey: myDeviceToken)
+               // Pass device token to Firebase for FCM
+        Messaging.messaging().apnsToken = deviceToken
+        print(deviceToken)
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed to register push notification")
+    }
     
     /*
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("My Device token \(String(describing: fcmToken))")
-//        UserDefaults.standard.setValue(fcmToken, forKey: myDeviceToken)
+        UserDefaults.standard.setValue(fcmToken, forKey: myDeviceToken)
     }
     */
     
-//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-//        print("Will gets called when app is in forground and we want to show banner")
-//        
-//        completionHandler([.alert, .sound, .badge])
-//    }
-//    
-//    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-//        print("Will gets called when user tap on notifictaion")
-//        UIPasteboard.general.string = "\(response.notification.request.content.userInfo)"
-//        let notification = response.notification.request.content.userInfo
-//        handlePushNotification(response: notification)
-//        completionHandler()
-//    }
-//    
-//    func pushNotification(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-//        let notification = "\(userInfo)"
-//        handlePushNotification(response: userInfo)
-//    }
-//    
-//    func handlePushNotification(response: [AnyHashable : Any]) {
-//        guard let jsonData = try? JSONSerialization.data(withJSONObject: response, options: []) else {
-//            return
-//        }
-//        
-//        do {
-//            let decoder = JSONDecoder()
-//            let pushResponse = try decoder.decode(PayloadModel.self, from: jsonData)
-//            
-//            // Access the decoded properties
-//            let data = pushResponse
-//            
-//            print("Data: \(data)")
-//            guard let invoiceId = data.data?.id else { return }
-//            let sb = UIStoryboard(name: "Parent", bundle: nil)
-//            let vc = sb.instantiateViewController(withIdentifier: "InvoicePdf") as! InvoicePdf
-//            vc.invoiceId = invoiceId
-//            UIApplication.shared.windows.first?.rootViewController = vc
-//            UIApplication.shared.windows.first?.makeKeyAndVisible()
-//            
-//        } catch {
-//            // Handle decoding errors
-//            print("Error decoding push response: \(error)")
-//        }
-//    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        print("Will gets called when app is in forground and we want to show banner")
+        
+        completionHandler([.alert, .sound, .badge])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("Will gets called when user tap on notifictaion")
+        UIPasteboard.general.string = "\(response.notification.request.content.userInfo)"
+        let notification = response.notification.request.content.userInfo
+        handlePushNotification(response: notification)
+        completionHandler()
+    }
+    
+    func pushNotification(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        let notification = "\(userInfo)"
+        handlePushNotification(response: userInfo)
+    }
+    
+    func handlePushNotification(response: [AnyHashable : Any]) {
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: response, options: []) else {
+            return
+        }
+        
+        do {
+            let decoder = JSONDecoder()
+            let pushResponse = try decoder.decode(PayloadModel.self, from: jsonData)
+            
+            // Access the decoded properties
+            let data = pushResponse
+            
+            print("Data: \(data)")
+            guard let invoiceId = data.data?.id else { return }
+            let sb = UIStoryboard(name: "Parent", bundle: nil)
+            let vc = sb.instantiateViewController(withIdentifier: "InvoicePdf") as! InvoicePdf
+            vc.invoiceId = invoiceId
+            UIApplication.shared.windows.first?.rootViewController = vc
+            UIApplication.shared.windows.first?.makeKeyAndVisible()
+            
+        } catch {
+            // Handle decoding errors
+            print("Error decoding push response: \(error)")
+        }
+    }
 }
 
 extension Data {

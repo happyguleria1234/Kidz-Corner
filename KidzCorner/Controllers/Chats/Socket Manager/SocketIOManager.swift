@@ -15,6 +15,7 @@ public typealias parameter =  [String:Any]
 
 class SocketIOManager: NSObject {
     
+    private var joinRoomListener: UUID?
     var onSuccess:(successResponse)?
     static let sharedInstance = SocketIOManager()
     
@@ -26,6 +27,13 @@ class SocketIOManager: NSObject {
         super.init()
         socket = manager.defaultSocket
         defaultHandlers()
+    }
+    
+    func removeJoinRoomListener() {
+        if let listener = joinRoomListener {
+            socket.off(id: listener)
+            joinRoomListener = nil
+        }
     }
     
     func establishConnection(){
@@ -85,10 +93,26 @@ extension SocketIOManager{
     
     func connectUser(){
         let param: parameter = ["user_id": UserDefaults.standard.string(forKey: myUserid) ?? ""]
-        socket.emit(SocketEmitters.connect_user.instance, param)
+        let data = try! JSONSerialization.data(withJSONObject: param)
+        socket.emit(SocketEmitters.connect_user.instance, data)
     }
     
     func connect_user_listener(){
+        socket.on(SocketListeners.connect_listener.instance) { arrOfAny, ack in
+            print("User Connected Successfully")
+            NotificationCenter.default.post(name: Notification.Name("socketConnected"), object: nil, userInfo: nil)
+        }
+    }
+    
+    //MARK: - User Status
+    
+    func userStatus(){
+        let param: parameter = ["userId": UserDefaults.standard.string(forKey: myUserid) ?? ""]
+        let data = try! JSONSerialization.data(withJSONObject: param)
+        socket.emit(SocketEmitters.userStatus.instance, data)
+    }
+    
+    func userStatusListner(){
         socket.on(SocketListeners.connect_listener.instance) { arrOfAny, ack in
             print("User Connected Successfully")
             NotificationCenter.default.post(name: Notification.Name("socketConnected"), object: nil, userInfo: nil)
@@ -105,7 +129,7 @@ extension SocketIOManager{
         let data = try! JSONSerialization.data(withJSONObject: param)
         socket.emit(SocketEmitters.chat_listing.instance, data) { [self] in
             print(socket.status)
-        }        
+        }
     }
     
     func messageListingListener(onSuccess: @escaping(_ messageInfo:MessageList) -> Void) {
@@ -146,24 +170,26 @@ extension SocketIOManager{
     
     //MARK: - Send Message
     
-    func sendMessageEmitter(messageStr: String,senderId:Int,recieverID:Int,threadID:Int, messageType: Int) {
+    func sendMessageEmitter(messageStr: String,senderId:Int,recieverID:Int,threadID:Int, messageType: Int,media:String,thumbnail: String) {
         let param: parameter = ["sender_id":senderId,
                                 "student_id":recieverID,
                                 "message":messageStr,
                                 "message_type":messageType,
+                                "media":media,
+                                "media_thumbnail":"",
                                 "thread_id":threadID]
         let data = try! JSONSerialization.data(withJSONObject: param)
         socket.emit(SocketEmitters.send_message.instance, data) { [self] in
             print(socket.status)
         }
     }
-   
-    func sendMessageListener(onSuccess: @escaping(Response) -> Void) {
+    
+    func sendMessageListener(onSuccess: @escaping(SendMessageModal) -> Void) {
         socket.on(SocketListeners.send_message_listner.instance) { arrOfAny, ack  in
             print("User Messages Listing")
             do{
                 let jsonData = try JSONSerialization.data(withJSONObject: arrOfAny[0], options: [])
-                let newMszs = try JSONDecoder().decode(Response.self, from: jsonData)
+                let newMszs = try JSONDecoder().decode(SendMessageModal.self, from: jsonData)
                 onSuccess(newMszs)
             }catch{
                 print("Error \(error)")
@@ -172,20 +198,21 @@ extension SocketIOManager{
     }
     
     func joinRoomEmitter(userID:Int?) {
-        guard let userID = userID else { return }
-        let param: parameter = ["userId":userID]
+        guard let studentID = userID else { return }
+        let userID = UserDefaults.standard.value(forKey: "myUserid") as? Int ?? 0
+        let param: parameter = ["userId":userID,"student_id":studentID]
         let data = try! JSONSerialization.data(withJSONObject: param)
         socket.emit(SocketEmitters.joinRoom.instance, data) { [self] in
             print(socket.status)
         }
     }
     
-    func joinRoomListner(onSuccess: @escaping(_ messageInfo:UserMessagesList) -> Void) {
+    func joinRoomListner(onSuccess: @escaping(_ messageInfo:MessageDataModel) -> Void) {
         socket.on(SocketListeners.chatroomUsers.instance) { arrOfAny, ack  in
             print("User Messages Listing")
             do{
                 let jsonData = try JSONSerialization.data(withJSONObject: arrOfAny[0], options: [])
-                let newMszs = try JSONDecoder().decode(UserMessagesList.self, from: jsonData)
+                let newMszs = try JSONDecoder().decode(MessageDataModel.self, from: jsonData)
                 onSuccess(newMszs)
             }catch{
                 print("Error \(error)")

@@ -10,6 +10,7 @@ import SDWebImage
 
 class SenderImageCell: UITableViewCell {
 
+    @IBOutlet weak var lblTime: UILabel!
     @IBOutlet weak var btnTap: UIButton!
     @IBOutlet weak var imgSend: UIImageView!
     override func awakeFromNib() {
@@ -17,11 +18,11 @@ class SenderImageCell: UITableViewCell {
         // Initialization code
     }
     
-    func setMessageData(messageData: MessagesModelListingDatum) {
+    func setMessageData(messageData: MessagesModelListingMessage) {
         if let url = URL(string: imageBaseUrl+(messageData.media ?? "")) {
-            print(url)
             imgSend.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
         }
+        lblTime.text = extractTime(strDate: messageData.createdAt ?? "")
     }
     
 }

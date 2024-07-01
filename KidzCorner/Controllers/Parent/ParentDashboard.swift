@@ -1,5 +1,7 @@
 import UIKit
 
+var selectedType = 0
+
 class ParentDashboard: UIViewController {
     
     var dashboardData: [DashboardModelData]?
@@ -9,6 +11,10 @@ class ParentDashboard: UIViewController {
     var portfolioData: [ChildPortfolioModelData]?
     
     @IBOutlet weak var tableHome: UITableView!
+    @IBOutlet weak var checkedInBtn: UIButton!
+    @IBOutlet weak var checkInstatuslbl: UILabel!
+    @IBOutlet weak var dateLbl: UILabel!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,11 +28,16 @@ class ParentDashboard: UIViewController {
         super.viewDidAppear(animated)
         getDashboard()
         getChildrenList()
-        
+        tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         portfolioData = nil
+    }
+    
+//    MARK: CHECKED-IN BUTTON ACTION
+    @IBAction func checkedInBtn(_ sender: UIButton) {
+        
     }
     
     func setupViews() {
@@ -48,7 +59,6 @@ class ParentDashboard: UIViewController {
                     let alertController = UIAlertController(title: "Update Available",
                                                             message: "A new version of the app is available. Would you like to update?",
                                                             preferredStyle: .alert)
-                    
                     let updateAction = UIAlertAction(title: "Update", style: .default) { (_) in
                         if let url = URL(string: "https://apps.apple.com/app/1467363872"),
                            UIApplication.shared.canOpenURL(url) {
@@ -57,10 +67,8 @@ class ParentDashboard: UIViewController {
                     }
                     
                     let cancelAction = UIAlertAction(title: "Later", style: .cancel, handler: nil)
-                    
                     alertController.addAction(updateAction)
                     alertController.addAction(cancelAction)
-                    
                     // Assuming this code is inside a UIViewController subclass
                     self.present(alertController, animated: true, completion: nil)
                 } else {
@@ -191,12 +199,13 @@ extension ParentDashboard: UITableViewDelegate, UITableViewDataSource {
 //        vc.comesFrom = "Home"
 //        tabBarController?.selectedIndex = 2
 //        self.navigationController?.pushViewController(vc, animated: true)
+        selectedType = 1
         tabBarController?.selectedIndex = 2
     }
     
     @objc func buttonTap2(sender: UIButton) {
-        print("2")
-        
+        selectedType = 0
+        tabBarController?.selectedIndex = 2
     }
     
     @objc func buttonTap3(sender: UIButton) {
@@ -204,27 +213,25 @@ extension ParentDashboard: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func buttonTap4(sender: UIButton) {
+        AlertManager.shared.showAlert(title: "Kidz Corner", message: "This feature will be coming soon.", viewController: self)
         print("4")
     }
     
     @objc func buttonTap5(sender: UIButton) {
         print("5")
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "PortfolioNewVC") as! PortfolioNewVC
-        self.navigationController?.pushViewController(vc, animated: true)
+        AlertManager.shared.showAlert(title: "Kidz Corner", message: "This feature will be coming soon.", viewController: self)
+//        let vc = self.storyboard?.instantiateViewController(withIdentifier: "PortfolioNewVC") as! PortfolioNewVC
+//        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func buttonTap6(sender: UIButton) {
-        print("6")
-//        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncements") as! ParentAnnouncements
-//        tabBarController?.selectedIndex = 1
-//        self.navigationController?.pushViewController(vc, animated: true)
-        tabBarController?.selectedIndex = 1
-
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncements") as! ParentAnnouncements
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            return 300
+            return 250
         } else {
             return UITableView.automaticDimension
         }
@@ -371,6 +378,4 @@ extension ParentDashboard {
             }
         }
     }
-    
-    
 }

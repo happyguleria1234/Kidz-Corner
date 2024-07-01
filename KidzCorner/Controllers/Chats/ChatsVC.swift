@@ -14,7 +14,8 @@ class ChatsVC : UIViewController {
     
     //MARK: Varibles and Outlets
     
-    
+    var isNavigatedToMessageListingVC = false
+
     private var allCharRoomResp = [ChatData]()
     private var charRoomResp = [ChatData]()
     var isComming = String()
@@ -71,9 +72,8 @@ class ChatsVC : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tblChats.reloadData()
-        //setSocketConnectionAndKeys()
         tblChats.backgroundColor = .clear
-        //tabBarController?.tabBar.isHidden = true
+        SocketIOManager.sharedInstance.userStatus()
         tf_search.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
     
@@ -81,6 +81,7 @@ class ChatsVC : UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        isNavigatedToMessageListingVC = false
         getChatRoomData()
     }
     
@@ -100,25 +101,72 @@ extension ChatsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatsCell", for: indexPath) as! ChatsCell
-//        if let data = userList?.data.data[indexPath.row] {
-//            cell.setData(userData: data)
-//        }
         let data = charRoomResp[indexPath.row]
         cell.populateData(data)
+        if data.message?.messageType == 1{
+            cell.messageType_ImgVw.isHidden = true
+            cell.messageType_ImgVw.image = UIImage(named: "")
+            cell.msgTypeWidthConstraints.constant = 0
+            cell.lbl_message.text = data.message?.message
+        }
+        else if data.message?.messageType == 2{
+            cell.messageType_ImgVw.isHidden = false
+            cell.messageType_ImgVw.image = UIImage(named: "sendimage")
+            cell.msgTypeWidthConstraints.constant = 18
+            cell.lbl_message.text = "Image"
+
+        }
+        else if data.message?.messageType == 3{
+            cell.messageType_ImgVw.isHidden = false
+            cell.messageType_ImgVw.image = UIImage(named: "sendpdf")
+            cell.msgTypeWidthConstraints.constant = 18
+            cell.lbl_message.text = "PDF"
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let data = charRoomResp[indexPath.row]
         guard let studentID = data.studentID else { return }
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
-        vc.id = studentID
-        vc.threadID = data.id
-        vc.userName = "\(data.student?.name ?? "")"
-        vc.userProfileImage = "\(data.student?.image ?? "")"
-        vc.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(vc, animated: true)
+        SocketIOManager.sharedInstance.joinRoomEmitter(userID: studentID)
+        SocketIOManager.sharedInstance.joinRoomListner { [weak self] messageInfo in
+            guard let self = self else { return }
+            if !self.isNavigatedToMessageListingVC {
+                self.isNavigatedToMessageListingVC = true
+                
+                DispatchQueue.main.async {
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
+                    vc.comesFrom = "User"
+                    vc.id = Int(messageInfo.data?.student?.id ?? "") ?? 0
+                    vc.threadID = Int(messageInfo.data?.thread?.id ?? "") ?? 0
+                    vc.userName = messageInfo.data?.student?.name
+                    vc.userProfileImage = messageInfo.data?.student?.name
+                    vc.hidesBottomBarWhenPushed = true
+                    self.navigationController?.pushViewController(vc, animated: true)
+                    
+                    // Remove or deactivate the listener here if needed
+                    // e.g., SocketIOManager.sharedInstance.removeListener("joinRoomListner")
+                }
+            }
+        }
     }
+    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let data = charRoomResp[indexPath.row]
+//        guard let studentID = data.studentID else { return }
+//
+//        SocketIOManager.sharedInstance.joinRoomEmitter(userID: studentID)
+//        SocketIOManager.sharedInstance.joinRoomListner { messageInfo in
+//            let vc = self.storyboard?.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
+//            vc.comesFrom = "User"
+//            vc.id = Int(messageInfo.data?.student?.id ?? "")
+//            vc.threadID = Int(messageInfo.data?.thread?.id ?? "")
+//            vc.userName = messageInfo.data?.student?.name
+//            vc.userProfileImage = messageInfo.data?.student?.name
+//            vc.hidesBottomBarWhenPushed = true
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        }
+//    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
@@ -137,13 +185,17 @@ class ChatsCell: UITableViewCell {
     @IBOutlet weak var lbl_time: UILabel!
     @IBOutlet weak var imgProfile: UIImageView!
     
+    @IBOutlet weak var lblStatus: UILabel!
+    
+    @IBOutlet weak var messageType_ImgVw: UIImageView!
+    @IBOutlet weak var msgTypeWidthConstraints: NSLayoutConstraint!
+    
+    
     override class func awakeFromNib() {
         super.awakeFromNib()
-        
     }
     
     public func populateData(_ data:ChatData) {
-        lbl_message.text = data.message?.message
         lbl_name.text = data.student?.name
         lbl_count.isHidden = true
         lbl_time.text = " "
@@ -152,10 +204,18 @@ class ChatsCell: UITableViewCell {
             imgProfile.sd_setImage(with: URL(string: imageBaseUrl+(userProfileUrl)),
                                    placeholderImage: .announcementPlaceholder)
         }
-        
+        if data.unread_message == 0 {
+            lbl_count.isHidden = true
+        } else {
+            lbl_count.isHidden = false
+            lbl_count.text = "\(data.unread_message ?? 0)"
+        }
         if let messageDate = data.message?.createdAt {
             lbl_time.text = formatDateString(dateString: messageDate)
         }
+       
+        
+        
     }
     
     func setData(userData: MessageListUsers) {
@@ -175,7 +235,7 @@ class ChatsCell: UITableViewCell {
         if calendar.isDateInToday(date) {
             dateFormatter.dateFormat = "hh:mm a"
         } else {
-            dateFormatter.dateFormat = "MM dd yyyy"
+            dateFormatter.dateFormat = "MM/dd/yyyy"
         }
         return dateFormatter.string(from: date)
     }

@@ -1,7 +1,7 @@
 import UIKit
 
 class TeacherChatVC: UIViewController, OpenChatVCProtocol {
-
+    
     //------------------------------------------------------
     
     //MARK: Varibles and Outlets
@@ -12,7 +12,7 @@ class TeacherChatVC: UIViewController, OpenChatVCProtocol {
     var isComming = String()
     var userList: MessageList?
     var socket = SocketIOManager()
-    
+    var isNavigatedToMessageListingVC = false
     @IBOutlet weak var tf_search: UITextField!
     @IBOutlet weak var tblChats: UITableView!
     
@@ -64,6 +64,7 @@ class TeacherChatVC: UIViewController, OpenChatVCProtocol {
         super.viewDidLoad()
         tblChats.reloadData()
         tblChats.backgroundColor = .clear
+        SocketIOManager.sharedInstance.userStatus()
         tf_search.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
     
@@ -91,6 +92,7 @@ extension TeacherChatVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatsCell", for: indexPath) as! ChatsCell
         let data = charRoomResp[indexPath.row]
+        cell.lblStatus.cornerRadius = 4
         cell.populateData(data)
         return cell
     }
@@ -101,6 +103,7 @@ extension TeacherChatVC: UITableViewDelegate, UITableViewDataSource {
         let sb = UIStoryboard(name: "Parent", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
         vc.id = studentID
+        vc.comesFrom = "Teacher"
         vc.threadID = data.id
         vc.userName = "\(data.student?.name ?? "")"
         vc.userProfileImage = "\(data.student?.image ?? "")"
@@ -129,17 +132,47 @@ extension TeacherChatVC {
         SocketIOManager.sharedInstance.getUsers()
     }
     
-    func openChat(_ studentID:Int,_ userProfileImage:String?,_ userName:String?) {
-        DispatchQueue.main.async {
-            let sb = UIStoryboard(name: "Parent", bundle: nil)
-            let vc = sb.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
-            vc.id = studentID
-            vc.userName = userName
-            vc.userProfileImage = userProfileImage
-            vc.comesFrom = "New Chat"
-            vc.hidesBottomBarWhenPushed = true
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+    func openChat(_ studentID:Int,_ userProfileImage:String?,_ userName:String?,_ threadID:Int = 0) {
+        
+        SocketIOManager.sharedInstance.joinRoomEmitter(userID: studentID)
+               SocketIOManager.sharedInstance.joinRoomListner { [weak self] messageInfo in
+                   guard let self = self else { return }
+                   print(messageInfo)
+                   DispatchQueue.main.async {
+                       if !self.isNavigatedToMessageListingVC {
+                           self.isNavigatedToMessageListingVC = true
+                           let sb = UIStoryboard(name: "Parent", bundle: nil)
+                           let vc = sb.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
+                           vc.id = Int(messageInfo.data?.student?.id ?? "") ?? 0
+                           vc.threadID = Int(messageInfo.data?.thread?.id ?? "") ?? 0
+                           vc.userName = messageInfo.data?.student?.name
+                           vc.userProfileImage = messageInfo.data?.student?.name
+                           vc.comesFrom = "New Chat"
+                           vc.hidesBottomBarWhenPushed = true
+                           self.navigationController?.pushViewController(vc, animated: true)
+
+                           // Remove or deactivate the listener here if needed
+                           // e.g., SocketIOManager.sharedInstance.removeListener("joinRoomListner")
+                       }
+                   }
+               }
+        
+        
+//        SocketIOManager.sharedInstance.joinRoomEmitter(userID: studentID)
+//        SocketIOManager.sharedInstance.joinRoomListner { messageInfo in
+//            print(messageInfo)
+//            DispatchQueue.main.async {
+//                let sb = UIStoryboard(name: "Parent", bundle: nil)
+//                let vc = sb.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
+//                vc.id = Int(messageInfo.data?.student?.id ?? "")
+//                vc.threadID = Int(messageInfo.data?.thread?.id ?? "")
+//                vc.userName = messageInfo.data?.student?.name
+//                vc.userProfileImage = messageInfo.data?.student?.name
+//                vc.comesFrom = "New Chat"
+//                vc.hidesBottomBarWhenPushed = true
+//                self.navigationController?.pushViewController(vc, animated: true)
+//            }
+//        }
     }
 }
 extension TeacherChatVC {

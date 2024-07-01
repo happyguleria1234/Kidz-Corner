@@ -95,10 +95,9 @@ class ParentPortfolio: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         registerTable()
-        
         AttendanceContainer().delegate = self
         buttonDate.addTarget(self, action: #selector(dateSelected), for: .touchUpInside)
-        attendanceContainer()
+//        attendanceContainer()
         setupViews()
         self.calendar.scope = .week
         calendar.delegate = self
@@ -107,6 +106,29 @@ class ParentPortfolio: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         getAllChildsAPI()
+        
+        if selectedType == 1 {
+            activityCalendarCenter.priority = UILayoutPriority(996)
+            attendanceBtn.tintColor = UIColor(named: "gradientBottom")
+            activityCalendarBtn.tintColor = .white
+            UIView.animate(withDuration: 0.2) {
+                self.view.layoutIfNeeded()
+            }
+            self.attendanceTableView.isHidden = true
+            self.attendanceView.isHidden = false
+            self.activityTableView.isHidden = true
+        } else {
+            activityCalendarCenter.priority = UILayoutPriority(998)
+            activityCalendarBtn.tintColor = UIColor(named: "gradientBottom")
+            attendanceBtn.tintColor = .white
+            UIView.animate(withDuration: 0.2) {
+                self.view.layoutIfNeeded()
+            }
+            self.activityTableView.isHidden = false
+            self.attendanceTableView.isHidden = true
+            self.attendanceView.isHidden = true
+        }
+        
         getParentPortfolio(for: childrenIds[currentChildIndex])
         labelDate.text = Date().longDate
         getChildDetailsApi(date: Date().shortDate, childId: childrenIds[currentChildIndex])

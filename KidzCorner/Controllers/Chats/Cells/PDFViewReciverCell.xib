@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Poppins-Medium.otf">
+            <string>Poppins-Medium</string>
+        </array>
+        <array key="Poppins-Regular.otf">
+            <string>Poppins-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="91" id="KGk-i7-Jjw" customClass="PDFViewReciverCell" customModule="KidzCorner" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="91"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="91"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ca7-0s-eyC">
+                        <rect key="frame" x="60" y="25" width="208" height="61"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pdfforcell" translatesAutoresizingMaskIntoConstraints="NO" id="SJz-bt-qSG">
+                                <rect key="frame" x="8" y="8" width="26" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="26" id="F8Z-8P-EQx"/>
+                                    <constraint firstAttribute="height" constant="22" id="aOv-Zu-n47"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Krc-s0-yLT">
+                                <rect key="frame" x="44" y="9.3333333333333339" width="114" height="19.333333333333329"/>
+                                <attributedString key="attributedText">
+                                    <fragment content=".pdf">
+                                        <attributes>
+                                            <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="14" name="Poppins-Medium"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XRb-C2-b9P">
+                                <rect key="frame" x="168" y="8" width="30" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="Jqb-TN-VjP"/>
+                                    <constraint firstAttribute="height" constant="22" id="uVQ-CJ-xUa"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="square.and.arrow.down" catalog="system"/>
+                            </button>
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00 AM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fiB-il-Eih">
+                                <rect key="frame" x="148" y="40" width="50" height="11"/>
+                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="11"/>
+                                <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.41176474089999998" green="0.66666668650000005" blue="0.67450982329999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="Krc-s0-yLT" firstAttribute="centerY" secondItem="SJz-bt-qSG" secondAttribute="centerY" id="8dz-ai-O62"/>
+                            <constraint firstItem="Krc-s0-yLT" firstAttribute="leading" secondItem="SJz-bt-qSG" secondAttribute="trailing" constant="10" id="A4o-1X-47j"/>
+                            <constraint firstAttribute="trailing" secondItem="XRb-C2-b9P" secondAttribute="trailing" constant="10" id="ExY-qq-AAb"/>
+                            <constraint firstItem="fiB-il-Eih" firstAttribute="top" secondItem="XRb-C2-b9P" secondAttribute="bottom" constant="10" id="KeW-Zr-VYW"/>
+                            <constraint firstItem="XRb-C2-b9P" firstAttribute="leading" secondItem="Krc-s0-yLT" secondAttribute="trailing" constant="10" id="OYy-FD-CLH"/>
+                            <constraint firstItem="Krc-s0-yLT" firstAttribute="top" secondItem="Ca7-0s-eyC" secondAttribute="top" constant="9.3300000000000001" id="T4v-PE-k2q"/>
+                            <constraint firstItem="fiB-il-Eih" firstAttribute="trailing" secondItem="XRb-C2-b9P" secondAttribute="trailing" id="WUq-b1-aLK"/>
+                            <constraint firstAttribute="bottom" secondItem="fiB-il-Eih" secondAttribute="bottom" constant="10" id="hPY-2c-S6s"/>
+                            <constraint firstItem="SJz-bt-qSG" firstAttribute="leading" secondItem="Ca7-0s-eyC" secondAttribute="leading" constant="8" id="jJ0-Ui-XCy"/>
+                            <constraint firstItem="XRb-C2-b9P" firstAttribute="top" secondItem="Ca7-0s-eyC" secondAttribute="top" constant="8" id="mV9-U7-pV6"/>
+                            <constraint firstItem="SJz-bt-qSG" firstAttribute="top" secondItem="Ca7-0s-eyC" secondAttribute="top" constant="8" id="t2X-VG-JES"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholderImage" translatesAutoresizingMaskIntoConstraints="NO" id="za7-Ar-Vmk">
+                        <rect key="frame" x="10" y="5" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="IaR-hI-gaZ"/>
+                            <constraint firstAttribute="height" constant="40" id="cHL-1t-dDC"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Teacher" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZhD-3U-nj7">
+                        <rect key="frame" x="60" y="5" width="45.333333333333343" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="0xa-XN-u0Q"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="11"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="Ca7-0s-eyC" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.65" id="7aN-y2-OhT"/>
+                    <constraint firstAttribute="bottom" secondItem="Ca7-0s-eyC" secondAttribute="bottom" constant="5" id="AQ8-J0-n08"/>
+                    <constraint firstItem="ZhD-3U-nj7" firstAttribute="leading" secondItem="za7-Ar-Vmk" secondAttribute="trailing" constant="10" id="Gv6-7r-WTy"/>
+                    <constraint firstItem="Ca7-0s-eyC" firstAttribute="leading" secondItem="za7-Ar-Vmk" secondAttribute="trailing" constant="10" id="MJW-zC-bhX"/>
+                    <constraint firstItem="Ca7-0s-eyC" firstAttribute="top" secondItem="ZhD-3U-nj7" secondAttribute="bottom" constant="5" id="TYA-jW-QEM"/>
+                    <constraint firstItem="za7-Ar-Vmk" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="ZsH-eQ-sge"/>
+                    <constraint firstItem="ZhD-3U-nj7" firstAttribute="top" secondItem="za7-Ar-Vmk" secondAttribute="top" id="i2k-N0-q4L"/>
+                    <constraint firstItem="za7-Ar-Vmk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="yJD-oD-3oa"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="PdfView" destination="Ca7-0s-eyC" id="5iR-5l-sxu"/>
+                <outlet property="downloadBtn" destination="XRb-C2-b9P" id="81g-KY-adO"/>
+                <outlet property="lblName" destination="ZhD-3U-nj7" id="tEP-sk-QNt"/>
+                <outlet property="pdfNameLbl" destination="Krc-s0-yLT" id="6Mg-Qs-dwQ"/>
+                <outlet property="timeLbl" destination="fiB-il-Eih" id="hxl-1Q-BGU"/>
+                <outlet property="userImgVw" destination="za7-Ar-Vmk" id="5yC-Gf-qbK"/>
+            </connections>
+            <point key="canvasLocation" x="138.93129770992365" y="15.140845070422536"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="pdfforcell" width="512" height="512"/>
+        <image name="placeholderImage" width="300" height="300"/>
+        <image name="square.and.arrow.down" catalog="system" width="112" height="128"/>
+    </resources>
+</document>

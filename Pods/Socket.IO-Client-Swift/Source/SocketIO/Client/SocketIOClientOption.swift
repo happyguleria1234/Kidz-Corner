@@ -108,9 +108,6 @@ public enum SocketIOClientOption : ClientOption {
     /// Sets an NSURLSessionDelegate for the underlying engine. Useful if you need to handle self-signed certs.
     case sessionDelegate(URLSessionDelegate)
 
-    /// If passed `false`, the WebSocket stream will be configured with the useCustomEngine `false`.
-    case useCustomEngine(Bool)
-
     /// The version of socket.io being used. This should match the server version. Default is 3.
     case version(SocketIOVersion)
 
@@ -163,8 +160,6 @@ public enum SocketIOClientOption : ClientOption {
             description = "sessionDelegate"
         case .enableSOCKSProxy:
             description = "enableSOCKSProxy"
-        case .useCustomEngine:
-            description = "customEngine"
         case .version:
             description = "version"
         }
@@ -217,8 +212,6 @@ public enum SocketIOClientOption : ClientOption {
         case let .sessionDelegate(delegate):
             value = delegate
         case let .enableSOCKSProxy(enable):
-            value = enable
-        case let .useCustomEngine(enable):
             value = enable
         case let.version(versionNum):
             value = versionNum

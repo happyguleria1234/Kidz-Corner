@@ -13,6 +13,8 @@
 		18209CA62C14140B00D59EAB /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA52C14140B00D59EAB /* CustomView.swift */; };
 		18209CAC2C15A7DB00D59EAB /* SocketConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA92C15A7DB00D59EAB /* SocketConstants.swift */; };
 		18209CAD2C15A7DB00D59EAB /* SocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CAA2C15A7DB00D59EAB /* SocketIOManager.swift */; };
+		187EBC972C31527A0097A03D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 187EBC962C31527A0097A03D /* GoogleService-Info.plist */; };
+		187EBC992C32F1230097A03D /* CreateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187EBC982C32F1230097A03D /* CreateResponse.swift */; };
 		188BBBEB2C29E76D0059FDCD /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188BBBEA2C29E76D0059FDCD /* MessageModel.swift */; };
 		188BBBED2C2BBBE00059FDCD /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188BBBEC2C2BBBE00059FDCD /* ImagePicker.swift */; };
 		188BBBF12C2BBC810059FDCD /* SenderImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188BBBEF2C2BBC810059FDCD /* SenderImageCell.swift */; };
@@ -51,6 +53,12 @@
 		18D150DC2AED1272004BDF97 /* ParentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D150DA2AED1272004BDF97 /* ParentCell.xib */; };
 		18D150DE2AF037FA004BDF97 /* AddActivityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D150DD2AF037FA004BDF97 /* AddActivityVC.swift */; };
 		18DA02CA2C2C859A00D64805 /* OpenChatData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA02C92C2C859A00D64805 /* OpenChatData.swift */; };
+		18DA02CC2C303ED600D64805 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA02CB2C303ED600D64805 /* DownloadManager.swift */; };
+		18DA02CE2C30407500D64805 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA02CD2C30407500D64805 /* AlertManager.swift */; };
+		18DA02D12C30437800D64805 /* PDFViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA02CF2C30437800D64805 /* PDFViewCell.swift */; };
+		18DA02D22C30437800D64805 /* PDFViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18DA02D02C30437800D64805 /* PDFViewCell.xib */; };
+		18DA02D52C30438C00D64805 /* PDFViewReciverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA02D32C30438C00D64805 /* PDFViewReciverCell.swift */; };
+		18DA02D62C30438C00D64805 /* PDFViewReciverCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18DA02D42C30438C00D64805 /* PDFViewReciverCell.xib */; };
 		18DB93BA2C194D1E009C6C11 /* MessageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DB93B92C194D1E009C6C11 /* MessageList.swift */; };
 		18E4D9CA2AF965B7005A3C58 /* AcitivitiesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E4D9C92AF965B7005A3C58 /* AcitivitiesModel.swift */; };
 		18E4D9CC2AF96948005A3C58 /* MiscExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E4D9CB2AF96948005A3C58 /* MiscExt.swift */; };
@@ -174,7 +182,6 @@
 		B72E68A72ADB0C54003433F2 /* StudentProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B72E68A52ADB0C54003433F2 /* StudentProfileCell.xib */; };
 		B72E68A92ADB194A003433F2 /* UserdefaultsExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E68A82ADB194A003433F2 /* UserdefaultsExt.swift */; };
 		B72E68AB2ADDB9D3003433F2 /* ChildrenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E68AA2ADDB9D3003433F2 /* ChildrenModel.swift */; };
-		B7928B1F2A49F3DC0083B77E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7928B1E2A49F3DB0083B77E /* GoogleService-Info.plist */; };
 		B7928B212A5089650083B77E /* PayloadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7928B202A5089650083B77E /* PayloadModel.swift */; };
 		B7928B232A5094FB0083B77E /* NotificationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7928B222A5094FB0083B77E /* NotificationsVC.swift */; };
 		B7928B262A50A3330083B77E /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7928B242A50A3330083B77E /* NotificationCell.swift */; };
@@ -198,6 +205,8 @@
 		18209CA52C14140B00D59EAB /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		18209CA92C15A7DB00D59EAB /* SocketConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketConstants.swift; sourceTree = "<group>"; };
 		18209CAA2C15A7DB00D59EAB /* SocketIOManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
+		187EBC962C31527A0097A03D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		187EBC982C32F1230097A03D /* CreateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateResponse.swift; sourceTree = "<group>"; };
 		188BBBEA2C29E76D0059FDCD /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		188BBBEC2C2BBBE00059FDCD /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		188BBBEF2C2BBC810059FDCD /* SenderImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SenderImageCell.swift; path = KidzCorner/Functions/SenderImageCell.swift; sourceTree = SOURCE_ROOT; };
@@ -236,6 +245,12 @@
 		18D150DA2AED1272004BDF97 /* ParentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ParentCell.xib; sourceTree = "<group>"; };
 		18D150DD2AF037FA004BDF97 /* AddActivityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddActivityVC.swift; sourceTree = "<group>"; };
 		18DA02C92C2C859A00D64805 /* OpenChatData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChatData.swift; sourceTree = "<group>"; };
+		18DA02CB2C303ED600D64805 /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
+		18DA02CD2C30407500D64805 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
+		18DA02CF2C30437800D64805 /* PDFViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewCell.swift; sourceTree = "<group>"; };
+		18DA02D02C30437800D64805 /* PDFViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PDFViewCell.xib; sourceTree = "<group>"; };
+		18DA02D32C30438C00D64805 /* PDFViewReciverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewReciverCell.swift; sourceTree = "<group>"; };
+		18DA02D42C30438C00D64805 /* PDFViewReciverCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PDFViewReciverCell.xib; sourceTree = "<group>"; };
 		18DB93B92C194D1E009C6C11 /* MessageList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageList.swift; sourceTree = "<group>"; };
 		18E4D9C92AF965B7005A3C58 /* AcitivitiesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcitivitiesModel.swift; sourceTree = "<group>"; };
 		18E4D9CB2AF96948005A3C58 /* MiscExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscExt.swift; sourceTree = "<group>"; };
@@ -369,7 +384,6 @@
 		B72E68AA2ADDB9D3003433F2 /* ChildrenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildrenModel.swift; sourceTree = "<group>"; };
 		B791C4432A41FFBA005B295D /* YPImagePicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YPImagePicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7928B1D2A489B270083B77E /* KidzCorner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KidzCorner.entitlements; sourceTree = "<group>"; };
-		B7928B1E2A49F3DB0083B77E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B7928B202A5089650083B77E /* PayloadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayloadModel.swift; sourceTree = "<group>"; };
 		B7928B222A5094FB0083B77E /* NotificationsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsVC.swift; sourceTree = "<group>"; };
 		B7928B242A50A3330083B77E /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
@@ -428,6 +442,10 @@
 				188BBBF02C2BBC810059FDCD /* SenderImageCell.xib */,
 				188BBBF32C2BBCCB0059FDCD /* RecieverImageCell.swift */,
 				188BBBF42C2BBCCB0059FDCD /* RecieverImageCell.xib */,
+				18DA02CF2C30437800D64805 /* PDFViewCell.swift */,
+				18DA02D02C30437800D64805 /* PDFViewCell.xib */,
+				18DA02D32C30438C00D64805 /* PDFViewReciverCell.swift */,
+				18DA02D42C30438C00D64805 /* PDFViewReciverCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -464,6 +482,7 @@
 				18DB93B92C194D1E009C6C11 /* MessageList.swift */,
 				18A79C3C2C1DF96500F08D92 /* UserMessagesList.swift */,
 				188BBBEA2C29E76D0059FDCD /* MessageModel.swift */,
+				187EBC982C32F1230097A03D /* CreateResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -535,7 +554,7 @@
 				53C1965527B17D7200EF16A3 /* Assets.xcassets */,
 				53C1965727B17D7200EF16A3 /* LaunchScreen.storyboard */,
 				53C1965A27B17D7200EF16A3 /* Info.plist */,
-				B7928B1E2A49F3DB0083B77E /* GoogleService-Info.plist */,
+				187EBC962C31527A0097A03D /* GoogleService-Info.plist */,
 				53C1969927B17F9200EF16A3 /* Font */,
 				53C196B527B17F9200EF16A3 /* Functions */,
 				53C1968127B17F9200EF16A3 /* Controllers */,
@@ -792,6 +811,8 @@
 				18A79C422C1EAEB300F08D92 /* NetworkManager.swift */,
 				18A79C442C1EAF4900F08D92 /* LoadingManager.swift */,
 				188BBBEC2C2BBBE00059FDCD /* ImagePicker.swift */,
+				18DA02CB2C303ED600D64805 /* DownloadManager.swift */,
+				18DA02CD2C30407500D64805 /* AlertManager.swift */,
 			);
 			path = Functions;
 			sourceTree = "<group>";
@@ -911,6 +932,7 @@
 				B72E68A32ADAFC3F003433F2 /* AttendanceCell.xib in Resources */,
 				53C196F627B17F9200EF16A3 /* Poppins-Medium.otf in Resources */,
 				53C196CE27B17F9200EF16A3 /* DashboardCollectionCell.xib in Resources */,
+				18DA02D22C30437800D64805 /* PDFViewCell.xib in Resources */,
 				53C196FE27B17F9200EF16A3 /* Poppins-BlackItalic.otf in Resources */,
 				188D95A72C1383FB00BC7A80 /* SenderCell.xib in Resources */,
 				53C1965927B17D7200EF16A3 /* LaunchScreen.storyboard in Resources */,
@@ -922,6 +944,7 @@
 				53C196D027B17F9200EF16A3 /* DashboardTableCell.xib in Resources */,
 				53C196F527B17F9200EF16A3 /* Poppins-BoldItalic.otf in Resources */,
 				53C1970027B17F9200EF16A3 /* Poppins-ExtraBold.otf in Resources */,
+				18DA02D62C30438C00D64805 /* PDFViewReciverCell.xib in Resources */,
 				5315773F29E1322F001C273C /* ParentPortfolioCell.xib in Resources */,
 				53B5913F27EB6562009D301A /* InvoiceDetailHeader.xib in Resources */,
 				18BC90352BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib in Resources */,
@@ -935,7 +958,7 @@
 				53C196FC27B17F9200EF16A3 /* Poppins-Bold.otf in Resources */,
 				53C196F327B17F9200EF16A3 /* Poppins-ExtraLightItalic.otf in Resources */,
 				B72E68A72ADB0C54003433F2 /* StudentProfileCell.xib in Resources */,
-				B7928B1F2A49F3DC0083B77E /* GoogleService-Info.plist in Resources */,
+				187EBC972C31527A0097A03D /* GoogleService-Info.plist in Resources */,
 				18A79C602C25D91B00F08D92 /* PortfolioNewCell.xib in Resources */,
 				53C196D427B17F9200EF16A3 /* StatsCell.xib in Resources */,
 				B72E689B2AD8548B003433F2 /* ActivityCell.xib in Resources */,
@@ -1033,12 +1056,14 @@
 				53C1970E27B17F9200EF16A3 /* GradientView.swift in Sources */,
 				188BBBF52C2BBCCB0059FDCD /* RecieverImageCell.swift in Sources */,
 				53C1966627B17D9C00EF16A3 /* UIView+Extension.m in Sources */,
+				187EBC992C32F1230097A03D /* CreateResponse.swift in Sources */,
 				53C196E427B17F9200EF16A3 /* ParentDashboard.swift in Sources */,
 				188D95AD2C138B0100BC7A80 /* ChatsVC.swift in Sources */,
 				53C196E627B17F9200EF16A3 /* ClassStats.swift in Sources */,
 				53C196E527B17F9200EF16A3 /* TeacherAnnouncement.swift in Sources */,
 				53C196DD27B17F9200EF16A3 /* ParentActivityContainer.swift in Sources */,
 				53C196E127B17F9200EF16A3 /* ParentAnnouncements.swift in Sources */,
+				18DA02D52C30438C00D64805 /* PDFViewReciverCell.swift in Sources */,
 				B7928B2B2A5882DE0083B77E /* VerifyOtpVC.swift in Sources */,
 				53B5913127EB5A10009D301A /* InvoiceCell.swift in Sources */,
 				18209CAC2C15A7DB00D59EAB /* SocketConstants.swift in Sources */,
@@ -1078,6 +1103,7 @@
 				53B5914327EB675A009D301A /* PaymentDetail.swift in Sources */,
 				5356715B2866D7AF005ABFC5 /* CommentsCell.swift in Sources */,
 				53C196CD27B17F9200EF16A3 /* DashboardCollectionCell.swift in Sources */,
+				18DA02D12C30437800D64805 /* PDFViewCell.swift in Sources */,
 				53C1966C27B17DAB00EF16A3 /* RYBlueToothTool.m in Sources */,
 				B72E68AB2ADDB9D3003433F2 /* ChildrenModel.swift in Sources */,
 				533FB3BD27D4A43100FFB0B1 /* ClassesCell.swift in Sources */,
@@ -1100,8 +1126,10 @@
 				53C1970927B17F9200EF16A3 /* ApiManager.swift in Sources */,
 				53C196DB27B17F9200EF16A3 /* SignIn.swift in Sources */,
 				53C0380028819CE000D8D85C /* BluetoothCode.swift in Sources */,
+				18DA02CE2C30407500D64805 /* AlertManager.swift in Sources */,
 				18A79C622C25DF7C00F08D92 /* PortfolioNewVC.swift in Sources */,
 				53C196EC27B17F9200EF16A3 /* Devices.swift in Sources */,
+				18DA02CC2C303ED600D64805 /* DownloadManager.swift in Sources */,
 				188D95AA2C13840A00BC7A80 /* RecieverCell.swift in Sources */,
 				53B5914627EB7D1E009D301A /* InvoiceDetailFooter.swift in Sources */,
 				53C196DE27B17F9200EF16A3 /* ParentPortfolio.swift in Sources */,
@@ -1275,7 +1303,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QUM623UT8W;
+				DEVELOPMENT_TEAM = RZA7HJJ3MF;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1300,9 +1328,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.5;
+				MARKETING_VERSION = 5.6;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.asitkumar.HealM3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1327,7 +1355,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QUM623UT8W;
+				DEVELOPMENT_TEAM = RZA7HJJ3MF;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1352,9 +1380,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.5;
+				MARKETING_VERSION = 5.6;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.asitkumar.HealM3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

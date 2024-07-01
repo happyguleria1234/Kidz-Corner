@@ -7,6 +7,7 @@
 
 import UIKit
 import Foundation
+import SDWebImage
 import IQKeyboardManagerSwift
 
 class MessageListingVC: UIViewController, FilePickerManagerDelegate {
@@ -23,7 +24,13 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate {
     var messageListing = [MessagesModelListingDatum]()
     private var filePickerManager: FilePickerManager!
     var imageData: Data?
-
+    let downloadManager = DownloadManager.shared
+    private var isLoadingMessages = false
+    private var isFetchingMessages = false
+    var currentPage = 1
+    
+    @IBOutlet weak var bootamView: UIView!
+    @IBOutlet weak var topView: GradientView!
     @IBOutlet weak var tf_message: UITextField!
     @IBOutlet weak var lbl_type: UILabel!
     @IBOutlet weak var lbl_name: UILabel!
@@ -46,11 +53,18 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate {
     //MARK: Custom
     
     func setData() {
+        tblMessages.delegate = self
+        tblMessages.dataSource = self
+        
         tblMessages.register(UINib(nibName: "SenderCell", bundle: nil), forCellReuseIdentifier: "SenderCell")
         tblMessages.register(UINib(nibName: "RecieverCell", bundle: nil), forCellReuseIdentifier: "RecieverCell")
         tblMessages.register(UINib(nibName: "SenderImageCell", bundle: nil), forCellReuseIdentifier: "SenderImageCell")
         tblMessages.register(UINib(nibName: "RecieverImageCell", bundle: nil), forCellReuseIdentifier: "RecieverImageCell")
-
+        tblMessages.register(UINib(nibName: "PDFViewCell", bundle: nil), forCellReuseIdentifier: "PDFViewCell")
+        tblMessages.register(UINib(nibName: "PDFViewReciverCell", bundle: nil), forCellReuseIdentifier: "PDFViewReciverCell")
+        
+        //        tblMessages.transform = CGAffineTransform(scaleX: 1, y: -1)
+        //        tblMessages.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     private func setupHiddenTextView() {
@@ -66,22 +80,36 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate {
         print("Selected image: \(image)")
         let imgData = image.jpegData(compressionQuality: 0.1)
         imageData = imgData
-        sendMesage(message: "",mediaStr: imageData!,thumbnailStr: imageData!,messageType:0) { [weak self] in
-            self?.tf_message.text = ""
-            self?.tblMessages.scrollToBottom()
-            self?.tblMessages.reloadData()
+        uploadImage(params: ["image":imageData!],fileData: imageData!) { [self] data in
+            print("")
+            sendMessage(message: "",mediaStr: data.data,thumbnailStr: data.data,messageType:2) { [weak self] in
+                self?.tf_message.text = ""
+                self?.tblMessages.scrollToBottom()
+                self?.tblMessages.reloadData()
+            }
         }
-        
     }
     
     func didPickPDF(_ url: URL) {
-        // Handle the selected PDF
         print("Selected PDF: \(url)")
+        do {
+            let pdfData = try Data(contentsOf: url)
+            uploadPDF(params: ["image":pdfData],fileData: pdfData) { [self] data in
+                sendMessage(message: "",mediaStr: data.data,thumbnailStr: data.data,messageType:3) { [weak self] in
+                    self?.tf_message.text = ""
+                    self?.tblMessages.scrollToBottom()
+                    self?.tblMessages.reloadData()
+                }
+            }
+        } catch {
+            print("Failed to convert PDF to Data: \(error.localizedDescription)")
+        }
     }
     
     //------------------------------------------------------
     
     deinit { //same like dealloc in ObjectiveC
+        tblMessages.removeObserver(self, forKeyPath: "contentOffset")
     }
     
     //------------------------------------------------------
@@ -99,7 +127,7 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate {
     @IBAction func btnSendMessage(_ sender: UIButton) {
         if let messageData = tf_message.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
             if messageData != "" {
-                sendMesage(message: messageData,messageType:1) { [weak self] in
+                sendMessage(message: messageData,messageType:1) { [weak self] in
                     self?.tf_message.text = ""
                     self?.tblMessages.scrollToBottom()
                     self?.tblMessages.reloadData()
@@ -121,13 +149,51 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate {
         setData()
         populateData()
         keyboardHandling()
-        if comesFrom == "New Chat" {
-            SocketIOManager.sharedInstance.joinRoomEmitter(userID: id)
-        }
+        SocketIOManager.sharedInstance.joinRoomEmitter(userID: id)
         getMessages()
         setupHiddenTextView()
         filePickerManager = FilePickerManager(viewController: self)
         filePickerManager.delegate = self
+        tblMessages.addObserver(self, forKeyPath: "contentOffset", options: [.new], context: nil)
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?,
+                               of object: Any?,
+                               change: [NSKeyValueChangeKey : Any]?,
+                               context: UnsafeMutableRawPointer?) {
+        if keyPath == "contentOffset",
+           let contentOffset = change?[.newKey] as? CGPoint,
+           contentOffset.y < 0 && !isFetchingMessages {
+            fetchPreviousMessages()
+        }
+    }
+    
+    private func fetchPreviousMessages() {
+        guard !isFetchingMessages else { return }
+        
+        isFetchingMessages = true
+        let nextPage = currentPage + 1
+        
+        ApiManager.shared.Request(type: MessagesModelListing.self, methodType: .Get, url: "\(baseUrl)chatroom/\(threadID ?? 0)", parameter: ["page_size": "100", "page": "\(nextPage)"]) { [weak self] error, resp, msgString, statusCode in
+            guard let self = self, error == nil, statusCode == 200 else {
+                self?.isFetchingMessages = false
+                return
+            }
+            var count = messageListing.count
+            
+            DispatchQueue.main.async {
+                self.isFetchingMessages = false
+                guard let resp = resp else { return }
+                
+                resp.data.data.forEach { data in
+                    var reversedData = data
+                    reversedData.messages.reverse()
+                    self.messageListing.insert(reversedData, at: 0)
+                }
+                self.currentPage = nextPage
+                self.tblMessages.reloadData()
+            }
+        }
     }
     
     //------------------------------------------------------
@@ -184,68 +250,183 @@ extension MessageListingVC {
 
 extension MessageListingVC : UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return messageListing.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let userID = UserDefaults.standard.value(forKey: myUserid) as? Int ?? 0
-        let data = messageListing[indexPath.row]
-        if data.message == "" {
-            if data.media?.contains(".pdf") == true {
-                if data.senderID == userID {
-                    let senderCell = tableView.dequeueReusableCell(withIdentifier: "SenderCell", for: indexPath) as! SenderCell
-                    senderCell.setMessageData(messageData: data)
-                    senderCell.btnTap.tag = indexPath.row
-                    senderCell.btnTap.addTarget(self, action: #selector(loadDoc(sender:)), for: .touchUpInside)
-                    return senderCell
-                } else {
-                    let recieverCell = tableView.dequeueReusableCell(withIdentifier: "RecieverCell", for: indexPath) as! RecieverCell
-                    recieverCell.setMessageData(messageData: data)
-                    recieverCell.btnTap.tag = indexPath.row
-                    recieverCell.btnTap.addTarget(self, action: #selector(loadDoc(sender:)), for: .touchUpInside)
-                    return recieverCell
-                }
-            } else {
-                if data.senderID == userID {
-                    let senderCell = tableView.dequeueReusableCell(withIdentifier: "SenderImageCell", for: indexPath) as! SenderImageCell
-                    senderCell.setMessageData(messageData: data)
-                    senderCell.btnTap.tag = indexPath.row
-                    senderCell.btnTap.addTarget(self, action: #selector(loadDoc(sender:)), for: .touchUpInside)
-                    return senderCell
-                } else {
-                    let recieverCell = tableView.dequeueReusableCell(withIdentifier: "RecieverImageCell", for: indexPath) as! RecieverImageCell
-                    recieverCell.setMessageData(messageData: data)
-                    recieverCell.btnTap.tag = indexPath.row
-                    recieverCell.btnTap.addTarget(self, action: #selector(loadDoc(sender:)), for: .touchUpInside)
-                    return recieverCell
-                }
-            }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return messageListing[section].messages.count
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = .clear
+        let headerLabel = UILabel()
+        if messageListing[section].date == "yesterday" || messageListing[section].date == "today" {
+            headerLabel.text = messageListing[section].date.capitalized
         } else {
+            headerLabel.text = messageListing[section].date
+        }
+        headerLabel.textAlignment = .center
+        headerLabel.font = UIFont.boldSystemFont(ofSize: 16) // Adjust font size as needed
+        headerLabel.translatesAutoresizingMaskIntoConstraints = false
+        headerView.addSubview(headerLabel)
+        NSLayoutConstraint.activate([
+            headerLabel.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
+            headerLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
+        ])
+        
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let userID = UserDefaults.standard.value(forKey: "myUserid") as? Int ?? 0
+        let data = messageListing[indexPath.section].messages[indexPath.row]
+        
+        let button = IndexedButton()
+        button.section = indexPath.section
+        button.row = indexPath.row
+        
+        if data.messageType == 1 { // Assuming messageType is 1 for text messages
             if data.senderID == userID {
                 let senderCell = tableView.dequeueReusableCell(withIdentifier: "SenderCell", for: indexPath) as! SenderCell
                 senderCell.setMessageData(messageData: data)
-                senderCell.btnTap.tag = indexPath.row
+                senderCell.btnTap = button
                 senderCell.btnTap.addTarget(self, action: #selector(loadDoc(sender:)), for: .touchUpInside)
                 return senderCell
             } else {
                 let recieverCell = tableView.dequeueReusableCell(withIdentifier: "RecieverCell", for: indexPath) as! RecieverCell
                 recieverCell.setMessageData(messageData: data)
-                recieverCell.btnTap.tag = indexPath.row
+                recieverCell.btnTap = button
+                if loggedUSer == "Teacher" {
+                    recieverCell.lbl_name.isHidden = true
+                    if let url = URL(string: imageBaseUrl+(data.student?.image ?? "")) {
+                        recieverCell.img_profile.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
+                    }
+                } else {
+                    if let url = URL(string: imageBaseUrl+(data.user?.image ?? "")) {
+                        recieverCell.img_profile.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
+                    }
+                }
                 recieverCell.btnTap.addTarget(self, action: #selector(loadDoc(sender:)), for: .touchUpInside)
                 return recieverCell
             }
+        } else if data.messageType == 2{
+            if data.senderID == userID {
+                let senderImageCell = tableView.dequeueReusableCell(withIdentifier: "SenderImageCell", for: indexPath) as! SenderImageCell
+                senderImageCell.setMessageData(messageData: data)
+                senderImageCell.btnTap.tag = indexPath.section * 1000 + indexPath.row
+                senderImageCell.btnTap.addTarget(self, action: #selector(buttonSelected(sender:)), for: .touchUpInside)
+                return senderImageCell
+            } else {
+                let recieverImageCell = tableView.dequeueReusableCell(withIdentifier: "RecieverImageCell", for: indexPath) as! RecieverImageCell
+                recieverImageCell.setMessageData(messageData: data)
+                recieverImageCell.btnTap.tag = indexPath.section * 1000 + indexPath.row
+                if loggedUSer == "Teacher" {
+                    recieverImageCell.lblName.isHidden = true
+                    if let url = URL(string: imageBaseUrl+(data.student?.image ?? "")) {
+                        recieverImageCell.img_user.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
+                    }
+                } else {
+                    if let url = URL(string: imageBaseUrl+(data.user?.image ?? "")) {
+                        recieverImageCell.img_user.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
+                    }
+                }
+                recieverImageCell.btnTap.addTarget(self, action: #selector(buttonSelected(sender:)), for: .touchUpInside)
+                return recieverImageCell
+            }
+        } else if data.messageType == 3{
+            if data.senderID == userID {
+                let senderImageCell = tableView.dequeueReusableCell(withIdentifier: "PDFViewCell", for: indexPath) as! PDFViewCell
+                senderImageCell.setMessageData(messageData: data)
+                senderImageCell.downloadBtn.tag = indexPath.section * 1000 + indexPath.row
+                senderImageCell.downloadBtn.addTarget(self, action: #selector(pdfDownload(sender:)), for: .touchUpInside)
+                return senderImageCell
+            } else {
+                let senderImageCell = tableView.dequeueReusableCell(withIdentifier: "PDFViewReciverCell", for: indexPath) as! PDFViewReciverCell
+                senderImageCell.setMessageData(messageData: data)
+                senderImageCell.downloadBtn.tag = indexPath.section * 1000 + indexPath.row
+                if loggedUSer == "Teacher" {
+                    senderImageCell.lblName.isHidden = true
+                    if let url = URL(string: imageBaseUrl+(data.student?.image ?? "")) {
+                        senderImageCell.userImgVw.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
+                    }
+                } else {
+                    if let url = URL(string: imageBaseUrl+(data.user?.image ?? "")) {
+                        senderImageCell.userImgVw.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
+                    }
+                }
+                senderImageCell.downloadBtn.addTarget(self, action: #selector(pdfDownload(sender:)), for: .touchUpInside)
+                return senderImageCell
+            }
+        }
+        return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let data = messageListing[indexPath.section].messages[indexPath.row]
+        if data.messageType == 3{
+            if data.media?.contains(".pdf") == true{
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "OpenChatData") as! OpenChatData
+                vc.url = data.media ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+        
+    }
+    
+    func openURLInSafari(urlString: String) {
+        if let url = URL(string: urlString) {
+            UIApplication.shared.open(url)
         }
     }
     
-    @objc func loadDoc(sender: UIButton) {
-        let data = messageListing[sender.tag]
+    @objc func loadDoc(sender: IndexedButton) {
+        let data = messageListing[sender.section].messages[sender.row]
         if data.message == "" {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "OpenChatData") as! OpenChatData
             vc.url = data.media ?? ""
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
+    
+    //    MARK: NEW ONE
+    @objc func buttonSelected(sender: UIButton){
+        let section = sender.tag / 1000
+        let row = sender.tag % 1000
+        let messageData = messageListing[section].messages[row]
+        if let media = messageData.media, media != "", messageData.message == "" {
+            if let vc = storyboard?.instantiateViewController(withIdentifier: "OpenChatData") as? OpenChatData {
+                vc.url = media
+                navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+    }
+    
+    
+    @objc func pdfDownload(sender: UIButton){
+        let section = sender.tag / 1000
+        let row = sender.tag % 1000
+        let pdfFile = messageListing[section].messages[row].media ?? ""
+        printt("its download pdf")
+        let pdfURLString = pdfFile
+        guard let url = URL(string: imageBaseUrl + pdfURLString) else {
+            print("Invalid URL")
+            return
+        }
+        downloadManager.downloadPDF(from: url) { data in
+            if let data = data {
+                self.downloadManager.savePDF(data: data, fileName: "downloaded_document.pdf")
+            } else {
+                print("Failed to download PDF.")
+            }
+        }
+    }
+    
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -269,39 +450,101 @@ extension MessageListingVC {
             stopAnimating()
         }
     }
+    
     func getMessages() {
         showIndicator()
-        ApiManager.shared.Request(type: MessagesModelListing.self,methodType: .Get,url: "\(baseUrl)chatroom/\(threadID ?? 0)",parameter: ["page_size":"1000"]) { error, resp, msgString, statusCode in
-            guard error == nil,
-                  statusCode == 200 else {
+        ApiManager.shared.Request(type: MessagesModelListing.self, methodType: .Get, url: "\(baseUrl)chatroom/\(threadID ?? 0)", parameter: ["page_size": "1000", "page": "1"]) { error, resp, msgString, statusCode in
+            guard error == nil, statusCode == 200 else {
                 self.stopIndicator()
-                return }
+                return
+            }
             
             DispatchQueue.main.async {
                 self.stopIndicator()
                 
                 resp?.data.data.forEach({ data in
-                    self.messageListing.append(data)
+                    // Reverse the messages array inside each data
+                    var reversedData = data
+                    reversedData.messages.reverse()
+                    self.messageListing.append(reversedData)
                 })
-                
-                self.messageListing = self.messageListing.reversed()
-                self.tblMessages.scrollToBottom()
+                self.messageListing.reverse()
                 self.tblMessages.reloadData()
+                self.tblMessages.scrollToBottom()
             }
         }
     }
     
-    func sendMesage(message: String, mediaStr: Data = Data(), thumbnailStr: Data = Data(), messageType: Int ,  onSuccess: @escaping(() -> ())) {
+    func uploadImage(params: [String:Any],fileData:Data,onSuccess: @escaping((UploadModel)->())) {
+        showIndicator()
+        ApiManager.shared.requestWithSingleImage(type: UploadModel.self, url: "\(baseUrl)image_upload", parameter: params, imageName: "image.png", imageKeyName: "image", image: fileData) { error, myObject, messageStr, statusCode in
+            guard error == nil, statusCode == 200 else {
+                self.stopIndicator()
+                return
+            }
+            if statusCode == 200 {
+                print("Successfully uploaded")
+                onSuccess(myObject!)
+            }
+            else {
+                Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+            }
+        }
+    }
+    
+    func uploadPDF(params: [String:Any],fileData:Data,onSuccess: @escaping((UploadModel)->())) {
+        showIndicator()
+        ApiManager.shared.requestWithSingleImage(type: UploadModel.self, url: "\(baseUrl)image_upload", parameter: params, imageName: "image.pdf", imageKeyName: "image", image: fileData) { error, myObject, messageStr, statusCode in
+            guard error == nil, statusCode == 200 else {
+                self.stopIndicator()
+                return
+            }
+            if statusCode == 200 {
+                print("Successfully uploaded")
+                onSuccess(myObject!)
+            }
+            else {
+                Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+            }
+        }
+    }
+    
+    func sendMessage(message: String, mediaStr: String = "", thumbnailStr: String = "", messageType: Int, onSuccess: @escaping(() -> ())) {
         guard let userID = UserDefaults.standard.value(forKey: myUserid) as? Int else { return }
         guard let recieverID = id else { return }
         
-        SocketIOManager.sharedInstance.sendMessageEmitter(messageStr: message, senderId: userID, recieverID: recieverID, threadID: threadID ?? 0,messageType: messageType)
+        SocketIOManager.sharedInstance.sendMessageEmitter(messageStr: message, senderId: userID, recieverID: recieverID, threadID: threadID ?? 0, messageType: messageType, media: mediaStr, thumbnail: thumbnailStr)
         if !isListenerAdded {
             isListenerAdded = true
             SocketIOManager.sharedInstance.sendMessageListener { [weak self] messageDialogs in
-//                self?.messageListing.append(messageDialogs)
+                guard let strongSelf = self else { return }
+                if !strongSelf.messageListing.isEmpty {
+                    var lastMessage = strongSelf.messageListing[strongSelf.messageListing.count - 1]
+                    lastMessage.messages.append(messageDialogs.data!)
+                    strongSelf.messageListing[strongSelf.messageListing.count - 1] = lastMessage
+                    strongSelf.tblMessages.scrollToBottom()
+                    strongSelf.tblMessages.reloadData()
+                }
                 onSuccess()
             }
         }
     }
+}
+
+class IndexedButton: UIButton {
+    var section: Int = 0
+    var row: Int = 0
+}
+
+func convertStrToDate(strDate: String) -> Date{
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+    let date = dateFormatter.date(from: strDate)
+    
+    if let date = date {
+        print(date) // Output: 2023-05-30 09:30:00 +0000
+    } else {
+        print("Invalid date string")
+    }
+    return date ?? Date()
 }

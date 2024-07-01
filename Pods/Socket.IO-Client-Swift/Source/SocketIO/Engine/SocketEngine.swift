@@ -26,13 +26,20 @@ import Dispatch
 import Foundation
 import Starscream
 
+protocol EngineMessageDelegate: AnyObject {
+    func didReceiveMessage(_ message: String)
+}
+
 /// The class that handles the engine.io protocol and transports.
 /// See `SocketEnginePollable` and `SocketEngineWebsocket` for transport specific methods.
-open class SocketEngine: NSObject, WebSocketDelegate, URLSessionDelegate,
-                         SocketEnginePollable, SocketEngineWebsocket, ConfigSettable {
-  
-  
+open class SocketEngine:
+    NSObject, WebSocketDelegate, URLSessionDelegate, SocketEnginePollable, SocketEngineWebsocket, ConfigSettable {
+    public func didReceive(event: Starscream.WebSocketEvent, client: any Starscream.WebSocketClient) {
+        print("bbbbb")
+    }
+    
     // MARK: Properties
+    weak var delegate: EngineMessageDelegate?
 
     private static let logType = "SocketEngine"
 
@@ -112,9 +119,6 @@ open class SocketEngine: NSObject, WebSocketDelegate, URLSessionDelegate,
 
     /// The url for WebSockets.
     public private(set) var urlWebSocket = URL(string: "http://localhost/")!
-
-    /// When `false`, the WebSocket `stream` will be configured with the useCustomEngine `false`.
-    public private(set) var useCustomEngine = true
 
     /// The version of engine.io being used. Default is three.
     public private(set) var version: SocketIOVersion = .three
@@ -312,7 +316,7 @@ open class SocketEngine: NSObject, WebSocketDelegate, URLSessionDelegate,
             includingCookies: session?.configuration.httpCookieStorage?.cookies(for: urlPollingWithSid)
         )
 
-        ws = WebSocket(request: req, certPinner: certPinner, compressionHandler: compress ? WSCompression() : nil, useCustomEngine: useCustomEngine)
+        ws = WebSocket(request: req, certPinner: certPinner, compressionHandler: compress ? WSCompression() : nil)
         ws?.callbackQueue = engineQueue
         ws?.delegate = self
 
@@ -525,6 +529,8 @@ open class SocketEngine: NSObject, WebSocketDelegate, URLSessionDelegate,
         DefaultSocketLogger.Logger.log("Got message: \(message)", type: SocketEngine.logType)
 
         if message.hasPrefix(version.rawValue >= 3 ? "b" : "b4") {
+//            messageData = message
+            delegate?.didReceiveMessage(message)
             return handleBase64(message: message)
         }
 
@@ -629,8 +635,6 @@ open class SocketEngine: NSObject, WebSocketDelegate, URLSessionDelegate,
                 self.compress = true
             case .enableSOCKSProxy:
                 self.enableSOCKSProxy = true
-            case let .useCustomEngine(enable):
-                self.useCustomEngine = enable
             case let .version(num):
                 version = num
             default:
@@ -749,16 +753,16 @@ extension SocketEngine {
     /// - Parameters:
     ///   - event: WS Event
     ///   - _:
-    public func didReceive(event: Starscream.WebSocketEvent, client: Starscream.WebSocketClient) {
+    public func didReceive(event: WebSocketEvent, client _: WebSocket) {
         switch event {
         case let .connected(headers):
             wsConnected = true
-            self.client?.engineDidWebsocketUpgrade(headers: headers)
+            client?.engineDidWebsocketUpgrade(headers: headers)
             websocketDidConnect()
         case .cancelled:
             wsConnected = false
             websocketDidDisconnect(error: EngineError.canceled)
-        case .disconnected(_, _):
+        case let .disconnected(reason, code):
             wsConnected = false
             websocketDidDisconnect(error: nil)
         case let .text(msg):

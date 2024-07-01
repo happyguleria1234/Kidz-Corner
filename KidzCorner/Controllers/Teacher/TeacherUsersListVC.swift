@@ -1,7 +1,7 @@
 import UIKit
 
 protocol OpenChatVCProtocol:AnyObject {
-    func openChat(_ studentID:Int,_ userProfileImage:String?,_ userName:String?)
+    func openChat(_ studentID:Int,_ userProfileImage:String?,_ userName:String?,_ threadID: Int)
 }
 
 class TeacherUsersListVC: UIViewController {
@@ -124,7 +124,7 @@ extension TeacherUsersListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let data = childrenData[indexPath.row]
         guard let id = data.id else { return }
-        delegate?.openChat(id,data.image,data.name)
+        delegate?.openChat(id,data.image,data.name, 0)
         navigationController?.popViewController(animated: false)
     }
     

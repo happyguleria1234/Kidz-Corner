@@ -71,6 +71,7 @@ public let apiGetPaymentDetail = "invoice"
 public let teachersList = "all_teachers"
 public let parentList = "all_children"
 public let chatRoom = "chatroom"
+public let uploadImage = "image_upload"
 
 public let invoicePdfUrl = "https://kidzcorner.live/generate_invoice_pdf/"
 public let invoicePdfKey = "/5023fa9c3fd7c91f81f9c5bf2bb84368"

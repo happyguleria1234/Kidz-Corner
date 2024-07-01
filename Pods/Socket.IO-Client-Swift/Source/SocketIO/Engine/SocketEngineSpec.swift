@@ -27,7 +27,7 @@ import Foundation
 import Starscream
 
 /// Specifies a SocketEngine.
-public protocol SocketEngineSpec: AnyObject {
+public protocol SocketEngineSpec: class {
     // MARK: Properties
 
     /// The client for this engine.

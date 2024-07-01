@@ -10,19 +10,23 @@ import SDWebImage
 
 class RecieverImageCell: UITableViewCell {
 
+    @IBOutlet weak var lblTime: UILabel!
+    @IBOutlet weak var lblName: UILabel!
+    @IBOutlet weak var img_user: UIImageView!
     @IBOutlet weak var btnTap: UIButton!
     @IBOutlet weak var imgSend: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        img_user.cornerRadius = 20
     }
 
-    func setMessageData(messageData: MessagesModelListingDatum) {
+    func setMessageData(messageData: MessagesModelListingMessage) {
         if let url = URL(string: imageBaseUrl+(messageData.media ?? "")) {
-            print(url)
             imgSend.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
         }
+        lblName.text = "Teacher \(messageData.user?.name ?? "")"
+        lblTime.text = extractTime(strDate: messageData.createdAt ?? "")
+        let userID = UserDefaults.standard.value(forKey: "myUserid") as? Int ?? 0
     }
-    
 }

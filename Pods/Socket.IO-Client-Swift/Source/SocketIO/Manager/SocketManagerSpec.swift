@@ -45,7 +45,7 @@ import Foundation
 /// To disconnect a socket and remove it from the manager, either call `SocketIOClient.disconnect()` on the socket,
 /// or call one of the `disconnectSocket` methods on this class.
 ///
-public protocol SocketManagerSpec : SocketEngineClient {
+public protocol SocketManagerSpec : AnyObject, SocketEngineClient {
     // MARK: Properties
 
     /// Returns the socket associated with the default namespace ("/").
