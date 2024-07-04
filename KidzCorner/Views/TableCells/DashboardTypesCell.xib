@@ -33,7 +33,7 @@
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Attendnce1" translatesAutoresizingMaskIntoConstraints="NO" id="5yg-Zq-a5U">
                                                         <rect key="frame" x="15" y="25.000000000000004" width="67" height="47.333333333333343"/>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Attandance" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vNl-j9-af6">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Attendance" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vNl-j9-af6">
                                                         <rect key="frame" x="1" y="82.333333333333329" width="95" height="18"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="18" id="39q-oE-4qp"/>

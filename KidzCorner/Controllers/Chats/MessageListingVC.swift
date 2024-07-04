@@ -10,7 +10,7 @@ import Foundation
 import SDWebImage
 import IQKeyboardManagerSwift
 
-class MessageListingVC: UIViewController, FilePickerManagerDelegate {
+class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextFieldDelegate {
     
     //------------------------------------------------------
     
@@ -29,6 +29,7 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate {
     private var isFetchingMessages = false
     var currentPage = 1
     
+    @IBOutlet weak var btnSendOutlet: UIButton!
     @IBOutlet weak var bootamView: UIView!
     @IBOutlet weak var topView: GradientView!
     @IBOutlet weak var tf_message: UITextField!
@@ -53,6 +54,7 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate {
     //MARK: Custom
     
     func setData() {
+        tf_message.delegate = self
         tblMessages.delegate = self
         tblMessages.dataSource = self
         
@@ -78,6 +80,7 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate {
     func didPickImage(_ image: UIImage) {
         // Handle the selected image
         print("Selected image: \(image)")
+        btnSendOutlet.setImage(UIImage(named: "send1"), for: .normal)
         let imgData = image.jpegData(compressionQuality: 0.1)
         imageData = imgData
         uploadImage(params: ["image":imageData!],fileData: imageData!) { [self] data in
@@ -92,6 +95,7 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate {
     
     func didPickPDF(_ url: URL) {
         print("Selected PDF: \(url)")
+        btnSendOutlet.setImage(UIImage(named: "send1"), for: .normal)
         do {
             let pdfData = try Data(contentsOf: url)
             uploadPDF(params: ["image":pdfData],fileData: pdfData) { [self] data in
@@ -146,6 +150,7 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        keyboardHandling()
         setData()
         populateData()
         keyboardHandling()
@@ -155,7 +160,36 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate {
         filePickerManager = FilePickerManager(viewController: self)
         filePickerManager.delegate = self
         tblMessages.addObserver(self, forKeyPath: "contentOffset", options: [.new], context: nil)
+        
+        // Ensure the message listener is set up once and correctly
+        if !isListenerAdded {
+            isListenerAdded = true
+            SocketIOManager.sharedInstance.sendMessageListener { [weak self] messageDialogs in
+                guard let strongSelf = self else { return }
+                DispatchQueue.main.async {
+                    if !strongSelf.messageListing.isEmpty {
+                        var lastMessage = strongSelf.messageListing[strongSelf.messageListing.count - 1]
+                        lastMessage.messages.append(messageDialogs.data!)
+                        strongSelf.messageListing[strongSelf.messageListing.count - 1] = lastMessage
+                        strongSelf.tblMessages.scrollToBottom()
+                        strongSelf.tblMessages.reloadData()
+                    }
+                }
+            }
+        }
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+            // This method is called whenever the text field content changes
+        DispatchQueue.main.async { [self] in
+                if textField.text?.count ?? 0 > 0 {
+                    btnSendOutlet.setImage(UIImage(named: "send1"), for: .normal)
+                } else {
+                    btnSendOutlet.setImage(UIImage(named: "send"), for: .normal)
+                }
+            }
+            return true
+        }
     
     override func observeValue(forKeyPath keyPath: String?,
                                of object: Any?,
@@ -179,8 +213,7 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate {
                 self?.isFetchingMessages = false
                 return
             }
-            var count = messageListing.count
-            
+            var count = self.messageListing.count
             DispatchQueue.main.async {
                 self.isFetchingMessages = false
                 guard let resp = resp else { return }
@@ -224,13 +257,13 @@ extension MessageListingVC {
                 switch UIScreen.main.nativeBounds.height {
                 case 1136,1334,1920, 2208:
                     print("")
-                    self.bottomConstraint.constant = -(keyboardSize.height - self.view.safeAreaInsets.bottom+6)
+                    self.bottomConstraint.constant = (keyboardSize.height - self.view.safeAreaInsets.bottom+8)
                 case 2436,2688,1792:
                     print("")
-                    self.bottomConstraint.constant = -(keyboardSize.height - self.view.safeAreaInsets.bottom+9)
+                    self.bottomConstraint.constant = (keyboardSize.height - self.view.safeAreaInsets.bottom+11)
                 default:
                     print("")
-                    self.bottomConstraint.constant = -(keyboardSize.height - self.view.safeAreaInsets.bottom+9)
+                    self.bottomConstraint.constant = (keyboardSize.height - self.view.safeAreaInsets.bottom+11)
                 }
             }
             self.view.layoutIfNeeded()
@@ -455,7 +488,9 @@ extension MessageListingVC {
         showIndicator()
         ApiManager.shared.Request(type: MessagesModelListing.self, methodType: .Get, url: "\(baseUrl)chatroom/\(threadID ?? 0)", parameter: ["page_size": "1000", "page": "1"]) { error, resp, msgString, statusCode in
             guard error == nil, statusCode == 200 else {
-                self.stopIndicator()
+                DispatchQueue.main.async {
+                    self.stopIndicator()
+                }
                 return
             }
             
@@ -475,19 +510,46 @@ extension MessageListingVC {
         }
     }
     
-    func uploadImage(params: [String:Any],fileData:Data,onSuccess: @escaping((UploadModel)->())) {
+    //    func getMessages() {
+    //        showIndicator()
+    //        ApiManager.shared.Request(type: MessagesModelListing.self, methodType: .Get, url: "\(baseUrl)chatroom/\(threadID ?? 0)", parameter: ["page_size": "1000", "page": "1"]) { error, resp, msgString, statusCode in
+    //            guard error == nil, statusCode == 200 else {
+    //                self.stopIndicator()
+    //                return
+    //            }
+    //
+    //            DispatchQueue.main.async {
+    //                self.stopIndicator()
+    //
+    //                resp?.data.data.forEach({ data in
+    //                    // Reverse the messages array inside each data
+    //                    var reversedData = data
+    //                    reversedData.messages.reverse()
+    //                    self.messageListing.append(reversedData)
+    //                })
+    //                self.messageListing.reverse()
+    //                self.tblMessages.reloadData()
+    //                self.tblMessages.scrollToBottom()
+    //            }
+    //        }
+    //    }
+    
+    func uploadImage(params: [String: Any], fileData: Data, onSuccess: @escaping ((UploadModel) -> ())) {
         showIndicator()
         ApiManager.shared.requestWithSingleImage(type: UploadModel.self, url: "\(baseUrl)image_upload", parameter: params, imageName: "image.png", imageKeyName: "image", image: fileData) { error, myObject, messageStr, statusCode in
             guard error == nil, statusCode == 200 else {
-                self.stopIndicator()
+                DispatchQueue.main.async {
+                    self.stopIndicator()
+                }
                 return
             }
-            if statusCode == 200 {
-                print("Successfully uploaded")
-                onSuccess(myObject!)
-            }
-            else {
-                Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+            DispatchQueue.main.async {
+                if statusCode == 200 {
+                    print("Successfully uploaded")
+                    onSuccess(myObject!)
+                } else {
+                    Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+                }
             }
         }
     }
@@ -514,20 +576,7 @@ extension MessageListingVC {
         guard let recieverID = id else { return }
         
         SocketIOManager.sharedInstance.sendMessageEmitter(messageStr: message, senderId: userID, recieverID: recieverID, threadID: threadID ?? 0, messageType: messageType, media: mediaStr, thumbnail: thumbnailStr)
-        if !isListenerAdded {
-            isListenerAdded = true
-            SocketIOManager.sharedInstance.sendMessageListener { [weak self] messageDialogs in
-                guard let strongSelf = self else { return }
-                if !strongSelf.messageListing.isEmpty {
-                    var lastMessage = strongSelf.messageListing[strongSelf.messageListing.count - 1]
-                    lastMessage.messages.append(messageDialogs.data!)
-                    strongSelf.messageListing[strongSelf.messageListing.count - 1] = lastMessage
-                    strongSelf.tblMessages.scrollToBottom()
-                    strongSelf.tblMessages.reloadData()
-                }
-                onSuccess()
-            }
-        }
+        onSuccess()
     }
 }
 

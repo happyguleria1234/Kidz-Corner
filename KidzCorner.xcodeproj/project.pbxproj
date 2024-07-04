@@ -46,6 +46,8 @@
 		18A79C5F2C25D91B00F08D92 /* PortfolioNewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A79C5D2C25D91B00F08D92 /* PortfolioNewCell.swift */; };
 		18A79C602C25D91B00F08D92 /* PortfolioNewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A79C5E2C25D91B00F08D92 /* PortfolioNewCell.xib */; };
 		18A79C622C25DF7C00F08D92 /* PortfolioNewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A79C612C25DF7C00F08D92 /* PortfolioNewVC.swift */; };
+		18B1207D2C345D4E00ED2BA0 /* ActivityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B1207C2C345D4E00ED2BA0 /* ActivityVC.swift */; };
+		18B1207F2C3581BB00ED2BA0 /* EmojiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B1207E2C3581BB00ED2BA0 /* EmojiManager.swift */; };
 		18BC90312BF3C92C00F14A43 /* CustomeVieww.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BC90302BF3C92C00F14A43 /* CustomeVieww.swift */; };
 		18BC90352BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18BC90342BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib */; };
 		18BC90362BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BC90332BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift */; };
@@ -238,6 +240,8 @@
 		18A79C5D2C25D91B00F08D92 /* PortfolioNewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioNewCell.swift; sourceTree = "<group>"; };
 		18A79C5E2C25D91B00F08D92 /* PortfolioNewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PortfolioNewCell.xib; sourceTree = "<group>"; };
 		18A79C612C25DF7C00F08D92 /* PortfolioNewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioNewVC.swift; sourceTree = "<group>"; };
+		18B1207C2C345D4E00ED2BA0 /* ActivityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityVC.swift; sourceTree = "<group>"; };
+		18B1207E2C3581BB00ED2BA0 /* EmojiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiManager.swift; sourceTree = "<group>"; };
 		18BC90302BF3C92C00F14A43 /* CustomeVieww.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomeVieww.swift; sourceTree = "<group>"; };
 		18BC90332BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceHeadCollectionCell.swift; sourceTree = "<group>"; };
 		18BC90342BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InvoiceHeadCollectionCell.xib; sourceTree = "<group>"; };
@@ -705,6 +709,7 @@
 				53B5914227EB675A009D301A /* PaymentDetail.swift */,
 				53FE22112804AA09003AE636 /* InvoicePdf.swift */,
 				181CD6252BFD0E56006917F3 /* PdfVC.swift */,
+				18B1207C2C345D4E00ED2BA0 /* ActivityVC.swift */,
 			);
 			path = Parent;
 			sourceTree = "<group>";
@@ -813,6 +818,7 @@
 				188BBBEC2C2BBBE00059FDCD /* ImagePicker.swift */,
 				18DA02CB2C303ED600D64805 /* DownloadManager.swift */,
 				18DA02CD2C30407500D64805 /* AlertManager.swift */,
+				18B1207E2C3581BB00ED2BA0 /* EmojiManager.swift */,
 			);
 			path = Functions;
 			sourceTree = "<group>";
@@ -1035,6 +1041,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				188BBBF82C2BD78C0059FDCD /* WebService.swift in Sources */,
+				18B1207D2C345D4E00ED2BA0 /* ActivityVC.swift in Sources */,
 				181CD6282BFF9F18006917F3 /* PdfVC2.swift in Sources */,
 				188D7F6B2BE40D7F007000D3 /* CollageView.swift in Sources */,
 				53B5913D27EB64EB009D301A /* InvoiceDetailCell.swift in Sources */,
@@ -1091,6 +1098,7 @@
 				18D150DB2AED1272004BDF97 /* ParentCell.swift in Sources */,
 				18D150DE2AF037FA004BDF97 /* AddActivityVC.swift in Sources */,
 				53C1971027B17F9200EF16A3 /* Toast.swift in Sources */,
+				18B1207F2C3581BB00ED2BA0 /* EmojiManager.swift in Sources */,
 				53C196CF27B17F9200EF16A3 /* AnnouncementCell.swift in Sources */,
 				188D7F692BE40D7F007000D3 /* CollageItem.swift in Sources */,
 				B72E68962AD84ED4003433F2 /* ActivityHeaderCell.swift in Sources */,
@@ -1328,7 +1336,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.6;
+				MARKETING_VERSION = 5.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1380,7 +1388,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.6;
+				MARKETING_VERSION = 5.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";

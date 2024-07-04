@@ -16,6 +16,8 @@ class ChatsVC : UIViewController {
     
     var isNavigatedToMessageListingVC = false
 
+    @IBOutlet weak var searchView: CustomView!
+    @IBOutlet weak var searchBarHeight: NSLayoutConstraint!
     private var allCharRoomResp = [ChatData]()
     private var charRoomResp = [ChatData]()
     var isComming = String()
@@ -71,6 +73,13 @@ class ChatsVC : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        if  loggedUSer == "Teacher" {
+//            searchView.isHidden = false
+//            searchBarHeight.constant = 55
+//        } else {
+//            searchView.isHidden = true
+//            searchBarHeight.constant = 0
+//        }
         tblChats.reloadData()
         tblChats.backgroundColor = .clear
         SocketIOManager.sharedInstance.userStatus()
@@ -143,30 +152,10 @@ extension ChatsVC: UITableViewDelegate, UITableViewDataSource {
                     vc.userProfileImage = messageInfo.data?.student?.name
                     vc.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(vc, animated: true)
-                    
-                    // Remove or deactivate the listener here if needed
-                    // e.g., SocketIOManager.sharedInstance.removeListener("joinRoomListner")
                 }
             }
         }
     }
-    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let data = charRoomResp[indexPath.row]
-//        guard let studentID = data.studentID else { return }
-//
-//        SocketIOManager.sharedInstance.joinRoomEmitter(userID: studentID)
-//        SocketIOManager.sharedInstance.joinRoomListner { messageInfo in
-//            let vc = self.storyboard?.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
-//            vc.comesFrom = "User"
-//            vc.id = Int(messageInfo.data?.student?.id ?? "")
-//            vc.threadID = Int(messageInfo.data?.thread?.id ?? "")
-//            vc.userName = messageInfo.data?.student?.name
-//            vc.userProfileImage = messageInfo.data?.student?.name
-//            vc.hidesBottomBarWhenPushed = true
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }
-//    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
@@ -204,11 +193,11 @@ class ChatsCell: UITableViewCell {
             imgProfile.sd_setImage(with: URL(string: imageBaseUrl+(userProfileUrl)),
                                    placeholderImage: .announcementPlaceholder)
         }
-        if data.unread_message == 0 {
+        if data.unreadMessage == 0 {
             lbl_count.isHidden = true
         } else {
             lbl_count.isHidden = false
-            lbl_count.text = "\(data.unread_message ?? 0)"
+            lbl_count.text = "\(data.unreadMessage ?? 0)"
         }
         if let messageDate = data.message?.createdAt {
             lbl_time.text = formatDateString(dateString: messageDate)
@@ -219,7 +208,7 @@ class ChatsCell: UITableViewCell {
     }
     
     func setData(userData: MessageListUsers) {
-        lbl_message.text = userData.message
+//        lbl_message.text = userData.message
         imgProfile.sd_setImage(with: URL(string: imageBaseUrl+(userData.profileImage)), placeholderImage: .announcementPlaceholder)
     }
     

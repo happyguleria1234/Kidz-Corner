@@ -361,3 +361,12 @@ func extractTime(strDate: String) -> String? {
     timeFormatter.dateFormat = "HH:mm"
     return timeFormatter.string(from: date)
 }
+
+extension Date {
+    func formattedDateAndTime() -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter.string(from: self)
+    }
+}

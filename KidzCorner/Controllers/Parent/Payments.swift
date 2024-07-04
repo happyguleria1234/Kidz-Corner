@@ -5,7 +5,7 @@ class Payments: UIViewController {
     
     var currentIndexPath: IndexPath?
     
-    @IBOutlet weak var tf_search: UITextField!
+//    @IBOutlet weak var tf_search: UITextField!
     @IBOutlet weak var tablePayments: UITableView!
     @IBOutlet weak var amountCollectionView: UICollectionView!
     var previouslyDisplayedIndexPath: IndexPath?
@@ -19,9 +19,11 @@ class Payments: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tabBarController?.tabBar.isHidden = true
     }
     
-    @IBAction func btnDrop(_ sender: UIButton) {
+    @IBAction func btnBack(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
     }
     
     func setupCollectionView() {

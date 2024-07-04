@@ -1,8 +1,13 @@
+//
+//  ActivityVC.swift
+//  KidzCorner
+//
+//  Created by Happy Guleria on 02/07/24.
+//
+
 import UIKit
 
-var selectedType = 0
-
-class ParentDashboard: UIViewController {
+class ActivityVC: UIViewController {
     
     var dashboardData: [DashboardModelData]?
     var currentPage = 1
@@ -13,16 +18,10 @@ class ParentDashboard: UIViewController {
     @IBOutlet weak var tableHome: UITableView!
     @IBOutlet weak var checkedInBtn: UIButton!
     @IBOutlet weak var checkInstatuslbl: UILabel!
-    @IBOutlet weak var dateLbl: UILabel!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViews()
         setupTable()
-        dateLbl.text = Date().formattedDateAndTime()
-        //        getDashboard()
-        //        getChildrenList()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -36,80 +35,38 @@ class ParentDashboard: UIViewController {
         portfolioData = nil
     }
     
-    
-    @IBAction func buttonTap1(sender: UIButton) {
-        print("1")
-        selectedType = 1
-        tabBarController?.selectedIndex = 3
-    }
-    
-    @IBAction func buttonTap2(sender: UIButton) {
-        selectedType = 0
-        tabBarController?.selectedIndex = 3
-    }
-    
-    @IBAction func buttonTap3(sender: UIButton) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "Payments") as! Payments
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    @IBAction func buttonTap4(sender: UIButton) {
-        AlertManager.shared.showAlert(title: "Kidz Corner", message: "This feature will be coming soon.", viewController: self)
-        print("4")
-    }
-    
-    @IBAction func buttonTap5(sender: UIButton) {
-        print("5")
-        AlertManager.shared.showAlert(title: "Kidz Corner", message: "This feature will be coming soon.", viewController: self)
-    }
-    
-    @IBAction func buttonTap6(sender: UIButton) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncements") as! ParentAnnouncements
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    
-    //    MARK: CHECKED-IN BUTTON ACTION
-    @IBAction func checkedInBtn(_ sender: UIButton) {
-        
-    }
-    
-    func setupViews() {
-        
-    }
-    
     func setupTable() {
         tableHome.register(UINib(nibName: "DashboardTableCell", bundle: nil), forCellReuseIdentifier: "DashboardTableCell")
         tableHome.delegate = self
         tableHome.dataSource = self
     }
     
-    func updateToLatestVersion(latestVersion: String) {
-        if let currentVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
-            
-            if let current = Double(currentVersion), let latest = Double(latestVersion) {
-                if latest > current {
-                    let alertController = UIAlertController(title: "Update Available",
-                                                            message: "A new version of the app is available. Would you like to update?",
-                                                            preferredStyle: .alert)
-                    let updateAction = UIAlertAction(title: "Update", style: .default) { (_) in
-                        if let url = URL(string: "https://apps.apple.com/app/1467363872"),
-                           UIApplication.shared.canOpenURL(url) {
-                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                        }
-                    }
-                    
-                    let cancelAction = UIAlertAction(title: "Later", style: .cancel, handler: nil)
-                    alertController.addAction(updateAction)
-                    alertController.addAction(cancelAction)
-                    // Assuming this code is inside a UIViewController subclass
-                    self.present(alertController, animated: true, completion: nil)
-                } else {
-                    self.dismiss(animated: true)
-                }
-            }
-        }
-    }
+//    func updateToLatestVersion(latestVersion: String) {
+//        if let currentVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+//            
+//            if let current = Double(currentVersion), let latest = Double(latestVersion) {
+//                if latest > current {
+//                    let alertController = UIAlertController(title: "Update Available",
+//                                                            message: "A new version of the app is available. Would you like to update?",
+//                                                            preferredStyle: .alert)
+//                    let updateAction = UIAlertAction(title: "Update", style: .default) { (_) in
+//                        if let url = URL(string: "https://apps.apple.com/app/1467363872"),
+//                           UIApplication.shared.canOpenURL(url) {
+//                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//                        }
+//                    }
+//                    
+//                    let cancelAction = UIAlertAction(title: "Later", style: .cancel, handler: nil)
+//                    alertController.addAction(updateAction)
+//                    alertController.addAction(cancelAction)
+//                    // Assuming this code is inside a UIViewController subclass
+//                    self.present(alertController, animated: true, completion: nil)
+//                } else {
+//                    self.dismiss(animated: true)
+//                }
+//            }
+//        }
+//    }
     
     func getDashboard(page: Int = 1) {
         let params: [String: String] = ["page": "\(page)", "per_page": "4"]
@@ -117,11 +74,11 @@ class ParentDashboard: UIViewController {
         ApiManager.shared.Request(type: DashboardModelNew.self, methodType: .Get, url: baseUrl+apiDashboard, parameter: params) { error, myObject, msgString, statusCode in
             if statusCode == 200 {
                 
-                if let latestVersion = myObject?.latest_version {
-                    DispatchQueue.main.async {
-                        self.updateToLatestVersion(latestVersion: latestVersion)
-                    }
-                }
+//                if let latestVersion = myObject?.latest_version {
+//                    DispatchQueue.main.async {
+//                        self.updateToLatestVersion(latestVersion: latestVersion)
+//                    }
+//                }
                 
                 self.isLoading = false
                 self.currentPage = myObject?.data?.currentPage ?? 1
@@ -154,7 +111,7 @@ class ParentDashboard: UIViewController {
     }
 }
 
-extension ParentDashboard: UITableViewDelegate, UITableViewDataSource {
+extension ActivityVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.portfolioData?.count ?? 0
@@ -222,7 +179,7 @@ extension ParentDashboard: UITableViewDelegate, UITableViewDataSource {
 }
 
 //MARK: Obj-C Functions
-extension ParentDashboard {
+extension ActivityVC {
     @objc func likeFunc(sender: UIButton) {
         print(sender.tag)
         likeAPI(row: sender.tag)
@@ -237,7 +194,7 @@ extension ParentDashboard {
     }
 }
 //MARK: Like Comment Functions
-extension ParentDashboard {
+extension ActivityVC {
     
     func likeAPI(row: Int) {
         var params: [String: String]

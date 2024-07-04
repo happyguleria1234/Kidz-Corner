@@ -98,8 +98,8 @@ extension SocketIOManager{
     }
     
     func connect_user_listener(){
-        socket.on(SocketListeners.connect_listener.instance) { arrOfAny, ack in
-            print("User Connected Successfully")
+        socket.on(SocketListeners.connect_listener.instance) { [self] arrOfAny, ack in
+            print("User Connected Successfully")            
             NotificationCenter.default.post(name: Notification.Name("socketConnected"), object: nil, userInfo: nil)
         }
     }
@@ -129,6 +129,7 @@ extension SocketIOManager{
         let data = try! JSONSerialization.data(withJSONObject: param)
         socket.emit(SocketEmitters.chat_listing.instance, data) { [self] in
             print(socket.status)
+            
         }
     }
     

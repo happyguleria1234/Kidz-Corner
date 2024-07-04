@@ -94,6 +94,27 @@ extension TeacherChatVC: UITableViewDelegate, UITableViewDataSource {
         let data = charRoomResp[indexPath.row]
         cell.lblStatus.cornerRadius = 4
         cell.populateData(data)
+        
+        if data.message?.messageType == 1{
+            cell.messageType_ImgVw.isHidden = true
+            cell.messageType_ImgVw.image = UIImage(named: "")
+            cell.msgTypeWidthConstraints.constant = 0
+            cell.lbl_message.text = data.message?.message
+        }
+        else if data.message?.messageType == 2{
+            cell.messageType_ImgVw.isHidden = false
+            cell.messageType_ImgVw.image = UIImage(named: "sendimage")
+            cell.msgTypeWidthConstraints.constant = 18
+            cell.lbl_message.text = "Image"
+
+        }
+        else if data.message?.messageType == 3{
+            cell.messageType_ImgVw.isHidden = false
+            cell.messageType_ImgVw.image = UIImage(named: "sendpdf")
+            cell.msgTypeWidthConstraints.constant = 18
+            cell.lbl_message.text = "PDF"
+        }
+        
         return cell
     }
     
