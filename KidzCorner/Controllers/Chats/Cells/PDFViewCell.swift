@@ -29,7 +29,9 @@ class PDFViewCell: UITableViewCell {
         } else {
             print("Invalid path format")
         }
-        timeLbl.text = extractTime(strDate: messageData.createdAt ?? "")
+        timeLbl.text = messageData.createdAt?.toLocalTimeHHmm()
+//        timeLbl.text = timeconverter(isoDateString: messageData.createdAt ?? "")
+
 
     }
     

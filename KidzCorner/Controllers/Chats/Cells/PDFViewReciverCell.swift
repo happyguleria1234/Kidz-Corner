@@ -24,8 +24,10 @@ class PDFViewReciverCell: UITableViewCell {
     
     func setMessageData(messageData: MessagesModelListingMessage) {
         pdfNameLbl.text = messageData.media ?? ""
-        timeLbl.text = extractTime(strDate: messageData.createdAt ?? "")
+//        timeLbl.text = extractTime(strDate: messageData.createdAt ?? "")
         lblName.text = "Teacher \(messageData.user?.name ?? "")"
+//        timeLbl.text = timeconverter(isoDateString: messageData.createdAt ?? "")
+        timeLbl.text = messageData.createdAt?.toLocalTimeHHmm()
     }
     
 }

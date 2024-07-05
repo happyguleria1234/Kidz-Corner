@@ -187,7 +187,6 @@ class ChatsCell: UITableViewCell {
     public func populateData(_ data:ChatData) {
         lbl_name.text = data.student?.name
         lbl_count.isHidden = true
-        lbl_time.text = " "
         imgProfile.contentMode = .scaleAspectFill
         if let userProfileUrl = data.student?.image {
             imgProfile.sd_setImage(with: URL(string: imageBaseUrl+(userProfileUrl)),
@@ -200,17 +199,25 @@ class ChatsCell: UITableViewCell {
             lbl_count.text = "\(data.unreadMessage ?? 0)"
         }
         if let messageDate = data.message?.createdAt {
-            lbl_time.text = formatDateString(dateString: messageDate)
+            lbl_time.text = timeconverter(isoDateString: messageDate)
         }
-       
-        
-        
     }
     
     func setData(userData: MessageListUsers) {
-//        lbl_message.text = userData.message
         imgProfile.sd_setImage(with: URL(string: imageBaseUrl+(userData.profileImage)), placeholderImage: .announcementPlaceholder)
     }
+    
+    func extractTime(strDate: String) -> String? {
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        guard let date = dateFormatter.date(from: strDate) else {
+            return nil
+        }
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "HH:mm"
+        return timeFormatter.string(from: date)
+    }
+    
     
     private func formatDateString(dateString: String) -> String {
         let inputDateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"
@@ -228,6 +235,10 @@ class ChatsCell: UITableViewCell {
         }
         return dateFormatter.string(from: date)
     }
+    
+
+    
+    
 }
 
 extension ChatsVC {
@@ -281,10 +292,7 @@ extension ChatsVC {
     
     func getChatRoomData() {
         showIndicator()
-        ApiManager.shared.Request(type: ChatInboxModel.self,
-                                  methodType: .Get,
-                                  url: baseUrl+chatRoom,
-                                  parameter: [:]) { error, resp, msgString, statusCode in
+        ApiManager.shared.Request(type: ChatInboxModel.self,methodType: .Get,url: baseUrl+chatRoom,parameter: [:]) { error, resp, msgString, statusCode in
             
             guard error == nil,
                   let userlist = resp?.data?.data,

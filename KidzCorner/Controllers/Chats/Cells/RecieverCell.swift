@@ -32,9 +32,7 @@ class RecieverCell: UITableViewCell {
             lbl_message.text = messageData.message
         }
         lbl_name.text = "Teacher \(messageData.user?.name ?? "")".capitalized
-        
-        // Convert date to user's local time zone
-        lbl_time.text = extractTime(strDate: messageData.createdAt ?? "")
+        lbl_time.text = messageData.createdAt?.toLocalTimeHHmm()
         let userID = UserDefaults.standard.value(forKey: "myUserid") as? Int ?? 0
         if userID == messageData.user?.id {
             if let url = URL(string: imageBaseUrl+(messageData.user?.image ?? "")) {
@@ -47,5 +45,22 @@ class RecieverCell: UITableViewCell {
                 img_profile.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
             }
         }
+    }
+    
+    func timeconverter(isoDateString:String) -> String?{
+        let isoDateFormatter = ISO8601DateFormatter()
+        isoDateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        let date = isoDateFormatter.date(from: isoDateString)
+        let timechecstamp = date?.timeIntervalSince1970
+        print("Timestamp: \(timechecstamp)")
+        let timeCurrentstamp = Int(timechecstamp!)
+        let timestamp: TimeInterval = TimeInterval(timeCurrentstamp)
+        let dateCheck = Date(timeIntervalSince1970: timestamp)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm"
+        dateFormatter.timeZone = TimeZone.current
+        let localDateString = dateFormatter.string(from: dateCheck)
+        print("Local time: \(localDateString)")
+        return localDateString
     }
 }

@@ -22,7 +22,9 @@ class SenderImageCell: UITableViewCell {
         if let url = URL(string: imageBaseUrl+(messageData.media ?? "")) {
             imgSend.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
         }
-        lblTime.text = extractTime(strDate: messageData.createdAt ?? "")
+        lblTime.text = messageData.createdAt?.toLocalTimeHHmm()
+//        lblTime.text = timeconverter(isoDateString: messageData.createdAt ?? "")
+
     }
     
 }

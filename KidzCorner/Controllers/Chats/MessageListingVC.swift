@@ -125,8 +125,15 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
     }
     
     @IBAction func btnAttachment(_ sender: UIButton) {
-        filePickerManager.presentFilePicker()
+//        filePickerManager.presentFilePicker()
+        filePickerManager.presentImagePicker()
     }
+    
+    @IBAction func btnPDFAttachment(_ sender: UIButton) {
+        filePickerManager.presentDocumentPicker()
+    }
+    
+    
     
     @IBAction func btnSendMessage(_ sender: UIButton) {
         if let messageData = tf_message.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
@@ -180,16 +187,19 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-            // This method is called whenever the text field content changes
-        DispatchQueue.main.async { [self] in
-                if textField.text?.count ?? 0 > 0 {
-                    btnSendOutlet.setImage(UIImage(named: "send1"), for: .normal)
-                } else {
-                    btnSendOutlet.setImage(UIImage(named: "send"), for: .normal)
-                }
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        let trimmedText = updatedText.trimmingCharacters(in: .whitespacesAndNewlines)
+        DispatchQueue.main.async {
+            if trimmedText.isEmpty {
+                self.btnSendOutlet.setImage(UIImage(named: "sendGray"), for: .normal)
+            } else {
+                self.btnSendOutlet.setImage(UIImage(named: "sendGreen"), for: .normal)
             }
-            return true
         }
+        return true
+    }
     
     override func observeValue(forKeyPath keyPath: String?,
                                of object: Any?,
@@ -319,7 +329,6 @@ extension MessageListingVC : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let userID = UserDefaults.standard.value(forKey: "myUserid") as? Int ?? 0
         let data = messageListing[indexPath.section].messages[indexPath.row]
-        
         let button = IndexedButton()
         button.section = indexPath.section
         button.row = indexPath.row

@@ -11,35 +11,35 @@ public func printt(_ message: String) {
 //    func removeDotFromTabBarItem(at index: Int) {
 //        guard let tabBarItems = ParentTabbar().tabBar.items,
 //              tabBarItems.count > index else { return }
-//        
+//
 //        let itemView = tabBarItems[index].value(forKey: "view") as? UIView
 //        itemView?.subviews.forEach { if $0.tag == 101 { $0.removeFromSuperview() } }
 //    }
-//    
+//
 //    func addDotToTabBarItem(at index: Int, color: UIColor = .red, diameter: CGFloat = 10) {
-//        
+//
 //        printt("\(ParentTabbar().tabBar.items)")
 //        printt("\(ParentTabbar().tabBar.items?.count)")
-//        
+//
 //        guard let tabBarItems = ParentTabbar().tabBar.items,
 //              tabBarItems.count > index else { return }
-//        
+//
 //        let itemView = tabBarItems[index].value(forKey: "view") as? UIView
 //        let dot = UIView(frame: CGRect(x: 0, y: 0, width: diameter, height: diameter))
 //        dot.layer.cornerRadius = diameter / 2
 //        dot.backgroundColor = color
 //        dot.tag = 101 // An arbitrary tag to identify the dot later
-//        
+//
 //        // Calculate the size and position of the dot based on the tab item's frame
 //        let itemFrame = itemView?.frame ?? CGRect.zero
 //        let dotX = itemFrame.midX + (itemFrame.width / 4) - (diameter / 2)
 //        let dotY = itemFrame.height - diameter - 3 // Adjust the Y position as needed
-//        
+//
 //        dot.frame.origin = CGPoint(x: dotX, y: dotY)
-//        
+//
 //        // Remove old dot if any before adding the new one
 //        itemView?.subviews.forEach { if $0.tag == 101 { $0.removeFromSuperview() } }
-//        
+//
 //        // Add the dot to the tab bar item's view
 //        itemView?.addSubview(dot)
 //    }
@@ -48,15 +48,15 @@ public func printt(_ message: String) {
 
 
 extension Float {
-   mutating func convertTemperatureToFahrenheit() -> Float {
-//       return((self * 9/5) + 32)
-       if 85.00 <= self && self <= 105.0 {
-           return ((self - 32) * 5/9)
-       }
-       else {
-           return self
-       }
-       
+    mutating func convertTemperatureToFahrenheit() -> Float {
+        //       return((self * 9/5) + 32)
+        if 85.00 <= self && self <= 105.0 {
+            return ((self - 32) * 5/9)
+        }
+        else {
+            return self
+        }
+        
     }
 }
 
@@ -71,23 +71,23 @@ extension UITextField {
     
     func setPadding(_ amount: CGFloat) {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
-            self.leftView = paddingView
-            self.rightView = paddingView
-            self.leftViewMode = .always
-            self.rightViewMode = .always
-        }
-        
-        func setLeftPaddingPoints(_ amount:CGFloat){
-            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
-            self.leftView = paddingView
-            self.leftViewMode = .always
-        }
-        func setRightPaddingPoints(_ amount:CGFloat) {
-            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
-            self.rightView = paddingView
-            self.rightViewMode = .always
-        }
-        
+        self.leftView = paddingView
+        self.rightView = paddingView
+        self.leftViewMode = .always
+        self.rightViewMode = .always
+    }
+    
+    func setLeftPaddingPoints(_ amount:CGFloat){
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
+        self.leftView = paddingView
+        self.leftViewMode = .always
+    }
+    func setRightPaddingPoints(_ amount:CGFloat) {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
+        self.rightView = paddingView
+        self.rightViewMode = .always
+    }
+    
     func setInputViewDatePicker(target: Any, selector: Selector , datePickerMode : UIDatePicker.Mode? = .dateAndTime , minimumDate:Date? = Date() , MaximumDate: Date? = Calendar.current.date(byAdding: .year, value: +1, to: Date())! ) {
         // Create a UIDatePicker object and assign to inputView
         let screenWidth = UIScreen.main.bounds.width
@@ -130,29 +130,29 @@ extension Date {
      dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"
      */
     
-        func timeAgoDisplay() -> String {
-                let calendar = Calendar.current
-                let minuteAgo = calendar.date(byAdding: .minute, value: -1, to: Date())!
-                let hourAgo = calendar.date(byAdding: .hour, value: -1, to: Date())!
-                let dayAgo = calendar.date(byAdding: .day, value: -1, to: Date())!
-                let weekAgo = calendar.date(byAdding: .day, value: -7, to: Date())!
-
-                if minuteAgo < self {
-                    let diff = Calendar.current.dateComponents([.second], from: self, to: Date()).second ?? 0
-                    return "\(diff) sec ago"
-                } else if hourAgo < self {
-                    let diff = Calendar.current.dateComponents([.minute], from: self, to: Date()).minute ?? 0
-                    return "\(diff) min ago"
-                } else if dayAgo < self {
-                    let diff = Calendar.current.dateComponents([.hour], from: self, to: Date()).hour ?? 0
-                    return "\(diff) hrs ago"
-                } else if weekAgo < self {
-                    let diff = Calendar.current.dateComponents([.day], from: self, to: Date()).day ?? 0
-                    return "\(diff) days ago"
-                }
-                let diff = Calendar.current.dateComponents([.weekOfYear], from: self, to: Date()).weekOfYear ?? 0
-                return "\(diff) weeks ago"
-            }
+    func timeAgoDisplay() -> String {
+        let calendar = Calendar.current
+        let minuteAgo = calendar.date(byAdding: .minute, value: -1, to: Date())!
+        let hourAgo = calendar.date(byAdding: .hour, value: -1, to: Date())!
+        let dayAgo = calendar.date(byAdding: .day, value: -1, to: Date())!
+        let weekAgo = calendar.date(byAdding: .day, value: -7, to: Date())!
+        
+        if minuteAgo < self {
+            let diff = Calendar.current.dateComponents([.second], from: self, to: Date()).second ?? 0
+            return "\(diff) sec ago"
+        } else if hourAgo < self {
+            let diff = Calendar.current.dateComponents([.minute], from: self, to: Date()).minute ?? 0
+            return "\(diff) min ago"
+        } else if dayAgo < self {
+            let diff = Calendar.current.dateComponents([.hour], from: self, to: Date()).hour ?? 0
+            return "\(diff) hrs ago"
+        } else if weekAgo < self {
+            let diff = Calendar.current.dateComponents([.day], from: self, to: Date()).day ?? 0
+            return "\(diff) days ago"
+        }
+        let diff = Calendar.current.dateComponents([.weekOfYear], from: self, to: Date()).weekOfYear ?? 0
+        return "\(diff) weeks ago"
+    }
     
     func localizedDescription(date dateStyle: DateFormatter.Style = .medium,
                               time timeStyle: DateFormatter.Style = .medium,
@@ -308,11 +308,11 @@ extension UINavigationController {
 }
 
 extension UINavigationController {
-  func popToViewController(ofClass: AnyClass, animated: Bool = true) {
-    if let vc = viewControllers.last(where: { $0.isKind(of: ofClass) }) {
-      popToViewController(vc, animated: animated)
+    func popToViewController(ofClass: AnyClass, animated: Bool = true) {
+        if let vc = viewControllers.last(where: { $0.isKind(of: ofClass) }) {
+            popToViewController(vc, animated: animated)
+        }
     }
-  }
 }
 
 
@@ -361,6 +361,85 @@ func extractTime(strDate: String) -> String? {
     timeFormatter.dateFormat = "HH:mm"
     return timeFormatter.string(from: date)
 }
+
+
+//MARK: LOCAL TIME ZONE
+func timeconverter(isoDateString:String) -> String?{
+    let isoDateFormatter = ISO8601DateFormatter()
+    isoDateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+    let date = isoDateFormatter.date(from: isoDateString)
+    let timestampCheck = date?.timeIntervalSince1970
+    print("Timestamp here: -> \(timestampCheck)")
+    let timeCurrentstamp = Int(timestampCheck!)
+    let timestamp: TimeInterval = TimeInterval(timeCurrentstamp)
+    let dateCheck = Date(timeIntervalSince1970: timestamp)
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "hh:mm"
+    //    FOR LOCAL
+    dateFormatter.timeZone = TimeZone(identifier: "Asia/Kolkata")
+    //    FOR Singapore
+    //    dateFormatter.timeZone = TimeZone(identifier: "Asia/Singapore")
+    let localDateString = dateFormatter.string(from: dateCheck)
+    print("Local time: -> \(localDateString)")
+    return localDateString
+}
+
+
+//MARK: TIME STAMP CONVERTER
+func convertTimeStampIntotime(timestamp:Double){
+    let timeCurrentstamp = Int(timestamp)
+    let timestamp: TimeInterval = TimeInterval(timeCurrentstamp)
+    let dateCheck = Date(timeIntervalSince1970: timestamp)
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "hh:mm"
+    //    FOR LOCAL
+    dateFormatter.timeZone = TimeZone(identifier: "Asia/Kolkata")
+    //    FOR Singapore
+    //    dateFormatter.timeZone = TimeZone(identifier: "Asia/Singapore")
+    let localDateString = dateFormatter.string(from: dateCheck)
+    print("Local time: -> \(localDateString)")
+}
+
+
+extension String {
+    func toLocalTimeHHmm() -> String? {
+           // Create the input date formatter for the UTC date string
+           let dateFormatter = DateFormatter()
+           dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"
+           dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+           dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+           
+           // Parse the input date string
+           guard let utcDate = dateFormatter.date(from: self) else {
+               return nil
+           }
+           
+           // Create the output date formatter for the local time zone
+           let localDateFormatter = DateFormatter()
+           localDateFormatter.dateFormat = "HH:mm"
+           localDateFormatter.timeZone = TimeZone.current
+        localDateFormatter.timeZone = .current
+           // Convert the UTC date to the local time string
+           let localTimeString = localDateFormatter.string(from: utcDate)
+           
+           return localTimeString
+       }
+}
+
+func convertDate(_ dateString: String, fromFormat: String, toFormat: String) -> String? {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = fromFormat
+    dateFormatter.timeZone = TimeZone(identifier: "UTC") // Set input time zone to UTC
+    guard let date = dateFormatter.date(from: dateString) else {
+        return nil
+    }
+    // Set the output time zone to the device's current time zone
+    dateFormatter.timeZone = TimeZone.current
+    // Set the output date format
+    dateFormatter.dateFormat = toFormat
+    return dateFormatter.string(from: date)
+}
+
 
 extension Date {
     func formattedDateAndTime() -> String {

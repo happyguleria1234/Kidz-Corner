@@ -36,9 +36,10 @@ class FilePickerManager: NSObject, UIImagePickerControllerDelegate, UINavigation
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         viewController?.present(alert, animated: true, completion: nil)
-    }
+    }    
     
-    private func presentImagePicker() {
+    
+     func presentImagePicker() {
         guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else { return }
         
         let imagePicker = UIImagePickerController()
@@ -49,7 +50,7 @@ class FilePickerManager: NSObject, UIImagePickerControllerDelegate, UINavigation
         viewController?.present(imagePicker, animated: true, completion: nil)
     }
     
-    private func presentDocumentPicker() {
+     func presentDocumentPicker() {
         let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypePDF as String], in: .import)
         documentPicker.delegate = self
         viewController?.present(documentPicker, animated: true, completion: nil)
