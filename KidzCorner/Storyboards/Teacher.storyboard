@@ -6477,7 +6477,7 @@
         <scene sceneID="fPG-tX-DDb">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="rcB-Rd-vVH" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Message" image="Frame" selectedImage="Frame" id="4uE-tp-p5e">
+                    <tabBarItem key="tabBarItem" title="Message" image="image" selectedImage="Frame" id="4uE-tp-p5e">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -6948,6 +6948,7 @@
         <image name="downArrow" width="256" height="256"/>
         <image name="home-alt 1" width="24" height="24"/>
         <image name="home-green" width="24" height="24"/>
+        <image name="image" width="24" height="24"/>
         <image name="image (4)" width="107" height="107"/>
         <image name="logout" width="256" height="256"/>
         <image name="menu" width="256" height="256"/>

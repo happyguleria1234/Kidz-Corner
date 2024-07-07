@@ -98,7 +98,7 @@ struct DashboardDataClass: Codable {
 }
 
 struct DashboardModelData: Codable {
-    let id, userID, teacherID, isApproved: Int?
+    let id, /*userID,*/ teacherID, isApproved: Int?
     let skillID, domainID, ageGroupID: Int?
     let title: String?
     let postDate: String?
@@ -123,7 +123,7 @@ struct DashboardModelData: Codable {
         case domainID = "domain_id"
         case ageGroupID = "age_group_id"
         case title
-        case userID = "user_id"
+//        case userID = "user_id"
         case teacherID = "teacher_id"
         case isApproved = "is_approved"
         case postDate = "post_date"
@@ -136,13 +136,14 @@ struct DashboardModelData: Codable {
         case ageGroup = "age_group"
         case domain, skills, is_collage
         case postType = "post_type"
+        
     }
 }
 
 // MARK: - PortfolioImage
 struct PortfolioImage: Codable {
     let id, portfolioID,class_id,company_id,album_id: Int?
-    let image,user_id,/*is_approved*/approve_date: String?
+    let image,/*user_id,is_approved*/approve_date: String?
     let createdAt, updatedAt: String?
     let memType: String?
     
@@ -153,7 +154,7 @@ struct PortfolioImage: Codable {
         case company_id
         case album_id
         case image
-        case user_id
+//        case user_id
 //        case is_approved
         case approve_date
         case createdAt = "created_at"

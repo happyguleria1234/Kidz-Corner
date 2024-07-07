@@ -26,7 +26,7 @@ class UserListViewCell: UITableViewCell {
     
     func setData(userData: AlbumModelDatum) {
         nameLbl.text = userData.name?.capitalized
-        countLbl.text = "\(userData.images_count ?? 0)"
+        countLbl.text = "\(userData.images_count ?? 0) Photos"
         if let url = URL(string: imageBaseUrl + (userData.thumbnail ?? "")) {
             imgCell.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
         }
