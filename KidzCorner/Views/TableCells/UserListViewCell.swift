@@ -20,13 +20,27 @@ class UserListViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        setupViews()
+        imgCell.layer.cornerRadius = 10
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    func setData(userData: AlbumModelDatum) {
+        nameLbl.text = userData.name?.capitalized
+        countLbl.text = "\(userData.images_count ?? 0)"
+        if let url = URL(string: imageBaseUrl + (userData.thumbnail ?? "")) {
+            imgCell.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
+        }
+    }
+    
+    
+    func setupViews() {
+        DispatchQueue.main.async { [self] in
+            listSuperView.layer.cornerRadius = 10
+            listSuperView.layer.shadowColor = UIColor.black.cgColor
+            listSuperView.layer.shadowOpacity = 1
+            listSuperView.layer.shadowOffset = CGSize.zero
+            listSuperView.layer.shadowRadius = 8
+        }
     }
     
 }

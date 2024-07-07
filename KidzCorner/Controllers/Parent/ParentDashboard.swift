@@ -60,7 +60,10 @@ class ParentDashboard: UIViewController {
     
     @IBAction func buttonTap5(sender: UIButton) {
         print("5")
-        AlertManager.shared.showAlert(title: "Kidz Corner", message: "This feature will be coming soon.", viewController: self)
+        //        AlertManager.shared.showAlert(title: "Kidz Corner", message: "This feature will be coming soon.", viewController: self)
+        let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "TeacherPortfolioVC") as! TeacherPortfolioVC
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func buttonTap6(sender: UIButton) {

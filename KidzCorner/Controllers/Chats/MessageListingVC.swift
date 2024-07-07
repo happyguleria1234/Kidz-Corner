@@ -155,19 +155,49 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
     
     //MARK: UIViewController
     
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        keyboardHandling()
+//        setData()
+//        populateData()
+//        keyboardHandling()
+//        SocketIOManager.sharedInstance.joinRoomEmitter(userID: id)
+//        getMessages()
+//        setupHiddenTextView()
+//        filePickerManager = FilePickerManager(viewController: self)
+//        filePickerManager.delegate = self
+//        tblMessages.addObserver(self, forKeyPath: "contentOffset", options: [.new], context: nil)
+//        
+//        // Ensure the message listener is set up once and correctly
+//        if !isListenerAdded {
+//            isListenerAdded = true
+//            SocketIOManager.sharedInstance.sendMessageListener { [weak self] messageDialogs in
+//                guard let strongSelf = self else { return }
+//                DispatchQueue.main.async {
+//                    if !strongSelf.messageListing.isEmpty {
+//                        var lastMessage = strongSelf.messageListing[strongSelf.messageListing.count - 1]
+//                        lastMessage.messages.append(messageDialogs.data!)
+//                        strongSelf.messageListing[strongSelf.messageListing.count - 1] = lastMessage
+//                        strongSelf.tblMessages.scrollToBottom()
+//                        strongSelf.tblMessages.reloadData()
+//                    }
+//                }
+//            }
+//        }
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         keyboardHandling()
         setData()
         populateData()
-        keyboardHandling()
         SocketIOManager.sharedInstance.joinRoomEmitter(userID: id)
         getMessages()
         setupHiddenTextView()
         filePickerManager = FilePickerManager(viewController: self)
         filePickerManager.delegate = self
         tblMessages.addObserver(self, forKeyPath: "contentOffset", options: [.new], context: nil)
-        
+
         // Ensure the message listener is set up once and correctly
         if !isListenerAdded {
             isListenerAdded = true
@@ -212,20 +242,68 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
         }
     }
     
+//    private func fetchPreviousMessages() {
+//        guard !isFetchingMessages else { return }
+//        
+//        isFetchingMessages = true
+//        let nextPage = currentPage + 1
+//        
+//        var count = 0
+//        count += self.messageListing.count // Adding the count of sections
+//        for i in 0..<self.messageListing.count {
+//            let messages = self.messageListing[i].messages
+//            count += messages.count
+//        }
+//        print("Total number of rows: \(count)")
+//        let lastRowIndex = IndexPath(row: count, section: self.messageListing.count)
+//        ApiManager.shared.Request(type: MessagesModelListing.self, methodType: .Get, url: "\(baseUrl)chatroom/\(threadID ?? 0)", parameter: ["page_size": "100", "page": "\(nextPage)"]) { [weak self] error, resp, msgString, statusCode in
+//            guard let self = self, error == nil, statusCode == 200 else {
+//                self?.isFetchingMessages = false
+//                return
+//            }
+//            var count = self.messageListing.count
+//            DispatchQueue.main.async {
+//                self.isFetchingMessages = false
+//                guard let resp = resp else { return }
+//                
+//                resp.data.data.forEach { data in
+//                    var reversedData = data
+//                    reversedData.messages.reverse()
+//                    self.messageListing.insert(reversedData, at: 0)
+//                }
+//                                
+//                self.currentPage = nextPage
+//                self.tblMessages.reloadData()
+//                self.tblMessages.scrollToRow(at: lastRowIndex, at: .none, animated: true)
+//            }
+//        }
+//    }
+    
     private func fetchPreviousMessages() {
         guard !isFetchingMessages else { return }
         
         isFetchingMessages = true
         let nextPage = currentPage + 1
         
+        // Capture current content offset
+        let currentContentOffset = self.tblMessages.contentOffset
+        
+        var totalCount = 0
+        for i in 0..<self.messageListing.count {
+            let messages = self.messageListing[i].messages
+                totalCount += messages.count
+        }
+        print("Total number of rows: \(totalCount)")
+        
         ApiManager.shared.Request(type: MessagesModelListing.self, methodType: .Get, url: "\(baseUrl)chatroom/\(threadID ?? 0)", parameter: ["page_size": "100", "page": "\(nextPage)"]) { [weak self] error, resp, msgString, statusCode in
             guard let self = self, error == nil, statusCode == 200 else {
                 self?.isFetchingMessages = false
                 return
             }
-            var count = self.messageListing.count
+            
             DispatchQueue.main.async {
                 self.isFetchingMessages = false
+                
                 guard let resp = resp else { return }
                 
                 resp.data.data.forEach { data in
@@ -233,8 +311,35 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
                     reversedData.messages.reverse()
                     self.messageListing.insert(reversedData, at: 0)
                 }
+                
                 self.currentPage = nextPage
                 self.tblMessages.reloadData()
+                
+                // Restore previous content offset
+                self.tblMessages.setContentOffset(currentContentOffset, animated: false)
+                
+                // Recalculate totalCount after inserting new data
+                var updatedTotalCount = 0
+                for i in 0..<self.messageListing.count {
+                    let messages = self.messageListing[i].messages
+                        updatedTotalCount += messages.count
+                }
+                
+                // Calculate last row index and section index
+                let lastSectionIndex = self.messageListing.count - 1
+                let lastRowIndex = updatedTotalCount - 1
+                
+                // Ensure lastIndexPath is within bounds
+                if lastSectionIndex >= 0 && lastRowIndex >= 0 {
+                    let lastIndexPath = IndexPath(row: lastRowIndex, section: lastSectionIndex)
+                    if lastSectionIndex < self.tblMessages.numberOfSections && lastRowIndex < self.tblMessages.numberOfRows(inSection: lastSectionIndex) {
+                        self.tblMessages.scrollToRow(at: lastIndexPath, at: .bottom, animated: true)
+                    } else {
+                        print("Invalid index path: \(lastIndexPath)")
+                    }
+                } else {
+                    print("Invalid section or row index.")
+                }
             }
         }
     }
@@ -311,7 +416,8 @@ extension MessageListingVC : UITableViewDelegate, UITableViewDataSource {
             headerLabel.text = messageListing[section].date
         }
         headerLabel.textAlignment = .center
-        headerLabel.font = UIFont.boldSystemFont(ofSize: 16) // Adjust font size as needed
+        headerLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        headerLabel.textColor = UIColor.gray
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(headerLabel)
         NSLayoutConstraint.activate([

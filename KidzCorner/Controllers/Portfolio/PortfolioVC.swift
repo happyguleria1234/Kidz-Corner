@@ -27,8 +27,10 @@ class PortfolioVC: UIViewController {
         portfolioTableVIEW.delegate = self
         portfolioTableVIEW.dataSource = self
         self.mainImgVw.image = UIImage(named: "placeholder-image")
+        getportfolioAlbum()
+        
     }
-    
+
 //MARK: - BUTTON ACTIONS
     
     @IBAction func uploadImgBtn(_ sender: UIButton) {
@@ -37,6 +39,21 @@ class PortfolioVC: UIViewController {
     
     @IBAction func backBtn(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func getportfolioAlbum(){
+        DispatchQueue.main.async {
+            startAnimating((self.tabBarController?.view)!)
+        }
+        ApiManager.shared.Request(type: NotificationModel.self, methodType: .Get, url: baseUrl+portfolioalbums, parameter: [:]) { error, myObject, msgString, statusCode in
+            DispatchQueue.main.async {
+                print("myObject is herer >>>",myObject)
+            }
+            if statusCode == 200 {}
+            else {
+                Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+            }
+        }
     }
 
 }

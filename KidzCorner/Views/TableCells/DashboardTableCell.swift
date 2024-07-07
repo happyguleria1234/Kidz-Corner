@@ -26,6 +26,7 @@ class DashboardTableCell: UITableViewCell {
     
     @IBOutlet weak var collectionImages: UICollectionView!
     @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet weak var likeCommentView: UIView!
     
     @IBOutlet weak var buttonLike: UIButton!
     @IBOutlet weak var buttonComment: UIButton!
@@ -36,6 +37,7 @@ class DashboardTableCell: UITableViewCell {
     
     @IBOutlet weak var viewUnreadComments: UIView!
     @IBOutlet weak var viewInsideUnreadComments: UIView!
+    @IBOutlet weak var likeCommentviewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var textWriteComment: UITextField!
     @IBOutlet weak var buttonWriteComment: UIButton!

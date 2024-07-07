@@ -93,6 +93,7 @@ extension TeacherChatVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatsCell", for: indexPath) as! ChatsCell
         let data = charRoomResp[indexPath.row]
         cell.lblStatus.cornerRadius = 4
+        cell.lblStatus.isHidden = true
         cell.populateData(data)
         
         if data.message?.messageType == 1{

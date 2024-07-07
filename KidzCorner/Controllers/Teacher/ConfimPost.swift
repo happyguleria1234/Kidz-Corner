@@ -4,6 +4,8 @@ import MobileCoreServices
 
 class ConfirmPost: UIViewController, CollageViewDelegate {
     
+    @IBOutlet weak var viewStudent: UIView!
+    @IBOutlet weak var viewAlbum: UIView!
     var studentId: String?
     var selectedImages: [UIImage]?
     var imageDataArray: [Data]?
@@ -20,7 +22,8 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     }
     
     var currentDate: String = Date().shortDate
-    
+    var childreData: ChildrenModelData?
+    @IBOutlet weak var typeCollection: UICollectionView!
     @IBOutlet weak var imageViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tf_studentName: UITextField!
     var selectedAlbum: Int = -1
@@ -28,7 +31,8 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     var selectedSkill: Int = -1
     var selectedStudentID: Int = -1
     var selectedStudentID2 = [Int]()
-
+    var selectedStudents = [Int]()
+    var selectedStudentsName = [String]()
     var albumArr: [String]?
     var domainArr: [String]?
     var skillArr: [String]?
@@ -64,19 +68,29 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     @IBOutlet weak var tfClass: UITextField!
     @IBOutlet weak var fileNameLabel: UILabel!
     
+    @IBOutlet weak var typeView: UIView!
+    @IBOutlet weak var activityBtn: UIButton!
+    @IBOutlet weak var portfolioBtn: UIButton!
+    @IBOutlet weak var bothBtn: UIButton!
+    
+    
+    var typeArr = ["Activity","Portfolio","Both"]
     var isPostImages = true
     var pdfUrl: URL?
-
+    var selectedTypes = Int()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionImages.register(UINib(nibName: "DashboardCollectionCell", bundle: Bundle.main), forCellWithReuseIdentifier: "DashboardCollectionCell")
+//        self.typeCollection.register(UINib(nibName: "TypeCell", bundle: Bundle.main), forCellWithReuseIdentifier: "TypeCell")
+        getStudents()
         getCategories()
         initialSetup()
+        activitybtnClick()
+        selectedTypes = 1
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
     }
     
     func initialSetup() {
@@ -122,17 +136,10 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     }
     
     func getCurrentDateString(format: String = "yyyy-MM-dd HH:mm:ss") -> String {
-        // Step 1: Create a Date object
         let currentDate = Date()
-        
-        // Step 2: Create and configure a DateFormatter
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format // Use the format passed as a parameter
-        
-        // Step 3: Format the date
         let dateString = dateFormatter.string(from: currentDate)
-        
-        // Return the formatted date string
         return dateString
     }
     
@@ -159,26 +166,70 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         self.classButtonSetup()
     }
     
+    
+    @IBAction func activityBtn(_ sender: Any) {
+        activitybtnClick()
+    }
+    
+    @IBAction func portfolioBtn(_ sender: Any) {
+        portfoliobtnClick()
+    }
+    
+    @IBAction func bothBtn(_ sender: Any) {
+        bothbtnClick()
+    }
+    
+    func activitybtnClick(){
+        self.bothBtn.backgroundColor = #colorLiteral(red: 0, green: 0.537728548, blue: 0.5460962057, alpha: 1)
+        self.bothBtn.setTitleColor(.white, for: .normal)
+        self.portfolioBtn.backgroundColor = #colorLiteral(red: 0, green: 0.537728548, blue: 0.5460962057, alpha: 1)
+        self.portfolioBtn.setTitleColor(.white, for: .normal)
+        self.activityBtn.backgroundColor = #colorLiteral(red: 0.966850698, green: 0.97679919, blue: 0.9938296676, alpha: 1)
+        self.activityBtn.setTitleColor(#colorLiteral(red: 0, green: 0.537728548, blue: 0.5460962057, alpha: 1), for: .normal)
+        selectedTypes = 1
+        viewStudent.isHidden = true
+        viewAlbum.isHidden = true
+    }
+    
+    func portfoliobtnClick(){
+        self.bothBtn.backgroundColor = #colorLiteral(red: 0, green: 0.537728548, blue: 0.5460962057, alpha: 1)
+        self.bothBtn.setTitleColor(.white, for: .normal)
+        self.activityBtn.backgroundColor = #colorLiteral(red: 0, green: 0.537728548, blue: 0.5460962057, alpha: 1)
+        self.activityBtn.setTitleColor(.white, for: .normal)
+        self.portfolioBtn.backgroundColor = #colorLiteral(red: 0.966850698, green: 0.97679919, blue: 0.9938296676, alpha: 1)
+        self.portfolioBtn.setTitleColor(#colorLiteral(red: 0, green: 0.537728548, blue: 0.5460962057, alpha: 1), for: .normal)
+        selectedTypes = 2
+        viewStudent.isHidden = false
+        viewAlbum.isHidden = false
+    }
+    
+    func bothbtnClick(){
+        self.activityBtn.backgroundColor = #colorLiteral(red: 0, green: 0.537728548, blue: 0.5460962057, alpha: 1)
+        self.activityBtn.setTitleColor(.white, for: .normal)
+        self.portfolioBtn.backgroundColor = #colorLiteral(red: 0, green: 0.537728548, blue: 0.5460962057, alpha: 1)
+        self.portfolioBtn.setTitleColor(.white, for: .normal)
+        self.bothBtn.backgroundColor = #colorLiteral(red: 0.966850698, green: 0.97679919, blue: 0.9938296676, alpha: 1)
+        self.bothBtn.setTitleColor(#colorLiteral(red: 0, green: 0.537728548, blue: 0.5460962057, alpha: 1), for: .normal)
+        selectedTypes = 3
+        viewStudent.isHidden = false
+        viewAlbum.isHidden = false
+    }
+
+    
+    
     @IBAction func shareFunc(_ sender: Any) {
         
         printt("Sharing Activity Post")
         
         let classIds = allClassesData?.filter({ $0.isSelected == true }).map({ $0.id ?? 0}).map({String($0)}).joined(separator: ",") ?? ""
-        
-        if (selectedAlbum != -1),(selectedDomain != -1), classIds.isEmpty != true { // ,(selectedSkill != -1)
-            let albumId = self.categoriesData?.data?.album?[selectedAlbum].id ?? 1
+//        if (selectedAlbum != -1),(selectedDomain != -1), classIds.isEmpty != true { // ,(selectedSkill != -1)
+
+        if (selectedDomain != -1), classIds.isEmpty != true { // ,(selectedSkill != -1)
+            var albumId = 0
+            if selectedTypes != 1 {
+                albumId = self.categoriesData?.data?.album?[selectedAlbum].id ?? 1
+            }
             let domainId = self.categoriesData?.data?.domain?[selectedDomain].id ?? 1
-//             let skillId = self.categoriesData?.data?.domain?[selectedDomain].skills?[selectedSkill].id ?? 1
-//            print(ageId)
-//            print(domainId)
-//            print(skillId)
-
-//       Toast.toast(message: "This feature is being worked on", controller: self)
-
-//            if let images = selectedImages {
-//                imageDataArray = creatingImageData(imageArray: images)
-//            }
-
             if textTitle.text == "" {
                 Toast.toast(message: "Please enter a title", controller: self)
             }
@@ -208,6 +259,20 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         print(sender)
     }
     
+    func getStudents() {
+        ApiManager.shared.Request(type: ChildrenModelData.self, methodType: .Get, url: "https://kidzcorner.live/api/all_children", parameter: [:]) { error, myObject, msgString, statusCode in
+            if statusCode == 200 {
+                DispatchQueue.main.async { [self] in
+                    self.childreData = myObject
+                    self.studentName.dataSource = myObject?.data?.data?.compactMap({ $0.name}) ?? []
+                }
+            }
+            else {
+                Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+            }
+        }
+    }
+    
     func getAttendance(classId: Int,date: String) {
         var params = [String: Any]()
         params = ["date": date,
@@ -217,7 +282,7 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
             if statusCode == 200 {
                 DispatchQueue.main.async { [self] in
                     self.classAttendance = myObject
-                    self.studentName.dataSource = self.classAttendance?.data?.compactMap({ $0.name }) ?? []
+//                    self.studentName.dataSource = self.classAttendance?.data?.compactMap({ $0.name }) ?? []
                 }
             }
             else {
@@ -290,14 +355,24 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
             self?.selectedAlbum = index
         }
         
-        studentName.selectionAction = { [weak self] (index, item) in
-            self?.tf_studentName.text = item
-            self?.classAttendance?.data?.forEach({ data in
-                if item == data.name {
-                    self?.selectedStudentID = data.id ?? 0
-                }
-            })
+        studentName.multiSelectionAction = { [weak self] (index, items) in
+            guard let self = self else { return }
+            print("Selected index: \(index)")
+            print("Selected items: \(items)")
+            self.tf_studentName.text = selectedStudentsName.joined(separator: ",")
+            self.selectedStudentsName = items
+            self.selectedStudents = index
+            
         }
+        
+//        studentName.selectionAction = { [weak self] (index, item) in
+//            self?.tf_studentName.text = item
+//            self?.classAttendance?.data?.forEach({ data in
+//                if item == data.name {
+//                    self?.selectedStudentID = data.id ?? 0
+//                }
+//            })
+//        }
         
         domainDropdown.selectionAction = { [weak self] (index, item) in
             self?.textDomain.text = item
@@ -339,10 +414,11 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         }
         
         var params = [String: Any]()
+        
         if selectedStudentID == -1 {
             params = [
                 //  "student_id" : "26",
-                "age_group_id" : albumId,
+//                "age_group_id" : albumId,
                 "domain_id" : domainId,
                 //                  "skill_id" : skillId,
                 "title": self.textTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "",
@@ -350,26 +426,30 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
                 "post_date" : Date().shortDate,
                 "is_dashboard" : "1",
                 "class_id": classIds,
-                "is_collage":selectedType == 0 ? 0 : 1
+                "is_collage":selectedType == 0 ? 0 : 1,
+                "portfolio_type":selectedTypes
             ]
         } else {
             
             params = [
                 //  "student_id" : "26",
-                "age_group_id" : albumId,
+//                "age_group_id" : albumId,
                 "domain_id" : domainId,
-                //                  "skill_id" : skillId,
                 "title": self.textTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "",
                 "post_content" : postDescription,
                 "post_date" : Date().shortDate,
                 "is_dashboard" : "1",
                 "class_id": classIds,
-                "user_id": selectedStudentID,
-                "is_collage":selectedType == 0 ? 0 : 1
+//                "user_id": selectedStudentID,
+                "students_ids[]": selectedStudentsName.joined(separator: ","),
+                "is_collage":selectedType == 0 ? 0 : 1,
+                "portfolio_type":selectedTypes
             ]
         }
         print(params)
-        
+        if selectedTypes != 1 {
+               params["age_group_id"] = albumId
+           }
         if selectedType == 1 {
             let screenshot = captureScreenshot(of: collageImage)
             let imageView = UIImageView(image: screenshot)
@@ -466,30 +546,55 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
 extension ConfirmPost: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        pageControl.numberOfPages = selectedImages?.count ?? 0
-        return selectedImages?.count ?? 0
+        switch collectionView {
+        case typeCollection:
+            return typeArr.count
+        case collectionImages:
+            pageControl.numberOfPages = selectedImages?.count ?? 0
+            return selectedImages?.count ?? 0
+        default:
+            print("")
+        }
+       return selectedImages?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardCollectionCell", for: indexPath) as! DashboardCollectionCell
-        
-        cell.imagePost.image = selectedImages?[indexPath.row]
-        return cell
+        if collectionView == typeCollection {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TypeCell", for: indexPath) as! TypeCell
+            cell.lblType.text = typeArr[indexPath.row]
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardCollectionCell", for: indexPath) as! DashboardCollectionCell
+            cell.imagePost.image = selectedImages?[indexPath.row]
+            return cell
+        }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView == collectionImages {
-        let offSet = scrollView.contentOffset.x
+            let offSet = scrollView.contentOffset.x
             let width = scrollView.frame.width
             let horizontalCenter = width / 2
-
+            
             pageControl.currentPage = Int(offSet + horizontalCenter) / Int(width)
-    }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionImages.bounds.width, height: collectionImages.bounds.height)
+        switch collectionView {
+        case typeCollection:
+            let numberOfCellsInRow: CGFloat = 3
+            let cellSpacing: CGFloat = 10 // Adjust based on your spacing between cells
+            let totalSpacing = (numberOfCellsInRow - 1) * cellSpacing
+            let cellWidth = (collectionView.bounds.width - totalSpacing) / numberOfCellsInRow
+            return CGSize(width: cellWidth, height: cellWidth) // Assuming square cells, adjust height as needed
+        case collectionImages:
+            return CGSize(width: collectionImages.bounds.width, height: collectionImages.bounds.height)
+        default:
+            return CGSize.zero
+        }
     }
+
 }
 
 extension ConfirmPost: UITextViewDelegate {
@@ -542,7 +647,7 @@ extension ConfirmPost {
         if selectedStudentID == -1 {
             params = [
                 //  "student_id" : "26",
-                "age_group_id" : albumId,
+//                "age_group_id" : albumId,
                 "domain_id" : domainId,
                 //                  "skill_id" : skillId,
                 "title": self.textTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "",
@@ -550,13 +655,14 @@ extension ConfirmPost {
                 "post_date" : Date().shortDate,
                 "is_dashboard" : "1",
                 "class_id": classIds,
-                "is_collage":selectedType == 0 ? 0 : 1
+                "students_ids[]": selectedStudentsName.joined(separator: ","),
+                "is_collage":selectedType == 0 ? 0 : 1,
+                "portfolio_type":selectedType
             ]
         } else {
             
             params = [
-                //  "student_id" : "26",
-                "age_group_id" : albumId,
+//                "age_group_id" : albumId,
                 "domain_id" : domainId,
                 //                  "skill_id" : skillId,
                 "title": self.textTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "",
@@ -565,13 +671,17 @@ extension ConfirmPost {
                 "is_dashboard" : "1",
                 "class_id": classIds,
                 "user_id": selectedStudentID,
-                "is_collage":selectedType == 0 ? 0 : 1
+                "students_ids[]": selectedStudentsName.joined(separator: ","),
+                "is_collage":selectedType == 0 ? 0 : 1,
+                "portfolio_type":selectedType
             ]
         }
 //        is_collage
         
         print(params)
-        
+        if selectedTypes != 1 {
+               params["age_group_id"] = albumId
+           }
         if let pdfUrl, let fileData = convertFileToData(fileURL: pdfUrl) {
             DispatchQueue.main.async {
                 startAnimating(self.view)
@@ -824,5 +934,14 @@ extension CollageView {
                 imageView.widthAnchor.constraint(equalToConstant: columnWidth).isActive = true
             }
         }
+    }
+}
+
+class TypeCell: UICollectionViewCell {
+    
+    @IBOutlet weak var lblType: UILabel!
+    @IBOutlet weak var mainView: CustomView!
+    override class func awakeFromNib() {
+        super.awakeFromNib()
     }
 }

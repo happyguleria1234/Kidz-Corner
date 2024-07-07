@@ -71,25 +71,28 @@ struct DashboardModelNew: Codable {
 
 // MARK: - DashboardDataClass
 struct DashboardDataClass: Codable {
-    let from, perPage: Int?
+    let from, perPage,last_page: Int?
     let data: [DashboardModelData]?
     let firstPageURL, nextPageURL: String?
     let currentPage: Int?
     let path: String?
-    
+    let last_page_url:String?
     let prevPageURL: String?
     let to: Int?
-
+    let total: Int?
     enum CodingKeys: String, CodingKey {
         case from
         case perPage = "per_page"
+        case last_page
         case data
         case firstPageURL = "first_page_url"
         case nextPageURL = "next_page_url"
         case currentPage = "current_page"
         case path
+        case last_page_url
         case prevPageURL = "prev_page_url"
         case to
+        case total
         
     }
 }
@@ -138,15 +141,21 @@ struct DashboardModelData: Codable {
 
 // MARK: - PortfolioImage
 struct PortfolioImage: Codable {
-    let id, portfolioID: Int?
-    let image: String?
+    let id, portfolioID,class_id,company_id,album_id: Int?
+    let image,user_id,/*is_approved*/approve_date: String?
     let createdAt, updatedAt: String?
     let memType: String?
     
     enum CodingKeys: String, CodingKey {
         case id
         case portfolioID = "portfolio_id"
+        case class_id
+        case company_id
+        case album_id
         case image
+        case user_id
+//        case is_approved
+        case approve_date
         case createdAt = "created_at"
         case updatedAt = "updated_at"
         case memType = "mem_type"
