@@ -37,12 +37,13 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     var domainArr: [String]?
     var skillArr: [String]?
     var classId: Int?
-
+    var classIds = String()
     let albumsDropdown = DropDown()
     let domainDropdown = DropDown()
     let skillDropdown = DropDown()
     let studentName = DropDown()
-
+    var albumId = 0
+    var domainId = 0
     weak var delegate: afterAdding?
     var layoutDirection: CollageViewLayoutDirection = .vertical
     
@@ -87,6 +88,8 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         initialSetup()
         activitybtnClick()
         selectedTypes = 1
+        getSchoolClasses()
+        self.tabBarController?.tabBar.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -144,18 +147,62 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     }
     
     @IBAction func btnStudent(_ sender: Any) {
-        studentName.show()
+        var dataa = [DataArray]()
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "BrandVC") as! BrandVC
+        self.childreData?.data?.data?.forEach({ data in
+            let albumData = DataArray(value: data.name ?? "", isSelect: false,id: data.id ?? 0)
+            dataa.append(albumData)
+        })
+        vc.callBack = { selectedData in
+            self.tf_studentName.text = selectedData.compactMap({ $0.value }).joined(separator: ",")
+            self.selectedStudents = selectedData.compactMap({ $0.id })
+            self.selectedStudentsName = selectedData.compactMap({ $0.value })
+        }
+        vc.dataArray = dataa
+        vc.selectedTitle = "Student"
+        vc.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.pushViewController(vc, animated: true)
     }
+    
     @IBAction func backFunc(_ sender: Any) {
         self.navigationController?.popToRootViewController(animated: true)
     }
     
     @IBAction func albumFunc(_ sender: Any) {
-        albumsDropdown.show()
+//        albumsDropdown.show()
+        var dataa = [DataArray]()
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "BrandVC") as! BrandVC
+        self.categoriesData?.data?.album?.forEach({ data in
+            let albumData = DataArray(value: data.name ?? "", isSelect: false,id: data.id ?? 0)
+            dataa.append(albumData)
+        })
+        vc.callBack = { selectedData in
+            self.textAlbum.text = selectedData.first?.value ?? ""
+            self.albumId = selectedData.first?.id ?? 0
+        }
+        vc.dataArray = dataa
+        vc.selectedTitle = "Album"
+        vc.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func domainFunc(_ sender: Any) {
-        domainDropdown.show()
+//        domainDropdown.show()
+        var dataa = [DataArray]()
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "BrandVC") as! BrandVC
+        self.categoriesData?.data?.domain?.forEach({ data in
+            let albumData = DataArray(value: data.name ?? "", isSelect: false,id: data.id ?? 0)
+            dataa.append(albumData)
+        })
+        vc.callBack = { selectedData in
+            self.textDomain.text = selectedData.first?.value ?? ""
+            self.domainId = selectedData.first?.id ?? 0
+        }
+        vc.dataArray = dataa
+        vc.selectedTitle = "Domain"
+        vc.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.pushViewController(vc, animated: true)
+//        self.present(vc, animated: true)
     }
     
     @IBAction func skillFunc(_ sender: Any) {
@@ -163,7 +210,22 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     }
     
     @IBAction func didTapClass(_ sender: Any) {
-        self.classButtonSetup()
+//        self.classButtonSetup()
+        var dataa = [DataArray]()
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "BrandVC") as! BrandVC
+        self.allClassesData?.forEach({ data in
+            let albumData = DataArray(value: data.name ?? "", isSelect: false,id: data.id ?? 0)
+            dataa.append(albumData)
+        })
+        vc.callBack = { [self] selectedData in
+            self.tfClass.text = selectedData.compactMap({ $0.value }).joined(separator: ",")
+            let selectedIds = selectedData.compactMap { $0.isSelect ? $0.id : nil }
+            self.classIds = selectedIds.map { String($0) }.joined(separator: ",")
+        }
+        vc.dataArray = dataa
+        vc.selectedTitle = "Classes"
+        vc.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     
@@ -221,15 +283,14 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         
         printt("Sharing Activity Post")
         
-        let classIds = allClassesData?.filter({ $0.isSelected == true }).map({ $0.id ?? 0}).map({String($0)}).joined(separator: ",") ?? ""
+//        let classIds = allClassesData?.filter({ $0.isSelected == true }).map({ $0.id ?? 0}).map({String($0)}).joined(separator: ",") ?? ""
 //        if (selectedAlbum != -1),(selectedDomain != -1), classIds.isEmpty != true { // ,(selectedSkill != -1)
 
-        if (selectedDomain != -1), classIds.isEmpty != true { // ,(selectedSkill != -1)
-            var albumId = 0
-            if selectedTypes != 1 {
-                albumId = self.categoriesData?.data?.album?[selectedAlbum].id ?? 1
-            }
-            let domainId = self.categoriesData?.data?.domain?[selectedDomain].id ?? 1
+        if (domainId != -1), classIds.isEmpty != true { // ,(selectedSkill != -1)
+//            if selectedTypes != 1 {
+//                albumId = self.categoriesData?.data?.album?[selectedAlbum].id ?? 1
+//            }
+//            let domainId = self.categoriesData?.data?.domain?[selectedDomain].id ?? 1
             if textTitle.text == "" {
                 Toast.toast(message: "Please enter a title", controller: self)
             }
@@ -515,7 +576,7 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
             DispatchQueue.main.async {
                 if statusCode == 200 {
                     self.allClassesData = myObject?.data
-                    self.classButtonSetup()
+//                    self.classButtonSetup()
                 }
                 else {
                     Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
@@ -619,7 +680,7 @@ extension ConfirmPost: ClassSelectionVCDelegate {
     func updatedData(data: [ClassName]) {
         self.allClassesData = data
         selectedStudentID2 = data.filter({ $0.isSelected == true }).map({ $0.id ?? 0 })
-        self.getAttendance(classId: selectedStudentID2.first ?? 0, date: self.currentDate)
+//        self.getAttendance(classId: selectedStudentID2.first ?? 0, date: self.currentDate)
     }
 }
 
@@ -739,92 +800,6 @@ extension ConfirmPost {
         }
     }
 }
-
-//extension ConfirmPost: CollageViewDataSource {
-//    
-//    func collageView(_ collageView: CollageView, configure itemView: CollageItemView, at index: Int) {
-//        itemView.image = selectedImages?[index]
-//        itemView.layer.borderWidth = 1
-//        if index == selectedImages?.count {
-//            addBlackViewAndLabel(to: itemView)
-//        }
-//    }
-//    
-//    func collageViewNumberOfTotalItem(_ collageView: CollageView) -> Int {
-//        return selectedImages?.count ?? 0
-//    }
-//        
-//    func collageViewNumberOfRowOrColoumn(_ collageView: CollageView) -> Int {
-//        let totalImages = selectedImages?.count ?? 0
-//        let targetRowCountOrColumnCount = 3
-//        
-//        let rowCountOrColumnCount = (totalImages + targetRowCountOrColumnCount - 1) / targetRowCountOrColumnCount
-//        if rowCountOrColumnCount > 1 && selectedImages?.count == 5 {
-//            return 3
-//        } else if rowCountOrColumnCount == 1 && selectedImages?.count == 3{
-//            return 2
-//        } else {
-//            return rowCountOrColumnCount > 0 ? rowCountOrColumnCount : 1 // Ensure at least 1 row/column
-//        }
-//    }
-//    
-////    func collageViewNumberOfRowOrColoumn(_ collageView: CollageView) -> Int {
-////        let totalImages = selectedImages?.count ?? 0
-////        let targetRowCountOrColumnCount = 3
-////        
-////        let rowCountOrColumnCount = (totalImages + targetRowCountOrColumnCount - 1) / targetRowCountOrColumnCount
-////        if rowCountOrColumnCount > 1 && totalImages == 5 {
-////            // Calculate width of each column
-////            let columnWidth = collageView.bounds.width / CGFloat(targetRowCountOrColumnCount)
-////            // Set content mode of image views in the collage view
-////            collageView.setImageColumnWidth(columnWidth)
-////            return 5
-////        } else if rowCountOrColumnCount == 1 && totalImages == 3 {
-////            return 2
-////        } else {
-////            return max(rowCountOrColumnCount, 1) // Ensure at least 1 row/column
-////        }
-////    }
-//    
-//    func collageViewLayoutDirection(_ collageView: CollageView) -> CollageViewLayoutDirection {
-//        return layoutDirection
-//    }
-//    
-//    private func addBlackViewAndLabel(to view:UIView) {
-//        
-//        let blackView = UIView()
-//        blackView.backgroundColor = .black
-//        blackView.alpha = 0.4
-//        view.addSubview(blackView)
-//        addConstraints(to: blackView, parentView: view)
-//        let label = UILabel()
-//        label.font = UIFont.boldSystemFont(ofSize: 25)
-//        label.textAlignment = .center
-//        label.textColor = .white
-//        label.text = "+\(selectedImages?.count ?? 0)"
-//        view.addSubview(label)
-//        addConstraints(to: label, parentView: view)
-//    }
-//    
-//    private func addConstraints(to view:UIView, parentView:UIView) {
-//        
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        let horConstraint = NSLayoutConstraint(item: view, attribute: .centerX, relatedBy: .equal,
-//                                               toItem: parentView, attribute: .centerX,
-//                                               multiplier: 1.0, constant: 0.0)
-//        let verConstraint = NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal,
-//                                               toItem: parentView, attribute: .centerY,
-//                                               multiplier: 1.0, constant: 0.0)
-//        let widConstraint = NSLayoutConstraint(item: view, attribute: .width, relatedBy: .equal,
-//                                               toItem: parentView, attribute: .width,
-//                                               multiplier: 1, constant: 0.0)
-//        let heiConstraint = NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal,
-//                                               toItem: parentView, attribute: .height,
-//                                               multiplier: 1, constant: 0.0)
-//        
-//        parentView.addConstraints([horConstraint, verConstraint, widConstraint, heiConstraint])
-//    }
-//}
 
 extension ConfirmPost: CollageViewDataSource {
 

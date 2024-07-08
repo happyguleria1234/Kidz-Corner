@@ -20,6 +20,10 @@ class Post: UIViewController, afterAdding {
         // TODO: commented on 18 july 2022 line #17
         // showPicker()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
     
     func setupViews() {
         

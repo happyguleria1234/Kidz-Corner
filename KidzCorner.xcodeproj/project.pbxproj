@@ -69,6 +69,7 @@
 		18DB93BA2C194D1E009C6C11 /* MessageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DB93B92C194D1E009C6C11 /* MessageList.swift */; };
 		18E4D9CA2AF965B7005A3C58 /* AcitivitiesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E4D9C92AF965B7005A3C58 /* AcitivitiesModel.swift */; };
 		18E4D9CC2AF96948005A3C58 /* MiscExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E4D9CB2AF96948005A3C58 /* MiscExt.swift */; };
+		18F2AFD62C3C3FA90077EA2B /* BrandVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F2AFD52C3C3FA90077EA2B /* BrandVC.swift */; };
 		4749BFE3E3F12B4BB055B8BC /* Pods_KidzCorner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2844218C5D841292CD1CA438 /* Pods_KidzCorner.framework */; };
 		5315773D29E1320F001C273C /* ParentPortfolioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5315773C29E1320F001C273C /* ParentPortfolioCell.swift */; };
 		5315773F29E1322F001C273C /* ParentPortfolioCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5315773E29E1322F001C273C /* ParentPortfolioCell.xib */; };
@@ -268,6 +269,7 @@
 		18DB93B92C194D1E009C6C11 /* MessageList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageList.swift; sourceTree = "<group>"; };
 		18E4D9C92AF965B7005A3C58 /* AcitivitiesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcitivitiesModel.swift; sourceTree = "<group>"; };
 		18E4D9CB2AF96948005A3C58 /* MiscExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscExt.swift; sourceTree = "<group>"; };
+		18F2AFD52C3C3FA90077EA2B /* BrandVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandVC.swift; sourceTree = "<group>"; };
 		2844218C5D841292CD1CA438 /* Pods_KidzCorner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KidzCorner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5315773C29E1320F001C273C /* ParentPortfolioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentPortfolioCell.swift; sourceTree = "<group>"; };
 		5315773E29E1322F001C273C /* ParentPortfolioCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ParentPortfolioCell.xib; sourceTree = "<group>"; };
@@ -732,6 +734,7 @@
 				53C1969027B17F9200EF16A3 /* ClassStats.swift */,
 				53C1969127B17F9200EF16A3 /* TeacherDashboard.swift */,
 				53C1969227B17F9200EF16A3 /* TeacherAnnouncements.swift */,
+				18F2AFD52C3C3FA90077EA2B /* BrandVC.swift */,
 				53C1969327B17F9200EF16A3 /* ConfimPost.swift */,
 				53C1969427B17F9200EF16A3 /* TeacherTabbar.swift */,
 				53C1969527B17F9200EF16A3 /* Post.swift */,
@@ -1115,6 +1118,7 @@
 				18D150DB2AED1272004BDF97 /* ParentCell.swift in Sources */,
 				18D150DE2AF037FA004BDF97 /* AddActivityVC.swift in Sources */,
 				53C1971027B17F9200EF16A3 /* Toast.swift in Sources */,
+				18F2AFD62C3C3FA90077EA2B /* BrandVC.swift in Sources */,
 				18B1207F2C3581BB00ED2BA0 /* EmojiManager.swift in Sources */,
 				53C196CF27B17F9200EF16A3 /* AnnouncementCell.swift in Sources */,
 				188D7F692BE40D7F007000D3 /* CollageItem.swift in Sources */,
