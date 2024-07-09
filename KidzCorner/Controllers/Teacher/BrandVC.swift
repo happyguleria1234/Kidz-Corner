@@ -80,15 +80,14 @@ class BrandVC : UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SearchCell", for: indexPath) as! SearchCell
         let data = dataArray[indexPath.row]
-        
         cell.lblBrand.text = data.value
-        cell.imgChecked.image = data.isSelect ? UIImage(named: "checkBoxIcon") : UIImage(named: "uncheckedBox")
+        cell.checkView.backgroundColor = data.isSelect ? #colorLiteral(red: 0.2741542459, green: 0.6354581118, blue: 0.6397424936, alpha: 1) : #colorLiteral(red: 0.8745093942, green: 0.8745102286, blue: 0.8917174935, alpha: 1)
         
         return cell
     }
-    
+
     // MARK: - UITableViewDelegate
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if selectedTitle == "Student" || selectedTitle == "Classes" {
             dataArray[indexPath.row].isSelect.toggle()
@@ -99,20 +98,18 @@ class BrandVC : UIViewController, UITableViewDelegate, UITableViewDataSource {
                 dataArray[previousIndex].isSelect = false
                 let previousIndexPath = IndexPath(row: previousIndex, section: 0)
                 if let previousCell = tableView.cellForRow(at: previousIndexPath) as? SearchCell {
-                    previousCell.imgChecked.image = UIImage(named: "uncheckedBox")
+                    previousCell.checkView.backgroundColor = #colorLiteral(red: 0.8745093942, green: 0.8745102286, blue: 0.8917174935, alpha: 1)
                 }
             }
-            
             dataArray[indexPath.row].isSelect.toggle()
-            selectedIndex = dataArray[indexPath.row].isSelect ? indexPath.row : nil
-            
+            selectedIndex = dataArray[indexPath.row].isSelect ? indexPath.row : nil            
             let currentCell = tableView.cellForRow(at: indexPath) as! SearchCell
-            currentCell.imgChecked.image = dataArray[indexPath.row].isSelect ? UIImage(named: "checkBoxIcon") : UIImage(named: "uncheckedBox")
+            currentCell.checkView.backgroundColor = dataArray[indexPath.row].isSelect ? #colorLiteral(red: 0.2741542459, green: 0.6354581118, blue: 0.6397424936, alpha: 1) : #colorLiteral(red: 0.8745093942, green: 0.8745102286, blue: 0.8917174935, alpha: 1)
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        return 80
     }
     
     //------------------------------------------------------
@@ -137,7 +134,7 @@ class BrandVC : UIViewController, UITableViewDelegate, UITableViewDataSource {
 
 class SearchCell: UITableViewCell {
     
-    @IBOutlet weak var imgChecked: UIImageView!
+    @IBOutlet weak var checkView: UIView!
     @IBOutlet weak var lblBrand: UILabel!
     
     override class func awakeFromNib() {
