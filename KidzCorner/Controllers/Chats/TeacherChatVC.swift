@@ -124,11 +124,11 @@ extension TeacherChatVC: UITableViewDelegate, UITableViewDataSource {
         guard let studentID = data.studentID else { return }
         let sb = UIStoryboard(name: "Parent", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
-        vc.id = studentID
+        id = studentID
         vc.comesFrom = "Teacher"
-        vc.threadID = data.id
-        vc.userName = "\(data.student?.name ?? "")"
-        vc.userProfileImage = "\(data.student?.image ?? "")"
+        threadIDD = data.id ?? 0
+        userNamee = "\(data.student?.name ?? "")"
+        userProfileImagee = "\(data.student?.image ?? "")"
         vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -165,10 +165,10 @@ extension TeacherChatVC {
                            self.isNavigatedToMessageListingVC = true
                            let sb = UIStoryboard(name: "Parent", bundle: nil)
                            let vc = sb.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
-                           vc.id = Int(messageInfo.data?.student?.id ?? "") ?? 0
-                           vc.threadID = Int(messageInfo.data?.thread?.id ?? "") ?? 0
-                           vc.userName = messageInfo.data?.student?.name
-                           vc.userProfileImage = messageInfo.data?.student?.name
+                           id = Int(messageInfo.data?.student?.id ?? "") ?? 0
+                           threadIDD = Int(messageInfo.data?.thread?.id ?? "") ?? 0
+                           userNamee = messageInfo.data?.student?.name
+                           userProfileImagee = messageInfo.data?.student?.name
                            vc.comesFrom = "New Chat"
                            vc.hidesBottomBarWhenPushed = true
                            self.navigationController?.pushViewController(vc, animated: true)

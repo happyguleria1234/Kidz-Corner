@@ -10,15 +10,17 @@ import Foundation
 import SDWebImage
 import IQKeyboardManagerSwift
 
+var userNamee:String?
+var userProfileImagee:String?
+var id:Int?
+var threadIDD = Int()
+
 class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextFieldDelegate {
     
     //------------------------------------------------------
     
     //MARK: Variables and Outlets
-    public var userName:String?
-    public var userProfileImage:String?
-    public var id:Int?
-    public var threadID:Int?
+    
     var comesFrom = String()
     private var isListenerAdded = false
     var messageListing = [MessagesModelListingDatum]()
@@ -86,9 +88,11 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
         uploadImage(params: ["image":imageData!],fileData: imageData!) { [self] data in
             print("")
             sendMessage(message: "",mediaStr: data.data,thumbnailStr: data.data,messageType:2) { [weak self] in
-                self?.tf_message.text = ""
-                self?.tblMessages.scrollToBottom()
-                self?.tblMessages.reloadData()
+                DispatchQueue.main.async {
+                    self?.tf_message.text = ""
+                    self?.tblMessages.scrollToBottom()
+                    self?.tblMessages.reloadData()
+                }
             }
         }
     }
@@ -100,9 +104,11 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
             let pdfData = try Data(contentsOf: url)
             uploadPDF(params: ["image":pdfData],fileData: pdfData) { [self] data in
                 sendMessage(message: "",mediaStr: data.data,thumbnailStr: data.data,messageType:3) { [weak self] in
-                    self?.tf_message.text = ""
-                    self?.tblMessages.scrollToBottom()
-                    self?.tblMessages.reloadData()
+                    DispatchQueue.main.async {
+                        self?.tf_message.text = ""
+                        self?.tblMessages.scrollToBottom()
+                        self?.tblMessages.reloadData()
+                    }
                 }
             }
         } catch {
@@ -121,7 +127,16 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
     //MARK: Actions
     
     @IBAction func btnBack(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+        if comesFrom == "Notif" {
+            let roleId = UserDefaults.standard.integer(forKey: myRoleId)
+            if roleId == 4 {
+                gotoHome()
+            } else {
+                gotoHomeTeacher()
+            }
+        } else {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     @IBAction func btnAttachment(_ sender: UIButton) {
@@ -139,9 +154,11 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
         if let messageData = tf_message.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
             if messageData != "" {
                 sendMessage(message: messageData,messageType:1) { [weak self] in
-                    self?.tf_message.text = ""
-                    self?.tblMessages.scrollToBottom()
-                    self?.tblMessages.reloadData()
+                    DispatchQueue.main.async {
+                        self?.tf_message.text = ""
+                        self?.tblMessages.scrollToBottom()
+                        self?.tblMessages.reloadData()
+                    }
                 }
             }
         }
@@ -155,37 +172,6 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
     
     //MARK: UIViewController
     
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        keyboardHandling()
-//        setData()
-//        populateData()
-//        keyboardHandling()
-//        SocketIOManager.sharedInstance.joinRoomEmitter(userID: id)
-//        getMessages()
-//        setupHiddenTextView()
-//        filePickerManager = FilePickerManager(viewController: self)
-//        filePickerManager.delegate = self
-//        tblMessages.addObserver(self, forKeyPath: "contentOffset", options: [.new], context: nil)
-//        
-//        // Ensure the message listener is set up once and correctly
-//        if !isListenerAdded {
-//            isListenerAdded = true
-//            SocketIOManager.sharedInstance.sendMessageListener { [weak self] messageDialogs in
-//                guard let strongSelf = self else { return }
-//                DispatchQueue.main.async {
-//                    if !strongSelf.messageListing.isEmpty {
-//                        var lastMessage = strongSelf.messageListing[strongSelf.messageListing.count - 1]
-//                        lastMessage.messages.append(messageDialogs.data!)
-//                        strongSelf.messageListing[strongSelf.messageListing.count - 1] = lastMessage
-//                        strongSelf.tblMessages.scrollToBottom()
-//                        strongSelf.tblMessages.reloadData()
-//                    }
-//                }
-//            }
-//        }
-//    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         keyboardHandling()
@@ -198,7 +184,6 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
         filePickerManager.delegate = self
         tblMessages.addObserver(self, forKeyPath: "contentOffset", options: [.new], context: nil)
 
-        // Ensure the message listener is set up once and correctly
         if !isListenerAdded {
             isListenerAdded = true
             SocketIOManager.sharedInstance.sendMessageListener { [weak self] messageDialogs in
@@ -242,43 +227,6 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
         }
     }
     
-//    private func fetchPreviousMessages() {
-//        guard !isFetchingMessages else { return }
-//        
-//        isFetchingMessages = true
-//        let nextPage = currentPage + 1
-//        
-//        var count = 0
-//        count += self.messageListing.count // Adding the count of sections
-//        for i in 0..<self.messageListing.count {
-//            let messages = self.messageListing[i].messages
-//            count += messages.count
-//        }
-//        print("Total number of rows: \(count)")
-//        let lastRowIndex = IndexPath(row: count, section: self.messageListing.count)
-//        ApiManager.shared.Request(type: MessagesModelListing.self, methodType: .Get, url: "\(baseUrl)chatroom/\(threadID ?? 0)", parameter: ["page_size": "100", "page": "\(nextPage)"]) { [weak self] error, resp, msgString, statusCode in
-//            guard let self = self, error == nil, statusCode == 200 else {
-//                self?.isFetchingMessages = false
-//                return
-//            }
-//            var count = self.messageListing.count
-//            DispatchQueue.main.async {
-//                self.isFetchingMessages = false
-//                guard let resp = resp else { return }
-//                
-//                resp.data.data.forEach { data in
-//                    var reversedData = data
-//                    reversedData.messages.reverse()
-//                    self.messageListing.insert(reversedData, at: 0)
-//                }
-//                                
-//                self.currentPage = nextPage
-//                self.tblMessages.reloadData()
-//                self.tblMessages.scrollToRow(at: lastRowIndex, at: .none, animated: true)
-//            }
-//        }
-//    }
-    
     private func fetchPreviousMessages() {
         guard !isFetchingMessages else { return }
         
@@ -295,7 +243,7 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
         }
         print("Total number of rows: \(totalCount)")
         
-        ApiManager.shared.Request(type: MessagesModelListing.self, methodType: .Get, url: "\(baseUrl)chatroom/\(threadID ?? 0)", parameter: ["page_size": "100", "page": "\(nextPage)"]) { [weak self] error, resp, msgString, statusCode in
+        ApiManager.shared.Request(type: MessagesModelListing.self, methodType: .Get, url: "\(baseUrl)chatroom/\(threadIDD)", parameter: ["page_size": "100", "page": "\(nextPage)"]) { [weak self] error, resp, msgString, statusCode in
             guard let self = self, error == nil, statusCode == 200 else {
                 self?.isFetchingMessages = false
                 return
@@ -387,9 +335,9 @@ extension MessageListingVC {
     }
     
     private func populateData() {
-        lbl_name.text = userName
+        lbl_name.text = userNamee
         imgProfile.contentMode = .scaleAspectFill
-        if let userProfileUrl = userProfileImage {
+        if let userProfileUrl = userProfileImagee {
             imgProfile.sd_setImage(with: URL(string: imageBaseUrl+(userProfileUrl)),
                                    placeholderImage: .announcementPlaceholder)
         }
@@ -601,7 +549,7 @@ extension MessageListingVC {
     
     func getMessages() {
         showIndicator()
-        ApiManager.shared.Request(type: MessagesModelListing.self, methodType: .Get, url: "\(baseUrl)chatroom/\(threadID ?? 0)", parameter: ["page_size": "1000", "page": "1"]) { error, resp, msgString, statusCode in
+        ApiManager.shared.Request(type: MessagesModelListing.self, methodType: .Get, url: "\(baseUrl)chatroom/\(threadIDD)", parameter: ["page_size": "1000", "page": "1"]) { error, resp, msgString, statusCode in
             guard error == nil, statusCode == 200 else {
                 DispatchQueue.main.async {
                     self.stopIndicator()
@@ -624,30 +572,6 @@ extension MessageListingVC {
             }
         }
     }
-    
-    //    func getMessages() {
-    //        showIndicator()
-    //        ApiManager.shared.Request(type: MessagesModelListing.self, methodType: .Get, url: "\(baseUrl)chatroom/\(threadID ?? 0)", parameter: ["page_size": "1000", "page": "1"]) { error, resp, msgString, statusCode in
-    //            guard error == nil, statusCode == 200 else {
-    //                self.stopIndicator()
-    //                return
-    //            }
-    //
-    //            DispatchQueue.main.async {
-    //                self.stopIndicator()
-    //
-    //                resp?.data.data.forEach({ data in
-    //                    // Reverse the messages array inside each data
-    //                    var reversedData = data
-    //                    reversedData.messages.reverse()
-    //                    self.messageListing.append(reversedData)
-    //                })
-    //                self.messageListing.reverse()
-    //                self.tblMessages.reloadData()
-    //                self.tblMessages.scrollToBottom()
-    //            }
-    //        }
-    //    }
     
     func uploadImage(params: [String: Any], fileData: Data, onSuccess: @escaping ((UploadModel) -> ())) {
         showIndicator()
@@ -690,7 +614,7 @@ extension MessageListingVC {
         guard let userID = UserDefaults.standard.value(forKey: myUserid) as? Int else { return }
         guard let recieverID = id else { return }
         
-        SocketIOManager.sharedInstance.sendMessageEmitter(messageStr: message, senderId: userID, recieverID: recieverID, threadID: threadID ?? 0, messageType: messageType, media: mediaStr, thumbnail: thumbnailStr)
+        SocketIOManager.sharedInstance.sendMessageEmitter(messageStr: message, senderId: userID, recieverID: recieverID, threadID: threadIDD, messageType: messageType, media: mediaStr, thumbnail: thumbnailStr)
         onSuccess()
     }
 }

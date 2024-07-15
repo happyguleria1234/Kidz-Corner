@@ -21,7 +21,6 @@ class UserListViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setupViews()
-        imgCell.layer.cornerRadius = 10
     }
     
     func setData(userData: AlbumModelDatum) {
@@ -35,12 +34,24 @@ class UserListViewCell: UITableViewCell {
     
     func setupViews() {
         DispatchQueue.main.async { [self] in
-            listSuperView.layer.cornerRadius = 10
-            listSuperView.layer.shadowColor = UIColor.black.cgColor
-            listSuperView.layer.shadowOpacity = 1
-            listSuperView.layer.shadowOffset = CGSize.zero
-            listSuperView.layer.shadowRadius = 8
+            listSuperView.layer.cornerRadius = 20
+            listSuperView.layer.borderColor = #colorLiteral(red: 0.8745093942, green: 0.8745102286, blue: 0.8917174935, alpha: 1)
+            listSuperView.layer.borderWidth = 1
         }
     }
     
+}
+
+extension UIView {
+
+  func dropShadow() {
+      layer.masksToBounds = false
+      layer.shadowColor = UIColor.black.cgColor
+      layer.shadowOpacity = 0.5
+      layer.shadowOffset = CGSize(width: -1, height: 1)
+      layer.shadowRadius = 1
+      layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+      layer.shouldRasterize = true
+      layer.rasterizationScale = UIScreen.main.scale
+  }
 }

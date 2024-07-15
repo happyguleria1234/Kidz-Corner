@@ -21,8 +21,6 @@ class ParentDashboard: UIViewController {
         setupViews()
         setupTable()
         dateLbl.text = Date().formattedDateAndTime()
-        //        getDashboard()
-        //        getChildrenList()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -85,6 +83,14 @@ class ParentDashboard: UIViewController {
         tableHome.register(UINib(nibName: "DashboardTableCell", bundle: nil), forCellReuseIdentifier: "DashboardTableCell")
         tableHome.delegate = self
         tableHome.dataSource = self
+        
+        let status = UserDefaults.standard.integer(forKey: checkInStatus)
+        if status == 1 {
+            checkInstatuslbl.text = "Checked In"
+        } else {
+            checkInstatuslbl.text = "Checked Out"
+        }
+
     }
     
     func updateToLatestVersion(latestVersion: String) {

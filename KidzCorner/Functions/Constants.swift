@@ -45,6 +45,8 @@ public let myImage = "myImage"
 public let myChildrenIds = "childrenIds"
 public let myChildrenData = "childrenData"
 public let myDeviceToken = "deviceToken"
+public let checkInStatus = "checkInStatus"
+
 
 public let myClass = "myClass"
 

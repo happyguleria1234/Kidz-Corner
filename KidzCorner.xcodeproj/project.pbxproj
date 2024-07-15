@@ -36,6 +36,7 @@
 		18942DF42C3A8EDF00389D04 /* AlbumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18942DF32C3A8EDF00389D04 /* AlbumModel.swift */; };
 		18942DF62C3A9C4300389D04 /* PAlbumDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18942DF52C3A9C4300389D04 /* PAlbumDetailVC.swift */; };
 		18942DF82C3AB5D500389D04 /* TeacherPortfolioModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18942DF72C3AB5D500389D04 /* TeacherPortfolioModel.swift */; };
+		189CA0662C44009F00751065 /* NotificationRedirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189CA0652C44009F00751065 /* NotificationRedirection.swift */; };
 		18A79C3D2C1DF96500F08D92 /* UserMessagesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A79C3C2C1DF96500F08D92 /* UserMessagesList.swift */; };
 		18A79C3F2C1EA10F00F08D92 /* UsersListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A79C3E2C1EA10F00F08D92 /* UsersListVC.swift */; };
 		18A79C412C1EA21B00F08D92 /* ChatsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A79C402C1EA21B00F08D92 /* ChatsVM.swift */; };
@@ -236,6 +237,7 @@
 		18942DF32C3A8EDF00389D04 /* AlbumModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumModel.swift; sourceTree = "<group>"; };
 		18942DF52C3A9C4300389D04 /* PAlbumDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PAlbumDetailVC.swift; sourceTree = "<group>"; };
 		18942DF72C3AB5D500389D04 /* TeacherPortfolioModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherPortfolioModel.swift; sourceTree = "<group>"; };
+		189CA0652C44009F00751065 /* NotificationRedirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRedirection.swift; sourceTree = "<group>"; };
 		18A79C3C2C1DF96500F08D92 /* UserMessagesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMessagesList.swift; sourceTree = "<group>"; };
 		18A79C3E2C1EA10F00F08D92 /* UsersListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersListVC.swift; sourceTree = "<group>"; };
 		18A79C402C1EA21B00F08D92 /* ChatsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsVM.swift; sourceTree = "<group>"; };
@@ -578,6 +580,7 @@
 				53C196C027B17F9200EF16A3 /* Model */,
 				53C196B027B17F9200EF16A3 /* Storyboards */,
 				53C1966F27B17F9200EF16A3 /* Views */,
+				189CA0652C44009F00751065 /* NotificationRedirection.swift */,
 			);
 			path = KidzCorner;
 			sourceTree = "<group>";
@@ -1069,6 +1072,7 @@
 				B7B09F322A44B9C400D7ABBD /* SelectionCell.swift in Sources */,
 				53CB200627CB85430027A346 /* SelectActivityPost.swift in Sources */,
 				18A79C582C25D3C200F08D92 /* UserListViewCell.swift in Sources */,
+				189CA0662C44009F00751065 /* NotificationRedirection.swift in Sources */,
 				18A79C412C1EA21B00F08D92 /* ChatsVM.swift in Sources */,
 				188D7F6A2BE40D7F007000D3 /* CollageItemView.swift in Sources */,
 				18E4D9CA2AF965B7005A3C58 /* AcitivitiesModel.swift in Sources */,
@@ -1360,7 +1364,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.1;
+				MARKETING_VERSION = 6.4;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1412,7 +1416,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.1;
+				MARKETING_VERSION = 6.4;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";

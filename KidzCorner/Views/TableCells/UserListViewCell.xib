@@ -15,27 +15,30 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="258" id="KGk-i7-Jjw" customClass="UserListViewCell" customModule="KidzCorner" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="258"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="269" id="KGk-i7-Jjw" customClass="UserListViewCell" customModule="KidzCorner" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="269"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="258"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="269"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nUm-w7-VWO" customClass="CustomView" customModule="KidzCorner" customModuleProvider="target">
-                        <rect key="frame" x="14" y="14" width="292" height="300"/>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nUm-w7-VWO">
+                        <rect key="frame" x="14" y="14" width="292" height="246"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="12" translatesAutoresizingMaskIntoConstraints="NO" id="EpP-Ra-c8w">
-                                <rect key="frame" x="0.0" y="0.0" width="292" height="234"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="12" translatesAutoresizingMaskIntoConstraints="NO" id="EpP-Ra-c8w">
+                                <rect key="frame" x="0.0" y="0.0" width="292" height="180"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="180" id="Uo6-H9-tPd"/>
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="Er8-hL-uKI">
-                                <rect key="frame" x="20.000000000000007" y="248" width="95.666666666666686" height="44"/>
+                                <rect key="frame" x="20.000000000000007" y="194" width="95.666666666666686" height="44"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8EW-gK-Mbf">
                                         <rect key="frame" x="0.0" y="0.0" width="95.666666666666671" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="26" id="dtd-vF-fUH"/>
+                                        </constraints>
                                         <attributedString key="attributedText">
                                             <fragment content="Class Album">
                                                 <attributes>
@@ -62,7 +65,6 @@
                             <constraint firstItem="Er8-hL-uKI" firstAttribute="leading" secondItem="EpP-Ra-c8w" secondAttribute="leading" constant="20" id="ZOa-gi-gWh"/>
                             <constraint firstItem="Er8-hL-uKI" firstAttribute="top" secondItem="EpP-Ra-c8w" secondAttribute="bottom" constant="14" id="cuz-Yg-XpS"/>
                             <constraint firstAttribute="bottom" secondItem="Er8-hL-uKI" secondAttribute="bottom" constant="8" id="pEl-IP-avT"/>
-                            <constraint firstItem="EpP-Ra-c8w" firstAttribute="height" secondItem="nUm-w7-VWO" secondAttribute="height" multiplier="0.78" id="zuG-OA-ais"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -87,7 +89,7 @@
                 <outlet property="listSuperView" destination="nUm-w7-VWO" id="dt4-na-pdc"/>
                 <outlet property="nameLbl" destination="8EW-gK-Mbf" id="Ac8-HZ-bLc"/>
             </connections>
-            <point key="canvasLocation" x="77.862595419847324" y="73.943661971830991"/>
+            <point key="canvasLocation" x="77.862595419847324" y="77.816901408450704"/>
         </tableViewCell>
     </objects>
     <resources>

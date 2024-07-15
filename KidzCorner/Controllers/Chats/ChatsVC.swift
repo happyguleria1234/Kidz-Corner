@@ -23,7 +23,7 @@ class ChatsVC : UIViewController {
     var isComming = String()
     var userList: MessageList?
     var socket = SocketIOManager()
-    
+    var allChatData: ChatInboxModel?
     @IBOutlet weak var tf_search: UITextField!
     @IBOutlet weak var tblChats: UITableView!
     
@@ -35,11 +35,11 @@ class ChatsVC : UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    func setSocketConnectionAndKeys() {
-        fetchChatDialogs {
-            self.tblChats.reloadData()
-        }
-    }
+//    func setSocketConnectionAndKeys() {
+//        fetchChatDialogs {
+//            self.tblChats.reloadData()
+//        }
+//    }
     
     //------------------------------------------------------
     
@@ -135,25 +135,29 @@ extension ChatsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let data = charRoomResp[indexPath.row]
-        guard let studentID = data.studentID else { return }
-        SocketIOManager.sharedInstance.joinRoomEmitter(userID: studentID)
-        SocketIOManager.sharedInstance.joinRoomListner { [weak self] messageInfo in
-            guard let self = self else { return }
-            if !self.isNavigatedToMessageListingVC {
-                self.isNavigatedToMessageListingVC = true
-                
-                DispatchQueue.main.async {
-                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
-                    vc.comesFrom = "User"
-                    vc.id = Int(messageInfo.data?.student?.id ?? "") ?? 0
-                    vc.threadID = Int(messageInfo.data?.thread?.id ?? "") ?? 0
-                    vc.userName = messageInfo.data?.student?.name
-                    vc.userProfileImage = messageInfo.data?.student?.name
-                    vc.hidesBottomBarWhenPushed = true
-                    self.navigationController?.pushViewController(vc, animated: true)
+        if allChatData?.chat ?? false {
+            let data = charRoomResp[indexPath.row]
+            guard let studentID = data.studentID else { return }
+            SocketIOManager.sharedInstance.joinRoomEmitter(userID: studentID)
+            SocketIOManager.sharedInstance.joinRoomListner { [weak self] messageInfo in
+                guard let self = self else { return }
+                if !self.isNavigatedToMessageListingVC {
+                    self.isNavigatedToMessageListingVC = true
+                    
+                    DispatchQueue.main.async {
+                        let vc = self.storyboard?.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
+                        vc.comesFrom = "User"
+                        id = Int(messageInfo.data?.student?.id ?? "") ?? 0
+                        threadIDD = Int(messageInfo.data?.thread?.id ?? "") ?? 0
+                        userNamee = messageInfo.data?.student?.name
+                        userProfileImagee = messageInfo.data?.student?.name
+                        vc.hidesBottomBarWhenPushed = true
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
                 }
             }
+        } else {
+            AlertManager.shared.showAlert(title: "Chat Alert", message: "Message Unavailable.", viewController: self)
         }
     }
     
@@ -188,10 +192,9 @@ class ChatsCell: UITableViewCell {
         lbl_name.text = data.student?.name
         lbl_count.isHidden = true
         imgProfile.contentMode = .scaleAspectFill
-        if let userProfileUrl = data.student?.image {
+        guard let userProfileUrl = data.student?.image else { return  }
             imgProfile.sd_setImage(with: URL(string: imageBaseUrl+(userProfileUrl)),
                                    placeholderImage: .announcementPlaceholder)
-        }
         if data.unreadMessage == 0 {
             lbl_count.isHidden = true
         } else {
@@ -235,27 +238,9 @@ class ChatsCell: UITableViewCell {
         }
         return dateFormatter.string(from: date)
     }
-    
-
-    
-    
 }
 
-extension ChatsVC {
-    
-    func fetchChatDialogs(onSuccess: @escaping(()->())) {
-        SocketIOManager.sharedInstance.messageListingListener { [weak self] messageDialogs in
-            print(messageDialogs)
-            self?.userList = messageDialogs
-            self?.tblChats.reloadData()
-            onSuccess()
-        }
-        SocketIOManager.sharedInstance.getUsers()
-    }
-}
-
-
-// New work
+// MARK: - API Call and Search
 
 extension ChatsVC {
     
@@ -299,7 +284,7 @@ extension ChatsVC {
                   statusCode == 200 else {
                 self.stopIndicator()
                 return }
-            
+            self.allChatData = resp
             DispatchQueue.main.async {
                 self.stopIndicator()
                 self.allCharRoomResp = userlist

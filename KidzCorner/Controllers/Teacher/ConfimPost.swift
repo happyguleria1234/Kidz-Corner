@@ -83,7 +83,7 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         super.viewDidLoad()
         self.collectionImages.register(UINib(nibName: "DashboardCollectionCell", bundle: Bundle.main), forCellWithReuseIdentifier: "DashboardCollectionCell")
 //        self.typeCollection.register(UINib(nibName: "TypeCell", bundle: Bundle.main), forCellWithReuseIdentifier: "TypeCell")
-        getStudents()
+//        getStudents()
         getCategories()
         initialSetup()
         activitybtnClick()
@@ -147,21 +147,27 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     }
     
     @IBAction func btnStudent(_ sender: Any) {
-        var dataa = [DataArray]()
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "BrandVC") as! BrandVC
-        self.childreData?.data?.data?.forEach({ data in
-            let albumData = DataArray(value: data.name ?? "", isSelect: false,id: data.id ?? 0)
-            dataa.append(albumData)
-        })
-        vc.callBack = { selectedData in
-            self.tf_studentName.text = selectedData.compactMap({ $0.value }).joined(separator: ",")
-            self.selectedStudents = selectedData.compactMap({ $0.id })
-            self.selectedStudentsName = selectedData.compactMap({ $0.value })
+        if classIds.isEmpty {
+            AlertManager.shared.showAlert(title: "Select Classes", message: "Please select class then you were able to get student list", viewController: self)
+        } else {
+            getStudents(classIDStr: self.classIds) {
+                var dataa = [DataArray]()
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "BrandVC") as! BrandVC
+                self.childreData?.data?.data?.forEach({ data in
+                    let albumData = DataArray(value: data.name ?? "", isSelect: false,id: data.id ?? 0, userImage: data.image ?? "")
+                    dataa.append(albumData)
+                })
+                vc.callBack = { selectedData in
+                    self.tf_studentName.text = selectedData.compactMap({ $0.value }).joined(separator: ",")
+                    self.selectedStudents = selectedData.compactMap({ $0.id })
+                    self.selectedStudentsName = selectedData.compactMap({ $0.value })
+                }
+                vc.dataArray = dataa
+                vc.selectedTitle = "Student"
+                vc.modalPresentationStyle = .overCurrentContext
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
-        vc.dataArray = dataa
-        vc.selectedTitle = "Student"
-        vc.modalPresentationStyle = .overCurrentContext
-        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func backFunc(_ sender: Any) {
@@ -173,7 +179,7 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         var dataa = [DataArray]()
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "BrandVC") as! BrandVC
         self.categoriesData?.data?.album?.forEach({ data in
-            let albumData = DataArray(value: data.name ?? "", isSelect: false,id: data.id ?? 0)
+            let albumData = DataArray(value: data.name ?? "", isSelect: false,id: data.id ?? 0, userImage: "")
             dataa.append(albumData)
         })
         vc.callBack = { selectedData in
@@ -191,7 +197,7 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         var dataa = [DataArray]()
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "BrandVC") as! BrandVC
         self.categoriesData?.data?.domain?.forEach({ data in
-            let albumData = DataArray(value: data.name ?? "", isSelect: false,id: data.id ?? 0)
+            let albumData = DataArray(value: data.name ?? "", isSelect: false,id: data.id ?? 0, userImage: "")
             dataa.append(albumData)
         })
         vc.callBack = { selectedData in
@@ -210,11 +216,10 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     }
     
     @IBAction func didTapClass(_ sender: Any) {
-//        self.classButtonSetup()
         var dataa = [DataArray]()
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "BrandVC") as! BrandVC
         self.allClassesData?.forEach({ data in
-            let albumData = DataArray(value: data.name ?? "", isSelect: false,id: data.id ?? 0)
+            let albumData = DataArray(value: data.name ?? "", isSelect: false,id: data.id ?? 0, userImage: "")
             dataa.append(albumData)
         })
         vc.callBack = { [self] selectedData in
@@ -320,12 +325,13 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         print(sender)
     }
     
-    func getStudents() {
-        ApiManager.shared.Request(type: ChildrenModelData.self, methodType: .Get, url: "https://kidzcorner.live/api/all_children", parameter: [:]) { error, myObject, msgString, statusCode in
+    func getStudents(classIDStr: String = "",onSuccess: @escaping(()->())) {
+        ApiManager.shared.Request(type: ChildrenModelData.self, methodType: .Get, url: "https://kidzcorner.live/api/all_children", parameter: ["classId": classIDStr]) { error, myObject, msgString, statusCode in
             if statusCode == 200 {
                 DispatchQueue.main.async { [self] in
                     self.childreData = myObject
                     self.studentName.dataSource = myObject?.data?.data?.compactMap({ $0.name}) ?? []
+                    onSuccess()
                 }
             }
             else {
@@ -488,7 +494,8 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
                 "is_dashboard" : "1",
                 "class_id": classIds,
                 "is_collage":selectedType == 0 ? 0 : 1,
-                "portfolio_type":selectedTypes
+                "portfolio_type":selectedTypes,
+                "studentId": selectedStudents.map({String($0)}).joined(separator: ",")
             ]
         } else {
             
@@ -502,9 +509,9 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
                 "is_dashboard" : "1",
                 "class_id": classIds,
 //                "user_id": selectedStudentID,
-                "students_ids[]": selectedStudentsName.joined(separator: ","),
+                "studentId": selectedStudents,
                 "is_collage":selectedType == 0 ? 0 : 1,
-                "portfolio_type":selectedTypes
+                "studentId": selectedStudents.map({String($0)}).joined(separator: ",")
             ]
         }
         print(params)
@@ -716,9 +723,9 @@ extension ConfirmPost {
                 "post_date" : Date().shortDate,
                 "is_dashboard" : "1",
                 "class_id": classIds,
-                "students_ids[]": selectedStudentsName.joined(separator: ","),
                 "is_collage":selectedType == 0 ? 0 : 1,
-                "portfolio_type":selectedType
+                "portfolio_type":selectedType,
+                "studentId": selectedStudents.map({String($0)}).joined(separator: ",")
             ]
         } else {
             
@@ -732,9 +739,9 @@ extension ConfirmPost {
                 "is_dashboard" : "1",
                 "class_id": classIds,
                 "user_id": selectedStudentID,
-                "students_ids[]": selectedStudentsName.joined(separator: ","),
                 "is_collage":selectedType == 0 ? 0 : 1,
-                "portfolio_type":selectedType
+                "portfolio_type":selectedType,
+                "studentId": selectedStudents.map({String($0)}).joined(separator: ",")
             ]
         }
 //        is_collage

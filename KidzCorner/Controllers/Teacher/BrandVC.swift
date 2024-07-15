@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 import Foundation
 
 class BrandVC : UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -80,7 +81,17 @@ class BrandVC : UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SearchCell", for: indexPath) as! SearchCell
         let data = dataArray[indexPath.row]
+        if selectedTitle == "Student" {
+            cell.imageWidth.constant = 40
+            cell.userImage.isHidden = false
+        } else {
+            cell.imageWidth.constant = 0
+            cell.userImage.isHidden = true
+        }
         cell.lblBrand.text = data.value
+        if let url = URL(string: imageBaseUrl + (data.userImage)) {
+            cell.userImage.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
+        }
         cell.checkView.backgroundColor = data.isSelect ? #colorLiteral(red: 0.2741542459, green: 0.6354581118, blue: 0.6397424936, alpha: 1) : #colorLiteral(red: 0.8745093942, green: 0.8745102286, blue: 0.8917174935, alpha: 1)
         
         return cell
@@ -134,6 +145,8 @@ class BrandVC : UIViewController, UITableViewDelegate, UITableViewDataSource {
 
 class SearchCell: UITableViewCell {
     
+    @IBOutlet weak var imageWidth: NSLayoutConstraint!
+    @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var checkView: UIView!
     @IBOutlet weak var lblBrand: UILabel!
     
@@ -146,4 +159,5 @@ struct DataArray {
     var value: String
     var isSelect: Bool
     var id: Int
+    var userImage: String
 }

@@ -4,7 +4,6 @@ import IQKeyboardManagerSwift
 import DropDown
 import Firebase
 import FirebaseMessaging
-// com.colin.KidsCorner
 
 var loggedUSer = String()
 
@@ -34,11 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         }
         
         if UserDefaults.standard.bool(forKey: isLoggedIn) {
-            
             let roleId = UserDefaults.standard.integer(forKey: myRoleId)
-            
             printt("appDelegate role id \(roleId)")
-            
             switch roleId {
             case 2:
                 loggedUSer = "Teacher"
@@ -62,81 +58,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
                 printt("Default Case")
             }
         }
-        
-       
-//        Messaging.messaging().token { token, error in
-//          if let error = error {
-//            print("Error fetching FCM registration token: \(error)")
-//          } else if let token = token {
-//            print("FCM registration token: \(token)")
-//            
-//          }
-//        }
-       
-//        UNUserNotificationCenter.current().delegate = self
-//        let authOptions: UNAuthorizationOptions = [.alert, .sound,.badge]
-//        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { success, error in
-//            if success {
-//                UNUserNotificationCenter.current().getNotificationSettings { settings in
-//                   print("Notification settings: \(settings)")
-//                 }
-//            }
-//            if error != nil {
-//                //we are ready to go
-//            }
-//        }
-//        application.registerForRemoteNotifications()
-//        
-//        let notificationOption = launchOptions?[.remoteNotification]
-//
-//        // 1
-//        if let notification = notificationOption as? [AnyHashable: Any] {
-//            pushNotification(application, didReceiveRemoteNotification: notification)
-//            UIPasteboard.general.string = "\(notification)"
-//            if let topVC = UIApplication.shared.windows.first?.rootViewController{
-//                let alert = UIAlertController(title: "Notification", message: "\(notification)", preferredStyle: .alert)
-//                alert.addAction(UIAlertAction(title: "OK", style: .default))
-//                topVC.present(alert, animated: true)
-//            }
-//            handlePushNotification(response: notification)
-//        }
         registerForPushNotifications()
         return true
     }
     
     func registerForPushNotifications() {
-        UIApplication.shared.applicationIconBadgeNumber = 0
-        //        UIApplication.shared.cancelAllLocalNotifications()
-        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-        UNUserNotificationCenter.current().delegate = self
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {
-            (granted, error) in
-            print("Permission granted: \(granted)")
-            // 1. Check if permission granted
-            guard granted else { return }
-            // 2. Attempt registration for remote notifications on the main thread
-            DispatchQueue.main.async {
-                UIApplication.shared.registerForRemoteNotifications()
-                FirebaseApp.configure()
-                Messaging.messaging().delegate = self
-                Messaging.messaging().isAutoInitEnabled = true
-            }
-        }
-    }
-    
+         UIApplication.shared.applicationIconBadgeNumber = 0
+         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+         UNUserNotificationCenter.current().delegate = self
+         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+             print("Permission granted: \(granted)")
+             guard granted else { return }
+             DispatchQueue.main.async {
+                 UIApplication.shared.registerForRemoteNotifications()
+                 FirebaseApp.configure()
+                 Messaging.messaging().delegate = self
+                 Messaging.messaging().isAutoInitEnabled = true
+             }
+         }
+     }
 }
 
 // MARK: -  Push Notification Delegates
+
 extension AppDelegate: UNUserNotificationCenterDelegate {
-   
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        UserDefaults.standard.setValue(fcmToken, forKey: myDeviceToken)
-        print(fcmToken,"fcmToken")
-    }
+    
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let deviceToke = deviceToken.hexString
-//        UserDefaults.standard.setValue(deviceToke, forKey: myDeviceToken)
-               // Pass device token to Firebase for FCM
+        UserDefaults.standard.setValue(deviceToke, forKey: myDeviceToken)
         Messaging.messaging().apnsToken = deviceToken
         print(deviceToken)
     }
@@ -145,16 +94,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         print("Failed to register push notification")
     }
     
-    /*
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        print("My Device token \(String(describing: fcmToken))")
-        UserDefaults.standard.setValue(fcmToken, forKey: myDeviceToken)
-    }
-    */
-    
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         print("Will gets called when app is in forground and we want to show banner")
-        
+        let userInfofData = notification.request.content.userInfo["payload"] as? [String: Any] ?? [:]
+        if userInfofData["type"] as? String != "receiveMessage" {
+            NotificationRedirections.shared.fetchUserInfoData(data: userInfofData, type: userInfofData["type"] as? String ?? "")
+        }
         completionHandler([.alert, .sound, .badge])
     }
     
@@ -162,13 +107,15 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         print("Will gets called when user tap on notifictaion")
         UIPasteboard.general.string = "\(response.notification.request.content.userInfo)"
         let notification = response.notification.request.content.userInfo
+        var userInfofData = [String: Any]()
+        if notification["type"] as? String == "receiveMessage" {
+            userInfofData = response.notification.request.content.userInfo["lastMessage"] as? [String: Any] ?? [:]
+        } else{
+            userInfofData = response.notification.request.content.userInfo["payload"] as? [String: Any] ?? [:]
+        }
+        NotificationRedirections.shared.fetchUserInfoData(data: userInfofData,type: notification["type"] as? String ?? "")
         handlePushNotification(response: notification)
         completionHandler()
-    }
-    
-    func pushNotification(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        let notification = "\(userInfo)"
-        handlePushNotification(response: userInfo)
     }
     
     func handlePushNotification(response: [AnyHashable : Any]) {
@@ -179,10 +126,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         do {
             let decoder = JSONDecoder()
             let pushResponse = try decoder.decode(PayloadModel.self, from: jsonData)
-            
             // Access the decoded properties
             let data = pushResponse
-            
             print("Data: \(data)")
             guard let invoiceId = data.data?.id else { return }
             let sb = UIStoryboard(name: "Parent", bundle: nil)
