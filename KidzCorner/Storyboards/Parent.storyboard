@@ -514,6 +514,8 @@
                         <outlet property="checkInstatuslbl" destination="ZDt-cR-bE4" id="6ul-s1-oAA"/>
                         <outlet property="checkedInBtn" destination="RFZ-JK-WBW" id="LRn-RM-RYn"/>
                         <outlet property="dateLbl" destination="B4g-FP-0bx" id="yqA-SV-yaL"/>
+                        <outlet property="dateView" destination="Sr3-cg-A1T" id="1yt-8a-fBW"/>
+                        <outlet property="dateViewHeight" destination="bAc-jS-bCz" id="ecW-bf-Lev"/>
                         <outlet property="tableHome" destination="AmQ-Zq-s4j" id="tdU-Fv-5hf"/>
                     </connections>
                 </viewController>

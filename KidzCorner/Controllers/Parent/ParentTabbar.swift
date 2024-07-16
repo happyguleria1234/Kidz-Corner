@@ -44,8 +44,7 @@ class ParentTabbar: UITabBarController, UITabBarControllerDelegate {
                 if self.allChatData?.chat == false {
                     DispatchQueue.main.async {
                         AlertManager.shared.showAlert(title: "Chat Alert", message: "Message Unavailable.", viewController: self)
-                        // Prevent the selection
-                        tabBarController.selectedIndex = 0 // or any other index you want to fallback to
+                        tabBarController.selectedIndex = 0
                     }
                     return
                 }

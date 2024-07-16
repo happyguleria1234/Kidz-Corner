@@ -87,7 +87,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         let deviceToke = deviceToken.hexString
         UserDefaults.standard.setValue(deviceToke, forKey: myDeviceToken)
         Messaging.messaging().apnsToken = deviceToken
-        print(deviceToken)
+        print(deviceToken,"token")
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

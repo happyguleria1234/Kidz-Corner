@@ -10,6 +10,8 @@ class ParentDashboard: UIViewController {
     var isLoading = false
     var portfolioData: [ChildPortfolioModelData]?
     
+    @IBOutlet weak var dateViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var dateView: UIView!
     @IBOutlet weak var tableHome: UITableView!
     @IBOutlet weak var checkedInBtn: UIButton!
     @IBOutlet weak var checkInstatuslbl: UILabel!
@@ -20,7 +22,6 @@ class ParentDashboard: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupTable()
-        dateLbl.text = Date().formattedDateAndTime()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -83,14 +84,27 @@ class ParentDashboard: UIViewController {
         tableHome.register(UINib(nibName: "DashboardTableCell", bundle: nil), forCellReuseIdentifier: "DashboardTableCell")
         tableHome.delegate = self
         tableHome.dataSource = self
-        
+        dateLbl.text = Date().formattedDateAndTime()
         let status = UserDefaults.standard.integer(forKey: checkInStatus)
         if status == 1 {
             checkInstatuslbl.text = "Checked In"
         } else {
             checkInstatuslbl.text = "Checked Out"
         }
-
+        
+        if let lastCheckedDate = UserDefaults.standard.object(forKey: lastCheckedDateKey) as? Date {
+            if Date().isNextDay(comparedTo: lastCheckedDate) {
+                dateView.isHidden = true
+                dateViewHeight.constant = 0
+            } else {
+                dateViewHeight.constant = 60
+                dateView.isHidden = false
+            }
+        } else {
+            UserDefaults.standard.set(Date(), forKey: lastCheckedDateKey)
+            dateView.isHidden = false
+            dateViewHeight.constant = 60
+        }
     }
     
     func updateToLatestVersion(latestVersion: String) {

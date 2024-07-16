@@ -46,6 +46,7 @@ public let myChildrenIds = "childrenIds"
 public let myChildrenData = "childrenData"
 public let myDeviceToken = "deviceToken"
 public let checkInStatus = "checkInStatus"
+public let lastCheckedDateKey = "lastCheckedDateKey"
 
 
 public let myClass = "myClass"

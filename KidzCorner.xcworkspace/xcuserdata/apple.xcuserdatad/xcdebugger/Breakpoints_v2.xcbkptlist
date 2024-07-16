@@ -98,36 +98,6 @@
             endingLineNumber = "154"
             landmarkName = "getAttendance(classId:date:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "8B903A87-643F-499E-B44F-CC9EBD3AC596 - 2d353f5d6fa45b5"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "KidzCorner.ClassStats.getAttendance(classId: Swift.Int, date: Swift.String) -&gt; ()"
-                  moduleName = "KidzCorner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Teacher/ClassStats.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "154"
-                  endingLineNumber = "154">
-               </Location>
-               <Location
-                  uuid = "8B903A87-643F-499E-B44F-CC9EBD3AC596 - 1224812ed48f0120"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;KidzCorner.ClassAttendanceModel&gt;, Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Swift.Int&gt;) -&gt; () in KidzCorner.ClassStats.getAttendance(classId: Swift.Int, date: Swift.String) -&gt; ()"
-                  moduleName = "KidzCorner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Teacher/ClassStats.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "155"
-                  endingLineNumber = "155">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -144,36 +114,6 @@
             endingLineNumber = "159"
             landmarkName = "getAttendance(classId:date:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "AF432B08-43A8-4E35-BDE7-3C0E5E1D72E7 - 1224812ed48f01a4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;KidzCorner.ClassAttendanceModel&gt;, Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Swift.Int&gt;) -&gt; () in KidzCorner.ClassStats.getAttendance(classId: Swift.Int, date: Swift.String) -&gt; ()"
-                  moduleName = "KidzCorner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Teacher/ClassStats.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "159"
-                  endingLineNumber = "159">
-               </Location>
-               <Location
-                  uuid = "AF432B08-43A8-4E35-BDE7-3C0E5E1D72E7 - 66e67edccaa04a14"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #1 (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;KidzCorner.ClassAttendanceModel&gt;, Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Swift.Int&gt;) -&gt; () in KidzCorner.ClassStats.getAttendance(classId: Swift.Int, date: Swift.String) -&gt; ()"
-                  moduleName = "KidzCorner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Teacher/ClassStats.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "160"
-                  endingLineNumber = "160">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -190,36 +130,6 @@
             endingLineNumber = "86"
             landmarkName = "getParentList()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "562DE528-7784-495F-A65E-A94841D5DFA7 - ad2823e403804ad"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "KidzCorner.UsersListVC.getParentList() -&gt; ()"
-                  moduleName = "KidzCorner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Chats/UsersListVC.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "86"
-                  endingLineNumber = "86">
-               </Location>
-               <Location
-                  uuid = "562DE528-7784-495F-A65E-A94841D5DFA7 - 6f3f1c389561fb6d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;KidzCorner.User, KidzCorner.APIError&gt;) -&gt; () in KidzCorner.UsersListVC.getParentList() -&gt; ()"
-                  moduleName = "KidzCorner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Chats/UsersListVC.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "88"
-                  endingLineNumber = "88">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -236,36 +146,6 @@
             endingLineNumber = "87"
             landmarkName = "getParentList()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "620F2A22-5049-4345-972D-16145229D188 - 6f3f1c389561fb6d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;KidzCorner.User, KidzCorner.APIError&gt;) -&gt; () in KidzCorner.UsersListVC.getParentList() -&gt; ()"
-                  moduleName = "KidzCorner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Chats/UsersListVC.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "88"
-                  endingLineNumber = "88">
-               </Location>
-               <Location
-                  uuid = "620F2A22-5049-4345-972D-16145229D188 - 6f3f1c389561fb6d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;KidzCorner.User, KidzCorner.APIError&gt;) -&gt; () in KidzCorner.UsersListVC.getParentList() -&gt; ()"
-                  moduleName = "KidzCorner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Chats/UsersListVC.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "88"
-                  endingLineNumber = "88">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -426,36 +306,6 @@
             endingLineNumber = "26"
             landmarkName = "getChatRoomData(onSuccess:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "7D1A04D0-B2CD-4BC0-9FD2-70A5629442D7 - 2528b7fea0acd91d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "KidzCorner.ParentTabbar.getChatRoomData(onSuccess: () -&gt; ()) -&gt; ()"
-                  moduleName = "KidzCorner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Parent/ParentTabbar.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "26"
-                  endingLineNumber = "26">
-               </Location>
-               <Location
-                  uuid = "7D1A04D0-B2CD-4BC0-9FD2-70A5629442D7 - d8be8ad5f6e98fee"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;KidzCorner.ChatInboxModel&gt;, Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Swift.Int&gt;) -&gt; () in KidzCorner.ParentTabbar.getChatRoomData(onSuccess: () -&gt; ()) -&gt; ()"
-                  moduleName = "KidzCorner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Parent/ParentTabbar.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "27"
-                  endingLineNumber = "27">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -584,36 +434,6 @@
             endingLineNumber = "552"
             landmarkName = "getMessages()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "2E449B9B-B368-4087-BA94-DC8DD3F0B35B - b34e631230bed148"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "KidzCorner.MessageListingVC.getMessages() -&gt; ()"
-                  moduleName = "KidzCorner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Chats/MessageListingVC.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "552"
-                  endingLineNumber = "552">
-               </Location>
-               <Location
-                  uuid = "2E449B9B-B368-4087-BA94-DC8DD3F0B35B - 2687c83875ce0245"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;KidzCorner.MessagesModelListing&gt;, Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Swift.Int&gt;) -&gt; () in KidzCorner.MessageListingVC.getMessages() -&gt; ()"
-                  moduleName = "KidzCorner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Chats/MessageListingVC.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "553"
-                  endingLineNumber = "553">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -678,36 +498,6 @@
             endingLineNumber = "560"
             landmarkName = "getMessages()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "5470AF1B-63BC-4010-B93E-7A99C1B9B2A2 - 2687c83875ce017c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;KidzCorner.MessagesModelListing&gt;, Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Swift.Int&gt;) -&gt; () in KidzCorner.MessageListingVC.getMessages() -&gt; ()"
-                  moduleName = "KidzCorner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Chats/MessageListingVC.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "560"
-                  endingLineNumber = "560">
-               </Location>
-               <Location
-                  uuid = "5470AF1B-63BC-4010-B93E-7A99C1B9B2A2 - 58a6c5d08299db74"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 @Swift.MainActor () -&gt; () in closure #1 (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;KidzCorner.MessagesModelListing&gt;, Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Swift.Int&gt;) -&gt; () in KidzCorner.MessageListingVC.getMessages() -&gt; ()"
-                  moduleName = "KidzCorner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Chats/MessageListingVC.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "561"
-                  endingLineNumber = "561">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -723,6 +513,38 @@
             startingLineNumber = "569"
             endingLineNumber = "569"
             landmarkName = "getMessages()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BFDCBD3A-CEA6-46DD-B8B7-31A61DA8AF83"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "KidzCorner/AppDelegate.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "application(_:didRegisterForRemoteNotificationsWithDeviceToken:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F4FECEB8-A807-4273-949A-83369F526CA2"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "KidzCorner/Controllers/Auth/SignIn.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
+            landmarkName = "signupApi()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

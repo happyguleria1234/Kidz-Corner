@@ -441,11 +441,25 @@ func convertDate(_ dateString: String, fromFormat: String, toFormat: String) -> 
 }
 
 
+//extension Date {
+//    func formattedDateAndTime() -> String {
+//        let formatter = DateFormatter()
+//        formatter.dateStyle = .short
+//        formatter.timeStyle = .short
+//        return formatter.string(from: self)
+//    }
+//}
+
 extension Date {
     func formattedDateAndTime() -> String {
         let formatter = DateFormatter()
-        formatter.dateStyle = .short
+        formatter.dateStyle = .medium
         formatter.timeStyle = .short
         return formatter.string(from: self)
+    }
+    
+    func isNextDay(comparedTo date: Date) -> Bool {
+        let calendar = Calendar.current
+        return calendar.compare(self, to: date, toGranularity: .day) == .orderedDescending
     }
 }
