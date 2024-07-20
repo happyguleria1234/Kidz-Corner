@@ -40,46 +40,13 @@ class ActivityVC: UIViewController {
         tableHome.delegate = self
         tableHome.dataSource = self
     }
-    
-//    func updateToLatestVersion(latestVersion: String) {
-//        if let currentVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
-//            
-//            if let current = Double(currentVersion), let latest = Double(latestVersion) {
-//                if latest > current {
-//                    let alertController = UIAlertController(title: "Update Available",
-//                                                            message: "A new version of the app is available. Would you like to update?",
-//                                                            preferredStyle: .alert)
-//                    let updateAction = UIAlertAction(title: "Update", style: .default) { (_) in
-//                        if let url = URL(string: "https://apps.apple.com/app/1467363872"),
-//                           UIApplication.shared.canOpenURL(url) {
-//                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//                        }
-//                    }
-//                    
-//                    let cancelAction = UIAlertAction(title: "Later", style: .cancel, handler: nil)
-//                    alertController.addAction(updateAction)
-//                    alertController.addAction(cancelAction)
-//                    // Assuming this code is inside a UIViewController subclass
-//                    self.present(alertController, animated: true, completion: nil)
-//                } else {
-//                    self.dismiss(animated: true)
-//                }
-//            }
-//        }
-//    }
-    
+
     func getDashboard(page: Int = 1) {
         let params: [String: String] = ["page": "\(page)", "per_page": "4"]
         self.isLoading = true
         ApiManager.shared.Request(type: DashboardModelNew.self, methodType: .Get, url: baseUrl+apiDashboard, parameter: params) { error, myObject, msgString, statusCode in
             if statusCode == 200 {
-                
-//                if let latestVersion = myObject?.latest_version {
-//                    DispatchQueue.main.async {
-//                        self.updateToLatestVersion(latestVersion: latestVersion)
-//                    }
-//                }
-                
+
                 self.isLoading = false
                 self.currentPage = myObject?.data?.currentPage ?? 1
                 if myObject?.data?.nextPageURL != nil {

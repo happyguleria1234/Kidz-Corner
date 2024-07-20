@@ -18,9 +18,11 @@ class NotificationRedirections{
             if roleId == 4 {
                 if notifData?["type"] as? String == "check_out" {
                     gotoHome()
+                    UserDefaults.standard.set(Date(), forKey: lastCheckedDateKey)
                     UserDefaults.standard.set(2, forKey: checkInStatus)
                 } else {
                     gotoHome()
+                    UserDefaults.standard.set(Date(), forKey: lastCheckedDateKey)
                     UserDefaults.standard.set(1, forKey: checkInStatus)
                 }
             }

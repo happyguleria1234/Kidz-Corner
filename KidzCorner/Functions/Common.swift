@@ -456,10 +456,12 @@ extension Date {
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
         return formatter.string(from: self)
-    }
-    
+    }    
+}
+
+extension Date {
     func isNextDay(comparedTo date: Date) -> Bool {
         let calendar = Calendar.current
-        return calendar.compare(self, to: date, toGranularity: .day) == .orderedDescending
+        return calendar.isDate(self, inSameDayAs: calendar.date(byAdding: .day, value: 1, to: date)!)
     }
 }

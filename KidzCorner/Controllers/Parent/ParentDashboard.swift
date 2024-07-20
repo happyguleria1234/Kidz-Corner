@@ -9,25 +9,30 @@ class ParentDashboard: UIViewController {
     var nextPage = 0
     var isLoading = false
     var portfolioData: [ChildPortfolioModelData]?
+    var childrenData = [ChildData]()
+    var childInfo: ChildAttendanceModel?
     
+    @IBOutlet weak var collAttendance: UICollectionView!
     @IBOutlet weak var dateViewHeight: NSLayoutConstraint!
     @IBOutlet weak var dateView: UIView!
     @IBOutlet weak var tableHome: UITableView!
     @IBOutlet weak var checkedInBtn: UIButton!
     @IBOutlet weak var checkInstatuslbl: UILabel!
     @IBOutlet weak var dateLbl: UILabel!
-    
+    @IBOutlet weak var collHeight: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupTable()
+        setupCollectionView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         getDashboard()
         getChildrenList()
+        getAllChildsAPI()
         tabBarController?.tabBar.isHidden = false
     }
     
@@ -80,30 +85,73 @@ class ParentDashboard: UIViewController {
         
     }
     
+    func setupCollectionView() {
+//        let nib = UINib(nibName: "InvoiceHeadCollectionCell", bundle: nil)
+//        collAttendance.register(nib, forCellWithReuseIdentifier: "InvoiceHeadCollectionCell")
+        
+        // Set the dataSource and delegate
+        collAttendance.dataSource = self
+        collAttendance.delegate = self
+        
+        // Configure layout
+        if let layout = collAttendance.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = .horizontal
+            layout.minimumLineSpacing = 0
+            layout.minimumInteritemSpacing = 0
+        }
+        
+        // Enable paging
+        collAttendance.isPagingEnabled = true
+    }
+    
     func setupTable() {
         tableHome.register(UINib(nibName: "DashboardTableCell", bundle: nil), forCellReuseIdentifier: "DashboardTableCell")
         tableHome.delegate = self
         tableHome.dataSource = self
-        dateLbl.text = Date().formattedDateAndTime()
-        let status = UserDefaults.standard.integer(forKey: checkInStatus)
-        if status == 1 {
-            checkInstatuslbl.text = "Checked In"
-        } else {
-            checkInstatuslbl.text = "Checked Out"
-        }
-        
         if let lastCheckedDate = UserDefaults.standard.object(forKey: lastCheckedDateKey) as? Date {
             if Date().isNextDay(comparedTo: lastCheckedDate) {
-                dateView.isHidden = true
-                dateViewHeight.constant = 0
+                collHeight.constant = 0
             } else {
-                dateViewHeight.constant = 60
-                dateView.isHidden = false
+                collHeight.constant = 60
             }
         } else {
-            UserDefaults.standard.set(Date(), forKey: lastCheckedDateKey)
-            dateView.isHidden = false
-            dateViewHeight.constant = 60
+            collHeight.constant = 60
+        }
+    }
+    
+    func getAllChildsAPI() {
+        ApiManager.shared.Request(type: AllChildrenModel.self, methodType: .Get, url: baseUrl+apiParentAllChild, parameter: [:]) { error, myObject, msgString, statusCode in
+            DispatchQueue.main.async {
+                if statusCode == 200 {
+                    self.childrenData = myObject?.data ?? []
+                    self.getChildDetailsApi(date: Date().shortDate, childId: self.childrenData.first?.id)
+                } else {
+                    Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+                }
+            }
+        }
+    }
+    
+    func getChildDetailsApi(date: String, childId: Int?) {
+        DispatchQueue.main.async {
+            startAnimating((self.tabBarController?.view)!)
+        }
+        var params = [String: String]()
+        if let id = childId {
+            params = ["date": date,"student_id": String(id)]
+        } else {
+            params = ["date": date]
+        }
+        ApiManager.shared.Request(type: ChildAttendanceModel.self, methodType: .Get, url: baseUrl+apiChildAttendance, parameter: params) { error, myObject, msgString, statusCode in
+            DispatchQueue.main.async {
+                if statusCode == 200 {
+                    printt("CHILDATTENDANCE \(myObject?.data)")
+                    self.childInfo = myObject
+                    self.collAttendance.reloadData()
+                } else {
+                    Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+                }
+            }
         }
     }
     
@@ -382,4 +430,55 @@ extension ParentDashboard {
             }
         }
     }
+}
+
+
+class AttandenceCell: UICollectionViewCell {
+    
+    
+    @IBOutlet weak var lblChekIn: UILabel!
+    @IBOutlet weak var lblDate: UILabel!
+    
+    override class func awakeFromNib() {
+        super.awakeFromNib()
+    }
+}
+
+extension ParentDashboard: UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return childrenData.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AttandenceCell", for: indexPath) as! AttandenceCell
+        let data = childrenData[indexPath.item].studentProfile
+        if childInfo?.data?.attendance?.timeIn != "" && childInfo?.data?.attendance?.timeOut == ""{
+            cell.lblChekIn.text = "Checked In"
+        } else if childInfo?.data?.attendance?.timeOut != "" && childInfo?.data?.attendance?.timeIn != ""{
+            cell.lblChekIn.text = "Checked Out"
+        } else {
+            cell.lblChekIn.text = "Check In"
+        }
+        cell.lblDate.text = childInfo?.data?.children?.name
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.size.width, height: collectionView.frame.size.height)
+    }
+    
+    // MARK: - UIScrollViewDelegate
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let pageWidth = scrollView.frame.size.width
+        let currentPage = Int(scrollView.contentOffset.x / pageWidth)
+        self.getChildDetailsApi(date: Date().shortDate, childId: self.childrenData[currentPage].id ?? 0)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        collAttendance.collectionViewLayout.invalidateLayout()
+    }
+    
 }

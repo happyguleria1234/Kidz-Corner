@@ -402,31 +402,31 @@ class ParentPortfolio: UIViewController {
         
         self.imageProfile.sd_setImage(with: URL(string: imageBaseUrl+(data?.children?.image ?? "")), placeholderImage: .placeholderImage)
         
-            if let morningTemperature = data?.attendance?.morningTemp {
-                labelMorningTemperature.text = "Temp: \(morningTemperature)"
-            }
-            else {
-                labelMorningTemperature.text = "-"
-            }
-            
-            if let eveningTemperature = data?.attendance?.eveningTemp {
-                labelEveningTemperature.text = "Temp: \(eveningTemperature)"
-            }
-            else {
-                labelEveningTemperature.text = "-"
-            }
-            
-            self.labelMorningTime.text = data?.attendance?.timeIn ?? "-"
-            self.labelEveningTime.text = data?.attendance?.timeOut ?? "-"
-            self.labelMorningParent.text = data?.attendance?.sender?.name ?? "-"
-            self.labelEveningParent.text = data?.attendance?.picker?.name ?? "-"
-
-            if let imgUrl = URL(string: imageBaseUrl+(data?.attendance?.sender?.image ?? "")) {
-                self.imageMorningParent.sd_setImage(with: imgUrl, placeholderImage: .placeholderImage)
-            }
-            if let imgUrl = URL(string: imageBaseUrl+(data?.attendance?.picker?.image ?? "")) {
-                self.imageEveningParent.sd_setImage(with: imgUrl, placeholderImage: .placeholderImage)
-            }
+        if let morningTemperature = data?.attendance?.morningTemp {
+            labelMorningTemperature.text = "Temp: \(morningTemperature)"
+        }
+        else {
+            labelMorningTemperature.text = "-"
+        }
+        
+        if let eveningTemperature = data?.attendance?.eveningTemp {
+            labelEveningTemperature.text = "Temp: \(eveningTemperature)"
+        }
+        else {
+            labelEveningTemperature.text = "-"
+        }
+        
+        self.labelMorningTime.text = data?.attendance?.timeIn ?? "-"
+        self.labelEveningTime.text = data?.attendance?.timeOut ?? "-"
+        self.labelMorningParent.text = data?.attendance?.sender?.name ?? "-"
+        self.labelEveningParent.text = data?.attendance?.picker?.name ?? "-"
+        
+        if let imgUrl = URL(string: imageBaseUrl+(data?.attendance?.sender?.image ?? "")) {
+            self.imageMorningParent.sd_setImage(with: imgUrl, placeholderImage: .placeholderImage)
+        }
+        if let imgUrl = URL(string: imageBaseUrl+(data?.attendance?.picker?.image ?? "")) {
+            self.imageEveningParent.sd_setImage(with: imgUrl, placeholderImage: .placeholderImage)
+        }
         
         else {
             labelMorningTemperature.text = "-"
