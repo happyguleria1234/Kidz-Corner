@@ -93,10 +93,7 @@ class DashboardTableCell: UITableViewCell {
         collectionImages.delegate = self
         collectionImages.dataSource = self
     }
-    
-    @IBAction func moreFunc(_ sender: Any) {
-    }
-    
+        
     @IBAction func likeFunc(_ sender: Any) {
     }
     

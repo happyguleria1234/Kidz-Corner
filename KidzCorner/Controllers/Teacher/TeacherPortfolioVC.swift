@@ -9,6 +9,7 @@ import UIKit
 
 class TeacherPortfolioVC: UIViewController {
 
+    var studentId = Int()
     var albumData: AlbumModel?
     @IBOutlet weak var TbackBtn: UIButton!
     @IBOutlet weak var TmainImgVw: UIImageView!
@@ -23,7 +24,7 @@ class TeacherPortfolioVC: UIViewController {
     
     func updateData(){
         teacherPortfolio.register(UINib(nibName: "UserListViewCell", bundle: nil), forCellReuseIdentifier: "UserListViewCell")
-        getportfolioAlbum()
+        getportfolioAlbum(studentID: studentId)
         tabBarController?.tabBar.isHidden = true
     }
     
@@ -37,11 +38,12 @@ class TeacherPortfolioVC: UIViewController {
     }
     
 
-    func getportfolioAlbum(){
+    func getportfolioAlbum(studentID: Int){
         DispatchQueue.main.async {
             startAnimating((self.tabBarController?.view)!)
         }
-        ApiManager.shared.Request(type: AlbumModel.self, methodType: .Get, url: baseUrl+portfolioalbums, parameter: [:]) { [self] error, myObject, msgString, statusCode in
+        var param = ["student_id":studentID]
+        ApiManager.shared.Request(type: AlbumModel.self, methodType: .Get, url: baseUrl+portfolioalbums, parameter: param) { [self] error, myObject, msgString, statusCode in
             if statusCode == 200 {
                 albumData = myObject
                 DispatchQueue.main.async {
@@ -56,6 +58,12 @@ class TeacherPortfolioVC: UIViewController {
 }
 extension TeacherPortfolioVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let count = albumData?.data?.data?.count ?? 0
+        if count == 0 {
+            tableView.setNoDataMessage("No post found!")
+        } else {
+            tableView.restore()
+        }
         return albumData?.data?.data?.count ?? 0
     }
     
@@ -75,6 +83,7 @@ extension TeacherPortfolioVC: UITableViewDelegate, UITableViewDataSource {
         let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "PAlbumDetailVC") as! PAlbumDetailVC
         vc.albumId = "\(data?.id ?? 0)"
+        vc.studentId = studentId
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

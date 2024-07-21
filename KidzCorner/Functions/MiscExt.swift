@@ -2,16 +2,36 @@ import Foundation
 
 extension UITableView {
 
-    func setEmptyMessage(_ message: String) {
-        let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
+    func setNoDataMessage(_ message: String,txtColor : UIColor = .black,yPosition : CGFloat = -50) {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height))
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "noData")
+        view.addSubview(imageView)
+        
+        let messageLabel = UILabel()
         messageLabel.text = message
-        messageLabel.textColor = .black
+        messageLabel.textColor = txtColor
         messageLabel.numberOfLines = 0
         messageLabel.textAlignment = .center
-        messageLabel.font = UIFont(name: "TrebuchetMS", size: 15)
+        messageLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         messageLabel.sizeToFit()
-
-        self.backgroundView = messageLabel
+        view.addSubview(messageLabel)
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        messageLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: yPosition), // Adjust this value for vertical positioning
+            imageView.widthAnchor.constraint(equalToConstant: 200), // Adjust the width as needed
+            imageView.heightAnchor.constraint(equalToConstant: 150), // Adjust the height as needed
+            
+            messageLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
+            messageLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            messageLabel.widthAnchor.constraint(equalToConstant: self.bounds.width - 60), // Adjust the width as needed
+        ])
+        self.backgroundView = view
         self.separatorStyle = .none
     }
 

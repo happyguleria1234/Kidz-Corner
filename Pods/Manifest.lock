@@ -56,6 +56,7 @@ PODS:
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
   - IQKeyboardManagerSwift (6.5.16)
+  - Kingfisher (7.12.0)
   - nanopb (2.30910.0):
     - nanopb/decode (= 2.30910.0)
     - nanopb/encode (= 2.30910.0)
@@ -81,6 +82,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - FSCalendar
   - IQKeyboardManagerSwift
+  - Kingfisher (~> 7.0)
   - ReachabilitySwift
   - SDWebImage (= 5.2.2)
   - Socket.IO-Client-Swift (~> 16.0.1)
@@ -99,6 +101,7 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleUtilities
     - IQKeyboardManagerSwift
+    - Kingfisher
     - nanopb
     - PromisesObjC
     - PryntTrimmerView
@@ -121,6 +124,7 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
   GoogleUtilities: ea963c370a38a8069cc5f7ba4ca849a60b6d7d15
   IQKeyboardManagerSwift: 12d89768845bb77b55cc092ecc2b1f9370f06b76
+  Kingfisher: 53a10ea35051a436b5fb626ca2dd8f3144d755e9
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PryntTrimmerView: 6a43cc90df5d99addeabd33d4ba09b1365322130
@@ -132,6 +136,6 @@ SPEC CHECKSUMS:
   SwipeCellKit: 3972254a826da74609926daf59b08d6c72e619ea
   YPImagePicker: afc81b3cffab05a6e7261c5daf80dc31b4e917b4
 
-PODFILE CHECKSUM: 2dbf1bedee8f42c62be6300658b0b1ffa8080e88
+PODFILE CHECKSUM: a76296ad7f2e3fbe689efe74254373092987d2e8
 
 COCOAPODS: 1.15.2

@@ -13,6 +13,12 @@
 		18209CA62C14140B00D59EAB /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA52C14140B00D59EAB /* CustomView.swift */; };
 		18209CAC2C15A7DB00D59EAB /* SocketConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA92C15A7DB00D59EAB /* SocketConstants.swift */; };
 		18209CAD2C15A7DB00D59EAB /* SocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CAA2C15A7DB00D59EAB /* SocketIOManager.swift */; };
+		1850EF332C4BF36C00BE9D42 /* StudentListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1850EF322C4BF36C00BE9D42 /* StudentListVC.swift */; };
+		1850EF3A2C4D101700BE9D42 /* DemoHeaderTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1850EF372C4D101600BE9D42 /* DemoHeaderTVC.swift */; };
+		1850EF3B2C4D101700BE9D42 /* DemoTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1850EF382C4D101700BE9D42 /* DemoTVC.swift */; };
+		1850EF3C2C4D101700BE9D42 /* DemoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1850EF392C4D101700BE9D42 /* DemoVC.swift */; };
+		1850EF802C4D659E00BE9D42 /* DemoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1850EF7F2C4D659E00BE9D42 /* DemoModel.swift */; };
+		1850EF822C4D67E400BE9D42 /* EvaluationSkillModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1850EF812C4D67E400BE9D42 /* EvaluationSkillModel.swift */; };
 		187EBC972C31527A0097A03D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 187EBC962C31527A0097A03D /* GoogleService-Info.plist */; };
 		187EBC992C32F1230097A03D /* CreateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187EBC982C32F1230097A03D /* CreateResponse.swift */; };
 		188BBBEB2C29E76D0059FDCD /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188BBBEA2C29E76D0059FDCD /* MessageModel.swift */; };
@@ -214,6 +220,12 @@
 		18209CA52C14140B00D59EAB /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		18209CA92C15A7DB00D59EAB /* SocketConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketConstants.swift; sourceTree = "<group>"; };
 		18209CAA2C15A7DB00D59EAB /* SocketIOManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
+		1850EF322C4BF36C00BE9D42 /* StudentListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentListVC.swift; sourceTree = "<group>"; };
+		1850EF372C4D101600BE9D42 /* DemoHeaderTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoHeaderTVC.swift; sourceTree = "<group>"; };
+		1850EF382C4D101700BE9D42 /* DemoTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTVC.swift; sourceTree = "<group>"; };
+		1850EF392C4D101700BE9D42 /* DemoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoVC.swift; sourceTree = "<group>"; };
+		1850EF7F2C4D659E00BE9D42 /* DemoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoModel.swift; sourceTree = "<group>"; };
+		1850EF812C4D67E400BE9D42 /* EvaluationSkillModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationSkillModel.swift; sourceTree = "<group>"; };
 		187EBC962C31527A0097A03D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		187EBC982C32F1230097A03D /* CreateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateResponse.swift; sourceTree = "<group>"; };
 		188BBBEA2C29E76D0059FDCD /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
@@ -447,6 +459,15 @@
 				18209CAA2C15A7DB00D59EAB /* SocketIOManager.swift */,
 			);
 			path = "Socket Manager";
+			sourceTree = "<group>";
+		};
+		1850EF7E2C4D657F00BE9D42 /* Model Project */ = {
+			isa = PBXGroup;
+			children = (
+				1850EF7F2C4D659E00BE9D42 /* DemoModel.swift */,
+				1850EF812C4D67E400BE9D42 /* EvaluationSkillModel.swift */,
+			);
+			path = "Model Project";
 			sourceTree = "<group>";
 		};
 		188BBBEE2C2BBC560059FDCD /* Cells */ = {
@@ -684,6 +705,7 @@
 		53C1968127B17F9200EF16A3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1850EF7E2C4D657F00BE9D42 /* Model Project */,
 				18A79C5A2C25D5B100F08D92 /* Portfolio */,
 				188D95A32C1383D600BC7A80 /* Chats */,
 				53C1968227B17F9200EF16A3 /* Auth */,
@@ -726,6 +748,10 @@
 				53FE22112804AA09003AE636 /* InvoicePdf.swift */,
 				181CD6252BFD0E56006917F3 /* PdfVC.swift */,
 				18B1207C2C345D4E00ED2BA0 /* ActivityVC.swift */,
+				1850EF322C4BF36C00BE9D42 /* StudentListVC.swift */,
+				1850EF372C4D101600BE9D42 /* DemoHeaderTVC.swift */,
+				1850EF382C4D101700BE9D42 /* DemoTVC.swift */,
+				1850EF392C4D101700BE9D42 /* DemoVC.swift */,
 			);
 			path = Parent;
 			sourceTree = "<group>";
@@ -888,6 +914,8 @@
 			dependencies = (
 			);
 			name = KidzCorner;
+			packageProductDependencies = (
+			);
 			productName = KidzCorner;
 			productReference = 53C1964927B17D7100EF16A3 /* KidzCorner.app */;
 			productType = "com.apple.product-type.application";
@@ -916,6 +944,8 @@
 				Base,
 			);
 			mainGroup = 53C1964027B17D7100EF16A3;
+			packageReferences = (
+			);
 			productRefGroup = 53C1964A27B17D7100EF16A3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1071,6 +1101,7 @@
 				53B5913527EB5AFC009D301A /* Payments.swift in Sources */,
 				B7B09F322A44B9C400D7ABBD /* SelectionCell.swift in Sources */,
 				53CB200627CB85430027A346 /* SelectActivityPost.swift in Sources */,
+				1850EF332C4BF36C00BE9D42 /* StudentListVC.swift in Sources */,
 				18A79C582C25D3C200F08D92 /* UserListViewCell.swift in Sources */,
 				189CA0662C44009F00751065 /* NotificationRedirection.swift in Sources */,
 				18A79C412C1EA21B00F08D92 /* ChatsVM.swift in Sources */,
@@ -1112,6 +1143,8 @@
 				188BBBEB2C29E76D0059FDCD /* MessageModel.swift in Sources */,
 				B7E0F5AF2A5B370600C8B58D /* ResetPasswordModel.swift in Sources */,
 				53C196E927B17F9200EF16A3 /* ConfimPost.swift in Sources */,
+				1850EF3A2C4D101700BE9D42 /* DemoHeaderTVC.swift in Sources */,
+				1850EF822C4D67E400BE9D42 /* EvaluationSkillModel.swift in Sources */,
 				B7928B262A50A3330083B77E /* NotificationCell.swift in Sources */,
 				53C196ED27B17F9200EF16A3 /* TeacherPortfolio.swift in Sources */,
 				53C1964D27B17D7100EF16A3 /* AppDelegate.swift in Sources */,
@@ -1140,7 +1173,9 @@
 				18DA02D12C30437800D64805 /* PDFViewCell.swift in Sources */,
 				53C1966C27B17DAB00EF16A3 /* RYBlueToothTool.m in Sources */,
 				18942DF62C3A9C4300389D04 /* PAlbumDetailVC.swift in Sources */,
+				1850EF3C2C4D101700BE9D42 /* DemoVC.swift in Sources */,
 				B72E68AB2ADDB9D3003433F2 /* ChildrenModel.swift in Sources */,
+				1850EF3B2C4D101700BE9D42 /* DemoTVC.swift in Sources */,
 				533FB3BD27D4A43100FFB0B1 /* ClassesCell.swift in Sources */,
 				18209CA42C13950500D59EAB /* MessageListingVC.swift in Sources */,
 				53C196D127B17F9200EF16A3 /* DashboardTableCell.swift in Sources */,
@@ -1193,6 +1228,7 @@
 				531EDA1827B96F4500CA667A /* AuthModel.swift in Sources */,
 				53FE22122804AA09003AE636 /* InvoicePdf.swift in Sources */,
 				181CD6262BFD0E56006917F3 /* PdfVC.swift in Sources */,
+				1850EF802C4D659E00BE9D42 /* DemoModel.swift in Sources */,
 				B72E68A62ADB0C54003433F2 /* StudentProfileCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

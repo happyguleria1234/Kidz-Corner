@@ -9,6 +9,7 @@ import UIKit
 
 class PAlbumDetailVC: UIViewController {
     
+    var studentId = Int()
     @IBOutlet weak var backbtn: UIButton!
     @IBOutlet weak var PortfolioDetailtableView: UITableView!
     
@@ -26,7 +27,7 @@ class PAlbumDetailVC: UIViewController {
         PortfolioDetailtableView.dataSource = self
         PortfolioDetailtableView.delegate = self
         PortfolioDetailtableView.register(UINib(nibName: "DashboardTableCell", bundle: nil), forCellReuseIdentifier: "DashboardTableCell")
-        self.hitAlbumWithId(album_id: albumId ?? "0")
+        self.hitAlbumWithId(album_id: albumId ?? "0",studentID: studentId)
     }
 
     @IBAction func backBtn(_ sender: UIButton) {
@@ -35,11 +36,12 @@ class PAlbumDetailVC: UIViewController {
     
 //    MARK: HIT API
     
-    func hitAlbumWithId(album_id:String){
+    func hitAlbumWithId(album_id:String, studentID:Int){
         DispatchQueue.main.async {
             startAnimating((self.tabBarController?.view)!)
         }
-        ApiManager.shared.Request(type: AlbumModelDataa.self, methodType: .Get, url: baseUrl+album_posts+"\(album_id)", parameter: [:]) { error, myObject, msgString, statusCode in
+        var param = ["student_id":studentID]
+        ApiManager.shared.Request(type: AlbumModelDataa.self, methodType: .Get, url: baseUrl+album_posts+"\(album_id)", parameter: param) { error, myObject, msgString, statusCode in
             if statusCode == 200 {
                 DispatchQueue.main.sync {
                     self.albumDetailData = myObject
@@ -56,6 +58,12 @@ class PAlbumDetailVC: UIViewController {
 extension PAlbumDetailVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let count = albumDetailData?.data?.data?.count ?? 0
+        if count == 0 {
+            tableView.setNoDataMessage("No post found!")
+        } else {
+            tableView.restore()
+        }
         return albumDetailData?.data?.data?.count ?? 0
     }
     
@@ -64,11 +72,12 @@ extension PAlbumDetailVC: UITableViewDelegate, UITableViewDataSource {
         cell.likeCommentView.isHidden = true
         cell.likeCommentviewHeightConstraint.constant = 0
         let data = self.albumDetailData?.data?.data
-        
+        cell.buttonMore.isHidden = false
         cell.cellContent = data?[indexPath.row].portfolioImage ?? []
         cell.collectionImages.tag = indexPath.row
         cell.collectionImages.reloadData()
-        
+        cell.buttonMore.tag = indexPath.row
+        cell.buttonMore.addTarget(self, action: #selector(gotoRatings(sender:)), for: .touchUpInside)
         cell.imageProfile.sd_setImage(with: URL(string: imageBaseUrl+(data?[indexPath.row].teacher?.image ?? "")), placeholderImage: .placeholderImage)
 //        cell.postData = data
         cell.labelName.text = data?[indexPath.row].teacher?.name ?? ""
@@ -92,4 +101,11 @@ extension PAlbumDetailVC: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = .clear
         return cell
     }
+    
+    @objc func gotoRatings(sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "DemoVC") as! DemoVC
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
 }

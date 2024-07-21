@@ -75,6 +75,8 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
     @IBOutlet weak var bothBtn: UIButton!
     
     
+    
+    
     var typeArr = ["Activity","Portfolio","Both"]
     var isPostImages = true
     var pdfUrl: URL?

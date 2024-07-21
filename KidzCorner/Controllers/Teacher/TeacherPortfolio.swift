@@ -865,7 +865,7 @@ extension TeacherPortfolio: UITableViewDelegate, UITableViewDataSource {
         } else {
             let count = self.activitiesData?.count ?? 0
             if count == 0 {
-                activityTableView.setEmptyMessage("No activity found!")
+                tableView.setNoDataMessage("No activity found!")
             } else {
                 activityTableView.restore()
             }

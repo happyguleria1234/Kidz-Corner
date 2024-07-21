@@ -58,15 +58,22 @@ class ParentDashboard: UIViewController {
     }
     
     @IBAction func buttonTap4(sender: UIButton) {
-        AlertManager.shared.showAlert(title: "Kidz Corner", message: "This feature will be coming soon.", viewController: self)
-        print("4")
+//        AlertManager.shared.showAlert(title: "Kidz Corner", message: "This feature will be coming soon.", viewController: self)
+//        print("4")
+        let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "DemoVC") as! DemoVC
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func buttonTap5(sender: UIButton) {
         print("5")
         //        AlertManager.shared.showAlert(title: "Kidz Corner", message: "This feature will be coming soon.", viewController: self)
-        let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "TeacherPortfolioVC") as! TeacherPortfolioVC
+//        let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
+//        let vc = storyboard.instantiateViewController(withIdentifier: "TeacherPortfolioVC") as! TeacherPortfolioVC
+//        self.navigationController?.pushViewController(vc, animated: true)
+        
+        let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

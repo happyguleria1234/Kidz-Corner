@@ -117,7 +117,8 @@ extension TeacherUsersListVC: UITableViewDelegate, UITableViewDataSource {
         if let userProfileUrl = data.image {
             cell.img_profile.sd_setImage(with: URL(string: imageBaseUrl+(userProfileUrl)),
                                    placeholderImage: .announcementPlaceholder)
-        }
+        }     
+        
         return cell
     }
     
@@ -177,5 +178,18 @@ struct ChildrenList: Codable {
         case name
         case roleID = "role_id"
         case image
+    }
+}
+
+
+extension UIImageView {
+    func fromURL(url: URL) {
+        DispatchQueue.global().async { [weak self] in
+            guard let data = try? Data(contentsOf: url), let image = UIImage(data: data) else { return }
+            DispatchQueue.main.async {
+                self?.image = image
+            }
+
+        }
     }
 }
