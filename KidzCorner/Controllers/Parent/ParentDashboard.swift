@@ -60,9 +60,12 @@ class ParentDashboard: UIViewController {
     @IBAction func buttonTap4(sender: UIButton) {
 //        AlertManager.shared.showAlert(title: "Kidz Corner", message: "This feature will be coming soon.", viewController: self)
 //        print("4")
+        
         let storyboard = UIStoryboard(name: "Parent", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "DemoVC") as! DemoVC
+        let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
+        vc.comesFrom = "4"
         self.navigationController?.pushViewController(vc, animated: true)
+        
     }
     
     @IBAction func buttonTap5(sender: UIButton) {
@@ -93,14 +96,8 @@ class ParentDashboard: UIViewController {
     }
     
     func setupCollectionView() {
-//        let nib = UINib(nibName: "InvoiceHeadCollectionCell", bundle: nil)
-//        collAttendance.register(nib, forCellWithReuseIdentifier: "InvoiceHeadCollectionCell")
-        
-        // Set the dataSource and delegate
         collAttendance.dataSource = self
-        collAttendance.delegate = self
-        
-        // Configure layout
+        collAttendance.delegate = self        
         if let layout = collAttendance.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
             layout.minimumLineSpacing = 0
@@ -115,15 +112,6 @@ class ParentDashboard: UIViewController {
         tableHome.register(UINib(nibName: "DashboardTableCell", bundle: nil), forCellReuseIdentifier: "DashboardTableCell")
         tableHome.delegate = self
         tableHome.dataSource = self
-        if let lastCheckedDate = UserDefaults.standard.object(forKey: lastCheckedDateKey) as? Date {
-            if Date().isNextDay(comparedTo: lastCheckedDate) {
-                collHeight.constant = 0
-            } else {
-                collHeight.constant = 60
-            }
-        } else {
-            collHeight.constant = 60
-        }
     }
     
     func getAllChildsAPI() {
@@ -150,10 +138,19 @@ class ParentDashboard: UIViewController {
             params = ["date": date]
         }
         ApiManager.shared.Request(type: ChildAttendanceModel.self, methodType: .Get, url: baseUrl+apiChildAttendance, parameter: params) { error, myObject, msgString, statusCode in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [self] in
                 if statusCode == 200 {
                     printt("CHILDATTENDANCE \(myObject?.data)")
                     self.childInfo = myObject
+                    if childInfo?.data?.attendance != nil {
+                        if childInfo?.data?.attendance?.timeIn != "" && childInfo?.data?.attendance?.timeOut != ""{
+                            collHeight.constant = 60
+                        } else {
+                            collHeight.constant = 0
+                        }
+                    } else {
+                        collHeight.constant = 0
+                    }
                     self.collAttendance.reloadData()
                 } else {
                     Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
@@ -459,15 +456,15 @@ extension ParentDashboard: UICollectionViewDelegate, UICollectionViewDataSource,
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AttandenceCell", for: indexPath) as! AttandenceCell
-        let data = childrenData[indexPath.item].studentProfile
-        if childInfo?.data?.attendance?.timeIn != "" && childInfo?.data?.attendance?.timeOut == ""{
+        if childInfo?.data?.attendance?.timeIn != "" && childInfo?.data?.attendance?.timeOut == nil{
             cell.lblChekIn.text = "Checked In"
+            cell.lblDate.text = childInfo?.data?.attendance?.timeIn ?? ""
         } else if childInfo?.data?.attendance?.timeOut != "" && childInfo?.data?.attendance?.timeIn != ""{
             cell.lblChekIn.text = "Checked Out"
+            cell.lblDate.text = childInfo?.data?.attendance?.timeOut ?? ""
         } else {
             cell.lblChekIn.text = "Check In"
         }
-        cell.lblDate.text = childInfo?.data?.children?.name
         return cell
     }
     

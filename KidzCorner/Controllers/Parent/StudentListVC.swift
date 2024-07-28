@@ -12,10 +12,11 @@ class StudentListVC: UIViewController {
 
     @IBOutlet weak var tblList: UITableView!
     var childrenData = [ChildData]()
-
+    var comesFrom = String()
     override func viewDidLoad() {
         super.viewDidLoad()
         getAllChildsAPI()
+        tabBarController?.tabBar.isHidden = true
     }
     
     @IBAction func btnBack(_ sender: UIButton) {
@@ -52,6 +53,8 @@ extension StudentListVC: UITableViewDelegate, UITableViewDataSource {
         let data = childrenData[indexPath.row]
         cell.lbl_name.text = data.name
         cell.img_user.contentMode = .scaleAspectFill
+//        let myUrl = imageBaseUrl+(data.image ?? "")
+//        cell.img_user.downloadImage(url: myUrl)
         cell.img_user.sd_setImage(with: URL(string: imageBaseUrl+(data.image ?? "")),
                                placeholderImage: .announcementPlaceholder)
         return cell
@@ -62,10 +65,17 @@ extension StudentListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "TeacherPortfolioVC") as! TeacherPortfolioVC
-        vc.studentId = childrenData[indexPath.row].id ?? 0
-        self.navigationController?.pushViewController(vc, animated: true)
+        if comesFrom == "4" {
+            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "DemoVC") as! DemoVC
+            vc.userID = childrenData[indexPath.row].id ?? 0
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "TeacherPortfolioVC") as! TeacherPortfolioVC
+            vc.studentId = childrenData[indexPath.row].id ?? 0
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
 
     }
     
@@ -77,5 +87,15 @@ class StudentDataCell: UITableViewCell {
     @IBOutlet weak var lbl_name: UILabel!
     override class func awakeFromNib() {
         super.awakeFromNib()
+    }
+}
+
+
+extension UIImageView{
+    func downloadImage(url:String){
+      //remove space if a url contains.
+        let stringWithoutWhitespace = url.replacingOccurrences(of: " ", with: "%20", options: .regularExpression)
+        self.sd_imageIndicator = SDWebImageActivityIndicator.gray
+        self.sd_setImage(with: URL(string: stringWithoutWhitespace), placeholderImage: UIImage())
     }
 }

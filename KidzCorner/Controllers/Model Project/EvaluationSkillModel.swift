@@ -7,21 +7,21 @@
 
 import Foundation
 
-// MARK: - AlbumModel
+// MARK: - EvaluatiomSkillAlbumModel
 struct EvaluatiomSkillAlbumModel: Codable {
     let status: Int?
     let message: String?
-    let date: [DateElement]?
+    let data: [Datum]?
     let ratings: [Rating]?
 }
 
-// MARK: - DateElement
-struct DateElement: Codable {
+// MARK: - Datum
+struct Datum: Codable {
     let id, createdBy: Int?
     let name: String?
     let isacive: Int?
     let createdAt, updatedAt: String?
-    let skills: [DateElement]?
+    let skills: [Datum]?
     let domainID: Int?
     let evolution: Evolution?
 
