@@ -21,7 +21,7 @@ struct Datum: Codable {
     let name: String?
     let isacive: Int?
     let createdAt, updatedAt: String?
-    let skills: [Datum]?
+    var skills: [Datum]?
     let domainID: Int?
     let evolution: Evolution?
 

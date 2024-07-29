@@ -16,7 +16,6 @@ class StudentListVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getAllChildsAPI()
-        tabBarController?.tabBar.isHidden = true
     }
     
     @IBAction func btnBack(_ sender: UIButton) {
@@ -66,6 +65,11 @@ extension StudentListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if comesFrom == "4" {
+            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "DemoVC2") as! DemoVC2
+            vc.userID = childrenData[indexPath.row].id ?? 0
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if comesFrom == "2"{
             let storyboard = UIStoryboard(name: "Parent", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "DemoVC") as! DemoVC
             vc.userID = childrenData[indexPath.row].id ?? 0

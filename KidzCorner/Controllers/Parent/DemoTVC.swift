@@ -9,6 +9,12 @@ import UIKit
 
 class DemoTVC: UITableViewCell {
 
+    
+    
+    
+    
+    
+    
     @IBOutlet weak var lblSubject: UILabel!
     
     @IBOutlet weak var bad: UIImageView!
@@ -16,11 +22,10 @@ class DemoTVC: UITableViewCell {
     @IBOutlet weak var good: UIImageView!
     @IBOutlet weak var excellent: UIImageView!
     
-    @IBOutlet weak var viewTopic : UIView!
-    @IBOutlet weak var viewBad : UIView!
-    @IBOutlet weak var viewImproving : UIView!
-    @IBOutlet weak var viewGood : UIView!
-    @IBOutlet weak var viewExcellent : UIView!
+    @IBOutlet weak var badRatingView: UIView!
+    @IBOutlet weak var improvingRatingView: UIView!
+    @IBOutlet weak var GoodRatingView: UIView!
+    @IBOutlet weak var excelentRatingView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

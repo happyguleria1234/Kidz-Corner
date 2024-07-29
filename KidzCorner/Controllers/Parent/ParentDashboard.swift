@@ -77,6 +77,7 @@ class ParentDashboard: UIViewController {
         
         let storyboard = UIStoryboard(name: "Parent", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
+        vc.comesFrom = "1"
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

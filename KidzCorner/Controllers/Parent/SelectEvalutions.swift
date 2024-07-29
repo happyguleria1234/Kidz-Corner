@@ -23,7 +23,6 @@ class SelectEvalutions: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTable()
-        
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
     }
     
@@ -94,7 +93,7 @@ extension SelectEvalutions: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ClassesCell", for: indexPath) as! ClassesCell
-        cell.labelName.text = evaluationArr[indexPath.row].name
+        cell.labelName.text = evaluationArr[indexPath.row].name        
         return cell
     }
     

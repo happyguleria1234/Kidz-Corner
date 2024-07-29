@@ -105,6 +105,7 @@ extension PAlbumDetailVC: UITableViewDelegate, UITableViewDataSource {
     @objc func gotoRatings(sender: UIButton) {
         let storyboard = UIStoryboard(name: "Parent", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "DemoVC") as! DemoVC
+        vc.userID = studentId
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

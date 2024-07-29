@@ -8,14 +8,21 @@
 import UIKit
 
 class DemoHeaderTVC: UITableViewCell {
-    //MARK: OUTLETS
-    @IBOutlet weak var lblStream: UILabel!
-    @IBOutlet weak var viewTopic : UIView!
-    @IBOutlet weak var viewBad : UIView!
-    @IBOutlet weak var viewImproving : UIView!
-    @IBOutlet weak var viewGood : UIView!
-    @IBOutlet weak var viewExcellent : UIView!
+
+    @IBOutlet weak var lblExcellent: UILabel!
+    @IBOutlet weak var lblGood: UILabel!
+    @IBOutlet weak var lblImprove: UILabel!
+    @IBOutlet weak var lblBas: UILabel!
     
+    @IBOutlet weak var BadHeaderView: UIView!
+    @IBOutlet weak var improvingHeaderView: UIView!
+    @IBOutlet weak var goodHeaderView: UIView!
+    @IBOutlet weak var excelentHeaderView: UIView!
+    
+    
+    
+    
+    @IBOutlet weak var lblStream: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
