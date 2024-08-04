@@ -64,7 +64,7 @@ class Post: UIViewController, afterAdding {
         } else {
             config.library.minNumberOfItems = 1
         }
-        config.library.maxNumberOfItems = 9
+        config.library.maxNumberOfItems = 20
         config.library.skipSelectionsGallery = true
         let picker = YPImagePicker(configuration: config)
         

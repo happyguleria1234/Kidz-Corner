@@ -475,6 +475,32 @@ extension MessageListingVC : UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    @available(iOS 13.0, *)
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: nil) { [weak self] _ in
+            return UIMenu(title: "", children: [
+                UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: .destructive) { action in
+                    guard let self = self else { return }
+                    let data = self.messageListing[indexPath.section].messages[indexPath.row]
+                    SocketIOManager.sharedInstance.deleteMessage(threadID: threadIDD, messageID: data.id ?? 0)
+                    SocketIOManager.sharedInstance.deleteMessageListner { status in
+                        if status {
+                            DispatchQueue.main.async {
+                                self.messageListing[indexPath.section].messages.remove(at: indexPath.row)
+                                self.tblMessages.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
+                            }
+                        }
+                    }
+                }
+            ])
+        }
+    }
+    
+    @available(iOS 13.0, *)
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        return nil
+    }
+    
     func openURLInSafari(urlString: String) {
         if let url = URL(string: urlString) {
             UIApplication.shared.open(url)

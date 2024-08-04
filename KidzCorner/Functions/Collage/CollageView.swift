@@ -50,8 +50,8 @@ import UIKit
         for i in 0..<itemCount {
             let itemView = createImageView(i)
             self.dataSource?.collageView(self, configure: itemView, at: i)
-            addTapGesture(to: itemView)
-            addPanGesture(to: itemView)
+//            addTapGesture(to: itemView)
+//            addPanGesture(to: itemView)
             imageViews.append(itemView)
             self.addSubview(itemView)
         }
@@ -68,9 +68,7 @@ import UIKit
         itemCount = dataSource.collageViewNumberOfTotalItem(self)
         layoutDirection = dataSource.collageViewLayoutDirection(self)
         rowOrColoumnCount = dataSource.collageViewNumberOfRowOrColoumn(self)
-        
         assert(itemCount >= rowOrColoumnCount, "Image count cannot be more than row count")
-        
         addImageViews()
     }
     
@@ -82,43 +80,43 @@ import UIKit
         rowOrColoumnCount = 0
     }
     
-    fileprivate func addTapGesture(to itemView: CollageItemView) {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        itemView.addGestureRecognizer(tapGesture)
-    }
+//    fileprivate func addTapGesture(to itemView: CollageItemView) {
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+//        itemView.addGestureRecognizer(tapGesture)
+//    }
     
     @objc fileprivate func handleTap(_ sender: UITapGestureRecognizer) {
         guard let itemView = sender.view as? CollageItemView, let item = itemView.collageItem else { return }
         self.delegate?.collageView?(self, didSelect: itemView, at: item.indexForImageArray)
     }
     
-    fileprivate func addPanGesture(to itemView: CollageItemView) {
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
-        itemView.addGestureRecognizer(panGesture)
-    }
+//    fileprivate func addPanGesture(to itemView: CollageItemView) {
+//        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+//        itemView.addGestureRecognizer(panGesture)
+//    }
     
-    @objc fileprivate func handlePan(_ sender: UIPanGestureRecognizer) {
-        guard let itemView = sender.view as? CollageItemView else { return }
-        
-        switch sender.state {
-        case .began:
-            itemView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-            bringSubviewToFront(itemView)
-        case .changed:
-            let translation = sender.translation(in: self)
-            itemView.center = CGPoint(x: itemView.center.x + translation.x, y: itemView.center.y + translation.y)
-            sender.setTranslation(CGPoint.zero, in: self)
-        case .ended:
-            itemView.transform = CGAffineTransform.identity
-            let destinationItemView = findDestinationItemView(for: itemView)
-            guard let sourceIndex = imageViews.firstIndex(of: itemView), let destinationIndex = imageViews.firstIndex(of: destinationItemView) else { return }
-            imageViews.remove(at: sourceIndex)
-            imageViews.insert(itemView, at: destinationIndex)
-            updateImagePositions() // Update image positions after the drag and drop
-        default:
-            break
-        }
-    }
+//    @objc fileprivate func handlePan(_ sender: UIPanGestureRecognizer) {
+//        guard let itemView = sender.view as? CollageItemView else { return }
+//        
+//        switch sender.state {
+//        case .began:
+//            itemView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+//            bringSubviewToFront(itemView)
+//        case .changed:
+//            let translation = sender.translation(in: self)
+//            itemView.center = CGPoint(x: itemView.center.x + translation.x, y: itemView.center.y + translation.y)
+//            sender.setTranslation(CGPoint.zero, in: self)
+//        case .ended:
+//            itemView.transform = CGAffineTransform.identity
+//            let destinationItemView = findDestinationItemView(for: itemView)
+//            guard let sourceIndex = imageViews.firstIndex(of: itemView), let destinationIndex = imageViews.firstIndex(of: destinationItemView) else { return }
+//            imageViews.remove(at: sourceIndex)
+//            imageViews.insert(itemView, at: destinationIndex)
+//            updateImagePositions() // Update image positions after the drag and drop
+//        default:
+//            break
+//        }
+//    }
     
     fileprivate func updateImagePositions() {
         for (index, itemView) in imageViews.enumerated() {
@@ -163,55 +161,80 @@ import UIKit
 }
 
 extension CollageView {
+    
     fileprivate func createImageView(_ index: Int) -> CollageItemView {
-        let rowIndex = rowIndexForItem(at: index)
-        let item = CollageItem(borderWidth: 1, borderColor: .white, contentMode: .scaleAspectFill, rowIndex: rowIndex, indexForImageArray: index)
-        return CollageItemView(collageItem: item)
-    }
+           let rowIndex = rowIndexForItem(at: index)
+           let item = CollageItem(borderWidth: 1, borderColor: .white, contentMode: .scaleAspectFill, rowIndex: rowIndex, indexForImageArray: index)
+           return CollageItemView(collageItem: item)
+       }
+       
+       private func rowIndexForItem(at index: Int) -> (Int, Int) {
+           let rowIndex = index / rowOrColoumnCount
+           let colIndex = index % rowOrColoumnCount
+           return (rowIndex, colIndex)
+       }
+       
+       public func frameAtIndex(rowIndex: (Int, Int)) -> CGRect {
+           let widthDivider: CGFloat = CGFloat(rowOrColoumnCount)
+           let heightDivider: CGFloat = CGFloat((itemCount + rowOrColoumnCount - 1) / rowOrColoumnCount)
+           
+           let width = self.frame.size.width / widthDivider
+           let height = self.frame.size.height / heightDivider
+           let xOrigin = CGFloat(rowIndex.1) * width
+           let yOrigin = CGFloat(rowIndex.0) * height
+           
+           return CGRect(x: xOrigin, y: yOrigin, width: width, height: height)
+       }
     
-    private func rowIndexForItem(at index: Int) -> rowIndex {
-        var returnRowIndex = (0, 0)
-        
-        if rowOrColoumnCount == 0 {
-            return returnRowIndex
-        }
-        
-        switch self.layoutDirection {
-        case .horizontal:
-            returnRowIndex = (index % rowOrColoumnCount, Int(index / rowOrColoumnCount))
-        case .vertical:
-            returnRowIndex = (Int(index / rowOrColoumnCount), index % rowOrColoumnCount)
-        }
-        
-        return returnRowIndex
-    }
-    
-    public func frameAtIndex(rowIndex: rowIndex) -> CGRect {
-        let mode = modeValue(for: itemCount)
-        let fullyDivided = isFullyDivided(forMode: mode)
-        let quotient = quotientValue(for: itemCount)
-        
-        var widthDivider: CGFloat = 0
-        var heightDivider: CGFloat = 0
-        
-        switch layoutDirection {
-        case .horizontal:
-            let isRemainingRow = rowIndex.y == quotient
-            widthDivider = !isRemainingRow ? CGFloat(rowOrColoumnCount) : CGFloat(mode)
-            heightDivider = fullyDivided ? CGFloat(quotient) : CGFloat(quotient + 1)
-        case .vertical:
-            let isRemainingRow = rowIndex.x == quotient
-            widthDivider = fullyDivided ? CGFloat(quotient) : CGFloat(quotient + 1)
-            heightDivider = !isRemainingRow ? CGFloat(rowOrColoumnCount) : CGFloat(mode)
-        }
-        
-        let width = self.frame.size.width / widthDivider
-        let height = self.frame.size.height / heightDivider
-        let xOrigin = CGFloat(rowIndex.x) * width
-        let yOrigin = CGFloat(rowIndex.y) * height
-        
-        return CGRect(x: xOrigin, y: yOrigin, width: width, height: height)
-    }
+//    fileprivate func createImageView(_ index: Int) -> CollageItemView {
+//        let rowIndex = rowIndexForItem(at: index)
+//        let item = CollageItem(borderWidth: 1, borderColor: .white, contentMode: .scaleAspectFill, rowIndex: rowIndex, indexForImageArray: index)
+//        return CollageItemView(collageItem: item)
+//    }
+//    
+//    private func rowIndexForItem(at index: Int) -> rowIndex {
+//        var returnRowIndex = (0, 0)
+//        
+//        if rowOrColoumnCount == 0 {
+//            return returnRowIndex
+//        }
+//        
+//        switch self.layoutDirection {
+//        case .horizontal:
+//            returnRowIndex = (index % rowOrColoumnCount, Int(index / rowOrColoumnCount))
+//        case .vertical:
+//            returnRowIndex = (Int(index / rowOrColoumnCount), index % rowOrColoumnCount)
+//        }
+//        
+//        return returnRowIndex
+//    }
+//    
+//    public func frameAtIndex(rowIndex: rowIndex) -> CGRect {
+//        let mode = modeValue(for: itemCount)
+//        let fullyDivided = isFullyDivided(forMode: mode)
+//        let quotient = quotientValue(for: itemCount)
+//        
+//        var widthDivider: CGFloat = 0
+//        var heightDivider: CGFloat = 0
+//        
+//        switch layoutDirection {
+//        case .horizontal:
+//            let isRemainingRow = rowIndex.y == quotient
+//            widthDivider = !isRemainingRow ? CGFloat(rowOrColoumnCount) : CGFloat(mode)
+//            heightDivider = fullyDivided ? CGFloat(quotient) : CGFloat(quotient + 1)
+//        case .vertical:
+//            let isRemainingRow = rowIndex.x == quotient
+//            widthDivider = fullyDivided ? CGFloat(quotient) : CGFloat(quotient + 1)
+//            heightDivider = !isRemainingRow ? CGFloat(rowOrColoumnCount) : CGFloat(mode)
+//        }
+//        
+//        let width = self.frame.size.width / widthDivider
+//        let height = self.frame.size.height / heightDivider
+//        let xOrigin = CGFloat(rowIndex.x) * width
+//        let yOrigin = CGFloat(rowIndex.y) * height
+//        
+//        return CGRect(x: xOrigin, y: yOrigin, width: width, height: height)
+//    }
     
     private func modeValue(for itemCount: Int) -> Int {
         return itemCount % rowOrColoumnCount

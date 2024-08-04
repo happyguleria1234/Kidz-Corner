@@ -92,6 +92,7 @@ extension PAlbumDetailVC: UITableViewDelegate, UITableViewDataSource {
         } else {
             cell.collectionHeight.constant = 280
         }
+        cell.view = self
         cell.buttonLike.tag = indexPath.row
         cell.buttonComment.tag = indexPath.row
         cell.buttonShare.tag = indexPath.row

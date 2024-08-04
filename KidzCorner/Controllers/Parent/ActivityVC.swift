@@ -98,7 +98,7 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource {
         cell.labelTitle.text = data?.title ?? ""
         cell.labelDescription.text = data?.postContent ?? ""
         cell.labelTime.text = data?.postDate ?? ""
-        
+        cell.view = self
         cell.labelDomain.text = data?.domain?.name ?? ""
         if data?.is_collage == 0 {
             cell.collectionHeight.constant = 350

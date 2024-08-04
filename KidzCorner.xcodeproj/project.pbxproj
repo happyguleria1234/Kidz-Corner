@@ -65,6 +65,9 @@
 		18BC90312BF3C92C00F14A43 /* CustomeVieww.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BC90302BF3C92C00F14A43 /* CustomeVieww.swift */; };
 		18BC90352BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18BC90342BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib */; };
 		18BC90362BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BC90332BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift */; };
+		18CFC29E2C580C8800A2E25A /* CollageLayoutss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CFC29D2C580C8800A2E25A /* CollageLayoutss.swift */; };
+		18CFC2A12C5A889400A2E25A /* DownloadFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CFC2A02C5A889400A2E25A /* DownloadFile.swift */; };
+		18CFC2A32C5A9A4C00A2E25A /* ShowImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CFC2A22C5A9A4C00A2E25A /* ShowImages.swift */; };
 		18D150DB2AED1272004BDF97 /* ParentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D150D92AED1272004BDF97 /* ParentCell.swift */; };
 		18D150DC2AED1272004BDF97 /* ParentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D150DA2AED1272004BDF97 /* ParentCell.xib */; };
 		18D150DE2AF037FA004BDF97 /* AddActivityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D150DD2AF037FA004BDF97 /* AddActivityVC.swift */; };
@@ -274,6 +277,9 @@
 		18BC90302BF3C92C00F14A43 /* CustomeVieww.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomeVieww.swift; sourceTree = "<group>"; };
 		18BC90332BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceHeadCollectionCell.swift; sourceTree = "<group>"; };
 		18BC90342BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InvoiceHeadCollectionCell.xib; sourceTree = "<group>"; };
+		18CFC29D2C580C8800A2E25A /* CollageLayoutss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageLayoutss.swift; sourceTree = "<group>"; };
+		18CFC2A02C5A889400A2E25A /* DownloadFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadFile.swift; sourceTree = "<group>"; };
+		18CFC2A22C5A9A4C00A2E25A /* ShowImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowImages.swift; sourceTree = "<group>"; };
 		18D150D92AED1272004BDF97 /* ParentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentCell.swift; sourceTree = "<group>"; };
 		18D150DA2AED1272004BDF97 /* ParentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ParentCell.xib; sourceTree = "<group>"; };
 		18D150DD2AF037FA004BDF97 /* AddActivityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddActivityVC.swift; sourceTree = "<group>"; };
@@ -786,6 +792,7 @@
 				18942DF12C3A82DC00389D04 /* TeacherPortfolioVC.swift */,
 				18942DF52C3A9C4300389D04 /* PAlbumDetailVC.swift */,
 				1850EF8B2C56532500BE9D42 /* DemoVC2.swift */,
+				18CFC2A22C5A9A4C00A2E25A /* ShowImages.swift */,
 			);
 			path = Teacher;
 			sourceTree = "<group>";
@@ -870,6 +877,8 @@
 				18DA02CB2C303ED600D64805 /* DownloadManager.swift */,
 				18DA02CD2C30407500D64805 /* AlertManager.swift */,
 				18B1207E2C3581BB00ED2BA0 /* EmojiManager.swift */,
+				18CFC29D2C580C8800A2E25A /* CollageLayoutss.swift */,
+				18CFC2A02C5A889400A2E25A /* DownloadFile.swift */,
 			);
 			path = Functions;
 			sourceTree = "<group>";
@@ -1115,6 +1124,7 @@
 				188D7F6A2BE40D7F007000D3 /* CollageItemView.swift in Sources */,
 				18E4D9CA2AF965B7005A3C58 /* AcitivitiesModel.swift in Sources */,
 				18DA02CA2C2C859A00D64805 /* OpenChatData.swift in Sources */,
+				18CFC2A32C5A9A4C00A2E25A /* ShowImages.swift in Sources */,
 				18A79C3D2C1DF96500F08D92 /* UserMessagesList.swift in Sources */,
 				53C196D627B17F9200EF16A3 /* DevicesCell.swift in Sources */,
 				7E494F6B2C27221E00348190 /* TeacherChatVC.swift in Sources */,
@@ -1136,6 +1146,7 @@
 				B7928B2B2A5882DE0083B77E /* VerifyOtpVC.swift in Sources */,
 				53B5913127EB5A10009D301A /* InvoiceCell.swift in Sources */,
 				18209CAC2C15A7DB00D59EAB /* SocketConstants.swift in Sources */,
+				18CFC2A12C5A889400A2E25A /* DownloadFile.swift in Sources */,
 				18BC90312BF3C92C00F14A43 /* CustomeVieww.swift in Sources */,
 				18BC90362BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift in Sources */,
 				95CE785C2BB30C6800F0CAD3 /* DisplayImage.swift in Sources */,
@@ -1232,6 +1243,7 @@
 				18A79C502C1F39F300F08D92 /* TypesCell.swift in Sources */,
 				B7E07DAE2A43493F009FC8D8 /* CalendarVC.swift in Sources */,
 				B72E68A92ADB194A003433F2 /* UserdefaultsExt.swift in Sources */,
+				18CFC29E2C580C8800A2E25A /* CollageLayoutss.swift in Sources */,
 				53C196D927B17F9200EF16A3 /* StatsHeader.swift in Sources */,
 				531EDA1827B96F4500CA667A /* AuthModel.swift in Sources */,
 				53FE22122804AA09003AE636 /* InvoicePdf.swift in Sources */,
@@ -1403,7 +1415,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1455,7 +1467,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

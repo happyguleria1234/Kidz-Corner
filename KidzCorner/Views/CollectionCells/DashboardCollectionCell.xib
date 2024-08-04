@@ -11,14 +11,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DashboardCollectionCell" id="3Q3-B1-AOD" customClass="DashboardCollectionCell" customModule="KidzCorner" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="284" height="268"/>
+            <rect key="frame" x="0.0" y="0.0" width="362" height="268"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="P7I-1e-n2G">
-                <rect key="frame" x="0.0" y="0.0" width="284" height="268"/>
+                <rect key="frame" x="0.0" y="0.0" width="362" height="268"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholderImage" translatesAutoresizingMaskIntoConstraints="NO" id="yxK-XU-Vf7">
-                        <rect key="frame" x="0.0" y="0.0" width="284" height="268"/>
+                        <rect key="frame" x="0.0" y="0.0" width="362" height="268"/>
                     </imageView>
                 </subviews>
                 <constraints>
@@ -28,11 +28,11 @@
                     <constraint firstAttribute="trailing" secondItem="yxK-XU-Vf7" secondAttribute="trailing" id="iaF-Sh-uQy"/>
                 </constraints>
             </collectionViewCellContentView>
-            <size key="customSize" width="284" height="268"/>
+            <size key="customSize" width="362" height="268"/>
             <connections>
                 <outlet property="imagePost" destination="yxK-XU-Vf7" id="yp8-cV-VLw"/>
             </connections>
-            <point key="canvasLocation" x="323.1884057971015" y="131.91964285714286"/>
+            <point key="canvasLocation" x="379.71014492753625" y="131.91964285714286"/>
         </collectionViewCell>
     </objects>
     <resources>

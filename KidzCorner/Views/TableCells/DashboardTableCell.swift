@@ -7,38 +7,29 @@ class DashboardTableCell: UITableViewCell {
     var postData: DashboardModelData?
     var postData2: ChildPortfolioModelData?
     var comesFrom = String()
+    var isCollage = Int()
+    var view = UIViewController()
+    
     @IBOutlet weak var viewOuter: UIView!
-    
     @IBOutlet weak var imageProfile: UIImageView!
-    
     @IBOutlet weak var labelTitle: UILabel!
-    
     @IBOutlet weak var labelName: UILabel!
     @IBOutlet weak var labelTime: UILabel!
-    
     @IBOutlet weak var buttonMore: UIButton!
-    
     @IBOutlet weak var labelDescription: UILabel!
-    
     @IBOutlet weak var collectionHeight: NSLayoutConstraint!
     @IBOutlet weak var viewDomain: UIView!
     @IBOutlet weak var labelDomain: UILabel!
-    
     @IBOutlet weak var collectionImages: UICollectionView!
-    @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var likeCommentView: UIView!
-    
     @IBOutlet weak var buttonLike: UIButton!
     @IBOutlet weak var buttonComment: UIButton!
     @IBOutlet weak var buttonShare: UIButton!
-    
     @IBOutlet weak var labelLikes: UILabel!
     @IBOutlet weak var labelComments: UILabel!
-    
     @IBOutlet weak var viewUnreadComments: UIView!
     @IBOutlet weak var viewInsideUnreadComments: UIView!
     @IBOutlet weak var likeCommentviewHeightConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var textWriteComment: UITextField!
     @IBOutlet weak var buttonWriteComment: UIButton!
     
@@ -50,129 +41,176 @@ class DashboardTableCell: UITableViewCell {
     }
     
     func setupTextField() {
-        // Customize the text field appearance
         textWriteComment.text = "Write a comment."
-        textWriteComment.layer.cornerRadius = 22.5 // Set the corner radius as needed
-        textWriteComment.layer.borderWidth = 1.0 // Set the border width as needed
-        textWriteComment.textColor = .darkGray // Set the text color as needed
-        textWriteComment.font = UIFont.systemFont(ofSize: 14) // Set the font size as needed
-        textWriteComment.layer.masksToBounds = false
+        textWriteComment.layer.cornerRadius = 22.5
+        textWriteComment.layer.borderWidth = 1.0
+        textWriteComment.textColor = .darkGray
+        textWriteComment.font = UIFont.systemFont(ofSize: 14)
         textWriteComment.layer.masksToBounds = true
         textWriteComment.layer.borderColor = UIColor.clear.cgColor
+//        pageControl.isHidden = true
     }
     
     func hideUnreadCommentViews(_ hide: Bool) {
-        if hide == true {
-            viewUnreadComments.isHidden = true
-            viewInsideUnreadComments.isHidden = true
-        }
-        else {
-            viewUnreadComments.isHidden = false
-            viewInsideUnreadComments.isHidden = false
-        }
+        viewUnreadComments.isHidden = hide
+        viewInsideUnreadComments.isHidden = hide
     }
     
     func setupViews() {
-        DispatchQueue.main.async { [self] in
-            viewOuter.layer.cornerRadius = 20
-            imageProfile.layer.cornerRadius = imageProfile.bounds.height/2.0
-            collectionImages.layer.cornerRadius = 20
-            
-            viewDomain.layer.cornerRadius = viewDomain.bounds.height/2.0
-            
-            viewUnreadComments.layer.borderColor = myGreenColor.cgColor
-            viewUnreadComments.layer.borderWidth = 5
-            viewUnreadComments.layer.cornerRadius = viewUnreadComments.bounds.height/2.0
-            viewInsideUnreadComments.layer.cornerRadius = viewInsideUnreadComments.bounds.height/2.0
+        DispatchQueue.main.async {
+            self.viewOuter.layer.cornerRadius = 20
+            self.imageProfile.layer.cornerRadius = self.imageProfile.bounds.height / 2.0
+            self.collectionImages.layer.cornerRadius = 20
+            self.viewDomain.layer.cornerRadius = self.viewDomain.bounds.height / 2.0
+            self.viewUnreadComments.layer.borderColor = myGreenColor.cgColor
+            self.viewUnreadComments.layer.borderWidth = 5
+            self.viewUnreadComments.layer.cornerRadius = self.viewUnreadComments.bounds.height / 2.0
+            self.viewInsideUnreadComments.layer.cornerRadius = self.viewInsideUnreadComments.bounds.height / 2.0
         }
     }
     
     func setupCollection() {
         collectionImages.register(UINib(nibName: "DashboardCollectionCell", bundle: nil), forCellWithReuseIdentifier: "DashboardCollectionCell")
-        collectionImages.register(UINib(nibName: "TypesCell", bundle: nil), forCellWithReuseIdentifier: "TypesCell")
         collectionImages.delegate = self
         collectionImages.dataSource = self
+        let layout = CustomCollectionViewLayout()
+        collectionImages.collectionViewLayout = layout
+        collectionImages.isScrollEnabled = false
     }
-        
+    
     @IBAction func likeFunc(_ sender: Any) {
+        // Like action implementation
     }
     
     @IBAction func commentFunc(_ sender: Any) {
+        // Comment action implementation
     }
     
     @IBAction func shareFunc(_ sender: Any) {
+        // Share action implementation
     }
 }
 
-extension DashboardTableCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension DashboardTableCell: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        pageControl.numberOfPages = cellContent?.count ?? 0
-        return cellContent?.count ?? 0
+        let itemCount = min(cellContent?.count ?? 0, 9)
+//        pageControl.numberOfPages = itemCount
+        return itemCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardCollectionCell", for: indexPath) as! DashboardCollectionCell
-        print(cellContent?.count)
         let portfolioData = self.cellContent?[indexPath.row]
         if let memType = portfolioData?.memType {
             switch memType {
             case portfolioType.pdf.rawValue:
-                printt("pdf")
                 cell.imagePost.image = UIImage(named: "pdfIcon")
             case portfolioType.image.rawValue:
-                if let url = URL(string: imageBaseUrl+(cellContent?[indexPath.item].image ?? "")) {
-                    print(url)
+                if let url = URL(string: imageBaseUrl + (cellContent?[indexPath.item].image ?? "")) {
                     cell.imagePost.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
-
                 }
             default: break
             }
         }
-        if comesFrom == "Parent" {
-            if postData2?.is_collage == 1 {
-                cell.imagePost.contentMode = .scaleAspectFill
-            } else {
-                cell.imagePost.contentMode = .scaleAspectFill
-            }
-        } else {
-            if postData?.is_collage == 1 {
-                cell.imagePost.contentMode = .scaleAspectFill
-            } else {
-                cell.imagePost.contentMode = .scaleAspectFill
-            }
-        }
+        cell.imagePost.contentMode = .scaleAspectFill
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let portfolioData = self.cellContent?[indexPath.row]
-        if let memType = portfolioData?.memType {
-            switch memType {
-            case portfolioType.pdf.rawValue:
-                printt("pdf")
-                if let urlStr = portfolioData?.image, let url = URL(string: imageBaseUrl + urlStr) {
-                    UIApplication.shared.open(url)
-                }
-            default: break
-            }
+        let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "ShowImages") as! ShowImages
+        vc.strImagesArr = cellContent ?? []
+        vc.selectedIndex = indexPath.item
+        self.view.present(vc, animated: true)
+    }
+}
+
+class CustomCollectionViewLayout: UICollectionViewLayout {
+
+    private var cache = [UICollectionViewLayoutAttributes]()
+    private var contentHeight: CGFloat = 0
+    private var contentWidth: CGFloat {
+        guard let collectionView = collectionView else { return 0 }
+        return collectionView.bounds.width
+    }
+    private let cellPadding: CGFloat = 1
+
+    override var collectionViewContentSize: CGSize {
+        return CGSize(width: contentWidth, height: contentWidth) // Ensure square content size
+    }
+
+    override func prepare() {
+        guard let collectionView = collectionView else { return }
+        let itemCount = min(collectionView.numberOfItems(inSection: 0), 9)
+        guard itemCount > 0 else { return }
+
+        cache.removeAll()
+        contentHeight = 0
+
+        for item in 0..<itemCount {
+            let indexPath = IndexPath(item: item, section: 0)
+            let rowIndex = rowIndexForItem(at: item, itemCount: itemCount)
+            let frame = frameAtIndex(rowIndex: rowIndex, itemCount: itemCount)
+            let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+            attributes.frame = frame.insetBy(dx: cellPadding, dy: cellPadding)
+            cache.append(attributes)
+            contentHeight = max(contentHeight, attributes.frame.maxY)
         }
     }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView == collectionImages {
-            let offSet = scrollView.contentOffset.x
-            let width = scrollView.frame.width
-            let horizontalCenter = width / 2
-            
-            pageControl.currentPage = Int(offSet + horizontalCenter) / Int(width)
+
+    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        return cache.filter { $0.frame.intersects(rect) }
+    }
+
+    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        return indexPath.item < cache.count ? cache[indexPath.item] : nil
+    }
+
+    private func rowIndexForItem(at index: Int, itemCount: Int) -> (Int, Int) {
+        let rowOrColoumnCount = 3
+        var returnRowIndex = (0, 0)
+
+        if rowOrColoumnCount == 0 {
+            return returnRowIndex
         }
+
+        returnRowIndex = (index % rowOrColoumnCount, index / rowOrColoumnCount)
+        return returnRowIndex
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionImages.bounds.width, height: collectionImages.bounds.height)
+
+    private func frameAtIndex(rowIndex: (Int, Int), itemCount: Int) -> CGRect {
+        let rowOrColoumnCount = 3
+        let mode = modeValue(for: itemCount)
+        let fullyDivided = isFullyDivided(forMode: mode)
+        let quotient = quotientValue(for: itemCount)
+
+        var widthDivider: CGFloat = 0
+        var heightDivider: CGFloat = 0
+
+        let isRemainingRow = rowIndex.1 == quotient
+        widthDivider = !isRemainingRow ? CGFloat(rowOrColoumnCount) : CGFloat(mode)
+        heightDivider = fullyDivided ? CGFloat(quotient) : CGFloat(quotient + 1)
+
+        let width = self.collectionView!.frame.size.width / widthDivider
+        let height = self.collectionView!.frame.size.height / heightDivider
+        let xOrigin = CGFloat(rowIndex.0) * width
+        let yOrigin = CGFloat(rowIndex.1) * height
+
+        return CGRect(x: xOrigin, y: yOrigin, width: width, height: height)
     }
-    
+
+    private func modeValue(for itemCount: Int) -> Int {
+        return itemCount % 3
+    }
+
+    private func isFullyDivided(forMode: Int) -> Bool {
+        return forMode == 0
+    }
+
+    private func quotientValue(for itemCount: Int) -> Int {
+        return itemCount / 3
+    }
 }
 
 enum portfolioType: String {

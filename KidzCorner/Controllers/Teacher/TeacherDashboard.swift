@@ -128,13 +128,10 @@ extension TeacherDashboard: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardTableCell", for: indexPath) as! DashboardTableCell
-        
         let data = self.dashboardData?[indexPath.row]
-        
         cell.cellContent = self.dashboardData?[indexPath.row].portfolioImage
         cell.collectionImages.tag = indexPath.row
         cell.collectionImages.reloadData()
-        
         cell.imageProfile.sd_setImage(with: URL(string: imageBaseUrl+(data?.teacher?.image ?? "")), placeholderImage: .placeholderImage)
         cell.postData = data
         cell.labelName.text = data?.teacher?.name ?? ""
@@ -155,6 +152,7 @@ extension TeacherDashboard: UITableViewDelegate, UITableViewDataSource {
         else if data?.isLike == 0 {
             cell.buttonLike.isSelected = false
         }
+        cell.isCollage = data?.is_collage ?? 0
         
         cell.buttonLike.tag = indexPath.row
         cell.buttonComment.tag = indexPath.row
@@ -173,9 +171,9 @@ extension TeacherDashboard: UITableViewDelegate, UITableViewDataSource {
         else {
             cell.hideUnreadCommentViews(true)
         }
-        
+//        cell.setImagesData(imagesArrw: data?.portfolioImage ?? [])
         cell.labelLikes.text = String(data?.totalLikes ?? 0)
-        
+        cell.view = self
         cell.viewOuter.defaultShadow()
         cell.backgroundColor = .clear
         return cell

@@ -77,7 +77,8 @@ class TeacherAnnouncement: UIViewController {
             
             // ALSO IMAGE ANNOUNCEMENT
             labelTitle.text = announcementTitle ?? ""
-            labelDescription.text = announcementDescription ?? ""
+//            labelDescription.text = announcementDescription ?? ""
+            labelDescription.attributedText = announcementDescription?.htmlAttributedString()
             imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(anouncementData?.file ?? "")), placeholderImage: .announcementPlaceholder)
             labelDate.text = announcementDate
             if self.announcementPDF != "" {

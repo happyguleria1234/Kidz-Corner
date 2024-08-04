@@ -220,5 +220,18 @@ extension SocketIOManager{
             }
         }
     }
+    func deleteMessage(threadID: Int, messageID: Int) {
+        let param: parameter = ["threadId":threadID,"messageId":messageID]
+        let data = try! JSONSerialization.data(withJSONObject: param)
+        socket.emit(SocketEmitters.deleteEmitter.instance, data) { [self] in
+            print(socket.status)
+        }
+    }
     
+    func deleteMessageListner(onSuccess: @escaping(Bool) -> Void) {
+        socket.on(SocketListeners.deletelistener.instance) { arrOfAny, ack  in
+            print("User Messages Listing")
+            onSuccess(true)
+        }
+    }
 }

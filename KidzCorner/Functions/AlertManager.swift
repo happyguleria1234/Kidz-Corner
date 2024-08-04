@@ -26,4 +26,22 @@ class AlertManager {
         alertController.addAction(okAction)
         viewController.present(alertController, animated: true, completion: nil)
     }
+    
+    static func showConfirmationAlert(on viewController: UIViewController, title: String, message: String, yesHandler: @escaping () -> Void, noHandler: @escaping () -> Void) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
+            yesHandler()
+        }
+        
+        let noAction = UIAlertAction(title: "No", style: .cancel) { _ in
+            noHandler()
+        }
+        
+        alertController.addAction(yesAction)
+        alertController.addAction(noAction)
+        
+        viewController.present(alertController, animated: true, completion: nil)
+    }
+    
 }

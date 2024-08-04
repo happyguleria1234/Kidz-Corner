@@ -52,10 +52,7 @@ extension StudentListVC: UITableViewDelegate, UITableViewDataSource {
         let data = childrenData[indexPath.row]
         cell.lbl_name.text = data.name
         cell.img_user.contentMode = .scaleAspectFill
-//        let myUrl = imageBaseUrl+(data.image ?? "")
-//        cell.img_user.downloadImage(url: myUrl)
-        cell.img_user.sd_setImage(with: URL(string: imageBaseUrl+(data.image ?? "")),
-                               placeholderImage: .announcementPlaceholder)
+        cell.img_user.sd_setImage(with: URL(string: imageBaseUrl+(data.image ?? "")),placeholderImage: .announcementPlaceholder)
         return cell
     }
     
@@ -80,9 +77,7 @@ extension StudentListVC: UITableViewDelegate, UITableViewDataSource {
             vc.studentId = childrenData[indexPath.row].id ?? 0
             self.navigationController?.pushViewController(vc, animated: true)
         }
-
     }
-    
 }
 
 class StudentDataCell: UITableViewCell {
@@ -94,10 +89,8 @@ class StudentDataCell: UITableViewCell {
     }
 }
 
-
 extension UIImageView{
     func downloadImage(url:String){
-      //remove space if a url contains.
         let stringWithoutWhitespace = url.replacingOccurrences(of: " ", with: "%20", options: .regularExpression)
         self.sd_imageIndicator = SDWebImageActivityIndicator.gray
         self.sd_setImage(with: URL(string: stringWithoutWhitespace), placeholderImage: UIImage())

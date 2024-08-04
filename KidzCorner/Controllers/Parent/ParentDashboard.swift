@@ -252,11 +252,11 @@ extension ParentDashboard: UITableViewDelegate, UITableViewDataSource {
         cell.labelTime.text = data?.postDate ?? ""
         
         cell.labelDomain.text = data?.domain?.name ?? ""
-        if data?.is_collage == 0 {
-            cell.collectionHeight.constant = 350
-        } else {
-            cell.collectionHeight.constant = 280
-        }
+//        if data?.is_collage == 0 {
+//            cell.collectionHeight.constant = 350
+//        } else {
+//            cell.collectionHeight.constant = 280
+//        }
         cell.buttonLike.setImage(UIImage(named: "likeEmpty"), for: .normal)
         cell.buttonLike.setImage(UIImage(named: "likeFilled"), for: .selected)
         
@@ -266,7 +266,7 @@ extension ParentDashboard: UITableViewDelegate, UITableViewDataSource {
         else if data?.isLike == 0 {
             cell.buttonLike.isSelected = false
         }
-        
+        cell.view = self
         cell.buttonLike.tag = indexPath.row
         cell.buttonComment.tag = indexPath.row
         cell.buttonShare.tag = indexPath.row

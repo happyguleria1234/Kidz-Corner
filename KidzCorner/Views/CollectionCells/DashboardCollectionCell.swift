@@ -11,4 +11,5 @@ class DashboardCollectionCell: UICollectionViewCell {
            // imagePost.layer.cornerRadius = 20
         }
     }
+    
 }

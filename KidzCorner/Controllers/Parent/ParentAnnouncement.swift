@@ -97,6 +97,8 @@ class ParentAnnouncement: UIViewController {
             // ALSO IMAGE ANNOUNCEMENT
             labelTitle.text = announcementTitle ?? ""
             labelDescription.text = announcementDescription ?? ""
+            labelDescription.attributedText = announcementDescription?.htmlAttributedString()
+
             imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(anouncementData?.file ?? "")), placeholderImage: .announcementPlaceholder)
             labelDate.text = announcementDate
             labelName.text = "\(childName ?? "")"
@@ -163,5 +165,16 @@ class ParentAnnouncement: UIViewController {
                 Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
             }
         }
+    }
+}
+
+extension String {
+    func htmlAttributedString() -> NSAttributedString? {
+        guard let data = self.data(using: String.Encoding.utf16, allowLossyConversion: false) else { return nil }
+        guard let html = try? NSMutableAttributedString(
+            data: data,
+            options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html],
+            documentAttributes: nil) else { return nil }
+        return html
     }
 }

@@ -146,7 +146,17 @@ class ApiManager  {
                     //IF YOU ARE GETTING ERROR IN MODEL DECODING , FORCE URWRAP try (put ! after try)  , APPLICATION WILL CRASH AND THE INFORMATION ABOUT THE KEY THAT IS CAUSING TROUBLE, WILL GET PRINTED TO CONSOLE
                     completion(errorr,nil , nil ,200)
                 }
-            }else{
+            }else if httpResponse.statusCode == 401{
+                DispatchQueue.main.async {
+                    stopAnimating()
+                    let sb = UIStoryboard(name: "Auth", bundle: nil)
+                    let vc = sb.instantiateViewController(withIdentifier: "SignIn") as! SignIn
+                    let nav = UINavigationController(rootViewController: vc)
+                    nav.navigationBar.isHidden = true
+                    UIApplication.shared.windows.first?.rootViewController = nav
+                    UIApplication.shared.windows.first?.makeKeyAndVisible()
+                }
+            } else {
                 stopAnimating()
                 do {
                     let jsonResponse = try JSONSerialization.jsonObject(with: data!, options: [JSONSerialization.ReadingOptions() , .allowFragments]) as! [String:Any]

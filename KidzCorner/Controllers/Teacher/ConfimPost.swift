@@ -523,7 +523,7 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         if selectedType == 1 {
             let screenshot = captureScreenshot(of: collageImage)
             let imageView = UIImageView(image: screenshot)
-            ApiManager.shared.requestWithImage(type: BaseModel.self, url: baseUrl+apiPostPortfolio, parameter: params, imageNames: ["image1"], imageKeyName: "images[]", images: [convertImageToData(image: imageView.image ?? UIImage()) ?? Data()]) { error, myObject, messageStr, statusCode in
+            ApiManager.shared.requestWithImage(type: BaseModel.self, url: baseUrl+apiPostPortfolio, parameter: params, imageNames: ["image1"], imageKeyName: "images[]", images: imageDataArr) { error, myObject, messageStr, statusCode in
                 debugPrint(error)
                 if statusCode == 200 {
                     print("Successfully uploaded")
@@ -811,56 +811,48 @@ extension ConfirmPost {
 }
 
 extension ConfirmPost: CollageViewDataSource {
-
+    
     func collageView(_ collageView: CollageView, configure itemView: CollageItemView, at index: Int) {
-            guard let image = selectedImages?[index] else { return }
-
-            let imageView = UIImageView(image: image)
-            imageView.contentMode = .scaleAspectFill  // Ensures the image covers the entire area
-            imageView.clipsToBounds = true
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            itemView.addSubview(imageView)
-            
-            NSLayoutConstraint.activate([
-                imageView.topAnchor.constraint(equalTo: itemView.topAnchor),
-                imageView.leadingAnchor.constraint(equalTo: itemView.leadingAnchor),
-                imageView.trailingAnchor.constraint(equalTo: itemView.trailingAnchor),
-                imageView.bottomAnchor.constraint(equalTo: itemView.bottomAnchor)
-            ])
-
-            itemView.layer.borderWidth = 1
-        }
+        guard let image = selectedImages?[index] else { return }
         
+        let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFill  // Ensures the image covers the entire area
+        imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        itemView.addSubview(imageView)
+        
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: itemView.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: itemView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: itemView.trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: itemView.bottomAnchor)
+        ])
+        
+        itemView.layer.borderWidth = 1
+    }
+    
     
     func collageViewNumberOfTotalItem(_ collageView: CollageView) -> Int {
         return selectedImages?.count ?? 0
     }
-    
-//    func collageViewNumberOfRowOrColoumn(_ collageView: CollageView) -> Int {
-//        let totalImages = selectedImages?.count ?? 0
-//        let maxColumns = 3
-//        let rows = (totalImages + maxColumns - 1) / maxColumns
-//        return rows
-//    }
-    
-        func collageViewNumberOfRowOrColoumn(_ collageView: CollageView) -> Int {
-            let totalImages = selectedImages?.count ?? 0
-            let targetRowCountOrColumnCount = 3
-    
-            let rowCountOrColumnCount = (totalImages + targetRowCountOrColumnCount - 1) / targetRowCountOrColumnCount
-            if rowCountOrColumnCount > 1 && selectedImages?.count == 5 {
-                return 3
-            } else if rowCountOrColumnCount == 1 && selectedImages?.count == 3{
-                return 2
-            } else {
-                return rowCountOrColumnCount > 0 ? rowCountOrColumnCount : 1 // Ensure at least 1 row/column
-            }
+    func collageViewNumberOfRowOrColoumn(_ collageView: CollageView) -> Int {
+        let totalImages = selectedImages?.count ?? 0
+        let targetRowCountOrColumnCount = 3
+        
+        let rowCountOrColumnCount = (totalImages + targetRowCountOrColumnCount - 1) / targetRowCountOrColumnCount
+        if rowCountOrColumnCount > 1 && selectedImages?.count == 5 {
+            return 3
+        } else if rowCountOrColumnCount == 1 && selectedImages?.count == 3{
+            return 2
+        } else {
+            return rowCountOrColumnCount > 0 ? rowCountOrColumnCount : 1 // Ensure at least 1 row/column
         }
+    }
     
     func collageViewLayoutDirection(_ collageView: CollageView) -> CollageViewLayoutDirection {
         return layoutDirection
     }
-
+    
     private func addBlackViewAndLabel(to view: UIView) {
         let blackView = UIView()
         blackView.backgroundColor = .black
@@ -874,7 +866,7 @@ extension ConfirmPost: CollageViewDataSource {
             blackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             blackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-
+        
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 25)
         label.textAlignment = .center

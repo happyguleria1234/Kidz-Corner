@@ -216,10 +216,6 @@
                                     <constraint firstAttribute="width" constant="7.5" id="tzm-9o-XCd"/>
                                 </constraints>
                             </view>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="rz3-i1-dtO">
-                                <rect key="frame" x="203.5" y="445" width="116.5" height="26"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </pageControl>
                             <textField hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wfQ-Wg-fZL">
                                 <rect key="frame" x="20" y="586" width="483" height="1"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
@@ -272,7 +268,6 @@
                             <constraint firstItem="wfQ-Wg-fZL" firstAttribute="top" secondItem="HiN-th-Hdi" secondAttribute="top" id="Ocf-jD-EXx"/>
                             <constraint firstItem="Ezg-pW-PkL" firstAttribute="centerX" secondItem="b9P-cE-LhI" secondAttribute="centerX" id="SYw-d7-iPr"/>
                             <constraint firstAttribute="trailing" secondItem="ZPQ-I2-noE" secondAttribute="trailing" constant="20" id="TMc-aB-cKS"/>
-                            <constraint firstItem="rz3-i1-dtO" firstAttribute="bottom" secondItem="HeM-uT-k0d" secondAttribute="bottom" id="U94-xY-gkh"/>
                             <constraint firstItem="AyR-fR-Fsk" firstAttribute="leading" secondItem="Xqp-Ld-ygW" secondAttribute="trailing" constant="15" id="Uet-uV-FbF"/>
                             <constraint firstItem="bxG-qR-xRU" firstAttribute="top" secondItem="Oki-ms-aqU" secondAttribute="bottom" constant="10" id="XG6-9w-Blx"/>
                             <constraint firstItem="wfQ-Wg-fZL" firstAttribute="top" secondItem="bxG-qR-xRU" secondAttribute="bottom" constant="15" id="Xdp-LI-lsI"/>
@@ -281,7 +276,6 @@
                             <constraint firstItem="AyR-fR-Fsk" firstAttribute="top" secondItem="Xqp-Ld-ygW" secondAttribute="top" constant="5" id="dSq-TD-KIw"/>
                             <constraint firstItem="Xqp-Ld-ygW" firstAttribute="top" secondItem="b9P-cE-LhI" secondAttribute="top" constant="20" id="fyP-YI-Sez"/>
                             <constraint firstItem="l9K-B4-810" firstAttribute="top" secondItem="V8H-v5-h92" secondAttribute="top" constant="-5" id="jYQ-Uw-fm2"/>
-                            <constraint firstItem="rz3-i1-dtO" firstAttribute="centerX" secondItem="HeM-uT-k0d" secondAttribute="centerX" id="ld7-Lr-D8s"/>
                             <constraint firstItem="Oki-ms-aqU" firstAttribute="top" secondItem="HeM-uT-k0d" secondAttribute="bottom" constant="10" id="nIz-4l-oXG"/>
                             <constraint firstItem="Xqp-Ld-ygW" firstAttribute="width" secondItem="b9P-cE-LhI" secondAttribute="width" multiplier="0.15" id="pVl-A7-r36"/>
                             <constraint firstItem="l9K-B4-810" firstAttribute="trailing" secondItem="V8H-v5-h92" secondAttribute="trailing" id="ppH-jA-tDR"/>
@@ -321,7 +315,6 @@
                 <outlet property="labelTitle" destination="Ezg-pW-PkL" id="rqV-XN-OuI"/>
                 <outlet property="likeCommentView" destination="Oki-ms-aqU" id="qRc-bw-cNL"/>
                 <outlet property="likeCommentviewHeightConstraint" destination="bR2-jA-8L1" id="hjQ-Sn-GaC"/>
-                <outlet property="pageControl" destination="rz3-i1-dtO" id="BcY-Te-2bU"/>
                 <outlet property="textWriteComment" destination="wfQ-Wg-fZL" id="Mgz-7C-nyi"/>
                 <outlet property="viewDomain" destination="bxG-qR-xRU" id="1mJ-bt-pDO"/>
                 <outlet property="viewInsideUnreadComments" destination="fIU-UN-yNp" id="Mya-bw-buJ"/>
