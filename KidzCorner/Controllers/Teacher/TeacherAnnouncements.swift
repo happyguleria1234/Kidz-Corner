@@ -9,7 +9,7 @@ class TeacherAnnouncements: UIViewController {
     @IBOutlet weak var buttonBack: UIButton!
     @IBOutlet weak var buttonAdd: UIButton!
     @IBOutlet weak var tableAnnouncements: UITableView!
-    
+    var comesFrom = String()
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTable()
@@ -25,6 +25,16 @@ class TeacherAnnouncements: UIViewController {
         getAnnouncements()
     }
     @IBAction func backFunc(_ sender: Any) {
+        if comesFrom == "" {
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            let roleId = UserDefaults.standard.integer(forKey: myRoleId)
+            if roleId == 4 {
+                gotoHome()
+            } else {
+                gotoHomeTeacher()
+            }
+        }
     }
     
     @IBAction func btnChats(_ sender: Any) {
@@ -44,10 +54,10 @@ class TeacherAnnouncements: UIViewController {
     }
     
     func getAnnouncements() {
-    
-        startAnimating((self.tabBarController?.view)!)
+        if comesFrom != "Notif" {
+            startAnimating((self.tabBarController?.view)!)
+        }
         let params = [String: String]()
-       
         ApiManager.shared.Request(type: AnnouncementModel.self, methodType: .Get, url: baseUrl+apiTeacherAnnouncement, parameter: params) { error, myObject, msgString, statusCode in
             if statusCode == 200 {
                 self.announcementsData = myObject

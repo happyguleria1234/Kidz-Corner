@@ -16,8 +16,6 @@ class ActivityVC: UIViewController {
     var portfolioData: [ChildPortfolioModelData]?
     
     @IBOutlet weak var tableHome: UITableView!
-    @IBOutlet weak var checkedInBtn: UIButton!
-    @IBOutlet weak var checkInstatuslbl: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +30,7 @@ class ActivityVC: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        portfolioData = nil
+//        portfolioData = nil
     }
     
     func setupTable() {
@@ -43,7 +41,9 @@ class ActivityVC: UIViewController {
 
     func getDashboard(page: Int = 1) {
         let params: [String: String] = ["page": "\(page)", "per_page": "4"]
-        self.isLoading = true
+        if comesForImages != "Images" {
+            self.isLoading = true
+        }
         ApiManager.shared.Request(type: DashboardModelNew.self, methodType: .Get, url: baseUrl+apiDashboard, parameter: params) { error, myObject, msgString, statusCode in
             if statusCode == 200 {
 
@@ -208,12 +208,12 @@ extension ActivityVC {
         }
     }
     
-    func getChildrenList()
-    {
-        DispatchQueue.main.async {
-            startAnimating((self.tabBarController?.view)!)
+    func getChildrenList() {
+        if comesForImages != "Images" {
+            DispatchQueue.main.async {
+                startAnimating((self.tabBarController?.view)!)
+            }
         }
-        
         ApiManager.shared.Request(type: AllChildrenModel.self, methodType: .Get, url: baseUrl+apiParentAllChild, parameter: [:]) { error, myObject, msgString, statusCode in
             DispatchQueue.main.async {
                 if statusCode == 200 {

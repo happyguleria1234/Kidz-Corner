@@ -7,6 +7,7 @@
 
 import UIKit
 import SDWebImage
+import Kingfisher
 
 class StudentListVC: UIViewController {
 
@@ -52,7 +53,9 @@ extension StudentListVC: UITableViewDelegate, UITableViewDataSource {
         let data = childrenData[indexPath.row]
         cell.lbl_name.text = data.name
         cell.img_user.contentMode = .scaleAspectFill
-        cell.img_user.sd_setImage(with: URL(string: imageBaseUrl+(data.image ?? "")),placeholderImage: .announcementPlaceholder)
+        //        cell.img_user.sd_setImage(with: URL(string: imageBaseUrl+(data.image ?? "")),placeholderImage: .announcementPlaceholder)
+        let userProfileUrl = URL(string: imageBaseUrl+(data.image ?? ""))
+        cell.img_user.kf.setImage(with: userProfileUrl)
         return cell
     }
     

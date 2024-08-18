@@ -20,7 +20,7 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
             self.tfClass.text = selectedClasses
         }
     }
-    
+    private var isPushingViewController = false
     var currentDate: String = Date().shortDate
     var childreData: ChildrenModelData?
     @IBOutlet weak var typeCollection: UICollectionView!
@@ -152,11 +152,14 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         if classIds.isEmpty {
             AlertManager.shared.showAlert(title: "Select Classes", message: "Please select class then you were able to get student list", viewController: self)
         } else {
+            guard !isPushingViewController else { return } // Prevent multiple pushes
+            isPushingViewController = true
+            
             getStudents(classIDStr: self.classIds) {
                 var dataa = [DataArray]()
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "BrandVC") as! BrandVC
                 self.childreData?.data?.data?.forEach({ data in
-                    let albumData = DataArray(value: data.name ?? "", isSelect: false,id: data.id ?? 0, userImage: data.image ?? "")
+                    let albumData = DataArray(value: data.name ?? "", isSelect: false, id: data.id ?? 0, userImage: data.image ?? "")
                     dataa.append(albumData)
                 })
                 vc.callBack = { selectedData in
@@ -167,7 +170,12 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
                 vc.dataArray = dataa
                 vc.selectedTitle = "Student"
                 vc.modalPresentationStyle = .overCurrentContext
+                
+                // Push the view controller
                 self.navigationController?.pushViewController(vc, animated: true)
+                
+                // Reset the flag after the push is complete
+                self.isPushingViewController = false
             }
         }
     }

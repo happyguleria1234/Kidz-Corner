@@ -97,9 +97,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         print("Will gets called when app is in forground and we want to show banner")
         let userInfofData = notification.request.content.userInfo["payload"] as? [String: Any] ?? [:]
-        if userInfofData["type"] as? String != "receiveMessage" {
-            NotificationRedirections.shared.fetchUserInfoData(data: userInfofData, type: userInfofData["type"] as? String ?? "")
-        }
+//        if userInfofData["type"] as? String != "receiveMessage" {
+//            NotificationRedirections.shared.fetchUserInfoData(data: userInfofData, type: userInfofData["type"] as? String ?? "")
+//        }
         completionHandler([.alert, .sound, .badge])
     }
     
@@ -108,13 +108,16 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         UIPasteboard.general.string = "\(response.notification.request.content.userInfo)"
         let notification = response.notification.request.content.userInfo
         var userInfofData = [String: Any]()
+        var typee = String()
         if notification["type"] as? String == "receiveMessage" {
+            typee = notification["type"] as? String ?? ""
             userInfofData = response.notification.request.content.userInfo["lastMessage"] as? [String: Any] ?? [:]
         } else{
             userInfofData = response.notification.request.content.userInfo["payload"] as? [String: Any] ?? [:]
+            typee = "\(userInfofData["message_type"] as? Int ?? 0)"
         }
-        NotificationRedirections.shared.fetchUserInfoData(data: userInfofData,type: notification["type"] as? String ?? "")
-        handlePushNotification(response: notification)
+        NotificationRedirections.shared.fetchUserInfoData(data: userInfofData,type: typee)
+//        handlePushNotification(response: notification)
         completionHandler()
     }
     

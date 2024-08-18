@@ -8,25 +8,38 @@
 import UIKit
 import Foundation
 
+var apiCall: (()->())?
+
 //MARK: - When user tap on notification
 class NotificationRedirections{
     static let shared = NotificationRedirections()
     func fetchUserInfoData(data: [String: Any], type: String){
         let roleId = UserDefaults.standard.integer(forKey: myRoleId)
-        if type != "receiveMessage" {
-            let notifData = data["check_in_out"] as? [String:Any]
+        if type == "2" {
             if roleId == 4 {
-                if notifData?["type"] as? String == "check_out" {
-                    gotoHome()
-                    UserDefaults.standard.set(Date(), forKey: lastCheckedDateKey)
-                    UserDefaults.standard.set(2, forKey: checkInStatus)
-                } else {
-                    gotoHome()
-                    UserDefaults.standard.set(Date(), forKey: lastCheckedDateKey)
-                    UserDefaults.standard.set(1, forKey: checkInStatus)
-                }
+                gotoParentAnnouncement()
+            } else {
+                gotoTeacherAnnouncement()
             }
-        } else {
+        } else if type == "5" {
+            if roleId == 4 {
+                gotoInvoice()
+            }
+        } else if type == "4" {
+            if roleId == 4 {
+                gotoHome()
+            } else {
+                gotoHomeTeacher()
+            }
+        } else if type == "6"{
+            if roleId == 4 {
+                let ids = (data["receiver_id"] as? String ?? "")
+                guard let idss = Int(ids) else {return}
+                print(idss)
+                gotoRattings(userIDss: idss)
+            }
+        } else if type == "1" {
+            
             let dataa = data["message"] as? [String:Any]
             let dataUser = data["student"] as? [String:Any]
             let thread = dataa?["thread_id"] as? Int ?? 0
@@ -66,5 +79,39 @@ func gotoChatVC(threadIDs: Int, profileImage: String,name: String,reciverID: Int
     userProfileImagee = profileImage
     userNamee = name
     id = reciverID
+    UIApplication.shared.windows.first?.makeKeyAndVisible()
+}
+
+func gotoRattings(userIDss: Int) {
+    let sb = UIStoryboard(name: "Parent", bundle: nil)
+    let vc = sb.instantiateViewController(withIdentifier: "DemoVC") as! DemoVC
+    UIApplication.shared.windows.first?.rootViewController = vc
+    vc.comesFrom = 1
+    vc.userID = userIDss
+    apiCall?()
+    UIApplication.shared.windows.first?.makeKeyAndVisible()
+}
+
+func gotoInvoice() {
+    let sb = UIStoryboard(name: "Parent", bundle: nil)
+    let vc = sb.instantiateViewController(withIdentifier: "Payments") as! Payments
+    UIApplication.shared.windows.first?.rootViewController = vc
+    vc.comesFrom = "Notif"
+    UIApplication.shared.windows.first?.makeKeyAndVisible()
+}
+
+func gotoParentAnnouncement() {
+    let sb = UIStoryboard(name: "Parent", bundle: nil)
+    let vc = sb.instantiateViewController(withIdentifier: "ParentAnnouncements") as! ParentAnnouncements
+    UIApplication.shared.windows.first?.rootViewController = vc
+    vc.comesFrom = "Notif"
+    UIApplication.shared.windows.first?.makeKeyAndVisible()
+}
+
+func gotoTeacherAnnouncement() {
+    let sb = UIStoryboard(name: "Teacher", bundle: nil)
+    let vc = sb.instantiateViewController(withIdentifier: "TeacherAnnouncements") as! TeacherAnnouncements
+    UIApplication.shared.windows.first?.rootViewController = vc
+    vc.comesFrom = "Notif"
     UIApplication.shared.windows.first?.makeKeyAndVisible()
 }

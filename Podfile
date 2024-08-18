@@ -15,7 +15,7 @@ pod 'SwipeCellKit'
 pod 'FSCalendar'
 pod 'Socket.IO-Client-Swift', '~> 16.0.1'
 pod 'Firebase/Messaging'
-pod 'Kingfisher', '~> 7.0'
+pod 'Kingfisher'
 
 end
 post_install do |installer_representation|

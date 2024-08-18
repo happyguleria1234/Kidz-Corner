@@ -11,6 +11,7 @@ class TeacherAnnouncement: UIViewController {
     var announcementImage: String?
     var announcementType: Int?
     var announcementPDF: String?
+    var comesFrom = String()
     
     @IBOutlet weak var viewPFD: UIStackView!
     @IBOutlet weak var viewOuter: UIView!
@@ -32,11 +33,20 @@ class TeacherAnnouncement: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         checkViewType()
-        self.tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = true
     }
     
     @IBAction func backFunc(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+        if comesFrom == "" {
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            let roleId = UserDefaults.standard.integer(forKey: myRoleId)
+            if roleId == 4 {
+                gotoHome()
+            } else {
+                gotoHomeTeacher()
+            }
+        }
     }
     
     @IBAction func acceptFunc(_ sender: Any) {

@@ -82,7 +82,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - FSCalendar
   - IQKeyboardManagerSwift
-  - Kingfisher (~> 7.0)
+  - Kingfisher
   - ReachabilitySwift
   - SDWebImage (= 5.2.2)
   - Socket.IO-Client-Swift (~> 16.0.1)
@@ -136,6 +136,6 @@ SPEC CHECKSUMS:
   SwipeCellKit: 3972254a826da74609926daf59b08d6c72e619ea
   YPImagePicker: afc81b3cffab05a6e7261c5daf80dc31b4e917b4
 
-PODFILE CHECKSUM: a76296ad7f2e3fbe689efe74254373092987d2e8
+PODFILE CHECKSUM: 0b27330868368afbe247b4c77580190018623d6a
 
 COCOAPODS: 1.15.2

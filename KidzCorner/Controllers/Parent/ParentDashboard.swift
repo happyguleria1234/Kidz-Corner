@@ -30,14 +30,17 @@ class ParentDashboard: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        getDashboard()
-        getChildrenList()
-        getAllChildsAPI()
+        if comesForImages != "Images" {
+            getDashboard()
+            getChildrenList()
+            getAllChildsAPI()
+        }
+        comesForImages = ""
         tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        portfolioData = nil
+//        portfolioData = nil
     }
     
     
@@ -58,23 +61,14 @@ class ParentDashboard: UIViewController {
     }
     
     @IBAction func buttonTap4(sender: UIButton) {
-//        AlertManager.shared.showAlert(title: "Kidz Corner", message: "This feature will be coming soon.", viewController: self)
-//        print("4")
-        
         let storyboard = UIStoryboard(name: "Parent", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
         vc.comesFrom = "4"
         self.navigationController?.pushViewController(vc, animated: true)
-        
     }
     
     @IBAction func buttonTap5(sender: UIButton) {
         print("5")
-        //        AlertManager.shared.showAlert(title: "Kidz Corner", message: "This feature will be coming soon.", viewController: self)
-//        let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
-//        let vc = storyboard.instantiateViewController(withIdentifier: "TeacherPortfolioVC") as! TeacherPortfolioVC
-//        self.navigationController?.pushViewController(vc, animated: true)
-        
         let storyboard = UIStoryboard(name: "Parent", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
         vc.comesFrom = "1"
@@ -150,6 +144,7 @@ class ParentDashboard: UIViewController {
                             collHeight.constant = 0
                         }
                     } else {
+//                        collHeight.constant = 60
                         collHeight.constant = 0
                     }
                     self.collAttendance.reloadData()
@@ -475,15 +470,28 @@ extension ParentDashboard: UICollectionViewDelegate, UICollectionViewDataSource,
     
     // MARK: - UIScrollViewDelegate
     
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        let pageWidth = scrollView.frame.size.width
+//        let currentPage = Int(scrollView.contentOffset.x / pageWidth)
+//        self.getChildDetailsApi(date: Date().shortDate, childId: self.childrenData[currentPage].id ?? 0)
+//    }
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageWidth = scrollView.frame.size.width
         let currentPage = Int(scrollView.contentOffset.x / pageWidth)
-        self.getChildDetailsApi(date: Date().shortDate, childId: self.childrenData[currentPage].id ?? 0)
+        
+        // Detect the scroll direction by comparing the current offset with the previous offset
+        let previousPage = Int((scrollView.contentOffset.x + scrollView.frame.size.width) / pageWidth)
+        
+        // Only call API if scrolling forward (to the right)
+        if currentPage > previousPage {
+            let childId = childrenData[currentPage].id ?? 0
+            self.getChildDetailsApi(date: Date().shortDate, childId: childId)
+        }
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collAttendance.collectionViewLayout.invalidateLayout()
     }
-    
 }

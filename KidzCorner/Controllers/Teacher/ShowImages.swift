@@ -8,12 +8,16 @@ import UIKit
 import SDWebImage
 import Foundation
 
+
+var comesForImages = String()
+
 class ShowImages : UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    @IBOutlet weak var btnDownload: UIButton!
     var strImagesArr = [PortfolioImage]()
     var imagesArr = [UIImage]()
     var selectedIndex = Int()
-    
+    var comesFrom = String()
     @IBOutlet weak var collectionImages: UICollectionView!
     //------------------------------------------------------
     
@@ -51,6 +55,9 @@ class ShowImages : UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     @IBAction func btnBack(_ sender: Any) {
         self.dismiss(animated: true)
+        if comesFrom == "dashboard" {
+            comesForImages = "Images"
+        }
     }
     
     //------------------------------------------------------
@@ -63,6 +70,9 @@ class ShowImages : UIViewController, UICollectionViewDelegate, UICollectionViewD
             layout.scrollDirection = .horizontal
             layout.minimumLineSpacing = 0
             layout.collectionView?.isPagingEnabled = true
+        }
+        if comesFrom == "dashboard" {
+            btnDownload.isHidden = true
         }
         collectionImages.reloadData()
     }

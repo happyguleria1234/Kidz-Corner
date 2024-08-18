@@ -7,189 +7,193 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "776BCCBF-FAC0-421C-BAFF-DC4EA4CC1F3C"
+            uuid = "E941FA44-4C90-48D0-8CD7-9ED8EFA35D6D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "KidzCorner/Controllers/Teacher/ConfimPost.swift"
+            filePath = "KidzCorner/NotificationRedirection.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "555"
-            endingLineNumber = "555"
-            landmarkName = "addPortfolioApi(albumId:domainId:classIds:)"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "gotoRattings(userIDss:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F9679D69-03D8-4ED6-8EB1-CD2F84528F73"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "KidzCorner/NotificationRedirection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "gotoRattings(userIDss:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "49FE47B4-6413-4A0A-8BAF-0ECDA0A2B7F1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "KidzCorner/NotificationRedirection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "gotoRattings(userIDss:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DBD3C557-46BE-457F-A937-5957663EA387"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "KidzCorner/Controllers/Parent/DemoVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "hitEvaluationList(userId:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F06600CC-A98C-4120-806C-79185D97C967"
+            uuid = "B05B5D00-C808-453D-8449-4F0EC6DE0BCE"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "KidzCorner/Controllers/Teacher/ConfimPost.swift"
+            filePath = "KidzCorner/Controllers/Parent/DemoVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "309"
-            endingLineNumber = "309"
-            landmarkName = "shareFunc(_:)"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "hitEvaluationList(userId:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "32C111D7-23E1-4D7C-A7A8-CF40F508CBD3"
+            uuid = "0923F1CF-A663-49E1-9C46-28EE5B23222A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "KidzCorner/Controllers/Teacher/ConfimPost.swift"
+            filePath = "KidzCorner/Controllers/Parent/DemoVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "488"
-            endingLineNumber = "488"
-            landmarkName = "addPortfolioApi(albumId:domainId:classIds:)"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "53AC1CE0-927E-4177-8B58-EB7D31681278"
+            uuid = "633BD805-DDBD-4756-9DF1-F4115DF49A48"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "KidzCorner/Controllers/Teacher/ConfimPost.swift"
+            filePath = "KidzCorner/Controllers/Parent/DemoVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "527"
-            endingLineNumber = "527"
-            landmarkName = "addPortfolioApi(albumId:domainId:classIds:)"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "35D68758-BA0B-4BCE-A53B-69069F51E81D"
+            uuid = "CE793738-E1A0-4475-920D-5DA9AF6D5E4B"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "KidzCorner/Controllers/Teacher/ConfimPost.swift"
+            filePath = "KidzCorner/Controllers/Chats/TeacherChatVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "526"
-            endingLineNumber = "526"
-            landmarkName = "addPortfolioApi(albumId:domainId:classIds:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "35D68758-BA0B-4BCE-A53B-69069F51E81D - c0dcbfb6e6fd8988"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "KidzCorner.ConfirmPost.addPortfolioApi(albumId: Swift.Int, domainId: Swift.Int, classIds: Swift.String) -&gt; ()"
-                  moduleName = "KidzCorner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Teacher/ConfimPost.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "526"
-                  endingLineNumber = "526">
-               </Location>
-               <Location
-                  uuid = "35D68758-BA0B-4BCE-A53B-69069F51E81D - f67721cabde04e99"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #4 (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;KidzCorner.BaseModel&gt;, Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Swift.Int&gt;) -&gt; () in KidzCorner.ConfirmPost.addPortfolioApi(albumId: Swift.Int, domainId: Swift.Int, classIds: Swift.String) -&gt; ()"
-                  moduleName = "KidzCorner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Teacher/ConfimPost.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "527"
-                  endingLineNumber = "527">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "61D700B9-9115-4336-A523-76741A47B34C"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "KidzCorner/Controllers/Chats/Socket Manager/SocketIOManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "233"
-            endingLineNumber = "233"
-            landmarkName = "deleteMessageListner(onSuccess:)"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "btn_filter(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D6F23D42-FD45-40BF-AA79-F8F0A25BC49F"
+            uuid = "540E9B6E-E5B7-4724-894C-356D69A2EFAA"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "KidzCorner/Controllers/Chats/Socket Manager/SocketIOManager.swift"
+            filePath = "KidzCorner/Controllers/Parent/ParentAnnouncement.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
-            landmarkName = "deleteMessageListner(onSuccess:)"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "setupAnnouncementStatus()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A81203D5-2A05-4CB8-99F5-A32C8118FBC8"
+            uuid = "B51F37C8-21D2-4F0C-A1AE-AA75789C3AEC"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "KidzCorner/Controllers/Chats/Socket Manager/SocketIOManager.swift"
+            filePath = "KidzCorner/Controllers/Parent/ParentAnnouncement.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
-            landmarkName = "deleteMessage(threadID:messageID:)"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
+            landmarkName = "setupAnnouncementStatus()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "A81203D5-2A05-4CB8-99F5-A32C8118FBC8 - 1aa95f04696fb975"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "KidzCorner.SocketIOManager.deleteMessage(threadID: Swift.Int, messageID: Swift.Int) -&gt; ()"
-                  moduleName = "KidzCorner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Chats/Socket%20Manager/SocketIOManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "226"
-                  endingLineNumber = "226">
-               </Location>
-               <Location
-                  uuid = "A81203D5-2A05-4CB8-99F5-A32C8118FBC8 - 89d475ed49584cc2"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in KidzCorner.SocketIOManager.deleteMessage(threadID: Swift.Int, messageID: Swift.Int) -&gt; ()"
-                  moduleName = "KidzCorner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/Git%20Codes/KidzCorner/Kidz-Corner/KidzCorner/Controllers/Chats/Socket%20Manager/SocketIOManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "227"
-                  endingLineNumber = "227">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DBDA9A38-29C9-48FE-83C7-9BBF0D4C8116"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "KidzCorner/Controllers/Parent/ActivityVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "getDashboard(page:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1AA8C0BC-C50A-446C-AC78-CDFC2BC83AC6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "KidzCorner/Controllers/Parent/ActivityVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
+            landmarkName = "getChildrenList()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

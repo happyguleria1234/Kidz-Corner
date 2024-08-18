@@ -1,6 +1,6 @@
 import UIKit
 
-class TeacherChatVC: UIViewController, OpenChatVCProtocol {
+class TeacherChatVC: UIViewController, OpenChatVCProtocol, classSelected {
     
     //------------------------------------------------------
     
@@ -12,7 +12,10 @@ class TeacherChatVC: UIViewController, OpenChatVCProtocol {
     var isComming = String()
     var userList: MessageList?
     var socket = SocketIOManager()
+    var classesData: AllClassesModel?
+    var classId: Int?
     var isNavigatedToMessageListingVC = false
+    
     @IBOutlet weak var tf_search: UITextField!
     @IBOutlet weak var tblChats: UITableView!
     
@@ -52,6 +55,19 @@ class TeacherChatVC: UIViewController, OpenChatVCProtocol {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    @IBAction func btn_filter(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "SelectClass") as! SelectClass
+        
+        vc.classes = self.classesData
+        vc.delegate = self
+        
+        vc.modalPresentationStyle = .overFullScreen
+        self.navigationController?.present(vc, animated: false, completion: {
+            
+        })
+    }
+    
     @IBAction func btnBack(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
@@ -62,6 +78,7 @@ class TeacherChatVC: UIViewController, OpenChatVCProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getClasses()
         tblChats.reloadData()
         tblChats.backgroundColor = .clear
         SocketIOManager.sharedInstance.userStatus()
@@ -72,7 +89,6 @@ class TeacherChatVC: UIViewController, OpenChatVCProtocol {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getChatRoomData()
     }
     
     //------------------------------------------------------
@@ -157,46 +173,27 @@ extension TeacherChatVC {
     func openChat(_ studentID:Int,_ userProfileImage:String?,_ userName:String?,_ threadID:Int = 0) {
         
         SocketIOManager.sharedInstance.joinRoomEmitter(userID: studentID)
-               SocketIOManager.sharedInstance.joinRoomListner { [weak self] messageInfo in
-                   guard let self = self else { return }
-                   print(messageInfo)
-                   DispatchQueue.main.async {
-                       if !self.isNavigatedToMessageListingVC {
-                           self.isNavigatedToMessageListingVC = true
-                           let sb = UIStoryboard(name: "Parent", bundle: nil)
-                           let vc = sb.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
-                           id = Int(messageInfo.data?.student?.id ?? "") ?? 0
-                           threadIDD = Int(messageInfo.data?.thread?.id ?? "") ?? 0
-                           userNamee = messageInfo.data?.student?.name
-                           userProfileImagee = messageInfo.data?.student?.name
-                           vc.comesFrom = "New Chat"
-                           vc.hidesBottomBarWhenPushed = true
-                           self.navigationController?.pushViewController(vc, animated: true)
-
-                           // Remove or deactivate the listener here if needed
-                           // e.g., SocketIOManager.sharedInstance.removeListener("joinRoomListner")
-                       }
-                   }
-               }
-        
-        
-//        SocketIOManager.sharedInstance.joinRoomEmitter(userID: studentID)
-//        SocketIOManager.sharedInstance.joinRoomListner { messageInfo in
-//            print(messageInfo)
-//            DispatchQueue.main.async {
-//                let sb = UIStoryboard(name: "Parent", bundle: nil)
-//                let vc = sb.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
-//                vc.id = Int(messageInfo.data?.student?.id ?? "")
-//                vc.threadID = Int(messageInfo.data?.thread?.id ?? "")
-//                vc.userName = messageInfo.data?.student?.name
-//                vc.userProfileImage = messageInfo.data?.student?.name
-//                vc.comesFrom = "New Chat"
-//                vc.hidesBottomBarWhenPushed = true
-//                self.navigationController?.pushViewController(vc, animated: true)
-//            }
-//        }
+        SocketIOManager.sharedInstance.joinRoomListner { [weak self] messageInfo in
+            guard let self = self else { return }
+            print(messageInfo)
+            DispatchQueue.main.async {
+                if !self.isNavigatedToMessageListingVC {
+                    self.isNavigatedToMessageListingVC = true
+                    let sb = UIStoryboard(name: "Parent", bundle: nil)
+                    let vc = sb.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
+                    id = Int(messageInfo.data?.student?.id ?? "") ?? 0
+                    threadIDD = Int(messageInfo.data?.thread?.id ?? "") ?? 0
+                    userNamee = messageInfo.data?.student?.name
+                    userProfileImagee = messageInfo.data?.student?.name
+                    vc.comesFrom = "New Chat"
+                    vc.hidesBottomBarWhenPushed = true
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+        }
     }
 }
+
 extension TeacherChatVC {
     
     private func handleChatUserSearch(_ searchedText: String?) {
@@ -229,12 +226,12 @@ extension TeacherChatVC {
         }
     }
     
-    func getChatRoomData() {
+    func getChatRoomData(classID:Int = 0) {
         showIndicator()
         ApiManager.shared.Request(type: ChatInboxModel.self,
                                   methodType: .Get,
                                   url: baseUrl+chatRoom,
-                                  parameter: [:]) { error, resp, msgString, statusCode in
+                                  parameter: ["classId":classID]) { error, resp, msgString, statusCode in
             
             guard error == nil,
                   let userlist = resp?.data?.data,
@@ -249,6 +246,34 @@ extension TeacherChatVC {
                 self.tblChats.reloadData()
                 print("CharRoomResp: \(userlist)")
             }
+        }
+    }
+    
+    func getClasses() {
+        DispatchQueue.main.async {
+            startAnimating(self.view)
+        }
+        let params = [String: String]()
+        ApiManager.shared.Request(type: AllClassesModel.self, methodType: .Get, url: baseUrl+apiGetAllClasses, parameter: params) { [self] error, myObject, msgString, statusCode in
+            if statusCode == 200 {
+                self.classesData = myObject
+                UserDefaults.standard.setValue(myObject?.data?[0].id, forKey: myClass)
+                self.classId = myObject?.data?[0].id
+                getChatRoomData(classID: self.classId ?? 0)
+            }
+            else {
+               printt("Error fetching classes")
+            }
+        }
+    }
+    
+}
+
+
+extension TeacherChatVC {
+    func selectedClass(classId: Int, className: String) {
+        DispatchQueue.main.async { [self] in
+            getChatRoomData(classID: classId)
         }
     }
 }

@@ -16,10 +16,12 @@ struct Category {
 class DemoVC: UIViewController, SelectEvulation {
     
     var userID = Int()
+    var comesFrom = Int()
     @IBOutlet weak var tblView: UITableView!
     @IBOutlet weak var btnDrop: UIButton!
-    // Convert demoArr to an array of Category structs
+    
     var categories: [Category] = []
+    
     var demoArr: [String: [String]] = [
         "Arts": ["Drama", "Painting", "Drawing", "Dance"],
         "Arts 2": ["Drama", "Painting 2", "Drawing 2", "Dance 2"],
@@ -43,7 +45,14 @@ class DemoVC: UIViewController, SelectEvulation {
         dropDowns.forEach { $0.dismissMode = .onTap }
         dropDowns.forEach { $0.direction = .any }
         self.tabBarController?.tabBar.isHidden = true
-        hitEvaluationList(userId: userID)
+        if userID != 0 {
+            hitEvaluationList(userId: userID)
+        }
+        apiCall = { [self] in
+            if userID != 0 {
+                hitEvaluationList(userId: userID)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,7 +64,16 @@ class DemoVC: UIViewController, SelectEvulation {
     }
     
     @IBAction func btnBack(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+        if comesFrom != 1 {
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            let roleId = UserDefaults.standard.integer(forKey: myRoleId)
+            if roleId == 4 {
+                gotoHome()
+            } else {
+                gotoHomeTeacher()
+            }
+        }
     }
     
     @IBAction func filterBtn(_ sender: UIButton) {

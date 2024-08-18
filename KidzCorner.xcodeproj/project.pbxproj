@@ -62,6 +62,7 @@
 		18A79C622C25DF7C00F08D92 /* PortfolioNewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A79C612C25DF7C00F08D92 /* PortfolioNewVC.swift */; };
 		18B1207D2C345D4E00ED2BA0 /* ActivityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B1207C2C345D4E00ED2BA0 /* ActivityVC.swift */; };
 		18B1207F2C3581BB00ED2BA0 /* EmojiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B1207E2C3581BB00ED2BA0 /* EmojiManager.swift */; };
+		18B2A0672C67C3DE004383BC /* SelectClassesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B2A0662C67C3DE004383BC /* SelectClassesVC.swift */; };
 		18BC90312BF3C92C00F14A43 /* CustomeVieww.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BC90302BF3C92C00F14A43 /* CustomeVieww.swift */; };
 		18BC90352BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18BC90342BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib */; };
 		18BC90362BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BC90332BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift */; };
@@ -274,6 +275,7 @@
 		18A79C612C25DF7C00F08D92 /* PortfolioNewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioNewVC.swift; sourceTree = "<group>"; };
 		18B1207C2C345D4E00ED2BA0 /* ActivityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityVC.swift; sourceTree = "<group>"; };
 		18B1207E2C3581BB00ED2BA0 /* EmojiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiManager.swift; sourceTree = "<group>"; };
+		18B2A0662C67C3DE004383BC /* SelectClassesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectClassesVC.swift; sourceTree = "<group>"; };
 		18BC90302BF3C92C00F14A43 /* CustomeVieww.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomeVieww.swift; sourceTree = "<group>"; };
 		18BC90332BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceHeadCollectionCell.swift; sourceTree = "<group>"; };
 		18BC90342BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InvoiceHeadCollectionCell.xib; sourceTree = "<group>"; };
@@ -763,6 +765,7 @@
 				1850EF382C4D101700BE9D42 /* DemoTVC.swift */,
 				1850EF392C4D101700BE9D42 /* DemoVC.swift */,
 				1850EF832C4DFFAE00BE9D42 /* SelectEvalutions.swift */,
+				18B2A0662C67C3DE004383BC /* SelectClassesVC.swift */,
 			);
 			path = Parent;
 			sourceTree = "<group>";
@@ -1195,6 +1198,7 @@
 				1850EF3C2C4D101700BE9D42 /* DemoVC.swift in Sources */,
 				B72E68AB2ADDB9D3003433F2 /* ChildrenModel.swift in Sources */,
 				1850EF3B2C4D101700BE9D42 /* DemoTVC.swift in Sources */,
+				18B2A0672C67C3DE004383BC /* SelectClassesVC.swift in Sources */,
 				533FB3BD27D4A43100FFB0B1 /* ClassesCell.swift in Sources */,
 				18209CA42C13950500D59EAB /* MessageListingVC.swift in Sources */,
 				53C196D127B17F9200EF16A3 /* DashboardTableCell.swift in Sources */,
@@ -1420,7 +1424,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.9;
+				MARKETING_VERSION = 7.15;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1472,7 +1476,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.9;
+				MARKETING_VERSION = 7.15;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";

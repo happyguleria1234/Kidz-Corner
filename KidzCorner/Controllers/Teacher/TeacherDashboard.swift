@@ -20,7 +20,9 @@ class TeacherDashboard: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        getDashboard()
+        if comesForImages != "Images" {
+            getDashboard()
+        }
     }
    
     @IBAction func logoutFunc(_ sender: Any) {

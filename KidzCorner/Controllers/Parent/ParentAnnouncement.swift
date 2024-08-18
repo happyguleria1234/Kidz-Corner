@@ -34,7 +34,7 @@ class ParentAnnouncement: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -141,7 +141,7 @@ class ParentAnnouncement: UIViewController {
             }
         }
         if anouncementData?.attachment == nil{
-            viewPFD.isHidden = true
+            viewPFD.isHidden = false
         } else {
             viewPFD.isHidden = false
         }
@@ -168,13 +168,56 @@ class ParentAnnouncement: UIViewController {
     }
 }
 
+//extension String {
+//    func htmlAttributedString() -> NSAttributedString? {
+//        guard let data = self.data(using: String.Encoding.utf16, allowLossyConversion: false) else { return nil }
+//        guard let html = try? NSMutableAttributedString(
+//            data: data,
+//            options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html],
+//            documentAttributes: nil) else { return nil }
+//        return html
+//    }
+//}
+
 extension String {
-    func htmlAttributedString() -> NSAttributedString? {
+    func htmlAttributedString(fontSize: CGFloat = 15, headingFontSize: CGFloat = 19) -> NSAttributedString? {
         guard let data = self.data(using: String.Encoding.utf16, allowLossyConversion: false) else { return nil }
-        guard let html = try? NSMutableAttributedString(
-            data: data,
-            options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html],
-            documentAttributes: nil) else { return nil }
-        return html
+
+        do {
+            let attributedString = try NSMutableAttributedString(
+                data: data,
+                options: [
+                    .documentType: NSAttributedString.DocumentType.html,
+                    .characterEncoding: String.Encoding.utf16.rawValue
+                ],
+                documentAttributes: nil
+            )
+
+            attributedString.enumerateAttribute(.font, in: NSRange(location: 0, length: attributedString.length)) { value, range, _ in
+                if let font = value as? UIFont {
+                    var resizedFont: UIFont
+
+                    // Check if range is within a specific HTML tag
+                    let paragraphRange = (self as NSString).range(of: "<p>")
+                    let headingRange = (self as NSString).range(of: "<h")
+
+                    // Adjust font size based on HTML tag
+                    if range.location >= paragraphRange.location && range.location < paragraphRange.location + paragraphRange.length {
+                        resizedFont = UIFont(name: "Poppins-Regular", size: fontSize) ?? font.withSize(fontSize)
+                    } else if range.location >= headingRange.location && range.location < headingRange.location + headingRange.length {
+                        resizedFont = UIFont(name: "Poppins-Bold", size: headingFontSize) ?? font.withSize(headingFontSize)
+                    } else {
+                        resizedFont = UIFont(name: "Poppins-Regular", size: fontSize) ?? font.withSize(fontSize)
+                    }
+
+                    attributedString.addAttribute(.font, value: resizedFont, range: range)
+                }
+            }
+
+            return attributedString
+        } catch {
+            return nil
+        }
     }
 }
+

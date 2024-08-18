@@ -192,9 +192,10 @@ class ChatsCell: UITableViewCell {
         lbl_name.text = data.student?.name
         lbl_count.isHidden = true
         imgProfile.contentMode = .scaleAspectFill
-        guard let userProfileUrl = data.student?.image else { return  }
-            imgProfile.sd_setImage(with: URL(string: imageBaseUrl+(userProfileUrl)),
-                                   placeholderImage: .announcementPlaceholder)
+        if let userProfileUrlString = data.student?.image,
+           let userProfileUrl = URL(string: imageBaseUrl + userProfileUrlString) {
+            imgProfile.kf.setImage(with: userProfileUrl)
+        }
         if data.unreadMessage == 0 {
             lbl_count.isHidden = true
         } else {

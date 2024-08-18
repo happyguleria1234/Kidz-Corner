@@ -4,7 +4,7 @@ class ParentAnnouncements: UIViewController {
     
     var announcementsData: AnnouncementChildrenModel?
     var childrenData: [ChildData]?
-    
+    var comesFrom = String()
     @IBOutlet weak var buttonBack: UIButton!
     @IBOutlet weak var tableAnnouncements: UITableView!
     
@@ -29,7 +29,16 @@ class ParentAnnouncements: UIViewController {
     }
     
     @IBAction func backFunc(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+        if comesFrom == "" {
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            let roleId = UserDefaults.standard.integer(forKey: myRoleId)
+            if roleId == 4 {
+                gotoHome()
+            } else {
+                gotoHomeTeacher()
+            }
+        }
     }
     
     func setupViews() {
@@ -41,11 +50,13 @@ class ParentAnnouncements: UIViewController {
         tableAnnouncements.delegate = self
         tableAnnouncements.dataSource = self
         tableAnnouncements.backgroundColor = .clear
-        tabBarController?.tabBar.isHidden = false
+//        tabBarController?.tabBar.isHidden = false
     }
     
     func getAnnouncements() {
-        startAnimating((self.tabBarController?.view)!)
+        if comesFrom == "" {
+            startAnimating((self.tabBarController?.view)!)
+        }
         let params = [String: String]()
         ApiManager.shared.Request(type: AnnouncementChildrenModel.self, methodType: .Get, url: baseUrl+apiParentAnnouncement, parameter: params) { error, myObject, msgString, statusCode in
             if statusCode == 200 {

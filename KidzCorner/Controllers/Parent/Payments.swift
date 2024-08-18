@@ -4,7 +4,7 @@ import UIKit
 class Payments: UIViewController {
     
     var currentIndexPath: IndexPath?
-    
+    var comesFrom = String()
 //    @IBOutlet weak var tf_search: UITextField!
     @IBOutlet weak var tablePayments: UITableView!
     @IBOutlet weak var amountCollectionView: UICollectionView!
@@ -23,7 +23,11 @@ class Payments: UIViewController {
     }
     
     @IBAction func btnBack(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+        if comesFrom == "" {
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            gotoHome()
+        }
     }
     
     func setupCollectionView() {
@@ -82,7 +86,9 @@ class Payments: UIViewController {
     
     func getPayments(userId: Int = 0) {
         DispatchQueue.main.async {
-            startAnimating((self.tabBarController?.view)!)
+            if self.comesFrom == "" {
+                startAnimating((self.tabBarController?.view)!)
+            }
         }
         total = 0
         let parameters = ["userId": userId]
@@ -123,7 +129,8 @@ extension Payments: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "InvoiceCell", for: indexPath) as! InvoiceCell
         let data = self.paymentsData?.data?[indexPath.row]
         cell.labelName.text = data?.student?.name ?? ""
-        cell.labelDate.text = data?.invoiceEndDate ?? ""
+//        cell.labelDate.text = data?.invoiceEndDate ?? ""
+        cell.labelDate.text =  convertDateFormat(dateString: data?.invoiceEndDate ?? "")
         cell.labelAmount.text = "$\(data?.amount ?? "")"
         if data?.status == "1" {
             cell.labelColors(UIColor(named: "statsColor")!)
@@ -236,4 +243,25 @@ extension Payments: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         super.viewDidLayoutSubviews()
         amountCollectionView.collectionViewLayout.invalidateLayout()
     }
+}
+
+func convertDateFormat(dateString: String) -> String? {
+    // Define the input and output date formats
+    let inputDateFormat = "dd-MM-yyyy"
+    let outputDateFormat = "dd MMMM yyyy"
+    
+    // Create DateFormatter instances
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = inputDateFormat
+    
+    // Convert the input string to a Date object
+    guard let date = dateFormatter.date(from: dateString) else {
+        return nil
+    }
+    
+    // Set the output format
+    dateFormatter.dateFormat = outputDateFormat
+    
+    // Convert the Date object back to a string in the desired format
+    return dateFormatter.string(from: date)
 }
