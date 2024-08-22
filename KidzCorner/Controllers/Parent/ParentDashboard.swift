@@ -40,7 +40,6 @@ class ParentDashboard: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-//        portfolioData = nil
     }
     
     
@@ -57,6 +56,7 @@ class ParentDashboard: UIViewController {
     
     @IBAction func buttonTap3(sender: UIButton) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "Payments") as! Payments
+        comesForImages = "Images"
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -64,6 +64,7 @@ class ParentDashboard: UIViewController {
         let storyboard = UIStoryboard(name: "Parent", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
         vc.comesFrom = "4"
+        comesForImages = "Images"
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -72,11 +73,13 @@ class ParentDashboard: UIViewController {
         let storyboard = UIStoryboard(name: "Parent", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
         vc.comesFrom = "1"
+        comesForImages = "Images"
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func buttonTap6(sender: UIButton) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncements") as! ParentAnnouncements
+        comesForImages = "Images"
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -247,11 +250,6 @@ extension ParentDashboard: UITableViewDelegate, UITableViewDataSource {
         cell.labelTime.text = data?.postDate ?? ""
         
         cell.labelDomain.text = data?.domain?.name ?? ""
-//        if data?.is_collage == 0 {
-//            cell.collectionHeight.constant = 350
-//        } else {
-//            cell.collectionHeight.constant = 280
-//        }
         cell.buttonLike.setImage(UIImage(named: "likeEmpty"), for: .normal)
         cell.buttonLike.setImage(UIImage(named: "likeFilled"), for: .selected)
         

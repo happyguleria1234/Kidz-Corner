@@ -8,6 +8,11 @@ extension UIView {
         self.giveShadowAndRoundCorners(shadowOffset: CGSize.zero, shadowRadius: 3, opacity: 0.2, shadowColor: .black, cornerRadius: 20)
     }
     
+    func defaultShadow2() {
+//        self.giveShadowAndRoundCorners(shadowOffset: CGSize.zero, shadowRadius: 10, opacity: 0.2, shadowColor: .black, cornerRadius: 20)
+        self.giveShadowAndRoundCorners(shadowOffset: CGSize.zero, shadowRadius: 5, opacity: 0.1, shadowColor: .black, cornerRadius: 5)
+    }
+    
     func shadowWithRadius(radius: CGFloat) {
         self.giveShadowAndRoundCorners(shadowOffset: CGSize.zero, shadowRadius: 5, opacity: 0.1, shadowColor: .black, cornerRadius: radius)
     }

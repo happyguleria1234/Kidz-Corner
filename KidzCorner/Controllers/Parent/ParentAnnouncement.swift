@@ -193,7 +193,13 @@ extension String {
                 documentAttributes: nil
             )
 
-            attributedString.enumerateAttribute(.font, in: NSRange(location: 0, length: attributedString.length)) { value, range, _ in
+            let fullRange = NSRange(location: 0, length: attributedString.length)
+            
+            // Set the text color to rgba(113, 117, 118, 1)
+            let customColor = UIColor(red: 113/255, green: 117/255, blue: 118/255, alpha: 1)
+            attributedString.addAttribute(.foregroundColor, value: customColor, range: fullRange)
+
+            attributedString.enumerateAttribute(.font, in: fullRange) { value, range, _ in
                 if let font = value as? UIFont {
                     var resizedFont: UIFont
 
@@ -221,3 +227,27 @@ extension String {
     }
 }
 
+
+
+extension UILabel {
+    func adjustHeight(maxLines: Int = 4) {
+        guard let text = self.text else { return }
+
+        // Calculate the maximum height for the given number of lines
+        let maxSize = CGSize(width: self.frame.width, height: CGFloat.greatestFiniteMagnitude)
+        let textAttributes: [NSAttributedString.Key: Any] = [
+            .font: self.font as Any
+        ]
+        let textRect = text.boundingRect(with: maxSize, options: .usesLineFragmentOrigin, attributes: textAttributes, context: nil)
+        
+        // Calculate the height of one line
+        let oneLineHeight = "Test".boundingRect(with: maxSize, options: .usesLineFragmentOrigin, attributes: textAttributes, context: nil).height
+        
+        // Calculate the number of lines the text will take
+        let numberOfLines = Int(ceil(textRect.height / oneLineHeight))
+        
+        // Set the label's height based on the number of lines, considering the max lines
+        let labelHeight = min(CGFloat(numberOfLines) * oneLineHeight, CGFloat(maxLines) * oneLineHeight)
+        self.frame.size.height = labelHeight
+    }
+}

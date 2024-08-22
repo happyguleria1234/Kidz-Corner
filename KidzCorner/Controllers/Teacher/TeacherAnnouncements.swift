@@ -3,17 +3,19 @@ import SDWebImage
 
 class TeacherAnnouncements: UIViewController {
     
+    var comesFrom = String()
     var announcementsData: AnnouncementModel?
     
     @IBOutlet weak var labelNoAnnouncements: UILabel!
     @IBOutlet weak var buttonBack: UIButton!
     @IBOutlet weak var buttonAdd: UIButton!
     @IBOutlet weak var tableAnnouncements: UITableView!
-    var comesFrom = String()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTable()
         setupViews()
+        getAnnouncements()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -22,8 +24,8 @@ class TeacherAnnouncements: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        getAnnouncements()
     }
+    
     @IBAction func backFunc(_ sender: Any) {
         if comesFrom == "" {
             self.navigationController?.popViewController(animated: true)
@@ -41,13 +43,13 @@ class TeacherAnnouncements: UIViewController {
         let vc = UIStoryboard.init(name: "Parent", bundle: Bundle.main).instantiateViewController(withIdentifier: "ChatsVC") as? ChatsVC
         vc?.isComming = "Teachers"
         self.navigationController?.pushViewController(vc!, animated: true)
-
     }
+    
     func setupViews() {
-        
     }
+    
     func setupTable() {
-        tableAnnouncements.register(UINib(nibName: "AnnouncementCell", bundle: nil), forCellReuseIdentifier: "AnnouncementCell")
+        tableAnnouncements.register(UINib(nibName: "ParentAnnouncementCell", bundle: nil), forCellReuseIdentifier: "ParentAnnouncementCell")
         tableAnnouncements.delegate = self
         tableAnnouncements.dataSource = self
         tableAnnouncements.backgroundColor = .clear
@@ -61,22 +63,15 @@ class TeacherAnnouncements: UIViewController {
         ApiManager.shared.Request(type: AnnouncementModel.self, methodType: .Get, url: baseUrl+apiTeacherAnnouncement, parameter: params) { error, myObject, msgString, statusCode in
             if statusCode == 200 {
                 self.announcementsData = myObject
-               // print(myObject)
                 DispatchQueue.main.async { [self] in
-                    
                     if myObject?.data?.count != 0 {
-                        
                         tableAnnouncements.isHidden = false
                         tableAnnouncements.reloadData()
-//                        labelNoAnnouncements.isHidden = true
-                    }
-                    else {
-//                        labelNoAnnouncements.isHidden = false
+                    } else {
                         tableAnnouncements.isHidden = true
                     }
                 }
-            }
-            else {
+            } else {
                 Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
             }
         }
@@ -88,21 +83,15 @@ extension TeacherAnnouncements: UITableViewDelegate, UITableViewDataSource {
        return self.announcementsData?.data?.count ?? 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AnnouncementCell", for: indexPath) as! AnnouncementCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ParentAnnouncementCell", for: indexPath) as! ParentAnnouncementCell
         let data = self.announcementsData?.data?[indexPath.row]
-        cell.labelTitle.text = data?.title
-        cell.labelDate.text = data?.date ?? ""
-        cell.imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(data?.attachment ?? "")), placeholderImage: .announcementPlaceholder)
-        cell.viewOuter.defaultShadow()
-        
-        print("File \(data?.file)")
-        
+        cell.nameLbl.text = data?.title
+        cell.dateLbl.text = data?.date ?? ""
+        let userProfileUrl = URL(string: imageBaseUrl + (self.announcementsData?.data?[indexPath.row].file ?? ""))
+        cell.imgCell.kf.setImage(with: userProfileUrl,placeholder: UIImage(named: "placeholderImage"))
+        cell.descriptionLbl.attributedText = data?.description?.htmlAttributedString()
         cell.backgroundColor = .clear
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 130
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -18,10 +18,10 @@ class DemoVC: UIViewController, SelectEvulation {
     var userID = Int()
     var comesFrom = Int()
     @IBOutlet weak var tblView: UITableView!
-    @IBOutlet weak var btnDrop: UIButton!
+    @IBOutlet weak var lbltitle: UILabel!
     
     var categories: [Category] = []
-    
+    var selectedTitle = String()
     var demoArr: [String: [String]] = [
         "Arts": ["Drama", "Painting", "Drawing", "Dance"],
         "Arts 2": ["Drama", "Painting 2", "Drawing 2", "Dance 2"],
@@ -52,6 +52,15 @@ class DemoVC: UIViewController, SelectEvulation {
             if userID != 0 {
                 hitEvaluationList(userId: userID)
             }
+        }
+        lbltitle.text = selectedTitle
+
+    }
+    @IBAction func btnRemarks(_ sender: Any) {
+        DispatchQueue.main.async {
+            let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "RemarkPopUPVC") as! RemarkPopUPVC
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
@@ -170,7 +179,7 @@ extension DemoVC: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 100
+        return UITableView.automaticDimension
     }
 }
 

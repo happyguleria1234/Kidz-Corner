@@ -9,7 +9,10 @@ import UIKit
 import SDWebImage
 import Kingfisher
 
-class StudentListVC: UIViewController {
+class StudentListVC: UIViewController, SelectEvulation {
+    func selectedClass(selectEvulationID: Int) {
+    }
+    
 
     @IBOutlet weak var tblList: UITableView!
     var childrenData = [ChildData]()
@@ -65,15 +68,23 @@ extension StudentListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if comesFrom == "4" {
-            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "DemoVC2") as! DemoVC2
-            vc.userID = childrenData[indexPath.row].id ?? 0
-            self.navigationController?.pushViewController(vc, animated: true)
+            DispatchQueue.main.async { [self] in
+                let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "BrandVC") as! BrandVC
+                vc.selectedTitle = "class"
+                vc.comesFrom = comesFrom
+                vc.userID = childrenData[indexPath.row].id ?? 0
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         } else if comesFrom == "2"{
-            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "DemoVC") as! DemoVC
-            vc.userID = childrenData[indexPath.row].id ?? 0
-            self.navigationController?.pushViewController(vc, animated: true)
+            DispatchQueue.main.async { [self] in
+                let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "BrandVC") as! BrandVC
+                vc.selectedTitle = "class"
+                vc.comesFrom = comesFrom
+                vc.userID = childrenData[indexPath.row].id ?? 0
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         } else {
             let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "TeacherPortfolioVC") as! TeacherPortfolioVC

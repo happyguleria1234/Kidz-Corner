@@ -16,6 +16,7 @@ class ParentAnnouncements: UIViewController {
         setupTable()
         setupViews()
         getChildrenList()
+        getAnnouncements()
         tabBarController?.tabBar.isHidden = true
     }
     
@@ -24,8 +25,6 @@ class ParentAnnouncements: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        getAnnouncements()
-        
     }
     
     @IBAction func backFunc(_ sender: Any) {
@@ -46,11 +45,10 @@ class ParentAnnouncements: UIViewController {
     }
     
     func setupTable() {
-        tableAnnouncements.register(UINib(nibName: "AnnouncementCell", bundle: nil), forCellReuseIdentifier: "AnnouncementCell")
+        tableAnnouncements.register(UINib(nibName: "ParentAnnouncementCell", bundle: nil), forCellReuseIdentifier: "ParentAnnouncementCell")
         tableAnnouncements.delegate = self
         tableAnnouncements.dataSource = self
         tableAnnouncements.backgroundColor = .clear
-//        tabBarController?.tabBar.isHidden = false
     }
     
     func getAnnouncements() {
@@ -60,38 +58,27 @@ class ParentAnnouncements: UIViewController {
         let params = [String: String]()
         ApiManager.shared.Request(type: AnnouncementChildrenModel.self, methodType: .Get, url: baseUrl+apiParentAnnouncement, parameter: params) { error, myObject, msgString, statusCode in
             if statusCode == 200 {
-                
-                print(myObject)
-                
                 self.announcementsData = myObject
                 DispatchQueue.main.async { [self] in
                     if myObject?.data?.count != 0 {
                         tableAnnouncements.isHidden = false
                         tableAnnouncements.reloadData()
-//                        labelNoAnnouncements.isHidden = true
-                    }
-                    else {
-//                        labelNoAnnouncements.isHidden = false
+                    } else {
                         tableAnnouncements.isHidden = true
                     }
                 }
-            }
-            else {
+            } else {
                 Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
             }
         }
     }
 
-    func getChildrenList()
-    {
-        
+    func getChildrenList() {
         ApiManager.shared.Request(type: AllChildrenModel.self, methodType: .Get, url: baseUrl+apiParentAllChild, parameter: [:]) { error, myObject, msgString, statusCode in
             DispatchQueue.main.async {
                 if statusCode == 200 {
-                    
                     self.childrenData = myObject?.data
-                }
-                else {
+                } else {
                     Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
                 }
             }
@@ -114,26 +101,30 @@ class ParentAnnouncements: UIViewController {
 }
 
 extension ParentAnnouncements: UITableViewDelegate, UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        return self.announcementsData?.data?.count ?? 0
  
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AnnouncementCell", for: indexPath) as! AnnouncementCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ParentAnnouncementCell", for: indexPath) as! ParentAnnouncementCell
         let data = self.announcementsData?.data?[indexPath.row]
-
-        cell.labelTitle.text = data?.title
-        cell.labelDate.text = data?.date ?? ""
-        cell.imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(data?.attachment ?? "")), placeholderImage: .announcementPlaceholder)
-        cell.viewOuter.defaultShadow()
+        cell.nameLbl.text = data?.title
+        cell.dateLbl.text = data?.date ?? ""
+        let userProfileUrl = URL(string: imageBaseUrl+(data?.attachment ?? ""))
+        cell.imgCell.kf.setImage(with: userProfileUrl,placeholder: UIImage(named: "placeholderImage"))
+//        cell.imgCell.sd_setImage(with: URL(string: imageBaseUrl+(data?.attachment ?? "")), placeholderImage: .announcementPlaceholder)
+        
+//        cell.descriptionLbl.translatesAutoresizingMaskIntoConstraints = false
+//        cell.descriptionLbl.heightAnchor.constraint(equalToConstant: cell.descriptionLbl.frame.height).isActive = true
+//        cell.layoutIfNeeded()
+        if let attributedText = data?.announcmentDescription?.htmlAttributedString() {
+            cell.descriptionLbl.attributedText = attributedText
+            cell.descriptionLbl.adjustHeight(maxLines: 4)
+        }
+        cell.descriptionLbl.attributedText = data?.announcmentDescription?.htmlAttributedString()
         cell.backgroundColor = .clear
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 130
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -163,4 +154,39 @@ extension ParentAnnouncements: UITableViewDelegate, UITableViewDataSource {
         vc.anouncementData = data
         self.navigationController?.pushViewController(vc, animated: true)
     }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return UITableView.automaticDimension
+//    }
+   
+}
+
+
+extension UIView {
+    /// show drop shadow under view
+    /// - Parameter scale: bool variable to enable scaling
+    func dropShadow(scale: Bool = true) {
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor.gray.cgColor
+        layer.shadowOpacity = 0.2
+        layer.shadowOffset = CGSize.zero
+        layer.shadowRadius = 10
+        layer.shouldRasterize = true
+        layer.rasterizationScale = scale ? UIScreen.main.scale : 1
+
+    }
+}
+
+
+func configureLabel(_ label: UILabel) {
+    // Set the maximum number of lines
+    label.numberOfLines = 3 // Set this to your desired maximum number of lines
+
+    // Set the minimum scale factor to scale down the text if needed
+    label.minimumScaleFactor = 0.5 // This scales the text down to 50% of its original size if needed
+
+    // Optionally set adjustsFontSizeToFitWidth to true if you want the text to adjust its font size to fit the width
+    label.adjustsFontSizeToFitWidth = true
+
+    // Optionally set line break mode if needed
+    label.lineBreakMode = .byTruncatingTail // You can choose other modes like .byWordWrapping, .byCharWrapping, etc.
 }

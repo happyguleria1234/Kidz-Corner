@@ -1,4 +1,5 @@
 import UIKit
+import Lightbox
 import SDWebImage
 
 class DashboardTableCell: UITableViewCell {
@@ -9,6 +10,10 @@ class DashboardTableCell: UITableViewCell {
     var comesFrom = String()
     var isCollage = Int()
     var view = UIViewController()
+    
+    var isExpanded: Bool = false
+    var originalText: String = ""
+    var truncatedText: NSAttributedString = NSAttributedString()
     
     @IBOutlet weak var viewOuter: UIView!
     @IBOutlet weak var imageProfile: UIImageView!
@@ -38,6 +43,92 @@ class DashboardTableCell: UITableViewCell {
         setupViews()
         setupCollection()
         setupTextField()
+        setupLabelDescription()
+    }
+    
+    private func setupLabelDescription() {
+        // Add tap gesture to the label
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleLabelDescription))
+        labelDescription.isUserInteractionEnabled = true
+        labelDescription.addGestureRecognizer(tapGesture)
+    }
+    
+    func configureLabelDescription(text: String, maxLines: Int = 4) {
+        originalText = text
+        truncatedText = getTruncatedText(for: text, maxLines: maxLines)
+        labelDescription.attributedText = truncatedText // Use attributedText instead of text
+        labelDescription.numberOfLines = isExpanded ? 0 : maxLines
+    }
+    
+    @objc private func toggleLabelDescription() {
+        isExpanded.toggle()
+        
+        if isExpanded {
+            let fullText = originalText as NSString
+            let showLessText = " Show Less"
+            let showLessAttributedString = NSAttributedString(
+                string: showLessText,
+                attributes: [
+                    .foregroundColor: UIColor.blue,
+                    .font: labelDescription.font
+                ]
+            )
+            let fullAttributedString = NSMutableAttributedString(string: originalText)
+            fullAttributedString.append(showLessAttributedString)
+            labelDescription.attributedText = fullAttributedString
+            labelDescription.numberOfLines = 0
+        } else {
+            labelDescription.attributedText = getTruncatedText(for: originalText, maxLines: 4)
+            labelDescription.numberOfLines = 4
+        }
+        
+        if let tableView = self.superview as? UITableView {
+            tableView.beginUpdates()
+            tableView.endUpdates()
+        }
+    }
+    
+    private func getTruncatedText(for text: String, maxLines: Int) -> NSAttributedString {
+        // Create a UILabel to measure text
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.font = labelDescription.font
+        label.text = text
+        
+        // Calculate the maximum height for the allowed number of lines
+        let maxSize = CGSize(width: labelDescription.frame.width, height: CGFloat.greatestFiniteMagnitude)
+        let fullTextHeight = label.sizeThatFits(maxSize).height
+        
+        let maxLineHeight = label.font.lineHeight * CGFloat(maxLines)
+        
+        // Check if the text exceeds the maximum height for the allowed lines
+        if fullTextHeight > maxLineHeight {
+            var truncatedText = ""
+            var truncatedAttributedString: NSMutableAttributedString
+            
+            // Find where to cut off the text
+            for word in text.split(separator: " ") {
+                truncatedText += "\(word) "
+                label.text = truncatedText + "..."
+                
+                let currentHeight = label.sizeThatFits(maxSize).height
+                if currentHeight > maxLineHeight {
+                    // Append "Show More" at the end
+                    truncatedAttributedString = NSMutableAttributedString(string: truncatedText)
+                    truncatedAttributedString.append(NSAttributedString(
+                        string: "... Show More",
+                        attributes: [
+                            .foregroundColor: UIColor.blue,
+                            .font: labelDescription.font
+                        ]
+                    ))
+                    return truncatedAttributedString
+                }
+            }
+        }
+        
+        // If no truncation is needed, return the full text
+        return NSAttributedString(string: text)
     }
     
     func setupTextField() {
@@ -48,7 +139,7 @@ class DashboardTableCell: UITableViewCell {
         textWriteComment.font = UIFont.systemFont(ofSize: 14)
         textWriteComment.layer.masksToBounds = true
         textWriteComment.layer.borderColor = UIColor.clear.cgColor
-//        pageControl.isHidden = true
+        //        pageControl.isHidden = true
     }
     
     func hideUnreadCommentViews(_ hide: Bool) {
@@ -107,8 +198,8 @@ extension DashboardTableCell: UICollectionViewDelegate, UICollectionViewDataSour
                 cell.imagePost.image = UIImage(named: "pdfIcon")
             case portfolioType.image.rawValue:
                 if let url = URL(string: imageBaseUrl + (cellContent?[indexPath.item].image ?? "")) {
-//                    cell.imagePost.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
-                    loadImage(with: url, into: cell.imagePost, targetSize: CGSize(width: 200, height: 200))
+                    cell.imagePost.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
+                    //                    loadImage(with: url, into: cell.imagePost, targetSize: CGSize(width: 200, height: 200))
                 }
             default: break
             }
@@ -126,13 +217,23 @@ extension DashboardTableCell: UICollectionViewDelegate, UICollectionViewDataSour
                     UIApplication.shared.open(url)
                 }
             case portfolioType.image.rawValue:
-                let storyboard = UIStoryboard(name: "Parent", bundle: nil)
-                let vc = storyboard.instantiateViewController(withIdentifier: "ShowImages") as! ShowImages
-                vc.strImagesArr = cellContent ?? []
-                vc.selectedIndex = indexPath.item
-                vc.comesFrom = "dashboard"
-                vc.modalPresentationStyle = .fullScreen
-                self.view.present(vc, animated: true)
+                var images = [LightboxImage]()
+                cellContent?.forEach({ imgData in
+                    images.append(LightboxImage(imageURL: URL(string: "\(imageBaseUrl)\(imgData.image ?? "")")!))
+                })
+                let controller = LightboxController(images: images)
+                controller.dynamicBackground = true
+                controller.goTo(0)
+                self.view.present(controller, animated: true) {
+                    comesForImages = "Images"
+                }
+//                let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+//                let vc = storyboard.instantiateViewController(withIdentifier: "ShowImages") as! ShowImages
+//                vc.strImagesArr = cellContent ?? []
+//                vc.selectedIndex = indexPath.item
+//                vc.comesFrom = "dashboard"
+//                vc.modalPresentationStyle = .fullScreen
+//                self.view.present(vc, animated: true)
             default: break
             }
         }
@@ -140,7 +241,7 @@ extension DashboardTableCell: UICollectionViewDelegate, UICollectionViewDataSour
 }
 
 class CustomCollectionViewLayout: UICollectionViewLayout {
-
+    
     private var cache = [UICollectionViewLayoutAttributes]()
     private var contentHeight: CGFloat = 0
     private var contentWidth: CGFloat {
@@ -148,29 +249,29 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
         return collectionView.bounds.width
     }
     private let cellPadding: CGFloat = 1
-
+    
     override var collectionViewContentSize: CGSize {
         return CGSize(width: contentWidth, height: contentHeight)
     }
-
+    
     override func prepare() {
         guard let collectionView = collectionView else { return }
         let itemCount = collectionView.numberOfItems(inSection: 0)
         guard itemCount > 0 else { return }
-
+        
         cache.removeAll()
         contentHeight = 0
-
+        
         if itemCount == 3 {
             // Specific layout for 3 items
             let largeCellWidth = contentWidth / 2
             let smallCellWidth = contentWidth / 2
             let smallCellHeight = collectionView.bounds.height / 2
-
+            
             for item in 0..<itemCount {
                 let indexPath = IndexPath(item: item, section: 0)
                 let frame: CGRect
-
+                
                 switch item {
                 case 0:
                     frame = CGRect(x: 0, y: 0, width: largeCellWidth, height: collectionView.bounds.height)
@@ -181,7 +282,7 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
                 default:
                     continue
                 }
-
+                
                 let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 attributes.frame = frame.insetBy(dx: cellPadding, dy: cellPadding)
                 cache.append(attributes)
@@ -191,16 +292,16 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
             // Specific layout for 4 items: 2x2 grid
             let width = contentWidth / 2
             let height = collectionView.bounds.height / 2
-
+            
             for item in 0..<itemCount {
                 let indexPath = IndexPath(item: item, section: 0)
                 let row = item / 2
                 let column = item % 2
-
+                
                 let xOrigin = CGFloat(column) * width
                 let yOrigin = CGFloat(row) * height
                 let frame = CGRect(x: xOrigin, y: yOrigin, width: width, height: height)
-
+                
                 let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 attributes.frame = frame.insetBy(dx: cellPadding, dy: cellPadding)
                 cache.append(attributes)
@@ -211,11 +312,11 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
             let smallCellWidth = contentWidth / 3
             let smallCellHeight = collectionView.bounds.height / 2
             let largeCellWidth = contentWidth / 3
-
+            
             for item in 0..<itemCount {
                 let indexPath = IndexPath(item: item, section: 0)
                 let frame: CGRect
-
+                
                 switch item {
                 case 0:
                     frame = CGRect(x: 0, y: 0, width: smallCellWidth, height: smallCellHeight)
@@ -230,7 +331,7 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
                 default:
                     continue
                 }
-
+                
                 let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 attributes.frame = frame.insetBy(dx: cellPadding, dy: cellPadding)
                 cache.append(attributes)
@@ -240,16 +341,16 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
             // Specific layout for 6 items: 2 rows and 3 items in each row
             let width = contentWidth / 3
             let height = collectionView.bounds.height / 2
-
+            
             for item in 0..<itemCount {
                 let indexPath = IndexPath(item: item, section: 0)
                 let row = item / 3
                 let column = item % 3
-
+                
                 let xOrigin = CGFloat(column) * width
                 let yOrigin = CGFloat(row) * height
                 let frame = CGRect(x: xOrigin, y: yOrigin, width: width, height: height)
-
+                
                 let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 attributes.frame = frame.insetBy(dx: cellPadding, dy: cellPadding)
                 cache.append(attributes)
@@ -259,16 +360,16 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
             // Specific layout for 7-9 items: 3x3 grid
             let width = contentWidth / 3
             let height = collectionView.bounds.height / 3
-
+            
             for item in 0..<itemCount {
                 let indexPath = IndexPath(item: item, section: 0)
                 let row = item / 3
                 let column = item % 3
-
+                
                 let xOrigin = CGFloat(column) * width
                 let yOrigin = CGFloat(row) * height
                 let frame = CGRect(x: xOrigin, y: yOrigin, width: width, height: height)
-
+                
                 let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 attributes.frame = frame.insetBy(dx: cellPadding, dy: cellPadding)
                 cache.append(attributes)
@@ -280,22 +381,22 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
             let quotient = quotientValue(for: itemCount)
             let mode = modeValue(for: itemCount)
             let fullyDivided = isFullyDivided(forMode: mode)
-
+            
             for item in 0..<itemCount {
                 let indexPath = IndexPath(item: item, section: 0)
                 let rowIndex = rowIndexForItem(at: item, itemCount: itemCount)
                 let isRemainingRow = rowIndex.1 == quotient
-
+                
                 let widthDivider: CGFloat = !isRemainingRow ? CGFloat(rowOrColoumnCount) : CGFloat(mode)
                 let heightDivider: CGFloat = fullyDivided ? CGFloat(quotient) : CGFloat(quotient + 1)
-
+                
                 let width = contentWidth / widthDivider
                 let height = collectionView.bounds.height / heightDivider
                 let xOrigin = CGFloat(rowIndex.0) * width
                 let yOrigin = CGFloat(rowIndex.1) * height
-
+                
                 let frame = CGRect(x: xOrigin, y: yOrigin, width: width, height: height)
-
+                
                 let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 attributes.frame = frame.insetBy(dx: cellPadding, dy: cellPadding)
                 cache.append(attributes)
@@ -303,35 +404,32 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
             }
         }
     }
-
+    
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         return cache.filter { $0.frame.intersects(rect) }
     }
-
+    
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return cache[indexPath.item]
     }
-
+    
     private func rowIndexForItem(at index: Int, itemCount: Int) -> (Int, Int) {
         let rowOrColoumnCount = 3
         return (index % rowOrColoumnCount, index / rowOrColoumnCount)
     }
-
+    
     private func modeValue(for itemCount: Int) -> Int {
         return itemCount % 3
     }
-
+    
     private func isFullyDivided(forMode: Int) -> Bool {
         return forMode == 0
     }
-
+    
     private func quotientValue(for itemCount: Int) -> Int {
         return itemCount / 3
     }
 }
-
-
-
 
 enum portfolioType: String {
     case image = "1"
@@ -343,7 +441,7 @@ enum portfolioType: String {
 func loadImage(with url: URL?, into imageView: UIImageView, targetSize: CGSize) {
     // Create the resizing transformer
     let transformer = SDImageResizingTransformer(size: targetSize, scaleMode: .aspectFill)
-
+    
     // Load the image with SDWebImage, applying the transformer
     imageView.sd_setImage(with: url,
                           placeholderImage: .placeholderImage,

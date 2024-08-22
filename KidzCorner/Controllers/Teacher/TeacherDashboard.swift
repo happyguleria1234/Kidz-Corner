@@ -14,9 +14,18 @@ class TeacherDashboard: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupTable()
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTable), name: NSNotification.Name("ToggleDescriptionNotification"), object: nil)
+
 //        getDashboard()
      
     }
+    
+    @objc private func reloadTable(notification: NSNotification) {
+          if let cell = notification.object as? DashboardTableCell,
+             let indexPath = tableHome.indexPath(for: cell) {
+              tableHome.reloadRows(at: [indexPath], with: .automatic)
+          }
+      }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -138,7 +147,8 @@ extension TeacherDashboard: UITableViewDelegate, UITableViewDataSource {
         cell.postData = data
         cell.labelName.text = data?.teacher?.name ?? ""
         cell.labelTitle.text = data?.title ?? ""
-        cell.labelDescription.text = data?.postContent ?? ""
+//        cell.labelDescription.text = data?.postContent ?? ""
+        cell.configureLabelDescription(text: data?.postContent ?? "")
         cell.labelTime.text = data?.postDate ?? ""
         cell.labelDomain.text = data?.domain?.name ?? ""
         cell.buttonLike.setImage(UIImage(named: "likeEmpty"), for: .normal)

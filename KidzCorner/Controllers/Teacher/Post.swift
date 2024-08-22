@@ -60,7 +60,7 @@ class Post: UIViewController, afterAdding {
         config.hidesBottomBar = false
         config.targetImageSize = YPImageSize.cappedTo(size: 512)
         if selectType == 1 {
-            config.library.minNumberOfItems = 2
+            config.library.minNumberOfItems = 1
         } else {
             config.library.minNumberOfItems = 1
         }

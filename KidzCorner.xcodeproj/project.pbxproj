@@ -23,6 +23,14 @@
 		1850EF8C2C56532500BE9D42 /* DemoVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1850EF8B2C56532500BE9D42 /* DemoVC2.swift */; };
 		187EBC972C31527A0097A03D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 187EBC962C31527A0097A03D /* GoogleService-Info.plist */; };
 		187EBC992C32F1230097A03D /* CreateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187EBC982C32F1230097A03D /* CreateResponse.swift */; };
+		188434912C7392D9000D3805 /* ParentAnnouncementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1884348F2C7392D9000D3805 /* ParentAnnouncementCell.swift */; };
+		188434922C7392D9000D3805 /* ParentAnnouncementCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188434902C7392D9000D3805 /* ParentAnnouncementCell.xib */; };
+		188434962C73B410000D3805 /* RemarkPopUPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188434942C73B410000D3805 /* RemarkPopUPVC.swift */; };
+		188434972C73B410000D3805 /* RemarkPopUPVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188434952C73B410000D3805 /* RemarkPopUPVC.xib */; };
+		1884349A2C73B5D3000D3805 /* RemarkPopUPCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188434982C73B5D3000D3805 /* RemarkPopUPCell.swift */; };
+		1884349B2C73B5D3000D3805 /* RemarkPopUPCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188434992C73B5D3000D3805 /* RemarkPopUPCell.xib */; };
+		1884349F2C74F193000D3805 /* MedicationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1884349D2C74F193000D3805 /* MedicationVC.swift */; };
+		188434A02C74F193000D3805 /* MedicationVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1884349E2C74F193000D3805 /* MedicationVC.xib */; };
 		188BBBEB2C29E76D0059FDCD /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188BBBEA2C29E76D0059FDCD /* MessageModel.swift */; };
 		188BBBED2C2BBBE00059FDCD /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188BBBEC2C2BBBE00059FDCD /* ImagePicker.swift */; };
 		188BBBF12C2BBC810059FDCD /* SenderImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188BBBEF2C2BBC810059FDCD /* SenderImageCell.swift */; };
@@ -60,9 +68,13 @@
 		18A79C5F2C25D91B00F08D92 /* PortfolioNewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A79C5D2C25D91B00F08D92 /* PortfolioNewCell.swift */; };
 		18A79C602C25D91B00F08D92 /* PortfolioNewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A79C5E2C25D91B00F08D92 /* PortfolioNewCell.xib */; };
 		18A79C622C25DF7C00F08D92 /* PortfolioNewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A79C612C25DF7C00F08D92 /* PortfolioNewVC.swift */; };
+		18AC575E2C750A0700093C05 /* MedicationListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AC575C2C750A0700093C05 /* MedicationListViewCell.swift */; };
+		18AC575F2C750A0700093C05 /* MedicationListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18AC575D2C750A0700093C05 /* MedicationListViewCell.xib */; };
 		18B1207D2C345D4E00ED2BA0 /* ActivityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B1207C2C345D4E00ED2BA0 /* ActivityVC.swift */; };
 		18B1207F2C3581BB00ED2BA0 /* EmojiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B1207E2C3581BB00ED2BA0 /* EmojiManager.swift */; };
 		18B2A0672C67C3DE004383BC /* SelectClassesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B2A0662C67C3DE004383BC /* SelectClassesVC.swift */; };
+		18B2A06A2C722CFF004383BC /* AnnouncementCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B2A0682C722CFE004383BC /* AnnouncementCell2.swift */; };
+		18B2A06B2C722CFF004383BC /* AnnouncementCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18B2A0692C722CFE004383BC /* AnnouncementCell2.xib */; };
 		18BC90312BF3C92C00F14A43 /* CustomeVieww.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BC90302BF3C92C00F14A43 /* CustomeVieww.swift */; };
 		18BC90352BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18BC90342BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib */; };
 		18BC90362BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BC90332BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift */; };
@@ -236,6 +248,14 @@
 		1850EF8B2C56532500BE9D42 /* DemoVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoVC2.swift; sourceTree = "<group>"; };
 		187EBC962C31527A0097A03D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		187EBC982C32F1230097A03D /* CreateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateResponse.swift; sourceTree = "<group>"; };
+		1884348F2C7392D9000D3805 /* ParentAnnouncementCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentAnnouncementCell.swift; sourceTree = "<group>"; };
+		188434902C7392D9000D3805 /* ParentAnnouncementCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ParentAnnouncementCell.xib; sourceTree = "<group>"; };
+		188434942C73B410000D3805 /* RemarkPopUPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemarkPopUPVC.swift; sourceTree = "<group>"; };
+		188434952C73B410000D3805 /* RemarkPopUPVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RemarkPopUPVC.xib; sourceTree = "<group>"; };
+		188434982C73B5D3000D3805 /* RemarkPopUPCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemarkPopUPCell.swift; sourceTree = "<group>"; };
+		188434992C73B5D3000D3805 /* RemarkPopUPCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RemarkPopUPCell.xib; sourceTree = "<group>"; };
+		1884349D2C74F193000D3805 /* MedicationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicationVC.swift; sourceTree = "<group>"; };
+		1884349E2C74F193000D3805 /* MedicationVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MedicationVC.xib; sourceTree = "<group>"; };
 		188BBBEA2C29E76D0059FDCD /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		188BBBEC2C2BBBE00059FDCD /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		188BBBEF2C2BBC810059FDCD /* SenderImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SenderImageCell.swift; path = KidzCorner/Functions/SenderImageCell.swift; sourceTree = SOURCE_ROOT; };
@@ -273,9 +293,13 @@
 		18A79C5D2C25D91B00F08D92 /* PortfolioNewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioNewCell.swift; sourceTree = "<group>"; };
 		18A79C5E2C25D91B00F08D92 /* PortfolioNewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PortfolioNewCell.xib; sourceTree = "<group>"; };
 		18A79C612C25DF7C00F08D92 /* PortfolioNewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioNewVC.swift; sourceTree = "<group>"; };
+		18AC575C2C750A0700093C05 /* MedicationListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicationListViewCell.swift; sourceTree = "<group>"; };
+		18AC575D2C750A0700093C05 /* MedicationListViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MedicationListViewCell.xib; sourceTree = "<group>"; };
 		18B1207C2C345D4E00ED2BA0 /* ActivityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityVC.swift; sourceTree = "<group>"; };
 		18B1207E2C3581BB00ED2BA0 /* EmojiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiManager.swift; sourceTree = "<group>"; };
 		18B2A0662C67C3DE004383BC /* SelectClassesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectClassesVC.swift; sourceTree = "<group>"; };
+		18B2A0682C722CFE004383BC /* AnnouncementCell2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementCell2.swift; sourceTree = "<group>"; };
+		18B2A0692C722CFE004383BC /* AnnouncementCell2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnnouncementCell2.xib; sourceTree = "<group>"; };
 		18BC90302BF3C92C00F14A43 /* CustomeVieww.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomeVieww.swift; sourceTree = "<group>"; };
 		18BC90332BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceHeadCollectionCell.swift; sourceTree = "<group>"; };
 		18BC90342BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InvoiceHeadCollectionCell.xib; sourceTree = "<group>"; };
@@ -482,6 +506,28 @@
 			path = "Model Project";
 			sourceTree = "<group>";
 		};
+		188434932C73B3D5000D3805 /* RemarkPopUp */ = {
+			isa = PBXGroup;
+			children = (
+				188434942C73B410000D3805 /* RemarkPopUPVC.swift */,
+				188434952C73B410000D3805 /* RemarkPopUPVC.xib */,
+				188434982C73B5D3000D3805 /* RemarkPopUPCell.swift */,
+				188434992C73B5D3000D3805 /* RemarkPopUPCell.xib */,
+			);
+			path = RemarkPopUp;
+			sourceTree = "<group>";
+		};
+		1884349C2C74F177000D3805 /* MedicationView */ = {
+			isa = PBXGroup;
+			children = (
+				1884349D2C74F193000D3805 /* MedicationVC.swift */,
+				1884349E2C74F193000D3805 /* MedicationVC.xib */,
+				18AC575C2C750A0700093C05 /* MedicationListViewCell.swift */,
+				18AC575D2C750A0700093C05 /* MedicationListViewCell.xib */,
+			);
+			path = MedicationView;
+			sourceTree = "<group>";
+		};
 		188BBBEE2C2BBC560059FDCD /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -636,6 +682,8 @@
 				53C1967027B17F9200EF16A3 /* CollectionCells */,
 				53C1967327B17F9200EF16A3 /* TableCells */,
 				53C1967C27B17F9200EF16A3 /* TableHeaders */,
+				1884348F2C7392D9000D3805 /* ParentAnnouncementCell.swift */,
+				188434902C7392D9000D3805 /* ParentAnnouncementCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -695,6 +743,8 @@
 				18A79C572C25D3C200F08D92 /* UserListViewCell.xib */,
 				18A79C5D2C25D91B00F08D92 /* PortfolioNewCell.swift */,
 				18A79C5E2C25D91B00F08D92 /* PortfolioNewCell.xib */,
+				18B2A0682C722CFE004383BC /* AnnouncementCell2.swift */,
+				18B2A0692C722CFE004383BC /* AnnouncementCell2.xib */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -889,6 +939,8 @@
 		53C196C027B17F9200EF16A3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1884349C2C74F177000D3805 /* MedicationView */,
+				188434932C73B3D5000D3805 /* RemarkPopUp */,
 				531EDA1727B96F4500CA667A /* AuthModel.swift */,
 				533FB3BE27D4A9FE00FFB0B1 /* ClassesData.swift */,
 				B7928B202A5089650083B77E /* PayloadModel.swift */,
@@ -979,6 +1031,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				53C196FA27B17F9200EF16A3 /* Poppins-MediumItalic.otf in Resources */,
+				188434922C7392D9000D3805 /* ParentAnnouncementCell.xib in Resources */,
 				18D150DC2AED1272004BDF97 /* ParentCell.xib in Resources */,
 				53C196EF27B17F9200EF16A3 /* Poppins-SemiBoldItalic.otf in Resources */,
 				53C1970227B17F9200EF16A3 /* Raleway-Bold.ttf in Resources */,
@@ -994,25 +1047,30 @@
 				53C196DA27B17F9200EF16A3 /* StatsHeader.xib in Resources */,
 				53C196F927B17F9200EF16A3 /* Poppins-Thin.otf in Resources */,
 				B7B09F332A44B9C400D7ABBD /* SelectionCell.xib in Resources */,
+				188434972C73B410000D3805 /* RemarkPopUPVC.xib in Resources */,
 				53C196D227B17F9200EF16A3 /* AnnouncementCell.xib in Resources */,
 				53B5913B27EB64DA009D301A /* InvoiceDetailCell.xib in Resources */,
 				53B5914827EB7D38009D301A /* InvoiceDetailFooter.xib in Resources */,
 				18A79C592C25D3C200F08D92 /* UserListViewCell.xib in Resources */,
 				53C196FF27B17F9200EF16A3 /* Poppins-Regular.otf in Resources */,
+				18B2A06B2C722CFF004383BC /* AnnouncementCell2.xib in Resources */,
 				18A79C4D2C1F2B0E00F08D92 /* DashboardTypesCell.xib in Resources */,
 				53C196D527B17F9200EF16A3 /* DevicesCell.xib in Resources */,
 				535671592866D644005ABFC5 /* CommentsCell.xib in Resources */,
 				53C196F027B17F9200EF16A3 /* Poppins-ExtraBoldItalic.otf in Resources */,
 				53B5913327EB5A2E009D301A /* InvoiceCell.xib in Resources */,
 				B72E68A32ADAFC3F003433F2 /* AttendanceCell.xib in Resources */,
+				1884349B2C73B5D3000D3805 /* RemarkPopUPCell.xib in Resources */,
 				53C196F627B17F9200EF16A3 /* Poppins-Medium.otf in Resources */,
 				53C196CE27B17F9200EF16A3 /* DashboardCollectionCell.xib in Resources */,
+				188434A02C74F193000D3805 /* MedicationVC.xib in Resources */,
 				18DA02D22C30437800D64805 /* PDFViewCell.xib in Resources */,
 				53C196FE27B17F9200EF16A3 /* Poppins-BlackItalic.otf in Resources */,
 				188D95A72C1383FB00BC7A80 /* SenderCell.xib in Resources */,
 				53C1965927B17D7200EF16A3 /* LaunchScreen.storyboard in Resources */,
 				53C1965627B17D7200EF16A3 /* Assets.xcassets in Resources */,
 				53B708B227B56AA10008BAAF /* Parent.storyboard in Resources */,
+				18AC575F2C750A0700093C05 /* MedicationListViewCell.xib in Resources */,
 				537CB3C027C9221400813956 /* GuardianCell.xib in Resources */,
 				188D95AB2C13840A00BC7A80 /* RecieverCell.xib in Resources */,
 				53C196F827B17F9200EF16A3 /* Poppins-Italic.otf in Resources */,
@@ -1152,10 +1210,13 @@
 				18CFC2A12C5A889400A2E25A /* DownloadFile.swift in Sources */,
 				18BC90312BF3C92C00F14A43 /* CustomeVieww.swift in Sources */,
 				18BC90362BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift in Sources */,
+				1884349F2C74F193000D3805 /* MedicationVC.swift in Sources */,
 				95CE785C2BB30C6800F0CAD3 /* DisplayImage.swift in Sources */,
 				53C196DC27B17F9200EF16A3 /* ActivityContainer.swift in Sources */,
+				18AC575E2C750A0700093C05 /* MedicationListViewCell.swift in Sources */,
 				B7D10FBA2A6D27BF0010E831 /* NotificationModel.swift in Sources */,
 				7E494F692C26FF5500348190 /* ChatInboxModel.swift in Sources */,
+				18B2A06A2C722CFF004383BC /* AnnouncementCell2.swift in Sources */,
 				18A79C5C2C25D5D500F08D92 /* PortfolioVC.swift in Sources */,
 				53C196EB27B17F9200EF16A3 /* Post.swift in Sources */,
 				18942DF02C39A49100389D04 /* ChildrenDataModel.swift in Sources */,
@@ -1185,10 +1246,12 @@
 				18A79C452C1EAF4900F08D92 /* LoadingManager.swift in Sources */,
 				53C1966527B17D9C00EF16A3 /* NSString+Extension.m in Sources */,
 				53C196E827B17F9200EF16A3 /* TeacherAnnouncements.swift in Sources */,
+				188434962C73B410000D3805 /* RemarkPopUPVC.swift in Sources */,
 				53C196E327B17F9200EF16A3 /* ParentAnnouncement.swift in Sources */,
 				18209CA62C14140B00D59EAB /* CustomView.swift in Sources */,
 				18DB93BA2C194D1E009C6C11 /* MessageList.swift in Sources */,
 				18942DF42C3A8EDF00389D04 /* AlbumModel.swift in Sources */,
+				188434912C7392D9000D3805 /* ParentAnnouncementCell.swift in Sources */,
 				53B5914327EB675A009D301A /* PaymentDetail.swift in Sources */,
 				5356715B2866D7AF005ABFC5 /* CommentsCell.swift in Sources */,
 				53C196CD27B17F9200EF16A3 /* DashboardCollectionCell.swift in Sources */,
@@ -1228,6 +1291,7 @@
 				53B5914627EB7D1E009D301A /* InvoiceDetailFooter.swift in Sources */,
 				53C196DE27B17F9200EF16A3 /* ParentPortfolio.swift in Sources */,
 				18A79C432C1EAEB300F08D92 /* NetworkManager.swift in Sources */,
+				1884349A2C73B5D3000D3805 /* RemarkPopUPCell.swift in Sources */,
 				B7928B232A5094FB0083B77E /* NotificationsVC.swift in Sources */,
 				53B5914127EB6573009D301A /* InvoiceDetailHeader.swift in Sources */,
 				18E4D9CC2AF96948005A3C58 /* MiscExt.swift in Sources */,
@@ -1424,7 +1488,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.15;
+				MARKETING_VERSION = 7.22;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1476,7 +1540,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.15;
+				MARKETING_VERSION = 7.22;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
