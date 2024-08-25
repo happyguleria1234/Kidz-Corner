@@ -79,17 +79,22 @@ class TeacherAnnouncements: UIViewController {
 }
 
 extension TeacherAnnouncements: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        return self.announcementsData?.data?.count ?? 0
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ParentAnnouncementCell", for: indexPath) as! ParentAnnouncementCell
         let data = self.announcementsData?.data?[indexPath.row]
+        
         cell.nameLbl.text = data?.title
         cell.dateLbl.text = data?.date ?? ""
-        let userProfileUrl = URL(string: imageBaseUrl + (self.announcementsData?.data?[indexPath.row].file ?? ""))
-        cell.imgCell.kf.setImage(with: userProfileUrl,placeholder: UIImage(named: "placeholderImage"))
-        cell.descriptionLbl.attributedText = data?.description?.htmlAttributedString()
+        cell.lblName.text = data?.user?.name
+
+        let userProfileUrl = URL(string: imageBaseUrl + (data?.file ?? ""))
+        cell.imgCell.kf.setImage(with: userProfileUrl, placeholder: UIImage(named: "placeholderImage"))
+        cell.descriptionLbl.attributedText = data?.description?.htmlAttributedString2()
         cell.backgroundColor = .clear
         return cell
     }

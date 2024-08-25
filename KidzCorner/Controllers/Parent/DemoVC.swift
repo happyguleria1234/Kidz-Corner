@@ -58,7 +58,7 @@ class DemoVC: UIViewController, SelectEvulation {
     }
     @IBAction func btnRemarks(_ sender: Any) {
         DispatchQueue.main.async {
-            let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
+            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "RemarkPopUPVC") as! RemarkPopUPVC
             self.navigationController?.pushViewController(vc, animated: true)
         }

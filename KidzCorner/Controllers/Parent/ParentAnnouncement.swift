@@ -89,8 +89,8 @@ class ParentAnnouncement: UIViewController {
     
     func setupViews() {
         DispatchQueue.main.async { [self] in
-            viewOuter.giveShadowAndRoundCorners(shadowOffset: CGSize.zero, shadowRadius: 10, opacity: 0.2, shadowColor: .black, cornerRadius: 10)
-            imageAnnouncement.layer.cornerRadius = imageAnnouncement.bounds.height/2.0
+//            viewOuter.giveShadowAndRoundCorners(shadowOffset: CGSize.zero, shadowRadius: 10, opacity: 0.2, shadowColor: .black, cornerRadius: 10)
+            imageAnnouncement.layer.cornerRadius = 10
             buttonAccept.layer.cornerRadius = 10
             buttonDeny.layer.cornerRadius = 10
             
@@ -168,16 +168,66 @@ class ParentAnnouncement: UIViewController {
     }
 }
 
-//extension String {
-//    func htmlAttributedString() -> NSAttributedString? {
-//        guard let data = self.data(using: String.Encoding.utf16, allowLossyConversion: false) else { return nil }
-//        guard let html = try? NSMutableAttributedString(
-//            data: data,
-//            options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html],
-//            documentAttributes: nil) else { return nil }
-//        return html
-//    }
-//}
+extension String {
+    func htmlAttributedString2(fontSize: CGFloat = 13, headingFontSize: CGFloat = 17) -> NSAttributedString? {
+        // Remove <br> tags and any resulting double spaces
+        let cleanedHTMLString = self.replacingOccurrences(of: "<br>", with: "")
+            .replacingOccurrences(of: "<br/>", with: "")
+            .replacingOccurrences(of: "<br />", with: "")
+            .replacingOccurrences(of: "\n\n", with: "\n")
+        
+        guard let data = cleanedHTMLString.data(using: String.Encoding.utf16, allowLossyConversion: false) else { return nil }
+
+        do {
+            let attributedString = try NSMutableAttributedString(
+                data: data,
+                options: [
+                    .documentType: NSAttributedString.DocumentType.html,
+                    .characterEncoding: String.Encoding.utf16.rawValue
+                ],
+                documentAttributes: nil
+            )
+
+            let fullRange = NSRange(location: 0, length: attributedString.length)
+            
+            // Set the text color to rgba(113, 117, 118, 1)
+            let customColor = UIColor(red: 113/255, green: 117/255, blue: 118/255, alpha: 1)
+            attributedString.addAttribute(.foregroundColor, value: customColor, range: fullRange)
+
+            // Adjust the paragraph style to remove any extra spacing
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = 0 // Set line spacing to 0 to remove extra space
+            paragraphStyle.paragraphSpacing = 0 // Set paragraph spacing to 0 to remove extra space
+            attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: fullRange)
+
+            // Adjust fonts based on the HTML tags
+            attributedString.enumerateAttribute(.font, in: fullRange) { value, range, _ in
+                if let font = value as? UIFont {
+                    var resizedFont: UIFont
+
+                    // Check if range is within a specific HTML tag
+                    let paragraphRange = (self as NSString).range(of: "<p>")
+                    let headingRange = (self as NSString).range(of: "<h")
+
+                    // Adjust font size based on HTML tag
+                    if range.location >= paragraphRange.location && range.location < paragraphRange.location + paragraphRange.length {
+                        resizedFont = UIFont(name: "Poppins-Regular", size: fontSize) ?? font.withSize(fontSize)
+                    } else if range.location >= headingRange.location && range.location < headingRange.location + headingRange.length {
+                        resizedFont = UIFont(name: "Poppins-Bold", size: headingFontSize) ?? font.withSize(headingFontSize)
+                    } else {
+                        resizedFont = UIFont(name: "Poppins-Regular", size: fontSize) ?? font.withSize(fontSize)
+                    }
+
+                    attributedString.addAttribute(.font, value: resizedFont, range: range)
+                }
+            }
+
+            return attributedString
+        } catch {
+            return nil
+        }
+    }
+}
 
 extension String {
     func htmlAttributedString(fontSize: CGFloat = 15, headingFontSize: CGFloat = 19) -> NSAttributedString? {
@@ -227,27 +277,3 @@ extension String {
     }
 }
 
-
-
-extension UILabel {
-    func adjustHeight(maxLines: Int = 4) {
-        guard let text = self.text else { return }
-
-        // Calculate the maximum height for the given number of lines
-        let maxSize = CGSize(width: self.frame.width, height: CGFloat.greatestFiniteMagnitude)
-        let textAttributes: [NSAttributedString.Key: Any] = [
-            .font: self.font as Any
-        ]
-        let textRect = text.boundingRect(with: maxSize, options: .usesLineFragmentOrigin, attributes: textAttributes, context: nil)
-        
-        // Calculate the height of one line
-        let oneLineHeight = "Test".boundingRect(with: maxSize, options: .usesLineFragmentOrigin, attributes: textAttributes, context: nil).height
-        
-        // Calculate the number of lines the text will take
-        let numberOfLines = Int(ceil(textRect.height / oneLineHeight))
-        
-        // Set the label's height based on the number of lines, considering the max lines
-        let labelHeight = min(CGFloat(numberOfLines) * oneLineHeight, CGFloat(maxLines) * oneLineHeight)
-        self.frame.size.height = labelHeight
-    }
-}

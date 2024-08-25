@@ -66,9 +66,6 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
         tblMessages.register(UINib(nibName: "RecieverImageCell", bundle: nil), forCellReuseIdentifier: "RecieverImageCell")
         tblMessages.register(UINib(nibName: "PDFViewCell", bundle: nil), forCellReuseIdentifier: "PDFViewCell")
         tblMessages.register(UINib(nibName: "PDFViewReciverCell", bundle: nil), forCellReuseIdentifier: "PDFViewReciverCell")
-        
-        //        tblMessages.transform = CGAffineTransform(scaleX: 1, y: -1)
-        //        tblMessages.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     private func setupHiddenTextView() {
@@ -140,7 +137,6 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
     }
     
     @IBAction func btnAttachment(_ sender: UIButton) {
-//        filePickerManager.presentFilePicker()
         filePickerManager.presentImagePicker()
     }
     
@@ -337,10 +333,8 @@ extension MessageListingVC {
     private func populateData() {
         lbl_name.text = userNamee
         imgProfile.contentMode = .scaleAspectFill
-        if let userProfileUrl = userProfileImagee {
-            imgProfile.sd_setImage(with: URL(string: imageBaseUrl+(userProfileUrl)),
-                                   placeholderImage: .announcementPlaceholder)
-        }
+        let userProfileUrl = URL(string: imageBaseUrl+(userProfileImagee ?? ""))
+        imgProfile.kf.setImage(with: userProfileUrl, placeholder: UIImage(named: "placeholderImage"))
     }
 }
 
@@ -401,11 +395,12 @@ extension MessageListingVC : UITableViewDelegate, UITableViewDataSource {
                 if loggedUSer == "Teacher" {
                     recieverCell.lbl_name.isHidden = true
                     if let url = URL(string: imageBaseUrl+(data.student?.image ?? "")) {
-                        recieverCell.img_profile.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
+                        recieverCell.img_profile.kf.setImage(with: url, placeholder: UIImage(named: "placeholderImage"))
                     }
+                    
                 } else {
                     if let url = URL(string: imageBaseUrl+(data.user?.image ?? "")) {
-                        recieverCell.img_profile.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
+                        recieverCell.img_profile.kf.setImage(with: url, placeholder: UIImage(named: "placeholderImage"))
                     }
                 }
                 recieverCell.btnTap.addTarget(self, action: #selector(loadDoc(sender:)), for: .touchUpInside)
@@ -425,11 +420,11 @@ extension MessageListingVC : UITableViewDelegate, UITableViewDataSource {
                 if loggedUSer == "Teacher" {
                     recieverImageCell.lblName.isHidden = true
                     if let url = URL(string: imageBaseUrl+(data.student?.image ?? "")) {
-                        recieverImageCell.img_user.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
+                        recieverImageCell.img_user.kf.setImage(with: url, placeholder: UIImage(named: "placeholderImage"))
                     }
                 } else {
                     if let url = URL(string: imageBaseUrl+(data.user?.image ?? "")) {
-                        recieverImageCell.img_user.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
+                        recieverImageCell.img_user.kf.setImage(with: url, placeholder: UIImage(named: "placeholderImage"))
                     }
                 }
                 recieverImageCell.btnTap.addTarget(self, action: #selector(buttonSelected(sender:)), for: .touchUpInside)
@@ -449,11 +444,11 @@ extension MessageListingVC : UITableViewDelegate, UITableViewDataSource {
                 if loggedUSer == "Teacher" {
                     senderImageCell.lblName.isHidden = true
                     if let url = URL(string: imageBaseUrl+(data.student?.image ?? "")) {
-                        senderImageCell.userImgVw.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
+                        senderImageCell.userImgVw.kf.setImage(with: url, placeholder: UIImage(named: "placeholderImage"))
                     }
                 } else {
                     if let url = URL(string: imageBaseUrl+(data.user?.image ?? "")) {
-                        senderImageCell.userImgVw.sd_setImage(with: url, placeholderImage: .placeholderImage, options: [.scaleDownLargeImages])
+                        senderImageCell.userImgVw.kf.setImage(with: url, placeholder: UIImage(named: "placeholderImage"))
                     }
                 }
                 senderImageCell.downloadBtn.addTarget(self, action: #selector(pdfDownload(sender:)), for: .touchUpInside)

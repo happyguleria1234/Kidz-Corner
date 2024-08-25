@@ -2,9 +2,11 @@ import UIKit
 
 class ParentAnnouncements: UIViewController {
     
+    @IBOutlet weak var lbl_title: UILabel!
     var announcementsData: AnnouncementChildrenModel?
     var childrenData: [ChildData]?
     var comesFrom = String()
+    var type = String()
     @IBOutlet weak var buttonBack: UIButton!
     @IBOutlet weak var tableAnnouncements: UITableView!
     
@@ -41,7 +43,16 @@ class ParentAnnouncements: UIViewController {
     }
     
     func setupViews() {
-        
+        switch type {
+        case "announcement":
+            lbl_title.text = "Announcement"
+        case "weekly_update":
+            lbl_title.text = "Weekly Update"
+        case "bulleting":
+            lbl_title.text = "Bulleting"
+        default:
+            break
+        }
     }
     
     func setupTable() {
@@ -49,14 +60,15 @@ class ParentAnnouncements: UIViewController {
         tableAnnouncements.delegate = self
         tableAnnouncements.dataSource = self
         tableAnnouncements.backgroundColor = .clear
+        
     }
     
     func getAnnouncements() {
         if comesFrom == "" {
             startAnimating((self.tabBarController?.view)!)
         }
-        let params = [String: String]()
-        ApiManager.shared.Request(type: AnnouncementChildrenModel.self, methodType: .Get, url: baseUrl+apiParentAnnouncement, parameter: params) { error, myObject, msgString, statusCode in
+        let params = ["componse_type": type]
+        ApiManager.shared.Request(type: AnnouncementChildrenModel.self, methodType: .Get, url: baseUrl+evulationData, parameter: params) { error, myObject, msgString, statusCode in
             if statusCode == 200 {
                 self.announcementsData = myObject
                 DispatchQueue.main.async { [self] in
@@ -107,57 +119,54 @@ extension ParentAnnouncements: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "ParentAnnouncementCell", for: indexPath) as! ParentAnnouncementCell
         let data = self.announcementsData?.data?[indexPath.row]
+        
         cell.nameLbl.text = data?.title
         cell.dateLbl.text = data?.date ?? ""
-        let userProfileUrl = URL(string: imageBaseUrl+(data?.attachment ?? ""))
-        cell.imgCell.kf.setImage(with: userProfileUrl,placeholder: UIImage(named: "placeholderImage"))
-//        cell.imgCell.sd_setImage(with: URL(string: imageBaseUrl+(data?.attachment ?? "")), placeholderImage: .announcementPlaceholder)
+        cell.lblName.text = data?.user?.name
+        let userProfileUrl = URL(string: imageBaseUrl + (data?.file ?? ""))
+        cell.imgCell.kf.setImage(with: userProfileUrl, placeholder: UIImage(named: "placeholderImage"))
+        cell.descriptionLbl.attributedText = data?.announcmentDescription?.htmlAttributedString2()
         
-//        cell.descriptionLbl.translatesAutoresizingMaskIntoConstraints = false
-//        cell.descriptionLbl.heightAnchor.constraint(equalToConstant: cell.descriptionLbl.frame.height).isActive = true
-//        cell.layoutIfNeeded()
-        if let attributedText = data?.announcmentDescription?.htmlAttributedString() {
-            cell.descriptionLbl.attributedText = attributedText
-            cell.descriptionLbl.adjustHeight(maxLines: 4)
-        }
-        cell.descriptionLbl.attributedText = data?.announcmentDescription?.htmlAttributedString()
         cell.backgroundColor = .clear
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncement") as! ParentAnnouncement
         
-        let data = self.announcementsData?.data?[indexPath.row]
-        
-        if let childData = childrenData {
-            for child in childData {
-                
-                printt("Announcement Child Id \(data?.userID) Parent Child Id \(child.id)")
-                
-                if child.id == data?.userID {
-                    vc.childName = child.name?.capitalized
+        if type == "bulleting" {
+            if let urls = URL(string: imageBaseUrl + (self.announcementsData?.data?[indexPath.row].file ?? "")) {
+                UIApplication.shared.open(urls)
+            }
+        } else {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncement") as! ParentAnnouncement
+            let data = self.announcementsData?.data?[indexPath.row]
+            if let childData = childrenData {
+                for child in childData {
+                    if child.id == data?.userID {
+                        vc.childName = child.name?.capitalized
+                    }
                 }
             }
+            vc.announcementId = data?.id
+            vc.announcementDate = data?.date
+            vc.announcementTitle = data?.title
+            vc.announcementDescription = data?.announcmentDescription
+            vc.announcementImage = data?.file
+            vc.announcementStatus = data?.status
+            vc.announcementType = data?.announcementType
+            vc.announcementPDF = data?.attachment
+            vc.anouncementData = data
+            self.navigationController?.pushViewController(vc, animated: true)
         }
-        
-        vc.announcementId = data?.id
-        vc.announcementDate = data?.date
-        vc.announcementTitle = data?.title
-        vc.announcementDescription = data?.announcmentDescription
-        vc.announcementImage = data?.file
-        vc.announcementStatus = data?.status
-        vc.announcementType = data?.announcementType 
-        vc.announcementPDF = data?.attachment
-        vc.anouncementData = data
-        self.navigationController?.pushViewController(vc, animated: true)
     }
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableView.automaticDimension
-//    }
-   
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
 }
 
 
@@ -174,19 +183,4 @@ extension UIView {
         layer.rasterizationScale = scale ? UIScreen.main.scale : 1
 
     }
-}
-
-
-func configureLabel(_ label: UILabel) {
-    // Set the maximum number of lines
-    label.numberOfLines = 3 // Set this to your desired maximum number of lines
-
-    // Set the minimum scale factor to scale down the text if needed
-    label.minimumScaleFactor = 0.5 // This scales the text down to 50% of its original size if needed
-
-    // Optionally set adjustsFontSizeToFitWidth to true if you want the text to adjust its font size to fit the width
-    label.adjustsFontSizeToFitWidth = true
-
-    // Optionally set line break mode if needed
-    label.lineBreakMode = .byTruncatingTail // You can choose other modes like .byWordWrapping, .byCharWrapping, etc.
 }

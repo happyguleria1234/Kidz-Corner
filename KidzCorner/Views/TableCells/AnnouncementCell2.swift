@@ -9,9 +9,6 @@ import UIKit
 
 class AnnouncementCell2: UITableViewCell {
 
-    @IBOutlet weak var lbl_description: UILabel!
-    @IBOutlet weak var lbl_title: UILabel!
-    @IBOutlet weak var lbl_date: UILabel!
     @IBOutlet weak var img_user: UIImageView!
     
     override func awakeFromNib() {

@@ -13,6 +13,7 @@ class ParentAnnouncementCell: UITableViewCell {
     
     //MARK: Outlets
     
+    @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var parentView: UIView!
     @IBOutlet weak var imgCell: UIImageView!
     @IBOutlet weak var dateLbl: UILabel!
@@ -21,8 +22,11 @@ class ParentAnnouncementCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+//        descriptionLbl.numberOfLines = 4 // Allow multiple lines
+//        descriptionLbl.lineBreakMode = .byWordWrapping
+        imgCell.cornerRadius = 5
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }

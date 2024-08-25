@@ -12,7 +12,7 @@ class TeacherDashboard: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViews()
+//        setupViews()
         setupTable()
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTable), name: NSNotification.Name("ToggleDescriptionNotification"), object: nil)
 
@@ -35,7 +35,26 @@ class TeacherDashboard: UIViewController {
     }
    
     @IBAction func logoutFunc(_ sender: Any) {
-      
+        AlertManager.showConfirmationAlert(on: self, title: "Logout", message: "Are you sure you want to logout?") { [self] in
+            signout()
+        } noHandler: {
+            self.dismiss(animated: true)
+        }
+    }
+    
+    func signout() {
+        ApiManager.shared.Request(type: AllChildrenModel.self, methodType: .Post, url: baseUrl+logout, parameter: [:]) { error, myObject, msgString, statusCode in
+            DispatchQueue.main.async { [self] in
+                if statusCode == 200 {
+                    setupViews()
+                } else {
+                    Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+                }
+            }
+        }
+    }
+    
+    func setupViews() {
         UserDefaults.standard.setValue(false, forKey: isLoggedIn)
         UserDefaults.standard.removeObject(forKey: myUserid)
         UserDefaults.standard.removeObject(forKey: myToken)
@@ -50,10 +69,6 @@ class TeacherDashboard: UIViewController {
         nav.navigationBar.isHidden = true
         UIApplication.shared.windows.first?.rootViewController = nav
         UIApplication.shared.windows.first?.makeKeyAndVisible()
-    }
-    
-    func setupViews() {
-        
     }
     func setupTable() {
         tableHome.register(UINib(nibName: "DashboardTableCell", bundle: nil), forCellReuseIdentifier: "DashboardTableCell")

@@ -73,13 +73,13 @@ class ChatsVC : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        if  loggedUSer == "Teacher" {
-//            searchView.isHidden = false
-//            searchBarHeight.constant = 55
-//        } else {
-//            searchView.isHidden = true
-//            searchBarHeight.constant = 0
-//        }
+        if  loggedUSer == "Teacher" {
+            searchView.isHidden = false
+            searchBarHeight.constant = 55
+        } else {
+            searchView.isHidden = true
+            searchBarHeight.constant = 0
+        }
         tblChats.reloadData()
         tblChats.backgroundColor = .clear
         SocketIOManager.sharedInstance.userStatus()

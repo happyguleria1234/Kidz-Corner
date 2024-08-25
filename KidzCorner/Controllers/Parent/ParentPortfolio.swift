@@ -175,29 +175,14 @@ class ParentPortfolio: UIViewController {
     }
     
     @IBAction func logoutFunc(_ sender: Any) {
-        
-        UserDefaults.standard.setValue(false, forKey: isLoggedIn)
-        UserDefaults.standard.removeObject(forKey: myUserid)
-        UserDefaults.standard.removeObject(forKey: myToken)
-        UserDefaults.standard.removeObject(forKey: myName)
-        UserDefaults.standard.removeObject(forKey: myImage)
-        UserDefaults.standard.removeObject(forKey: myRoleId)
-        
-        UserDefaults.standard.removeObject(forKey: "BluetoothUUID")
-        let sb = UIStoryboard(name: "Auth", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "SignIn") as! SignIn
-        let nav = UINavigationController(rootViewController: vc)
-        nav.navigationBar.isHidden = true
-        UIApplication.shared.windows.first?.rootViewController = nav
-        UIApplication.shared.windows.first?.makeKeyAndVisible()
+        AlertManager.showConfirmationAlert(on: self, title: "Logout", message: "Are you sure you want to logout?") { [self] in
+            signout()
+        } noHandler: {
+            self.dismiss(animated: true)
+        }
     }
     
     @IBAction func activityFunc(_ sender: Any) {
-//        containerHeight.constant = 750
-
-//        viewTableActivity.isHidden = false
-//        activityContainer()
-        
         activityCalendarCenter.priority = UILayoutPriority(998)
         activityCalendarBtn.tintColor = UIColor(named: "gradientBottom")
         attendanceBtn.tintColor = .white
@@ -355,6 +340,31 @@ class ParentPortfolio: UIViewController {
    
         //Use actual Date to get attendance for that date
         getChildDetailsApi(date: actualDateFormatter.string(from: sender.date), childId: childrenIds[currentChildIndex])
+    }
+    
+    func signout() {
+        ApiManager.shared.Request(type: AllChildrenModel.self, methodType: .Post, url: baseUrl+logout, parameter: [:]) { error, myObject, msgString, statusCode in
+            DispatchQueue.main.async { [self] in
+                if statusCode == 200 {
+                    UserDefaults.standard.setValue(false, forKey: isLoggedIn)
+                    UserDefaults.standard.removeObject(forKey: myUserid)
+                    UserDefaults.standard.removeObject(forKey: myToken)
+                    UserDefaults.standard.removeObject(forKey: myName)
+                    UserDefaults.standard.removeObject(forKey: myImage)
+                    UserDefaults.standard.removeObject(forKey: myRoleId)
+                    
+                    UserDefaults.standard.removeObject(forKey: "BluetoothUUID")
+                    let sb = UIStoryboard(name: "Auth", bundle: nil)
+                    let vc = sb.instantiateViewController(withIdentifier: "SignIn") as! SignIn
+                    let nav = UINavigationController(rootViewController: vc)
+                    nav.navigationBar.isHidden = true
+                    UIApplication.shared.windows.first?.rootViewController = nav
+                    UIApplication.shared.windows.first?.makeKeyAndVisible()
+                } else {
+                    Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+                }
+            }
+        }
     }
     
     func getChildDetailsApi(date: String, childId: Int?) {
@@ -713,16 +723,6 @@ extension ParentPortfolio: UICollectionViewDelegate, UICollectionViewDataSource,
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        //        for cell in collectionMorning.visibleCells {
-        //                let indexPath = collectionMorning.indexPath(for: cell)
-        //            print("Morning Collection Index \(indexPath?.item)")
-        //            }
-        //
-        //        for cell in collectionEvening.visibleCells {
-        //                let indexPath = collectionEvening.indexPath(for: cell)
-        //            print("Evening Collection Index \(indexPath?.item)")
-        //            }
-        
         if scrollView == self.studentProfileCollectionView {
             var visibleRect = CGRect()
             visibleRect.origin = studentProfileCollectionView.contentOffset
