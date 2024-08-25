@@ -78,7 +78,7 @@ class TeacherChatVC: UIViewController, OpenChatVCProtocol, classSelected {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getClasses()
+//        getClasses()
         tblChats.reloadData()
         tblChats.backgroundColor = .clear
         SocketIOManager.sharedInstance.userStatus()
@@ -89,6 +89,7 @@ class TeacherChatVC: UIViewController, OpenChatVCProtocol, classSelected {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        getClasses()
     }
     
     //------------------------------------------------------
@@ -198,10 +199,10 @@ extension TeacherChatVC {
     
     private func handleChatUserSearch(_ searchedText: String?) {
         var filteredUserList = [ChatData]()
-        
+
         if let searchedText = searchedText?.lowercased(), !searchedText.isEmpty {
             filteredUserList = charRoomResp.filter { chatData in
-                if let name = chatData.student?.name {
+                if let name = chatData.student?.name?.lowercased() {
                     return name.contains(searchedText)
                 }
                 return false
@@ -209,7 +210,8 @@ extension TeacherChatVC {
         } else {
             filteredUserList = allCharRoomResp
         }
-        
+
+        // Assign filtered list back to your data source and reload table
         self.charRoomResp = filteredUserList
         self.tblChats.reloadData()
     }

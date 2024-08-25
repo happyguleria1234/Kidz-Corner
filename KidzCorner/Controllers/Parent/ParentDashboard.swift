@@ -1,5 +1,10 @@
 import UIKit
 
+struct ButtonsData {
+    var name: String
+    var imgName: String
+}
+
 var selectedType = 0
 
 class ParentDashboard: UIViewController {
@@ -11,7 +16,10 @@ class ParentDashboard: UIViewController {
     var portfolioData: [ChildPortfolioModelData]?
     var childrenData = [ChildData]()
     var childInfo: ChildAttendanceModel?
+    var buttonsData = [ButtonsData]()
     
+    @IBOutlet weak var buttonCollection: UICollectionView!
+    @IBOutlet weak var mainStack: UIStackView!
     @IBOutlet weak var collAttendance: UICollectionView!
     @IBOutlet weak var dateViewHeight: NSLayoutConstraint!
     @IBOutlet weak var dateView: UIView!
@@ -25,6 +33,15 @@ class ParentDashboard: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupTable()
+        buttonsData.append(ButtonsData(name: "Attandence", imgName: "Attendnce1"))
+        buttonsData.append(ButtonsData(name: "Handbook", imgName: "ratings"))
+        buttonsData.append(ButtonsData(name: "Calender", imgName: "CalenderHome"))
+        buttonsData.append(ButtonsData(name: "Portfolio", imgName: "Portfolio"))
+        buttonsData.append(ButtonsData(name: "Finance", imgName: "Finance1"))
+        buttonsData.append(ButtonsData(name: "Board", imgName: "broad"))
+        buttonsData.append(ButtonsData(name: "Bulleting", imgName: "bulleting"))
+        buttonsData.append(ButtonsData(name: "Weekly Update", imgName: "weekly"))
+
         setupCollectionView()
     }
     
@@ -40,7 +57,6 @@ class ParentDashboard: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-//        portfolioData = nil
     }
     
     
@@ -57,6 +73,7 @@ class ParentDashboard: UIViewController {
     
     @IBAction func buttonTap3(sender: UIButton) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "Payments") as! Payments
+        comesForImages = "Images"
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -64,6 +81,7 @@ class ParentDashboard: UIViewController {
         let storyboard = UIStoryboard(name: "Parent", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
         vc.comesFrom = "4"
+        comesForImages = "Images"
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -72,11 +90,13 @@ class ParentDashboard: UIViewController {
         let storyboard = UIStoryboard(name: "Parent", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
         vc.comesFrom = "1"
+        comesForImages = "Images"
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func buttonTap6(sender: UIButton) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncements") as! ParentAnnouncements
+        comesForImages = "Images"
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -92,7 +112,7 @@ class ParentDashboard: UIViewController {
     
     func setupCollectionView() {
         collAttendance.dataSource = self
-        collAttendance.delegate = self        
+        collAttendance.delegate = self
         if let layout = collAttendance.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
             layout.minimumLineSpacing = 0
@@ -144,7 +164,7 @@ class ParentDashboard: UIViewController {
                             collHeight.constant = 0
                         }
                     } else {
-//                        collHeight.constant = 60
+                        //                        collHeight.constant = 60
                         collHeight.constant = 0
                     }
                     self.collAttendance.reloadData()
@@ -247,11 +267,6 @@ extension ParentDashboard: UITableViewDelegate, UITableViewDataSource {
         cell.labelTime.text = data?.postDate ?? ""
         
         cell.labelDomain.text = data?.domain?.name ?? ""
-//        if data?.is_collage == 0 {
-//            cell.collectionHeight.constant = 350
-//        } else {
-//            cell.collectionHeight.constant = 280
-//        }
         cell.buttonLike.setImage(UIImage(named: "likeEmpty"), for: .normal)
         cell.buttonLike.setImage(UIImage(named: "likeFilled"), for: .selected)
         
@@ -447,43 +462,128 @@ class AttandenceCell: UICollectionViewCell {
 extension ParentDashboard: UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return childrenData.count
+        if collectionView == buttonCollection {
+            return 4
+        } else {
+            return childrenData.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AttandenceCell", for: indexPath) as! AttandenceCell
-        if childInfo?.data?.attendance?.timeIn != "" && childInfo?.data?.attendance?.timeOut == nil{
-            cell.lblChekIn.text = "Checked In"
-            cell.lblDate.text = childInfo?.data?.attendance?.timeIn ?? ""
-        } else if childInfo?.data?.attendance?.timeOut != "" && childInfo?.data?.attendance?.timeIn != ""{
-            cell.lblChekIn.text = "Checked Out"
-            cell.lblDate.text = childInfo?.data?.attendance?.timeOut ?? ""
+        
+        if collectionView == buttonCollection {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ButtonsCell", for: indexPath) as! ButtonsCell
+            switch indexPath.row {
+            case 0:
+                cell.lblName.text = buttonsData[0].name
+                cell.iconImg.image = UIImage(named: buttonsData[0].imgName)
+                cell.name2.text = buttonsData[1].name
+                cell.img2.image = UIImage(named: buttonsData[1].imgName)
+            case 1:
+                cell.lblName.text = buttonsData[2].name
+                cell.iconImg.image = UIImage(named: buttonsData[2].imgName)
+                cell.name2.text = buttonsData[3].name
+                cell.img2.image = UIImage(named: buttonsData[3].imgName)
+            case 2:
+                cell.lblName.text = buttonsData[4].name
+                cell.iconImg.image = UIImage(named: buttonsData[4].imgName)
+                cell.name2.text = buttonsData[5].name
+                cell.img2.image = UIImage(named: buttonsData[5].imgName)
+            case 3:
+                cell.lblName.text = buttonsData[6].name
+                cell.iconImg.image = UIImage(named: buttonsData[6].imgName)
+                cell.name2.text = buttonsData[7].name
+                cell.img2.image = UIImage(named: buttonsData[7].imgName)
+            default:
+                break
+            } 
+            cell.btn1Tap.tag = indexPath.row
+            cell.btn2Tap.tag = indexPath.row
+            cell.btn1Tap.addTarget(self, action: #selector(gotoScreens(sender:)), for: .touchUpInside)
+            cell.btn2Tap.addTarget(self, action: #selector(gotoScreens2(sender:)), for: .touchUpInside)
+            return cell
         } else {
-            cell.lblChekIn.text = "Check In"
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AttandenceCell", for: indexPath) as! AttandenceCell
+            if childInfo?.data?.attendance?.timeIn != "" && childInfo?.data?.attendance?.timeOut == nil{
+                cell.lblChekIn.text = "Checked In"
+                cell.lblDate.text = childInfo?.data?.attendance?.timeIn ?? ""
+            } else if childInfo?.data?.attendance?.timeOut != "" && childInfo?.data?.attendance?.timeIn != ""{
+                cell.lblChekIn.text = "Checked Out"
+                cell.lblDate.text = childInfo?.data?.attendance?.timeOut ?? ""
+            } else {
+                cell.lblChekIn.text = "Check In"
+            }
+            return cell
         }
-        return cell
+    }
+    
+    @objc func gotoScreens(sender: UIButton) {
+        switch sender.tag {
+        case 0:
+            selectedType = 1
+            tabBarController?.selectedIndex = 3
+        case 1:
+            selectedType = 0
+            tabBarController?.selectedIndex = 3
+        case 2:
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "Payments") as! Payments
+            comesForImages = "Images"
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 3:
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncements") as! ParentAnnouncements
+            vc.type = "bulleting"
+            comesForImages = "Images"
+            self.navigationController?.pushViewController(vc, animated: true)
+        default:
+            break
+        }
+    }
+    
+    @objc func gotoScreens2(sender: UIButton) {
+        switch sender.tag {
+        case 0:
+            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
+            vc.comesFrom = "4"
+            comesForImages = "Images"
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 1:
+            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
+            vc.comesFrom = "1"
+            comesForImages = "Images"
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 2:
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncements") as! ParentAnnouncements
+            vc.type = "announcement"
+            comesForImages = "Images"
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 3:
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncements") as! ParentAnnouncements
+            vc.type = "weekly_update"
+            comesForImages = "Images"
+            self.navigationController?.pushViewController(vc, animated: true)
+        default:
+            break
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.size.width, height: collectionView.frame.size.height)
+        if collectionView == buttonCollection {
+            let noOfCellsInRow = 3
+            let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+            let totalSpace = flowLayout.sectionInset.left + flowLayout.sectionInset.right + (flowLayout.minimumInteritemSpacing * CGFloat(noOfCellsInRow - 1))
+            let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(noOfCellsInRow))
+            return CGSize(width: size, height: size)
+        } else {
+            return CGSize(width: collectionView.frame.size.width, height: collectionView.frame.size.height)
+        }
     }
-    
-    // MARK: - UIScrollViewDelegate
-    
-//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        let pageWidth = scrollView.frame.size.width
-//        let currentPage = Int(scrollView.contentOffset.x / pageWidth)
-//        self.getChildDetailsApi(date: Date().shortDate, childId: self.childrenData[currentPage].id ?? 0)
-//    }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageWidth = scrollView.frame.size.width
         let currentPage = Int(scrollView.contentOffset.x / pageWidth)
-        
-        // Detect the scroll direction by comparing the current offset with the previous offset
         let previousPage = Int((scrollView.contentOffset.x + scrollView.frame.size.width) / pageWidth)
-        
-        // Only call API if scrolling forward (to the right)
         if currentPage > previousPage {
             let childId = childrenData[currentPage].id ?? 0
             self.getChildDetailsApi(date: Date().shortDate, childId: childId)
@@ -493,5 +593,19 @@ extension ParentDashboard: UICollectionViewDelegate, UICollectionViewDataSource,
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collAttendance.collectionViewLayout.invalidateLayout()
+    }
+}
+
+
+class ButtonsCell: UICollectionViewCell {
+    
+    @IBOutlet weak var btn2Tap: UIButton!
+    @IBOutlet weak var btn1Tap: UIButton!
+    @IBOutlet weak var name2: UILabel!
+    @IBOutlet weak var img2: UIImageView!
+    @IBOutlet weak var lblName: UILabel!
+    @IBOutlet weak var iconImg: UIImageView!
+    override class func awakeFromNib() {
+        super.awakeFromNib()
     }
 }

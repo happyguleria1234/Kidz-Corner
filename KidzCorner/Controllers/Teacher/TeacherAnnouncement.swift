@@ -80,14 +80,13 @@ class TeacherAnnouncement: UIViewController {
     
     func setupViews() {
         DispatchQueue.main.async { [self] in
-            viewOuter.giveShadowAndRoundCorners(shadowOffset: CGSize.zero, shadowRadius: 10, opacity: 0.2, shadowColor: .black, cornerRadius: 10)
-            imageAnnouncement.layer.cornerRadius = imageAnnouncement.bounds.height/2.0
+            imageAnnouncement.layer.cornerRadius = 10
             buttonAccept.layer.cornerRadius = 10
             buttonDeny.layer.cornerRadius = 10
             
             // ALSO IMAGE ANNOUNCEMENT
             labelTitle.text = announcementTitle ?? ""
-//            labelDescription.text = announcementDescription ?? ""
+            //            labelDescription.text = announcementDescription ?? ""
             labelDescription.attributedText = announcementDescription?.htmlAttributedString()
             imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(anouncementData?.file ?? "")), placeholderImage: .announcementPlaceholder)
             labelDate.text = announcementDate
@@ -145,7 +144,6 @@ class TeacherAnnouncement: UIViewController {
         }
     }
     
-    //Status = 0 - Not Read, 1 - Accept, 2 - Reject
     func acceptRejectAnnouncement(status: String) {
         DispatchQueue.main.async {
             startAnimating(self.view)
@@ -165,5 +163,4 @@ class TeacherAnnouncement: UIViewController {
             }
         }
     }
-    
 }

@@ -375,6 +375,7 @@ struct AnnouncementModelData: Codable {
     let attachment, createdAt, updatedAt: String?
     let status: Int?
     let file: String?
+    let user: UserNeww?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -391,7 +392,7 @@ struct AnnouncementModelData: Codable {
         case createdAt = "created_at"
         case updatedAt = "updated_at"
         case status
-        case file
+        case file, user
     }
 }
 
@@ -415,6 +416,7 @@ struct AnnouncementChildrenModelData: Codable {
         let active: Int?
         let createdAt, updatedAt: String?
         let status: Int?
+        let user: UserNeww?
 
         enum CodingKeys: String, CodingKey {
             case id
@@ -432,8 +434,15 @@ struct AnnouncementChildrenModelData: Codable {
             case attachment, file, active
             case createdAt = "created_at"
             case updatedAt = "updated_at"
-            case status
+            case status, user
         }
+}
+
+// MARK: - User
+struct UserNeww: Codable {
+    let id: Int?
+    let name: String?
+    let image: String?
 }
 
 // MARK: - Children

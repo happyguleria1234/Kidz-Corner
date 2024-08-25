@@ -85,6 +85,8 @@ public let invoicePdfKey = "/5023fa9c3fd7c91f81f9c5bf2bb84368"
 
 public let evaluationList = "evaluations?userId="
 public let eavluationfilterList = "evaluations/"
+public let logout = "signout"
+public let evulationData = "announcement_children"
 
 
 extension UIImage {

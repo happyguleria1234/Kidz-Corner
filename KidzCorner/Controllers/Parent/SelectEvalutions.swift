@@ -29,24 +29,24 @@ class SelectEvalutions: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         hitEvaluationList(userId: userID)
-        tableClasses.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
+//        tableClasses.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
     }
     
     //  MARK: Tabel Height
     
-    override func viewWillDisappear(_ animated: Bool) {
-        tableClasses.removeObserver(self, forKeyPath: "contentSize")
-        super.viewWillDisappear(true)
-    }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if(keyPath == "contentSize"){
-            if let newvalue = change?[.newKey] {
-                let newsize  = newvalue as! CGSize
-                tblHeight.constant = newsize.height
-            }
-        }
-    }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        tableClasses.removeObserver(self, forKeyPath: "contentSize")
+//        super.viewWillDisappear(true)
+//    }
+//    
+//    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+//        if(keyPath == "contentSize"){
+//            if let newvalue = change?[.newKey] {
+//                let newsize  = newvalue as! CGSize
+//                tblHeight.constant = newsize.height
+//            }
+//        }
+//    }
     
     @IBAction func topDismiss(_ sender: Any) {
         self.dismiss(animated: false) {

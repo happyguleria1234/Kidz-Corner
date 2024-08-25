@@ -10,10 +10,14 @@ import UIKit
 
 class DemoVC2: UIViewController, SelectEvulation {
     
+    @IBOutlet weak var lbltitle: UILabel!
     @IBOutlet weak var tblView: UITableView!
+    
     var userID = Int()
+    var selectedTitle = String()
     var categories: [Category] = []
     var evaluationArr = [DemoDatum]()
+    
     var evaluatiomSkillModel:EvaluatiomSkillAlbumModel?
     var demoArr: [String: [String]] = [
         "Arts": ["Drama", "Painting", "Drawing", "Dance"],
@@ -26,7 +30,7 @@ class DemoVC2: UIViewController, SelectEvulation {
     //MARK: VIEW LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
-        var demoData = [Category]()
+        lbltitle.text = selectedTitle
         for (categoryName, items) in demoArr {
             let category = Category(name: categoryName, items: items)
             categories.append(category)
@@ -99,44 +103,17 @@ class DemoVC2: UIViewController, SelectEvulation {
             }
         }
     }
-
-
-
-
     
-//    func hitEvalutionFilterList(Id:Int){
-//        let param = ["userId":userID]
-//        ApiManager.shared.Request(type: EvaluatiomSkillAlbumModel.self, methodType: .Get, url: baseUrl+eavluationfilterList + "\(Id)", parameter: param) { error, myObject, msgString, statusCode in
-//            DispatchQueue.main.async {
-//                if statusCode == 200 {
-//                    self.evaluatiomSkillModel = myObject
-//
-//                    self.evaluatiomSkillModel?.data?.forEach({ data in
-//
-//                    })
-//
-//                    DispatchQueue.main.async {
-//                        self.tblView.reloadData()
-//                    }
-//                } else {
-//                    Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
-//                }
-//            }
-//        }
-//    }
-    
+    @IBAction func btnRemarks(_ sender: Any) {
+        DispatchQueue.main.async {
+            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "RemarkPopUPVC") as! RemarkPopUPVC
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
     @IBAction func btnBack(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
-    
-    @IBAction func filterBtn(_ sender: UIButton) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "SelectEvalutions") as! SelectEvalutions
-        vc.delegate = self
-        vc.userID = userID
-        vc.modalPresentationStyle = .overFullScreen
-        self.navigationController?.present(vc, animated: false)
-    }
-
     
 }
 
@@ -195,6 +172,6 @@ extension DemoVC2: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 100
+        return UITableView.automaticDimension
     }
 }
