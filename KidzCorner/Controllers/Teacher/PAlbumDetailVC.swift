@@ -104,9 +104,15 @@ extension PAlbumDetailVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func gotoRatings(sender: UIButton) {
+//        let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+//        let vc = storyboard.instantiateViewController(withIdentifier: "DemoVC") as! DemoVC
+//        vc.userID = studentId
+//        self.navigationController?.pushViewController(vc, animated: true)
+        
         let storyboard = UIStoryboard(name: "Parent", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "DemoVC") as! DemoVC
+        let vc = storyboard.instantiateViewController(withIdentifier: "RemarkPopUPVC") as! RemarkPopUPVC
         vc.userID = studentId
+        vc.albumID = albumId ?? ""
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

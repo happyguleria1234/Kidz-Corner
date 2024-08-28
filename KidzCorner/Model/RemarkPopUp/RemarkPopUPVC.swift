@@ -13,6 +13,8 @@ class RemarkPopUPVC: UIViewController {
     
     //MARK: Outlets
     
+    var userID = Int()
+    var albumID = String()
     @IBOutlet weak var crossBtn: UIButton!
     @IBOutlet weak var remarktableView: UITableView!
     
@@ -24,7 +26,34 @@ class RemarkPopUPVC: UIViewController {
         super.viewDidLoad()
         remarktableView.delegate = self
         remarktableView.dataSource = self
+        getComments(userID: userID, albumID: albumID)
         remarktableView.register(UINib(nibName: "RemarkPopUPCell", bundle: nil), forCellReuseIdentifier: "RemarkPopUPCell")
+    }
+    
+    //------------------------------------------------------
+    
+    //MARK: API Call
+    
+    func getComments(userID: Int, albumID: String) {
+        DispatchQueue.main.async {
+            startAnimating((self.tabBarController?.view)!)
+        }
+        var param = ["user_id":userID,"portfolio_id":albumID] as? [String:Any] ?? [:]
+        ApiManager.shared.Request(type: AlbumModelDataa.self, methodType: .Post, url: baseUrl+commentss, parameter: param) { error, myObject, msgString, statusCode in
+            if statusCode == 200 {
+                DispatchQueue.main.sync {
+//                    self.albumDetailData = myObject
+                    self.remarktableView.reloadData()
+                }
+            }
+            else {
+                Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+            }
+        }
+    }
+    
+    func hitAlbumWithId(album_id:String, studentID:Int){
+        
     }
     
     //------------------------------------------------------

@@ -221,9 +221,9 @@ extension DashboardTableCell: UICollectionViewDelegate, UICollectionViewDataSour
                 cellContent?.forEach({ imgData in
                     images.append(LightboxImage(imageURL: URL(string: "\(imageBaseUrl)\(imgData.image ?? "")")!))
                 })
-                let controller = LightboxController(images: images)
+                let controller = LightboxController(images: images,startIndex: indexPath.row)
                 controller.dynamicBackground = true
-                controller.goTo(0)
+                controller.goTo(indexPath.row)
                 self.view.present(controller, animated: true) {
                     comesForImages = "Images"
                 }

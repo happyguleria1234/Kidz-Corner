@@ -33,15 +33,15 @@ class ParentDashboard: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupTable()
+        updateTokens()
         buttonsData.append(ButtonsData(name: "Attandence", imgName: "Attendnce1"))
-        buttonsData.append(ButtonsData(name: "Handbook", imgName: "ratings"))
+        buttonsData.append(ButtonsData(name: "Evaluation", imgName: "ratings"))
         buttonsData.append(ButtonsData(name: "Calender", imgName: "CalenderHome"))
         buttonsData.append(ButtonsData(name: "Portfolio", imgName: "Portfolio"))
         buttonsData.append(ButtonsData(name: "Finance", imgName: "Finance1"))
         buttonsData.append(ButtonsData(name: "Board", imgName: "broad"))
         buttonsData.append(ButtonsData(name: "Bulleting", imgName: "bulleting"))
         buttonsData.append(ButtonsData(name: "Weekly Update", imgName: "weekly"))
-
         setupCollectionView()
     }
     
@@ -135,6 +135,17 @@ class ParentDashboard: UIViewController {
                 if statusCode == 200 {
                     self.childrenData = myObject?.data ?? []
                     self.getChildDetailsApi(date: Date().shortDate, childId: self.childrenData.first?.id)
+                } else {
+                    Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+                }
+            }
+        }
+    }
+    
+    func updateTokens() {
+        ApiManager.shared.Request(type: CommonModel.self, methodType: .Post, url: baseUrl + updateToken, parameter: ["token":UserDefaults.standard.string(forKey: myDeviceToken) ?? "123"]) { error, myObject, msgString, statusCode in
+            DispatchQueue.main.async {
+                if statusCode == 200 {
                 } else {
                     Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
                 }
@@ -530,8 +541,9 @@ extension ParentDashboard: UICollectionViewDelegate, UICollectionViewDataSource,
             comesForImages = "Images"
             self.navigationController?.pushViewController(vc, animated: true)
         case 3:
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncements") as! ParentAnnouncements
-            vc.type = "bulleting"
+            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
+            vc.comesFrom = "5"
             comesForImages = "Images"
             self.navigationController?.pushViewController(vc, animated: true)
         default:
@@ -554,13 +566,17 @@ extension ParentDashboard: UICollectionViewDelegate, UICollectionViewDataSource,
             comesForImages = "Images"
             self.navigationController?.pushViewController(vc, animated: true)
         case 2:
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncements") as! ParentAnnouncements
-            vc.type = "announcement"
+            
+            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
+            vc.comesFrom = "6"
             comesForImages = "Images"
             self.navigationController?.pushViewController(vc, animated: true)
         case 3:
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncements") as! ParentAnnouncements
-            vc.type = "weekly_update"
+            
+            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
+            vc.comesFrom = "7"
             comesForImages = "Images"
             self.navigationController?.pushViewController(vc, animated: true)
         default:

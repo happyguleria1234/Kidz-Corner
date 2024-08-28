@@ -57,3 +57,9 @@ struct ClassNamee: Codable {
     let id: Int?
     let name: String?
 }
+
+
+struct CommonModel: Codable {
+    var status: Int?
+    var message: String?
+}

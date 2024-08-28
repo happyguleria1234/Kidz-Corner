@@ -15,7 +15,7 @@ class TeacherDashboard: UIViewController {
 //        setupViews()
         setupTable()
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTable), name: NSNotification.Name("ToggleDescriptionNotification"), object: nil)
-
+        updateTokens()
 //        getDashboard()
      
     }
@@ -47,6 +47,18 @@ class TeacherDashboard: UIViewController {
             DispatchQueue.main.async { [self] in
                 if statusCode == 200 {
                     setupViews()
+                    comesForImages = ""
+                } else {
+                    Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+                }
+            }
+        }
+    }
+    
+    func updateTokens() {
+        ApiManager.shared.Request(type: CommonModel.self, methodType: .Post, url: baseUrl + updateToken, parameter: ["token":UserDefaults.standard.string(forKey: myDeviceToken) ?? "123"]) { error, myObject, msgString, statusCode in
+            DispatchQueue.main.async {
+                if statusCode == 200 {
                 } else {
                     Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
                 }

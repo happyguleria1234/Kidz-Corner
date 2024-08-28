@@ -4,6 +4,7 @@ class ParentAnnouncements: UIViewController {
     
     @IBOutlet weak var lbl_title: UILabel!
     var announcementsData: AnnouncementChildrenModel?
+    var announcementsDataa = [AnnouncementChildrenModelData]()
     var childrenData: [ChildData]?
     var comesFrom = String()
     var type = String()
@@ -63,6 +64,33 @@ class ParentAnnouncements: UIViewController {
         
     }
     
+//    func getAnnouncements() {
+//        if comesFrom == "" {
+//            startAnimating((self.tabBarController?.view)!)
+//        }
+//        let params = ["componse_type": type]
+//        ApiManager.shared.Request(type: AnnouncementChildrenModel.self, methodType: .Get, url: baseUrl+evulationData, parameter: params) { error, myObject, msgString, statusCode in
+//            if statusCode == 200 {
+//                let userId = UserDefaults.standard.string(forKey: myUserid) ?? ""
+//                self.announcementsDataa = myObject?.data?.filter { announcement in
+//                    return "\(announcement.userID ?? 0)" == userId
+//                } ?? []
+//
+//                DispatchQueue.main.async { [self] in
+//                    if !self.announcementsDataa.isEmpty {
+//                        tableAnnouncements.isHidden = false
+//                        tableAnnouncements.reloadData()
+//                    } else {
+//                        tableAnnouncements.isHidden = true
+//                    }
+//                }
+//            } else {
+//                Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+//            }
+//        }
+//    }
+
+    
     func getAnnouncements() {
         if comesFrom == "" {
             startAnimating((self.tabBarController?.view)!)
@@ -70,7 +98,7 @@ class ParentAnnouncements: UIViewController {
         let params = ["componse_type": type]
         ApiManager.shared.Request(type: AnnouncementChildrenModel.self, methodType: .Get, url: baseUrl+evulationData, parameter: params) { error, myObject, msgString, statusCode in
             if statusCode == 200 {
-                self.announcementsData = myObject
+                self.announcementsDataa = myObject?.data ?? []
                 DispatchQueue.main.async { [self] in
                     if myObject?.data?.count != 0 {
                         tableAnnouncements.isHidden = false
@@ -104,7 +132,6 @@ class ParentAnnouncements: UIViewController {
         }
     }
     
-    
     @IBAction func didTapNotification(_ sender: UIButton) {
         if let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "NotificationsVC") as? NotificationsVC {
             self.navigationController?.pushViewController(nextVC, animated: true)
@@ -113,22 +140,23 @@ class ParentAnnouncements: UIViewController {
 }
 
 extension ParentAnnouncements: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return self.announcementsData?.data?.count ?? 0
+       return self.announcementsDataa.count
  
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ParentAnnouncementCell", for: indexPath) as! ParentAnnouncementCell
-        let data = self.announcementsData?.data?[indexPath.row]
+        let data = announcementsDataa[indexPath.row]
         
-        cell.nameLbl.text = data?.title
-        cell.dateLbl.text = data?.date ?? ""
-        cell.lblName.text = data?.user?.name
-        let userProfileUrl = URL(string: imageBaseUrl + (data?.file ?? ""))
+        cell.nameLbl.text = data.title
+        cell.dateLbl.text = data.date ?? ""
+        cell.lblName.text = data.user?.name
+        let userProfileUrl = URL(string: imageBaseUrl + (data.file ?? ""))
         cell.imgCell.kf.setImage(with: userProfileUrl, placeholder: UIImage(named: "placeholderImage"))
-        cell.descriptionLbl.attributedText = data?.announcmentDescription?.htmlAttributedString2()
+        cell.descriptionLbl.attributedText = data.announcmentDescription?.htmlAttributedString2()
         
         cell.backgroundColor = .clear
         return cell
@@ -137,27 +165,27 @@ extension ParentAnnouncements: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if type == "bulleting" {
-            if let urls = URL(string: imageBaseUrl + (self.announcementsData?.data?[indexPath.row].file ?? "")) {
+            if let urls = URL(string: imageBaseUrl + (self.announcementsData?.data?[indexPath.row].attachment ?? "")) {
                 UIApplication.shared.open(urls)
             }
         } else {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncement") as! ParentAnnouncement
-            let data = self.announcementsData?.data?[indexPath.row]
+            let data = announcementsDataa[indexPath.row]
             if let childData = childrenData {
                 for child in childData {
-                    if child.id == data?.userID {
+                    if child.id == data.userID {
                         vc.childName = child.name?.capitalized
                     }
                 }
             }
-            vc.announcementId = data?.id
-            vc.announcementDate = data?.date
-            vc.announcementTitle = data?.title
-            vc.announcementDescription = data?.announcmentDescription
-            vc.announcementImage = data?.file
-            vc.announcementStatus = data?.status
-            vc.announcementType = data?.announcementType
-            vc.announcementPDF = data?.attachment
+            vc.announcementId = data.id
+            vc.announcementDate = data.date
+            vc.announcementTitle = data.title
+            vc.announcementDescription = data.announcmentDescription
+            vc.announcementImage = data.file
+            vc.announcementStatus = data.status
+            vc.announcementType = data.announcementType
+            vc.announcementPDF = data.attachment
             vc.anouncementData = data
             self.navigationController?.pushViewController(vc, animated: true)
         }
