@@ -338,7 +338,7 @@ extension MessageListingVC {
     }
 }
 
-extension MessageListingVC : UITableViewDelegate, UITableViewDataSource {
+extension MessageListingVC : UITableViewDelegate, UITableViewDataSource, UIContextMenuInteractionDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return messageListing.count
@@ -380,8 +380,7 @@ extension MessageListingVC : UITableViewDelegate, UITableViewDataSource {
         let button = IndexedButton()
         button.section = indexPath.section
         button.row = indexPath.row
-        
-        if data.messageType == 1 { // Assuming messageType is 1 for text messages
+        if data.messageType == 1 {
             if data.senderID == userID {
                 let senderCell = tableView.dequeueReusableCell(withIdentifier: "SenderCell", for: indexPath) as! SenderCell
                 senderCell.setMessageData(messageData: data)
@@ -466,8 +465,18 @@ extension MessageListingVC : UITableViewDelegate, UITableViewDataSource {
                 vc.url = data.media ?? ""
                 self.navigationController?.pushViewController(vc, animated: true)
             }
+        }else if data.messageType == 2{
+//            let section = indexPath.row / 1000
+//            let row = indexPath.row % 1000
+//            let messageData = messageListing[indexPath.row].messages[row]
+            if let media = data.media, media != "", data.message == "" {
+                if let vc = storyboard?.instantiateViewController(withIdentifier: "OpenChatData") as? OpenChatData {
+                    vc.url = media
+                    navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+
         }
-        
     }
     
     @available(iOS 13.0, *)
@@ -645,15 +654,3 @@ class IndexedButton: UIButton {
     var row: Int = 0
 }
 
-func convertStrToDate(strDate: String) -> Date{
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-    let date = dateFormatter.date(from: strDate)
-    
-    if let date = date {
-        print(date) // Output: 2023-05-30 09:30:00 +0000
-    } else {
-        print("Invalid date string")
-    }
-    return date ?? Date()
-}

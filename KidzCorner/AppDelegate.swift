@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         if #available(iOS 13.0, *) {
             self.window?.overrideUserInterfaceStyle = .light
         }
-        
+        UIApplication.shared.applicationIconBadgeNumber = 0
         IQKeyboardManager.shared.enable = true
         DropDown.startListeningToKeyboard()
         SocketIOManager.sharedInstance.connectUser()

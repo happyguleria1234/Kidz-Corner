@@ -8,7 +8,6 @@
 import UIKit
 
 class PDFViewCell: UITableViewCell {
-
     
     @IBOutlet weak var imgVw: UIImageView!
     @IBOutlet weak var pdfNamelbl: UILabel!

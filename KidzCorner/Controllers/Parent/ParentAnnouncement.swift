@@ -16,6 +16,7 @@ class ParentAnnouncement: UIViewController {
     @IBOutlet weak var viewPFD: UIStackView!
     @IBOutlet weak var viewOuter: UIView!
     
+    @IBOutlet weak var lblTitle2: UILabel!
     @IBOutlet weak var lblFile: UILabel!
     @IBOutlet weak var imageAnnouncement: UIImageView!
     @IBOutlet weak var labelName: UILabel!
@@ -101,7 +102,7 @@ class ParentAnnouncement: UIViewController {
 
             imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(anouncementData?.file ?? "")), placeholderImage: .announcementPlaceholder)
             labelDate.text = announcementDate
-            labelName.text = "\(childName ?? "")"
+            lblTitle2.text = "\(childName ?? "")"
             
         }
     }
@@ -141,7 +142,7 @@ class ParentAnnouncement: UIViewController {
             }
         }
         if anouncementData?.attachment == nil{
-            viewPFD.isHidden = false
+            viewPFD.isHidden = true
         } else {
             viewPFD.isHidden = false
         }

@@ -56,7 +56,6 @@ extension StudentListVC: UITableViewDelegate, UITableViewDataSource {
         let data = childrenData[indexPath.row]
         cell.lbl_name.text = data.name
         cell.img_user.contentMode = .scaleAspectFill
-        //        cell.img_user.sd_setImage(with: URL(string: imageBaseUrl+(data.image ?? "")),placeholderImage: .announcementPlaceholder)
         let userProfileUrl = URL(string: imageBaseUrl+(data.image ?? ""))
         cell.img_user.kf.setImage(with: userProfileUrl)
         return cell
@@ -85,6 +84,21 @@ extension StudentListVC: UITableViewDelegate, UITableViewDataSource {
                 vc.userID = childrenData[indexPath.row].id ?? 0
                 self.navigationController?.pushViewController(vc, animated: true)
             }
+        } else if comesFrom == "5" || comesFrom == "6" || comesFrom == "7" {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncements") as! ParentAnnouncements
+            switch comesFrom {
+            case "5":
+                vc.type = "bulleting"
+            case "6":
+                vc.type = "announcement"
+            case "7":
+                vc.type = "weekly_update"
+            default:
+                break
+            }
+            comesForImages = "Images"
+            self.navigationController?.pushViewController(vc, animated: true)
+            
         } else {
             let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "TeacherPortfolioVC") as! TeacherPortfolioVC

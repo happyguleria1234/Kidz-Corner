@@ -87,6 +87,8 @@ public let evaluationList = "evaluations?userId="
 public let eavluationfilterList = "evaluations/"
 public let logout = "signout"
 public let evulationData = "announcement_children"
+public let updateToken = "update_token"
+public let commentss = "portfolioCommentList"
 
 
 extension UIImage {

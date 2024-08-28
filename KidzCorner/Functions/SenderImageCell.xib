@@ -67,6 +67,11 @@
                                 <integer key="value" value="12"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="lcz-Zd-JIW"/>
+                            </mask>
+                        </variation>
                     </view>
                 </subviews>
                 <constraints>

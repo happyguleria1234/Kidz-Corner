@@ -15,7 +15,6 @@ class TeacherAnnouncements: UIViewController {
         super.viewDidLoad()
         setupTable()
         setupViews()
-        getAnnouncements()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -24,6 +23,7 @@ class TeacherAnnouncements: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        getAnnouncements()
     }
     
     @IBAction func backFunc(_ sender: Any) {

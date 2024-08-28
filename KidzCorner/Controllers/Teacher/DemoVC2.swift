@@ -105,11 +105,12 @@ class DemoVC2: UIViewController, SelectEvulation {
     }
     
     @IBAction func btnRemarks(_ sender: Any) {
-        DispatchQueue.main.async {
-            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "RemarkPopUPVC") as! RemarkPopUPVC
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+        AlertManager.shared.showAlert(title: "Kidz Corner", message: "The feature will be coming soon.", viewController: self)
+//        DispatchQueue.main.async {
+//            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+//            let vc = storyboard.instantiateViewController(withIdentifier: "RemarkPopUPVC") as! RemarkPopUPVC
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        }
     }
     @IBAction func btnBack(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
