@@ -34,14 +34,14 @@ class ParentDashboard: UIViewController {
         setupViews()
         setupTable()
         updateTokens()
-        buttonsData.append(ButtonsData(name: "Attandence", imgName: "Attendnce1"))
+        buttonsData.append(ButtonsData(name: "Attendance", imgName: "Attendnce1"))
         buttonsData.append(ButtonsData(name: "Evaluation", imgName: "ratings"))
         buttonsData.append(ButtonsData(name: "Calender", imgName: "CalenderHome"))
         buttonsData.append(ButtonsData(name: "Portfolio", imgName: "Portfolio"))
         buttonsData.append(ButtonsData(name: "Finance", imgName: "Finance1"))
         buttonsData.append(ButtonsData(name: "Board", imgName: "broad"))
-        buttonsData.append(ButtonsData(name: "Bulleting", imgName: "bulleting"))
-        buttonsData.append(ButtonsData(name: "Weekly Update", imgName: "weekly"))
+        buttonsData.append(ButtonsData(name: "Bulleting", imgName: "Bulleting and weekly update"))
+        buttonsData.append(ButtonsData(name: "Weekly Update", imgName: "Framessss"))
         setupCollectionView()
     }
     
@@ -273,10 +273,10 @@ extension ParentDashboard: UITableViewDelegate, UITableViewDataSource {
         cell.postData2 = data
         cell.comesFrom = "Parent"
         cell.labelName.text = data?.teacher?.name ?? ""
-        cell.labelTitle.text = data?.title ?? ""
+        cell.labelTitle.text = data?.title?.capitalized ?? ""
         cell.labelDescription.text = data?.postContent ?? ""
         cell.labelTime.text = data?.postDate ?? ""
-        
+        cell.viewComment.isHidden = true
         cell.labelDomain.text = data?.domain?.name ?? ""
         cell.buttonLike.setImage(UIImage(named: "likeEmpty"), for: .normal)
         cell.buttonLike.setImage(UIImage(named: "likeFilled"), for: .selected)

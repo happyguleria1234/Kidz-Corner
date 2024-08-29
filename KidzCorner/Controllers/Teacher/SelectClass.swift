@@ -8,6 +8,7 @@ class SelectClass: UIViewController {
     
     var classes: AllClassesModel?
     
+    @IBOutlet weak var tblHeight: NSLayoutConstraint!
     @IBOutlet weak var gradientView: GradientView!
     @IBOutlet weak var tableClasses: UITableView!
     
@@ -20,6 +21,15 @@ class SelectClass: UIViewController {
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         
         setupTable()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.updateViewConstraints()
+        DispatchQueue.main.async {
+            let height = self.tableClasses.contentSize.height
+            self.tblHeight.constant = height
+            self.view.layoutIfNeeded()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -54,7 +64,6 @@ class SelectClass: UIViewController {
         ApiManager.shared.Request(type: AllClassesModel.self, methodType: .Get, url: baseUrl+apiGetAllClasses, parameter: params) { error, myObject, msgString, statusCode in
             if statusCode == 200 {
                 DispatchQueue.main.async {
-                     
                     self.classes = myObject
                     self.tableClasses.reloadData()
                 }

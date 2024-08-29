@@ -78,7 +78,7 @@ class TeacherChatVC: UIViewController, OpenChatVCProtocol, classSelected {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        getClasses()
+        getClasses()
         tblChats.reloadData()
         tblChats.backgroundColor = .clear
         SocketIOManager.sharedInstance.userStatus()
@@ -89,7 +89,7 @@ class TeacherChatVC: UIViewController, OpenChatVCProtocol, classSelected {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getClasses()
+//        getClasses()
     }
     
     //------------------------------------------------------
@@ -172,7 +172,10 @@ extension TeacherChatVC {
     }
     
     func openChat(_ studentID:Int,_ userProfileImage:String?,_ userName:String?,_ threadID:Int = 0) {
-        
+        DispatchQueue.main.async {
+            stopAnimating()
+            self.stopIndicator()
+        }
         SocketIOManager.sharedInstance.joinRoomEmitter(userID: studentID)
         SocketIOManager.sharedInstance.joinRoomListner { [weak self] messageInfo in
             guard let self = self else { return }
@@ -229,16 +232,18 @@ extension TeacherChatVC {
     }
     
     func getChatRoomData(classID:Int = 0) {
-        showIndicator()
+        DispatchQueue.main.async {
+            startAnimating(self.view)
+        }
         ApiManager.shared.Request(type: ChatInboxModel.self,
                                   methodType: .Get,
                                   url: baseUrl+chatRoom,
                                   parameter: ["classId":classID]) { error, resp, msgString, statusCode in
-            
-            guard error == nil,
-                  let userlist = resp?.data?.data,
-                  statusCode == 200 else {
-                self.stopIndicator()
+            DispatchQueue.main.async {
+                stopAnimating()
+            }
+            guard error == nil,let userlist = resp?.data?.data,statusCode == 200 else {
+                
                 return }
             
             DispatchQueue.main.async {
@@ -257,6 +262,9 @@ extension TeacherChatVC {
         }
         let params = [String: String]()
         ApiManager.shared.Request(type: AllClassesModel.self, methodType: .Get, url: baseUrl+apiGetAllClasses, parameter: params) { [self] error, myObject, msgString, statusCode in
+            DispatchQueue.main.async {
+                stopAnimating()
+            }
             if statusCode == 200 {
                 self.classesData = myObject
                 UserDefaults.standard.setValue(myObject?.data?[0].id, forKey: myClass)

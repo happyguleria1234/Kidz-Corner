@@ -27,9 +27,6 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="12" translatesAutoresizingMaskIntoConstraints="NO" id="EpP-Ra-c8w">
                                 <rect key="frame" x="0.0" y="0.0" width="292" height="180"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="180" id="Uo6-H9-tPd"/>
-                                </constraints>
                             </imageView>
                             <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="Er8-hL-uKI">
                                 <rect key="frame" x="20.000000000000007" y="194" width="95.666666666666686" height="44"/>
@@ -60,6 +57,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="EpP-Ra-c8w" firstAttribute="top" secondItem="nUm-w7-VWO" secondAttribute="top" id="0O3-LZ-Lbo"/>
+                            <constraint firstItem="EpP-Ra-c8w" firstAttribute="height" secondItem="nUm-w7-VWO" secondAttribute="height" multiplier="0.731707" id="HA6-Ts-icy"/>
                             <constraint firstItem="EpP-Ra-c8w" firstAttribute="leading" secondItem="nUm-w7-VWO" secondAttribute="leading" id="L0I-2h-EQF"/>
                             <constraint firstAttribute="trailing" secondItem="EpP-Ra-c8w" secondAttribute="trailing" id="VF5-rY-rBE"/>
                             <constraint firstItem="Er8-hL-uKI" firstAttribute="leading" secondItem="EpP-Ra-c8w" secondAttribute="leading" constant="20" id="ZOa-gi-gWh"/>

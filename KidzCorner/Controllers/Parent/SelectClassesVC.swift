@@ -104,9 +104,11 @@ extension SelectClassesVC: UITableViewDelegate, UITableViewDataSource {
         let data = self.evaluationArr?.data?[indexPath.row]
         cell.labelName.text = data?.name ?? ""
         if selectedEvaluationIDs.contains(data?.id ?? 0) {
-            cell.contentView.backgroundColor = UIColor(named: "myDarkGreen")!
-        } else {
             cell.contentView.backgroundColor = UIColor.white
+            cell.labelName.textColor = UIColor.black
+        } else {
+            cell.contentView.backgroundColor = UIColor(named: "gradientBottom")!
+            cell.labelName.textColor = UIColor.white
         }
         return cell
     }

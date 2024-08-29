@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class RemarkPopUPCell: UITableViewCell {
     
@@ -20,11 +21,20 @@ class RemarkPopUPCell: UITableViewCell {
         imgCell.layer.cornerRadius = imgCell.frame.height / 2
         imgCell.clipsToBounds = true
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    func setData(listData: RemarkModelDataList) {
+        nameLbl.text = listData.user?.name
+        descriptionLbl.text = listData.description ?? ""
+        let userProfileUrl = URL(string: imageBaseUrl+(listData.user?.image ?? ""))
+        imgCell.kf.setImage(with: userProfileUrl)
     }
+    
+    func setDataPortfolio(listData: PortFolioDataModelDatum) {
+        nameLbl.text = listData.user?.name
+        descriptionLbl.text = listData.post ?? ""
+        let userProfileUrl = URL(string: imageBaseUrl+(listData.user?.image ?? ""))
+        imgCell.kf.setImage(with: userProfileUrl)
+    }
+
     
 }

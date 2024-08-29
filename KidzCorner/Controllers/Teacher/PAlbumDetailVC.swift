@@ -10,12 +10,11 @@ import UIKit
 class PAlbumDetailVC: UIViewController {
     
     var studentId = Int()
-    @IBOutlet weak var backbtn: UIButton!
-    @IBOutlet weak var PortfolioDetailtableView: UITableView!
-    
     var albumId:String?
     var albumDetailData: AlbumModelDataa?
-
+    
+    @IBOutlet weak var backbtn: UIButton!
+    @IBOutlet weak var PortfolioDetailtableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,12 +28,12 @@ class PAlbumDetailVC: UIViewController {
         PortfolioDetailtableView.register(UINib(nibName: "DashboardTableCell", bundle: nil), forCellReuseIdentifier: "DashboardTableCell")
         self.hitAlbumWithId(album_id: albumId ?? "0",studentID: studentId)
     }
-
+    
     @IBAction func backBtn(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
     
-//    MARK: HIT API
+    //    MARK: HIT API
     
     func hitAlbumWithId(album_id:String, studentID:Int){
         DispatchQueue.main.async {
@@ -79,7 +78,7 @@ extension PAlbumDetailVC: UITableViewDelegate, UITableViewDataSource {
         cell.buttonMore.tag = indexPath.row
         cell.buttonMore.addTarget(self, action: #selector(gotoRatings(sender:)), for: .touchUpInside)
         cell.imageProfile.sd_setImage(with: URL(string: imageBaseUrl+(data?[indexPath.row].teacher?.image ?? "")), placeholderImage: .placeholderImage)
-//        cell.postData = data
+        //        cell.postData = data
         cell.labelName.text = data?[indexPath.row].teacher?.name ?? ""
         cell.labelTitle.text = data?[indexPath.row].title ?? ""
         cell.labelDescription.text = data?[indexPath.row].postContent ?? ""
@@ -92,6 +91,9 @@ extension PAlbumDetailVC: UITableViewDelegate, UITableViewDataSource {
         } else {
             cell.collectionHeight.constant = 280
         }
+        cell.btnComment.addTarget(self, action: #selector(gotoRatings), for: .touchUpInside)
+        cell.viewComment.isHidden = false
+        cell.buttonMore.isHidden = true
         cell.view = self
         cell.buttonLike.tag = indexPath.row
         cell.buttonComment.tag = indexPath.row
@@ -104,17 +106,12 @@ extension PAlbumDetailVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func gotoRatings(sender: UIButton) {
-//        let storyboard = UIStoryboard(name: "Parent", bundle: nil)
-//        let vc = storyboard.instantiateViewController(withIdentifier: "DemoVC") as! DemoVC
-//        vc.userID = studentId
-//        self.navigationController?.pushViewController(vc, animated: true)
-        
         let storyboard = UIStoryboard(name: "Parent", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "RemarkPopUPVC") as! RemarkPopUPVC
+        let vc = storyboard.instantiateViewController(withIdentifier: "RemarksNewVC") as! RemarksNewVC
         vc.userID = studentId
-        vc.albumID = albumId ?? ""
+        vc.albumID = "\(albumDetailData?.data?.data?[sender.tag].portfolioImage?.first?.portfolioID ?? 0)"
         vc.comesFrom = "Album"
-        self.navigationController?.pushViewController(vc, animated: true)
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: true)
     }
-    
 }

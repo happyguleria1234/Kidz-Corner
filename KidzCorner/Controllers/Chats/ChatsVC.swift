@@ -150,7 +150,7 @@ extension ChatsVC: UITableViewDelegate, UITableViewDataSource {
                         id = Int(messageInfo.data?.student?.id ?? "") ?? 0
                         threadIDD = Int(messageInfo.data?.thread?.id ?? "") ?? 0
                         userNamee = messageInfo.data?.student?.name
-                        userProfileImagee = messageInfo.data?.student?.name
+                        userProfileImagee = messageInfo.data?.student?.image
                         vc.hidesBottomBarWhenPushed = true
                         self.navigationController?.pushViewController(vc, animated: true)
                     }

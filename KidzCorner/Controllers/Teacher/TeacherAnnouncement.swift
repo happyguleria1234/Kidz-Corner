@@ -88,7 +88,9 @@ class TeacherAnnouncement: UIViewController {
             labelTitle.text = announcementTitle ?? ""
             //            labelDescription.text = announcementDescription ?? ""
             labelDescription.attributedText = announcementDescription?.htmlAttributedString()
-            imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(anouncementData?.file ?? "")), placeholderImage: .announcementPlaceholder)
+//            imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(anouncementData?.file ?? "")), placeholderImage: .announcementPlaceholder)
+            let userProfileUrl = URL(string: imageBaseUrl+(anouncementData?.file ?? ""))
+            imageAnnouncement.kf.setImage(with: userProfileUrl, placeholder: UIImage(named: "placeholderImage"))
             labelDate.text = announcementDate
             if self.announcementPDF != "" {
                 self.attachmentLabel.text = "Attachment" + "." + (URL(string: imageBaseUrl + (announcementPDF ?? ""))?.pathExtension ?? "")

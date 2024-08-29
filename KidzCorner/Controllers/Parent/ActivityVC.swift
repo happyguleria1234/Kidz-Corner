@@ -95,10 +95,11 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource {
         cell.postData2 = data
         cell.comesFrom = "Parent"
         cell.labelName.text = data?.teacher?.name ?? ""
-        cell.labelTitle.text = data?.title ?? ""
+        cell.labelTitle.text = data?.title?.capitalized ?? ""
         cell.labelDescription.text = data?.postContent ?? ""
         cell.labelTime.text = data?.postDate ?? ""
         cell.view = self
+        cell.viewComment.isHidden = true
         cell.labelDomain.text = data?.domain?.name ?? ""
         if data?.is_collage == 0 {
             cell.collectionHeight.constant = 350
@@ -114,7 +115,6 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource {
         else if data?.isLike == 0 {
             cell.buttonLike.isSelected = false
         }
-        
         cell.buttonLike.tag = indexPath.row
         cell.buttonComment.tag = indexPath.row
         cell.buttonShare.tag = indexPath.row

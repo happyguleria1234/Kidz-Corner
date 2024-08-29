@@ -36,8 +36,9 @@ func startAnimating(_ uiView : UIView){
 
 func stopAnimating(){
     DispatchQueue.main.async {
-    actInd.stopAnimating()
-    view1.removeFromSuperview()
+        actInd.stopAnimating()
+        view1.removeFromSuperview()
+        loadingView.removeFromSuperview()
     }
 }
 

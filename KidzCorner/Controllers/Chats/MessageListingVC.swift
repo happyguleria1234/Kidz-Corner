@@ -334,7 +334,9 @@ extension MessageListingVC {
         lbl_name.text = userNamee
         imgProfile.contentMode = .scaleAspectFill
         let userProfileUrl = URL(string: imageBaseUrl+(userProfileImagee ?? ""))
-        imgProfile.kf.setImage(with: userProfileUrl, placeholder: UIImage(named: "placeholderImage"))
+        DispatchQueue.main.async {
+            self.imgProfile.kf.setImage(with: userProfileUrl, placeholder: UIImage(named: "placeholderImage"))
+        }
     }
 }
 
@@ -481,23 +483,27 @@ extension MessageListingVC : UITableViewDelegate, UITableViewDataSource, UIConte
     
     @available(iOS 13.0, *)
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        let userID = UserDefaults.standard.value(forKey: "myUserid") as? Int ?? 0
+        if self.messageListing[indexPath.section].messages[indexPath.row].senderID == userID {
         return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: nil) { [weak self] _ in
-            return UIMenu(title: "", children: [
-                UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: .destructive) { action in
-                    guard let self = self else { return }
-                    let data = self.messageListing[indexPath.section].messages[indexPath.row]
-                    SocketIOManager.sharedInstance.deleteMessage(threadID: threadIDD, messageID: data.id ?? 0)
-                    SocketIOManager.sharedInstance.deleteMessageListner { status in
-                        if status {
-                            DispatchQueue.main.async {
-                                self.messageListing[indexPath.section].messages.remove(at: indexPath.row)
-                                self.tblMessages.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
+                return UIMenu(title: "", children: [
+                    UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: .destructive) { action in
+                        guard let self = self else { return }
+                        let data = self.messageListing[indexPath.section].messages[indexPath.row]
+                        SocketIOManager.sharedInstance.deleteMessage(threadID: threadIDD, messageID: data.id ?? 0)
+                        SocketIOManager.sharedInstance.deleteMessageListner { status in
+                            if status {
+                                DispatchQueue.main.async {
+                                    self.messageListing[indexPath.section].messages.remove(at: indexPath.row)
+                                    self.tblMessages.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
+                                }
                             }
                         }
                     }
-                }
-            ])
+                ])
+            }
         }
+        return nil
     }
     
     @available(iOS 13.0, *)

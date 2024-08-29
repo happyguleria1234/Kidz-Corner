@@ -99,8 +99,10 @@ class ParentAnnouncement: UIViewController {
             labelTitle.text = announcementTitle ?? ""
             labelDescription.text = announcementDescription ?? ""
             labelDescription.attributedText = announcementDescription?.htmlAttributedString()
+            let userProfileUrl = URL(string: imageBaseUrl+(anouncementData?.file ?? ""))
+            imageAnnouncement.kf.setImage(with: userProfileUrl, placeholder: UIImage(named: "placeholderImage"))
 
-            imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(anouncementData?.file ?? "")), placeholderImage: .announcementPlaceholder)
+//            imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(anouncementData?.file ?? "")), placeholderImage: .announcementPlaceholder)
             labelDate.text = announcementDate
             lblTitle2.text = "\(childName ?? "")"
             

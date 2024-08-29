@@ -10,6 +10,9 @@
 		181CD6262BFD0E56006917F3 /* PdfVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CD6252BFD0E56006917F3 /* PdfVC.swift */; };
 		181CD6282BFF9F18006917F3 /* PdfVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CD6272BFF9F18006917F3 /* PdfVC2.swift */; };
 		181DB6D82C7F7CA20005BCB4 /* RemarkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181DB6D72C7F7CA20005BCB4 /* RemarkModel.swift */; };
+		181DB6DA2C80CC520005BCB4 /* PortFolioDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181DB6D92C80CC520005BCB4 /* PortFolioDataModel.swift */; };
+		181DB6DC2C80D2DE0005BCB4 /* ShowHalfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181DB6DB2C80D2DE0005BCB4 /* ShowHalfView.swift */; };
+		181DB6DE2C80D7700005BCB4 /* RemarksNewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181DB6DD2C80D7700005BCB4 /* RemarksNewVC.swift */; };
 		18209CA42C13950500D59EAB /* MessageListingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA32C13950500D59EAB /* MessageListingVC.swift */; };
 		18209CA62C14140B00D59EAB /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA52C14140B00D59EAB /* CustomView.swift */; };
 		18209CAC2C15A7DB00D59EAB /* SocketConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA92C15A7DB00D59EAB /* SocketConstants.swift */; };
@@ -236,6 +239,9 @@
 		181CD6252BFD0E56006917F3 /* PdfVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfVC.swift; sourceTree = "<group>"; };
 		181CD6272BFF9F18006917F3 /* PdfVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfVC2.swift; sourceTree = "<group>"; };
 		181DB6D72C7F7CA20005BCB4 /* RemarkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemarkModel.swift; sourceTree = "<group>"; };
+		181DB6D92C80CC520005BCB4 /* PortFolioDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortFolioDataModel.swift; sourceTree = "<group>"; };
+		181DB6DB2C80D2DE0005BCB4 /* ShowHalfView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowHalfView.swift; sourceTree = "<group>"; };
+		181DB6DD2C80D7700005BCB4 /* RemarksNewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemarksNewVC.swift; sourceTree = "<group>"; };
 		18209CA32C13950500D59EAB /* MessageListingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListingVC.swift; sourceTree = "<group>"; };
 		18209CA52C14140B00D59EAB /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		18209CA92C15A7DB00D59EAB /* SocketConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketConstants.swift; sourceTree = "<group>"; };
@@ -515,6 +521,7 @@
 				188434952C73B410000D3805 /* RemarkPopUPVC.xib */,
 				188434982C73B5D3000D3805 /* RemarkPopUPCell.swift */,
 				188434992C73B5D3000D3805 /* RemarkPopUPCell.xib */,
+				181DB6DD2C80D7700005BCB4 /* RemarksNewVC.swift */,
 			);
 			path = RemarkPopUp;
 			sourceTree = "<group>";
@@ -934,6 +941,7 @@
 				18B1207E2C3581BB00ED2BA0 /* EmojiManager.swift */,
 				18CFC29D2C580C8800A2E25A /* CollageLayoutss.swift */,
 				18CFC2A02C5A889400A2E25A /* DownloadFile.swift */,
+				181DB6DB2C80D2DE0005BCB4 /* ShowHalfView.swift */,
 			);
 			path = Functions;
 			sourceTree = "<group>";
@@ -954,6 +962,7 @@
 				18942DF32C3A8EDF00389D04 /* AlbumModel.swift */,
 				18942DF72C3AB5D500389D04 /* TeacherPortfolioModel.swift */,
 				181DB6D72C7F7CA20005BCB4 /* RemarkModel.swift */,
+				181DB6D92C80CC520005BCB4 /* PortFolioDataModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1179,6 +1188,7 @@
 				18942DF22C3A82DC00389D04 /* TeacherPortfolioVC.swift in Sources */,
 				53B5913527EB5AFC009D301A /* Payments.swift in Sources */,
 				1850EF8C2C56532500BE9D42 /* DemoVC2.swift in Sources */,
+				181DB6DA2C80CC520005BCB4 /* PortFolioDataModel.swift in Sources */,
 				B7B09F322A44B9C400D7ABBD /* SelectionCell.swift in Sources */,
 				53CB200627CB85430027A346 /* SelectActivityPost.swift in Sources */,
 				1850EF332C4BF36C00BE9D42 /* StudentListVC.swift in Sources */,
@@ -1301,6 +1311,7 @@
 				18E4D9CC2AF96948005A3C58 /* MiscExt.swift in Sources */,
 				53C196D327B17F9200EF16A3 /* StatsCell.swift in Sources */,
 				53C1970A27B17F9200EF16A3 /* Common.swift in Sources */,
+				181DB6DC2C80D2DE0005BCB4 /* ShowHalfView.swift in Sources */,
 				188D95A62C1383FB00BC7A80 /* SenderCell.swift in Sources */,
 				5315773D29E1320F001C273C /* ParentPortfolioCell.swift in Sources */,
 				53C1970C27B17F9200EF16A3 /* UIViewFunctions.swift in Sources */,
@@ -1313,6 +1324,7 @@
 				B72E68A22ADAFC3F003433F2 /* AttendanceCell.swift in Sources */,
 				B7928B212A5089650083B77E /* PayloadModel.swift in Sources */,
 				18A79C502C1F39F300F08D92 /* TypesCell.swift in Sources */,
+				181DB6DE2C80D7700005BCB4 /* RemarksNewVC.swift in Sources */,
 				B7E07DAE2A43493F009FC8D8 /* CalendarVC.swift in Sources */,
 				B72E68A92ADB194A003433F2 /* UserdefaultsExt.swift in Sources */,
 				18CFC29E2C580C8800A2E25A /* CollageLayoutss.swift in Sources */,
@@ -1492,7 +1504,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.23;
+				MARKETING_VERSION = 7.24;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1544,7 +1556,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.23;
+				MARKETING_VERSION = 7.24;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";

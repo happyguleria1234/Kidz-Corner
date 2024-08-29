@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 import FSCalendar
 
 class ParentPortfolio: UIViewController {
@@ -410,7 +411,13 @@ class ParentPortfolio: UIViewController {
         self.labelName.text = data?.children?.name ?? ""
         self.labelClass.text = "Class: \(data?.children?.studentProfile?.className?.name ?? "")"
         
-        self.imageProfile.sd_setImage(with: URL(string: imageBaseUrl+(data?.children?.image ?? "")), placeholderImage: .placeholderImage)
+//        self.imageProfile.sd_setImage(with: URL(string: imageBaseUrl+(data?.children?.image ?? "")), placeholderImage: .placeholderImage)
+        
+        let userProfileUrl = URL(string: imageBaseUrl+(data?.children?.image ?? ""))
+        DispatchQueue.main.async {
+            self.imageProfile.kf.setImage(with: userProfileUrl)
+        }
+
         
         if let morningTemperature = data?.attendance?.morningTemp {
             labelMorningTemperature.text = "Temp: \(morningTemperature)"
@@ -537,7 +544,11 @@ extension ParentPortfolio: UITableViewDelegate, UITableViewDataSource {
             cell.collectionImages.tag = indexPath.row
             cell.collectionImages.reloadData()
             
-            cell.imageProfile.sd_setImage(with: URL(string: imageBaseUrl+(data?.teacher?.image ?? "")), placeholderImage: .placeholderImage)
+//            cell.imageProfile.sd_setImage(with: URL(string: imageBaseUrl+(data?.teacher?.image ?? "")), placeholderImage: .placeholderImage)
+            
+            let userProfileUrl = URL(string: imageBaseUrl+(data?.teacher?.image ?? ""))
+            cell.imageProfile.kf.setImage(with: userProfileUrl)
+
             
             cell.labelName.text = data?.teacher?.name ?? ""
             cell.labelTitle.text = data?.title ?? ""

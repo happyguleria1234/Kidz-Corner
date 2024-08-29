@@ -15,6 +15,8 @@ class DashboardTableCell: UITableViewCell {
     var originalText: String = ""
     var truncatedText: NSAttributedString = NSAttributedString()
     
+    @IBOutlet weak var btnComment: UIButton!
+    @IBOutlet weak var viewComment: UIView!
     @IBOutlet weak var viewOuter: UIView!
     @IBOutlet weak var imageProfile: UIImageView!
     @IBOutlet weak var labelTitle: UILabel!

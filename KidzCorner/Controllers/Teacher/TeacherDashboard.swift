@@ -173,7 +173,7 @@ extension TeacherDashboard: UITableViewDelegate, UITableViewDataSource {
         cell.imageProfile.sd_setImage(with: URL(string: imageBaseUrl+(data?.teacher?.image ?? "")), placeholderImage: .placeholderImage)
         cell.postData = data
         cell.labelName.text = data?.teacher?.name ?? ""
-        cell.labelTitle.text = data?.title ?? ""
+        cell.labelTitle.text = data?.title?.capitalized ?? ""
 //        cell.labelDescription.text = data?.postContent ?? ""
         cell.configureLabelDescription(text: data?.postContent ?? "")
         cell.labelTime.text = data?.postDate ?? ""
@@ -185,6 +185,7 @@ extension TeacherDashboard: UITableViewDelegate, UITableViewDataSource {
         } else {
             cell.collectionHeight.constant = 280
         }
+        cell.viewComment.isHidden = true
         if data?.isLike == 1 {
             cell.buttonLike.isSelected = true
         }
