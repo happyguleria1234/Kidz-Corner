@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		181CD6262BFD0E56006917F3 /* PdfVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CD6252BFD0E56006917F3 /* PdfVC.swift */; };
 		181CD6282BFF9F18006917F3 /* PdfVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CD6272BFF9F18006917F3 /* PdfVC2.swift */; };
+		181DB6D82C7F7CA20005BCB4 /* RemarkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181DB6D72C7F7CA20005BCB4 /* RemarkModel.swift */; };
 		18209CA42C13950500D59EAB /* MessageListingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA32C13950500D59EAB /* MessageListingVC.swift */; };
 		18209CA62C14140B00D59EAB /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA52C14140B00D59EAB /* CustomView.swift */; };
 		18209CAC2C15A7DB00D59EAB /* SocketConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA92C15A7DB00D59EAB /* SocketConstants.swift */; };
@@ -234,6 +235,7 @@
 		151C8956AD6F0EAC3335600A /* Pods-KidzCorner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KidzCorner.debug.xcconfig"; path = "Target Support Files/Pods-KidzCorner/Pods-KidzCorner.debug.xcconfig"; sourceTree = "<group>"; };
 		181CD6252BFD0E56006917F3 /* PdfVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfVC.swift; sourceTree = "<group>"; };
 		181CD6272BFF9F18006917F3 /* PdfVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfVC2.swift; sourceTree = "<group>"; };
+		181DB6D72C7F7CA20005BCB4 /* RemarkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemarkModel.swift; sourceTree = "<group>"; };
 		18209CA32C13950500D59EAB /* MessageListingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListingVC.swift; sourceTree = "<group>"; };
 		18209CA52C14140B00D59EAB /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		18209CA92C15A7DB00D59EAB /* SocketConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketConstants.swift; sourceTree = "<group>"; };
@@ -951,6 +953,7 @@
 				7E494F682C26FF5500348190 /* ChatInboxModel.swift */,
 				18942DF32C3A8EDF00389D04 /* AlbumModel.swift */,
 				18942DF72C3AB5D500389D04 /* TeacherPortfolioModel.swift */,
+				181DB6D72C7F7CA20005BCB4 /* RemarkModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1190,6 +1193,7 @@
 				53C196D627B17F9200EF16A3 /* DevicesCell.swift in Sources */,
 				7E494F6B2C27221E00348190 /* TeacherChatVC.swift in Sources */,
 				53C1970727B17F9200EF16A3 /* Constants.swift in Sources */,
+				181DB6D82C7F7CA20005BCB4 /* RemarkModel.swift in Sources */,
 				53C1970B27B17F9200EF16A3 /* ActivityIndicator.swift in Sources */,
 				B7928B2D2A5883010083B77E /* ChangePasswordVC.swift in Sources */,
 				53C1970E27B17F9200EF16A3 /* GradientView.swift in Sources */,

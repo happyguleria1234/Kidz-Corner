@@ -15,6 +15,7 @@ class RemarkPopUPVC: UIViewController {
     
     var userID = Int()
     var albumID = String()
+    var comesFrom = String()
     @IBOutlet weak var crossBtn: UIButton!
     @IBOutlet weak var remarktableView: UITableView!
     
@@ -24,9 +25,14 @@ class RemarkPopUPVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if comesFrom == "Album" {
+            getComments(userID: userID, albumID: albumID)
+        } else {
+            hitAlbumWithId(studentID: userID)
+        }
         remarktableView.delegate = self
         remarktableView.dataSource = self
-        getComments(userID: userID, albumID: albumID)
         remarktableView.register(UINib(nibName: "RemarkPopUPCell", bundle: nil), forCellReuseIdentifier: "RemarkPopUPCell")
     }
     
@@ -38,7 +44,7 @@ class RemarkPopUPVC: UIViewController {
         DispatchQueue.main.async {
             startAnimating((self.tabBarController?.view)!)
         }
-        var param = ["user_id":userID,"portfolio_id":albumID] as? [String:Any] ?? [:]
+        let param = ["user_id":userID,"portfolio_id":albumID] as? [String:Any] ?? [:]
         ApiManager.shared.Request(type: AlbumModelDataa.self, methodType: .Post, url: baseUrl+commentss, parameter: param) { error, myObject, msgString, statusCode in
             if statusCode == 200 {
                 DispatchQueue.main.sync {
@@ -52,8 +58,22 @@ class RemarkPopUPVC: UIViewController {
         }
     }
     
-    func hitAlbumWithId(album_id:String, studentID:Int){
-        
+    func hitAlbumWithId(studentID:Int){
+        DispatchQueue.main.async {
+            startAnimating((self.tabBarController?.view)!)
+        }
+        let param = ["user_id":userID] as? [String:Any] ?? [:]
+        ApiManager.shared.Request(type: AlbumModelDataa.self, methodType: .Post, url: baseUrl+remarkComments, parameter: param) { error, myObject, msgString, statusCode in
+            if statusCode == 200 {
+                DispatchQueue.main.sync {
+//                    self.albumDetailData = myObject
+                    self.remarktableView.reloadData()
+                }
+            }
+            else {
+                Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+            }
+        }
     }
     
     //------------------------------------------------------

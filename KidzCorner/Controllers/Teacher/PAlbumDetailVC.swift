@@ -113,6 +113,7 @@ extension PAlbumDetailVC: UITableViewDelegate, UITableViewDataSource {
         let vc = storyboard.instantiateViewController(withIdentifier: "RemarkPopUPVC") as! RemarkPopUPVC
         vc.userID = studentId
         vc.albumID = albumId ?? ""
+        vc.comesFrom = "Album"
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
