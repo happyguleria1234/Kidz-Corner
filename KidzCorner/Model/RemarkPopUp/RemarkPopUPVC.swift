@@ -44,9 +44,6 @@ class RemarkPopUPVC: UIViewController {
     //MARK: API Call
     
     func getComments(userID: Int, albumID: String) {
-//        DispatchQueue.main.async {
-//            startAnimating((self.tabBarController?.view)!)
-//        }
         let param = ["user_id":userID,"portfolio_id":albumID] as? [String:Any] ?? [:]
         ApiManager.shared.Request(type: PortFolioDataModel.self, methodType: .Post, url: baseUrl+commentss, parameter: param) { error, myObject, msgString, statusCode in
             if statusCode == 200 {

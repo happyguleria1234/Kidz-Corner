@@ -2,23 +2,22 @@ import UIKit
 
 class ParentAnnouncements: UIViewController {
     
-    @IBOutlet weak var lbl_title: UILabel!
+    var userID = Int()
+    var type = String()
+    var comesFrom = String()
+    var childrenData: [ChildData]?
     var announcementsData: AnnouncementChildrenModel?
     var announcementsDataa = [AnnouncementChildrenModelData]()
-    var childrenData: [ChildData]?
-    var comesFrom = String()
-    var type = String()
+    
+    @IBOutlet weak var lbl_title: UILabel!
     @IBOutlet weak var buttonBack: UIButton!
     @IBOutlet weak var tableAnnouncements: UITableView!
-    
     @IBOutlet weak var labelNoAnnouncements: UILabel!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTable()
         setupViews()
-        getChildrenList()
         getAnnouncements()
         tabBarController?.tabBar.isHidden = true
     }
@@ -61,35 +60,7 @@ class ParentAnnouncements: UIViewController {
         tableAnnouncements.delegate = self
         tableAnnouncements.dataSource = self
         tableAnnouncements.backgroundColor = .clear
-        
     }
-    
-//    func getAnnouncements() {
-//        if comesFrom == "" {
-//            startAnimating((self.tabBarController?.view)!)
-//        }
-//        let params = ["componse_type": type]
-//        ApiManager.shared.Request(type: AnnouncementChildrenModel.self, methodType: .Get, url: baseUrl+evulationData, parameter: params) { error, myObject, msgString, statusCode in
-//            if statusCode == 200 {
-//                let userId = UserDefaults.standard.string(forKey: myUserid) ?? ""
-//                self.announcementsDataa = myObject?.data?.filter { announcement in
-//                    return "\(announcement.userID ?? 0)" == userId
-//                } ?? []
-//
-//                DispatchQueue.main.async { [self] in
-//                    if !self.announcementsDataa.isEmpty {
-//                        tableAnnouncements.isHidden = false
-//                        tableAnnouncements.reloadData()
-//                    } else {
-//                        tableAnnouncements.isHidden = true
-//                    }
-//                }
-//            } else {
-//                Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
-//            }
-//        }
-//    }
-
     
     func getAnnouncements() {
         if comesFrom == "" {
@@ -99,6 +70,7 @@ class ParentAnnouncements: UIViewController {
         ApiManager.shared.Request(type: AnnouncementChildrenModel.self, methodType: .Get, url: baseUrl+evulationData, parameter: params) { error, myObject, msgString, statusCode in
             if statusCode == 200 {
                 self.announcementsDataa = myObject?.data ?? []
+                self.announcementsDataa = self.announcementsDataa.filter({ $0.userID ==  self.userID})
                 DispatchQueue.main.async { [self] in
                     if myObject?.data?.count != 0 {
                         tableAnnouncements.isHidden = false
@@ -165,9 +137,19 @@ extension ParentAnnouncements: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if type == "bulleting" {
-            if let urls = URL(string: imageBaseUrl + (self.announcementsData?.data?[indexPath.row].attachment ?? "")) {
-                UIApplication.shared.open(urls)
+//            if self.announcementsDataa[indexPath.row].attachment != "" {
+//                if let urls = URL(string: imageBaseUrl + (self.announcementsDataa[indexPath.row].attachment ?? "")) {
+//                    UIApplication.shared.open(urls)
+//                }
+//            }
+            
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "InvoicePdf") as! InvoicePdf
+            vc.invoiceId = 0
+            if let urls = URL(string: imageBaseUrl + (self.announcementsDataa[indexPath.row].attachment ?? "")) {
+                vc.pdfURL = urls
             }
+            self.navigationController?.pushViewController(vc, animated: true)
+            
         } else {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncement") as! ParentAnnouncement
             let data = announcementsDataa[indexPath.row]

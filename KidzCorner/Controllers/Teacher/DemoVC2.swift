@@ -6,28 +6,33 @@
 //
 
 import UIKit
-
+import Kingfisher
 
 class DemoVC2: UIViewController, SelectEvulation {
     
+    @IBOutlet weak var tbl1Height: NSLayoutConstraint!
+    @IBOutlet weak var tblList2: UITableView!
     @IBOutlet weak var lbltitle: UILabel!
     @IBOutlet weak var tblView: UITableView!
+    @IBOutlet weak var tblView2: NSLayoutConstraint!
     
     var userID = Int()
     var selectedTitle = String()
     var categories: [Category] = []
     var evaluationArr = [DemoDatum]()
-    
+    var remarksData = [RemarkModelDataList]()
     var evaluatiomSkillModel:EvaluatiomSkillAlbumModel?
     var demoArr: [String: [String]] = [
         "Arts": ["Drama", "Painting", "Drawing", "Dance"],
         "Arts 2": ["Drama", "Painting 2", "Drawing 2", "Dance 2"],
         "Arts 3": ["Drama 3", "Painting 3", "Drawing 3", "Dance 3"]]
     
-//    var dataCountSec = [[1,1,1,1] , [1,0,1,0] , [0,0,0,1]]
     var dataCountSec = [[Int]]()
 
-    //MARK: VIEW LIFE CYCLE
+    //------------------------------------------------------
+    
+    //MARK: View life cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         lbltitle.text = selectedTitle
@@ -35,8 +40,46 @@ class DemoVC2: UIViewController, SelectEvulation {
             let category = Category(name: categoryName, items: items)
             categories.append(category)
         }
+        tblList2.delegate = self
+        tblList2.delegate = self
+        remarksData(studentID: userID)
         hitEvaluationList(userId: userID)
         tabBarController?.tabBar.isHidden = true
+        tblList2.register(UINib(nibName: "RemarkPopUPCell", bundle: nil), forCellReuseIdentifier: "RemarkPopUPCell")
+        tblList2.register(UINib(nibName: "SummaryCell", bundle: nil), forCellReuseIdentifier: "SummaryCell")
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tblView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
+        tblList2.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
+        DispatchQueue.main.async {
+            self.updateTableHeights()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateTableHeights()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tblView.removeObserver(self, forKeyPath: "contentSize")
+        tblList2.removeObserver(self, forKeyPath: "contentSize")
+    }
+    
+    //MARK: - TABLE VIEW HEIGHT OBSERVER
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "contentSize" {
+            updateTableHeights()
+        }
+    }
+    
+    private func updateTableHeights() {
+        tbl1Height.constant = tblView.contentSize.height
+        tblView2.constant = tblList2.contentSize.height
     }
     
     func selectedClass(selectEvulationID: Int) {
@@ -104,11 +147,27 @@ class DemoVC2: UIViewController, SelectEvulation {
         }
     }
     
+    func remarksData(studentID: Int) {
+        DispatchQueue.main.async {
+            startAnimating((self.tabBarController?.view)!)
+        }
+                
+        ApiManager.shared.Request(type: RemarkModelData.self, methodType: .Post, url: baseUrl + remarkComments, parameter: ["user_id": userID]) { error, myObject, msgString, statusCode in
+            if statusCode == 200 {
+                self.remarksData = myObject?.data ?? []
+                DispatchQueue.main.sync {
+                    self.tblList2.reloadData()
+                }
+            } else {
+                Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+            }
+        }
+    }
+    
     @IBAction func btnRemarks(_ sender: Any) {
-//        AlertManager.shared.showAlert(title: "Kidz Corner", message: "The feature will be coming soon.", viewController: self)
         DispatchQueue.main.async { [self] in
             let storyboard = UIStoryboard(name: "Parent", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "RemarkPopUPVC") as! RemarkPopUPVC
+            let vc = storyboard.instantiateViewController(withIdentifier: "InvoicePdf") as! InvoicePdf
             vc.userID = userID
             self.navigationController?.pushViewController(vc, animated: true)
         }
@@ -123,57 +182,102 @@ class DemoVC2: UIViewController, SelectEvulation {
 extension DemoVC2: UITableViewDelegate, UITableViewDataSource{
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return evaluatiomSkillModel?.data?.count ?? 0
+        if tableView == tblView {
+            return evaluatiomSkillModel?.data?.count ?? 0
+        } else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerCell = tableView.dequeueReusableCell(withIdentifier: "DemoHeaderTVC") as! DemoHeaderTVC
-        headerCell.lblStream.text = evaluatiomSkillModel?.data?[section].name ?? ""
-        return headerCell
+        if tableView == tblView {
+            let headerCell = tableView.dequeueReusableCell(withIdentifier: "DemoHeaderTVC") as! DemoHeaderTVC
+            headerCell.lblStream.text = evaluatiomSkillModel?.data?[section].name ?? ""
+            return headerCell
+        } else {
+            return nil
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return evaluatiomSkillModel?.data?[section].skills?.count ?? 0
+        if tableView == tblView {
+            return evaluatiomSkillModel?.data?[section].skills?.count ?? 0
+        } else {
+            return remarksData.count + 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DemoTVC") as! DemoTVC
-        let subjects = evaluatiomSkillModel?.data?[indexPath.section].skills
-        evaluatiomSkillModel?.ratings?.forEach({ data in
-            print("VALUE ********* ",subjects?[indexPath.row].evolution?.remarkType ?? "")
-            let value = subjects?[indexPath.row].evolution?.remarkType ?? ""
-            if Int(subjects?[indexPath.row].evolution?.remarkType ?? "") == data.id {
-                switch subjects?[indexPath.row].evolution?.remarkType ?? "" {
-                case "1":
-                    cell.good.image = UIImage(named: "star")
-                    cell.GoodRatingView.isHidden = false
-                case "2":
-                    cell.improving.image = UIImage(named: "star")
-                    cell.improvingRatingView.isHidden = false
-                case "3":
-                    cell.bad.image = UIImage(named: "star")
-                    cell.badRatingView.isHidden = false
-                case "4":
-                    cell.excellent.image = UIImage(named: "star")
-                    cell.excelentRatingView.isHidden = false
-                case "":
-                    print("")
-                    cell.GoodRatingView.isHidden = true
-                    cell.badRatingView.isHidden = true
-                    cell.improvingRatingView.isHidden = true
-                    cell.excelentRatingView.isHidden = true
-                default:
-                    print("")
+        if tableView == tblView {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DemoTVC") as! DemoTVC
+            let subjects = evaluatiomSkillModel?.data?[indexPath.section].skills
+            evaluatiomSkillModel?.ratings?.forEach({ data in
+                print("VALUE ********* ",subjects?[indexPath.row].evolution?.remarkType ?? "")
+                let value = subjects?[indexPath.row].evolution?.remarkType ?? ""
+                if Int(subjects?[indexPath.row].evolution?.remarkType ?? "") == data.id {
+                    switch subjects?[indexPath.row].evolution?.remarkType ?? "" {
+                    case "1":
+                        cell.good.image = UIImage(named: "star")
+                        cell.GoodRatingView.isHidden = false
+                    case "2":
+                        cell.improving.image = UIImage(named: "star")
+                        cell.improvingRatingView.isHidden = false
+                    case "3":
+                        cell.bad.image = UIImage(named: "star")
+                        cell.badRatingView.isHidden = false
+                    case "4":
+                        cell.excellent.image = UIImage(named: "star")
+                        cell.excelentRatingView.isHidden = false
+                    case "":
+                        print("")
+                        cell.GoodRatingView.isHidden = true
+                        cell.badRatingView.isHidden = true
+                        cell.improvingRatingView.isHidden = true
+                        cell.excelentRatingView.isHidden = true
+                    default:
+                        print("")
+                    }
+                }else{
+                    
                 }
-            }else{
-
+            })
+            cell.lblSubject.text = subjects?[indexPath.row].name
+            return cell
+        } else {
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "SummaryCell") as! SummaryCell
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "RemarkCells") as! RemarkCells
+                let cellData = remarksData[indexPath.row - 1]
+                cell.setData(listData: cellData)
+                updateTableHeights()
+                return cell
             }
-        })
-        cell.lblSubject.text = subjects?[indexPath.row].name
-        return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return UITableView.automaticDimension
     }
+}
+
+
+class RemarkCells: UITableViewCell {
+    
+    @IBOutlet weak var lbl_description: UILabel!
+    @IBOutlet weak var lbl_title: UILabel!
+    @IBOutlet weak var imgUser: UIImageView!
+    
+    override class func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    func setData(listData: RemarkModelDataList) {
+        lbl_title.text = listData.user?.name
+        lbl_description.text = listData.description ?? ""
+        let userProfileUrl = URL(string: imageBaseUrl+(listData.user?.image ?? ""))
+        imgUser.kf.setImage(with: userProfileUrl)
+    }
+    
 }

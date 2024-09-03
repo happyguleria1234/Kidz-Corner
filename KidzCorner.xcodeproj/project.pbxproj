@@ -13,6 +13,8 @@
 		181DB6DA2C80CC520005BCB4 /* PortFolioDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181DB6D92C80CC520005BCB4 /* PortFolioDataModel.swift */; };
 		181DB6DC2C80D2DE0005BCB4 /* ShowHalfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181DB6DB2C80D2DE0005BCB4 /* ShowHalfView.swift */; };
 		181DB6DE2C80D7700005BCB4 /* RemarksNewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181DB6DD2C80D7700005BCB4 /* RemarksNewVC.swift */; };
+		181DB6E12C834FBD0005BCB4 /* SummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181DB6DF2C834FBD0005BCB4 /* SummaryCell.swift */; };
+		181DB6E22C834FBD0005BCB4 /* SummaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 181DB6E02C834FBD0005BCB4 /* SummaryCell.xib */; };
 		18209CA42C13950500D59EAB /* MessageListingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA32C13950500D59EAB /* MessageListingVC.swift */; };
 		18209CA62C14140B00D59EAB /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA52C14140B00D59EAB /* CustomView.swift */; };
 		18209CAC2C15A7DB00D59EAB /* SocketConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18209CA92C15A7DB00D59EAB /* SocketConstants.swift */; };
@@ -242,6 +244,8 @@
 		181DB6D92C80CC520005BCB4 /* PortFolioDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortFolioDataModel.swift; sourceTree = "<group>"; };
 		181DB6DB2C80D2DE0005BCB4 /* ShowHalfView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowHalfView.swift; sourceTree = "<group>"; };
 		181DB6DD2C80D7700005BCB4 /* RemarksNewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemarksNewVC.swift; sourceTree = "<group>"; };
+		181DB6DF2C834FBD0005BCB4 /* SummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCell.swift; sourceTree = "<group>"; };
+		181DB6E02C834FBD0005BCB4 /* SummaryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SummaryCell.xib; sourceTree = "<group>"; };
 		18209CA32C13950500D59EAB /* MessageListingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListingVC.swift; sourceTree = "<group>"; };
 		18209CA52C14140B00D59EAB /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		18209CA92C15A7DB00D59EAB /* SocketConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketConstants.swift; sourceTree = "<group>"; };
@@ -522,6 +526,8 @@
 				188434982C73B5D3000D3805 /* RemarkPopUPCell.swift */,
 				188434992C73B5D3000D3805 /* RemarkPopUPCell.xib */,
 				181DB6DD2C80D7700005BCB4 /* RemarksNewVC.swift */,
+				181DB6DF2C834FBD0005BCB4 /* SummaryCell.swift */,
+				181DB6E02C834FBD0005BCB4 /* SummaryCell.xib */,
 			);
 			path = RemarkPopUp;
 			sourceTree = "<group>";
@@ -1096,6 +1102,7 @@
 				53B5913927EB5DC2009D301A /* InvoiceHeader.xib in Resources */,
 				188BBBF22C2BBC810059FDCD /* SenderImageCell.xib in Resources */,
 				53C196FB27B17F9200EF16A3 /* Poppins-LightItalic.otf in Resources */,
+				181DB6E22C834FBD0005BCB4 /* SummaryCell.xib in Resources */,
 				53C196F227B17F9200EF16A3 /* Poppins-ThinItalic.otf in Resources */,
 				B7928B272A50A3330083B77E /* NotificationCell.xib in Resources */,
 				53C196D827B17F9200EF16A3 /* DevicesHeader.xib in Resources */,
@@ -1321,6 +1328,7 @@
 				53CB200427CB84EE0027A346 /* PostStudentActivity.swift in Sources */,
 				535671572866D462005ABFC5 /* Comments.swift in Sources */,
 				53C1970F27B17F9200EF16A3 /* KeyboardListener.swift in Sources */,
+				181DB6E12C834FBD0005BCB4 /* SummaryCell.swift in Sources */,
 				B72E68A22ADAFC3F003433F2 /* AttendanceCell.swift in Sources */,
 				B7928B212A5089650083B77E /* PayloadModel.swift in Sources */,
 				18A79C502C1F39F300F08D92 /* TypesCell.swift in Sources */,
@@ -1504,7 +1512,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.24;
+				MARKETING_VERSION = 7.26;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1556,7 +1564,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.24;
+				MARKETING_VERSION = 7.26;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";

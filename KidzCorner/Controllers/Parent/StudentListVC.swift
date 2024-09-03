@@ -28,9 +28,52 @@ class StudentListVC: UIViewController, SelectEvulation {
     
     func getAllChildsAPI() {
         ApiManager.shared.Request(type: AllChildrenModel.self, methodType: .Get, url: baseUrl+apiParentAllChild, parameter: [:]) { error, myObject, msgString, statusCode in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [self] in
                 if statusCode == 200 {
                     self.childrenData = myObject?.data ?? []
+                    if self.childrenData.count > 1 {
+                    } else if self.childrenData.count == 1{
+                        if comesFrom == "4" {
+                            DispatchQueue.main.async { [self] in
+                                let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
+                                let vc = storyboard.instantiateViewController(withIdentifier: "BrandVC") as! BrandVC
+                                vc.selectedTitle = "class"
+                                vc.comesFrom = comesFrom
+                                vc.userID = childrenData.first?.id ?? 0
+                                self.navigationController?.pushViewController(vc, animated: true)
+                            }
+                        } else if comesFrom == "2"{
+                            DispatchQueue.main.async { [self] in
+                                let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
+                                let vc = storyboard.instantiateViewController(withIdentifier: "BrandVC") as! BrandVC
+                                vc.selectedTitle = "class"
+                                vc.comesFrom = comesFrom
+                                vc.userID = childrenData.first?.id ?? 0
+                                self.navigationController?.pushViewController(vc, animated: true)
+                            }
+                        } else if comesFrom == "5" || comesFrom == "6" || comesFrom == "7" {
+                            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncements") as! ParentAnnouncements
+                            switch comesFrom {
+                            case "5":
+                                vc.type = "bulleting"
+                            case "6":
+                                vc.type = "announcement"
+                            case "7":
+                                vc.type = "weekly_update"
+                            default:
+                                break
+                            }
+                            vc.userID = childrenData.first?.id ?? 0
+                            comesForImages = "Images"
+                            self.navigationController?.pushViewController(vc, animated: true)
+                            
+                        } else {
+                            let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
+                            let vc = storyboard.instantiateViewController(withIdentifier: "TeacherPortfolioVC") as! TeacherPortfolioVC
+                            vc.studentId = childrenData.first?.id ?? 0
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        }
+                    }
                     self.tblList.reloadData()
                 } else {
                     Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
@@ -96,6 +139,7 @@ extension StudentListVC: UITableViewDelegate, UITableViewDataSource {
             default:
                 break
             }
+            vc.userID = childrenData[indexPath.row].id ?? 0
             comesForImages = "Images"
             self.navigationController?.pushViewController(vc, animated: true)
             

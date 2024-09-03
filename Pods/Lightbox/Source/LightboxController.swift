@@ -1,4 +1,5 @@
 import UIKit
+import Photos
 
 public protocol LightboxControllerPageDelegate: class {
 
@@ -422,32 +423,87 @@ extension LightboxController: PageViewDelegate {
 
 extension LightboxController: HeaderViewDelegate {
 
-  func headerView(_ headerView: HeaderView, didPressDeleteButton deleteButton: UIButton) {
-    deleteButton.isEnabled = false
+//  func headerView(_ headerView: HeaderView, didPressDeleteButton deleteButton: UIButton) {
+//    deleteButton.isEnabled = true
+//
+//    guard numberOfPages != 1 else {
+//      pageViews.removeAll()
+//      self.headerView(headerView, didPressCloseButton: headerView.closeButton)
+//      return
+//    }
+//
+//    let prevIndex = currentPage
+//
+//    if currentPage == numberOfPages - 1 {
+//      previous()
+//    } else {
+//      next()
+//      currentPage -= 1
+//    }
+//
+//    self.pageViews.remove(at: prevIndex).removeFromSuperview()
+//
+//    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+//      self.configureLayout(self.view.bounds.size)
+//      self.currentPage = Int(self.scrollView.contentOffset.x / self.view.bounds.width)
+//      deleteButton.isEnabled = true
+//    }
+//  }
+    
+    func headerView(_ headerView: HeaderView, didPressDeleteButton deleteButton: UIButton) {
+        deleteButton.isEnabled = false
 
-    guard numberOfPages != 1 else {
-      pageViews.removeAll()
-      self.headerView(headerView, didPressCloseButton: headerView.closeButton)
-      return
+        downloadImage(for: currentPage) { [weak self] success in
+            guard let self = self else { return }
+
+            DispatchQueue.main.async {
+                if success {
+                    let alert = UIAlertController(title: "Success", message: "Image downloaded successfully.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                } else {
+                    let alert = UIAlertController(title: "Error", message: "Failed to download the image.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: { _ in
+                        self.headerView(headerView, didPressDeleteButton: deleteButton)
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                }
+
+                deleteButton.isEnabled = true
+            }
+        }
     }
+    
+    func downloadImage(for pageIndex: Int, completion: @escaping (Bool) -> Void) {
+        let task = URLSession.shared.dataTask(with: getImageUrl(for: pageIndex)!) { data, response, error in
+            guard let data = data, error == nil, let image = UIImage(data: data) else {
+                completion(false)
+                return
+            }
 
-    let prevIndex = currentPage
+            // Save the image to the photo library
+            PHPhotoLibrary.shared().performChanges({
+                PHAssetChangeRequest.creationRequestForAsset(from: image)
+            }) { success, error in
+                DispatchQueue.main.async {
+                    completion(success && error == nil)
+                }
+            }
+        }
 
-    if currentPage == numberOfPages - 1 {
-      previous()
-    } else {
-      next()
-      currentPage -= 1
+        task.resume()
     }
-
-    self.pageViews.remove(at: prevIndex).removeFromSuperview()
-
-    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-      self.configureLayout(self.view.bounds.size)
-      self.currentPage = Int(self.scrollView.contentOffset.x / self.view.bounds.width)
-      deleteButton.isEnabled = true
+    
+    func getImageUrl(for pageIndex: Int) -> URL? {
+        // Ensure the pageIndex is within the valid range
+        guard pageIndex >= 0 && pageIndex < images.count else {
+            return nil
+        }
+        
+        // Retrieve the image URL for the given pageIndex
+        return images[pageIndex].imageURL
     }
-  }
+    
 
   func headerView(_ headerView: HeaderView, didPressCloseButton closeButton: UIButton) {
     closeButton.isEnabled = false
@@ -467,4 +523,10 @@ extension LightboxController: FooterViewDelegate {
       self.headerView.deleteButton.alpha = expanded ? 0.0 : 1.0
     })
   }
+}
+
+extension Array {
+    subscript(safe index: Int) -> Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
 }

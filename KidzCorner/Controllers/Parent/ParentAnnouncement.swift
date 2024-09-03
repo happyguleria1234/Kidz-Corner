@@ -104,7 +104,7 @@ class ParentAnnouncement: UIViewController {
 
 //            imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(anouncementData?.file ?? "")), placeholderImage: .announcementPlaceholder)
             labelDate.text = announcementDate
-            lblTitle2.text = "\(childName ?? "")"
+            lblTitle2.text = "\(announcementTitle ?? "")"
             
         }
     }

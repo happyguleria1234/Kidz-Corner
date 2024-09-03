@@ -78,20 +78,70 @@ class ParentDashboard: UIViewController {
     }
     
     @IBAction func buttonTap4(sender: UIButton) {
-        let storyboard = UIStoryboard(name: "Parent", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
-        vc.comesFrom = "4"
-        comesForImages = "Images"
-        self.navigationController?.pushViewController(vc, animated: true)
+        
+        if childrenData.count > 1 {
+            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
+            vc.comesFrom = "4"
+            comesForImages = "Images"
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if childrenData.count == 1 {
+            gotoVCS(id: self.childrenData.first?.id ?? 0,comesFrom: "4")
+        }
+    }
+    
+    func gotoVCS(id: Int, comesFrom: String) {
+        if comesFrom == "4" {
+            DispatchQueue.main.async { [self] in
+                let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "BrandVC") as! BrandVC
+                vc.selectedTitle = "class"
+                vc.comesFrom = comesFrom
+                vc.userID = childrenData.first?.id ?? 0
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        } else if comesFrom == "2"{
+            DispatchQueue.main.async { [self] in
+                let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "BrandVC") as! BrandVC
+                vc.selectedTitle = "class"
+                vc.comesFrom = comesFrom
+                vc.userID = childrenData.first?.id ?? 0
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        } else if comesFrom == "5" || comesFrom == "6" || comesFrom == "7" {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncements") as! ParentAnnouncements
+            switch comesFrom {
+            case "5":
+                vc.type = "bulleting"
+            case "6":
+                vc.type = "announcement"
+            case "7":
+                vc.type = "weekly_update"
+            default:
+                break
+            }
+            vc.userID = childrenData.first?.id ?? 0
+            comesForImages = "Images"
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "TeacherPortfolioVC") as! TeacherPortfolioVC
+            vc.studentId = childrenData.first?.id ?? 0
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     @IBAction func buttonTap5(sender: UIButton) {
-        print("5")
-        let storyboard = UIStoryboard(name: "Parent", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
-        vc.comesFrom = "1"
-        comesForImages = "Images"
-        self.navigationController?.pushViewController(vc, animated: true)
+        if childrenData.count > 1 {
+            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
+            vc.comesFrom = "1"
+            comesForImages = "Images"
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if childrenData.count == 1 {
+            gotoVCS(id: self.childrenData.first?.id ?? 0,comesFrom: "1")
+        }
     }
     
     @IBAction func buttonTap6(sender: UIButton) {
@@ -507,7 +557,7 @@ extension ParentDashboard: UICollectionViewDelegate, UICollectionViewDataSource,
                 cell.img2.image = UIImage(named: buttonsData[7].imgName)
             default:
                 break
-            } 
+            }
             cell.btn1Tap.tag = indexPath.row
             cell.btn2Tap.tag = indexPath.row
             cell.btn1Tap.addTarget(self, action: #selector(gotoScreens(sender:)), for: .touchUpInside)
@@ -541,11 +591,16 @@ extension ParentDashboard: UICollectionViewDelegate, UICollectionViewDataSource,
             comesForImages = "Images"
             self.navigationController?.pushViewController(vc, animated: true)
         case 3:
-            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
-            vc.comesFrom = "5"
-            comesForImages = "Images"
-            self.navigationController?.pushViewController(vc, animated: true)
+            if childrenData.count > 1 {
+                let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
+                vc.comesFrom = "5"
+                comesForImages = "Images"
+                self.navigationController?.pushViewController(vc, animated: true)
+                
+            } else if childrenData.count == 1 {
+                gotoVCS(id: self.childrenData.first?.id ?? 0,comesFrom: "5")
+            }
         default:
             break
         }
@@ -554,31 +609,49 @@ extension ParentDashboard: UICollectionViewDelegate, UICollectionViewDataSource,
     @objc func gotoScreens2(sender: UIButton) {
         switch sender.tag {
         case 0:
-            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
-            vc.comesFrom = "4"
-            comesForImages = "Images"
-            self.navigationController?.pushViewController(vc, animated: true)
+            if childrenData.count > 1 {
+                let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
+                vc.comesFrom = "4"
+                comesForImages = "Images"
+                self.navigationController?.pushViewController(vc, animated: true)
+                
+            } else if childrenData.count == 1 {
+                gotoVCS(id: self.childrenData.first?.id ?? 0,comesFrom: "4")
+            }
         case 1:
-            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
-            vc.comesFrom = "1"
-            comesForImages = "Images"
-            self.navigationController?.pushViewController(vc, animated: true)
+            if childrenData.count > 1 {
+                let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
+                vc.comesFrom = "1"
+                comesForImages = "Images"
+                self.navigationController?.pushViewController(vc, animated: true)
+                
+            } else if childrenData.count == 1 {
+                gotoVCS(id: self.childrenData.first?.id ?? 0,comesFrom: "1")
+            }
         case 2:
-            
-            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
-            vc.comesFrom = "6"
-            comesForImages = "Images"
-            self.navigationController?.pushViewController(vc, animated: true)
+            if childrenData.count > 1 {
+                let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
+                vc.comesFrom = "6"
+                comesForImages = "Images"
+                self.navigationController?.pushViewController(vc, animated: true)
+                
+            } else if childrenData.count == 1 {
+                gotoVCS(id: self.childrenData.first?.id ?? 0,comesFrom: "6")
+            }
         case 3:
+            if childrenData.count > 1 {
+                let storyboard = UIStoryboard(name: "Parent", bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
+                vc.comesFrom = "7"
+                comesForImages = "Images"
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else if childrenData.count == 1 {
+                gotoVCS(id: self.childrenData.first?.id ?? 0,comesFrom: "7")
+            }
             
-            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "StudentListVC") as! StudentListVC
-            vc.comesFrom = "7"
-            comesForImages = "Images"
-            self.navigationController?.pushViewController(vc, animated: true)
         default:
             break
         }
@@ -588,8 +661,16 @@ extension ParentDashboard: UICollectionViewDelegate, UICollectionViewDataSource,
         if collectionView == buttonCollection {
             let noOfCellsInRow = 3
             let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
-            let totalSpace = flowLayout.sectionInset.left + flowLayout.sectionInset.right + (flowLayout.minimumInteritemSpacing * CGFloat(noOfCellsInRow - 1))
-            let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(noOfCellsInRow))
+            
+            // Calculate the total space for inter-item spacing and insets
+            let totalSpacing = flowLayout.sectionInset.left
+            + flowLayout.sectionInset.right
+            + (flowLayout.minimumInteritemSpacing * CGFloat(noOfCellsInRow - 1))
+            
+            // Calculate the size for each cell
+            let availableWidth = collectionView.bounds.width - totalSpacing
+            let size = floor(availableWidth / CGFloat(noOfCellsInRow)) // Use floor to ensure size doesn't exceed the available width
+            
             return CGSize(width: size, height: size)
         } else {
             return CGSize(width: collectionView.frame.size.width, height: collectionView.frame.size.height)

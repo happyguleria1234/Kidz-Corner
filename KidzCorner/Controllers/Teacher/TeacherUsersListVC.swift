@@ -32,6 +32,7 @@ class TeacherUsersListVC: UIViewController, SelectClasses {
         let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "SelectClassesVC") as! SelectClassesVC
         vc.delegate = self
+        
         vc.modalPresentationStyle = .overFullScreen
         self.navigationController?.present(vc, animated: false)
     }
@@ -173,7 +174,7 @@ extension TeacherUsersListVC {
                 }
             }
         }
-        filtteredData = filtteredData.uniqued()
+//        filtteredData = filtteredData.uniqued()
         tblList.reloadData()
         isFiltered = filtteredData.count > 0
         print("Total selected classes: \(filtteredData.count)")

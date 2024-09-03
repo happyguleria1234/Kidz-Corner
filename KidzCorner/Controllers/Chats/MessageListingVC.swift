@@ -15,7 +15,7 @@ var userProfileImagee:String?
 var id:Int?
 var threadIDD = Int()
 
-class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextFieldDelegate {
+class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     //------------------------------------------------------
     
@@ -34,7 +34,7 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
     @IBOutlet weak var btnSendOutlet: UIButton!
     @IBOutlet weak var bootamView: UIView!
     @IBOutlet weak var topView: GradientView!
-    @IBOutlet weak var tf_message: UITextField!
+    @IBOutlet weak var tf_message: UITextView!
     @IBOutlet weak var lbl_type: UILabel!
     @IBOutlet weak var lbl_name: UILabel!
     @IBOutlet weak var imgProfile: UIImageView!
@@ -72,6 +72,14 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
         hiddenTextView = UITextView(frame: .zero)
         hiddenTextView.isHidden = true
         view.addSubview(hiddenTextView)
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            tf_message.insertText("\n") // Insert a newline when the return key is pressed
+            return false
+        }
+        return true
     }
     
     // MARK: - FilePickerManagerDelegate
@@ -179,7 +187,7 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
         filePickerManager = FilePickerManager(viewController: self)
         filePickerManager.delegate = self
         tblMessages.addObserver(self, forKeyPath: "contentOffset", options: [.new], context: nil)
-
+        
         if !isListenerAdded {
             isListenerAdded = true
             SocketIOManager.sharedInstance.sendMessageListener { [weak self] messageDialogs in
@@ -235,7 +243,7 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
         var totalCount = 0
         for i in 0..<self.messageListing.count {
             let messages = self.messageListing[i].messages
-                totalCount += messages.count
+            totalCount += messages.count
         }
         print("Total number of rows: \(totalCount)")
         
@@ -266,7 +274,7 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
                 var updatedTotalCount = 0
                 for i in 0..<self.messageListing.count {
                     let messages = self.messageListing[i].messages
-                        updatedTotalCount += messages.count
+                    updatedTotalCount += messages.count
                 }
                 
                 // Calculate last row index and section index
@@ -468,16 +476,16 @@ extension MessageListingVC : UITableViewDelegate, UITableViewDataSource, UIConte
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }else if data.messageType == 2{
-//            let section = indexPath.row / 1000
-//            let row = indexPath.row % 1000
-//            let messageData = messageListing[indexPath.row].messages[row]
+            //            let section = indexPath.row / 1000
+            //            let row = indexPath.row % 1000
+            //            let messageData = messageListing[indexPath.row].messages[row]
             if let media = data.media, media != "", data.message == "" {
                 if let vc = storyboard?.instantiateViewController(withIdentifier: "OpenChatData") as? OpenChatData {
                     vc.url = media
                     navigationController?.pushViewController(vc, animated: true)
                 }
             }
-
+            
         }
     }
     
@@ -485,7 +493,7 @@ extension MessageListingVC : UITableViewDelegate, UITableViewDataSource, UIConte
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let userID = UserDefaults.standard.value(forKey: "myUserid") as? Int ?? 0
         if self.messageListing[indexPath.section].messages[indexPath.row].senderID == userID {
-        return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: nil) { [weak self] _ in
+            return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: nil) { [weak self] _ in
                 return UIMenu(title: "", children: [
                     UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: .destructive) { action in
                         guard let self = self else { return }
