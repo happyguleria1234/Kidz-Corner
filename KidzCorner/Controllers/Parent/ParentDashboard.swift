@@ -671,7 +671,7 @@ extension ParentDashboard: UICollectionViewDelegate, UICollectionViewDataSource,
             let availableWidth = collectionView.bounds.width - totalSpacing
             let size = floor(availableWidth / CGFloat(noOfCellsInRow)) // Use floor to ensure size doesn't exceed the available width
             
-            return CGSize(width: size, height: size)
+            return CGSize(width: size, height: 230)
         } else {
             return CGSize(width: collectionView.frame.size.width, height: collectionView.frame.size.height)
         }

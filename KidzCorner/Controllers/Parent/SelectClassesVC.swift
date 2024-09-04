@@ -114,12 +114,20 @@ extension SelectClassesVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedID = self.evaluationArr?.data?[indexPath.row].id
-        if let index = selectedEvaluationIDs.firstIndex(of: selectedID ?? 0) {
-            selectedEvaluationIDs.remove(at: index)
-        } else {
-            selectedEvaluationIDs.append(selectedID ?? 0)
+        selectedEvaluationIDs.removeAll()
+        if let selectedID = self.evaluationArr?.data?[indexPath.row].id {
+            selectedEvaluationIDs.append(selectedID)
         }
         tableView.reloadData()
     }
+    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let selectedID = self.evaluationArr?.data?[indexPath.row].id
+//        if let index = selectedEvaluationIDs.firstIndex(of: selectedID ?? 0) {
+//            selectedEvaluationIDs.remove(at: index)
+//        } else {
+//            selectedEvaluationIDs.append(selectedID ?? 0)
+//        }
+//        tableView.reloadData()
+//    }
 }

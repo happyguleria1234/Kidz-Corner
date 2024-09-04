@@ -61,6 +61,10 @@ class DemoVC2: UIViewController, SelectEvulation {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateTableHeights()
+        if #available(iOS 15.0, *) {
+                tblList2.sectionHeaderTopPadding = 0
+           
+            }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -258,8 +262,17 @@ extension DemoVC2: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return UITableView.automaticDimension
+        if tableView == tblView{
+            return UITableView.automaticDimension
+         } else {
+             return CGFloat.leastNonzeroMagnitude
+        }
     }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+       return CGFloat.leastNormalMagnitude
+    }
+    
 }
 
 
@@ -281,3 +294,4 @@ class RemarkCells: UITableViewCell {
     }
     
 }
+

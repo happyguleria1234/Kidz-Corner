@@ -58,13 +58,10 @@ class TeacherChatVC: UIViewController, OpenChatVCProtocol, classSelected {
     @IBAction func btn_filter(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Teacher", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "SelectClass") as! SelectClass
-        
         vc.classes = self.classesData
         vc.delegate = self
-        
         vc.modalPresentationStyle = .overFullScreen
         self.navigationController?.present(vc, animated: false, completion: {
-            
         })
     }
     

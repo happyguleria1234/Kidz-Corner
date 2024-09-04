@@ -205,11 +205,9 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
         }
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let currentText = textField.text ?? ""
-        guard let stringRange = Range(range, in: currentText) else { return false }
-        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-        let trimmedText = updatedText.trimmingCharacters(in: .whitespacesAndNewlines)
+    func textViewDidChange(_ textView: UITextView) {
+        let trimmedText = tf_message.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        
         DispatchQueue.main.async {
             if trimmedText.isEmpty {
                 self.btnSendOutlet.setImage(UIImage(named: "sendGray"), for: .normal)
@@ -217,8 +215,22 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
                 self.btnSendOutlet.setImage(UIImage(named: "sendGreen"), for: .normal)
             }
         }
-        return true
     }
+    
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        let currentText = textField.text ?? ""
+//        guard let stringRange = Range(range, in: currentText) else { return false }
+//        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+//        let trimmedText = updatedText.trimmingCharacters(in: .whitespacesAndNewlines)
+//        DispatchQueue.main.async {
+//            if trimmedText.isEmpty {
+//                self.btnSendOutlet.setImage(UIImage(named: "sendGray"), for: .normal)
+//            } else {
+//                self.btnSendOutlet.setImage(UIImage(named: "sendGreen"), for: .normal)
+//            }
+//        }
+//        return true
+//    }
     
     override func observeValue(forKeyPath keyPath: String?,
                                of object: Any?,

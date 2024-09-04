@@ -66,7 +66,7 @@ class ParentAnnouncements: UIViewController {
         if comesFrom == "" {
             startAnimating((self.tabBarController?.view)!)
         }
-        let params = ["componse_type": type]
+        let params = ["componse_type": type,"userId":userID] as? [String:Any] ?? [:]
         ApiManager.shared.Request(type: AnnouncementChildrenModel.self, methodType: .Get, url: baseUrl+evulationData, parameter: params) { error, myObject, msgString, statusCode in
             if statusCode == 200 {
                 self.announcementsDataa = myObject?.data ?? []
@@ -135,21 +135,15 @@ extension ParentAnnouncements: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         if type == "bulleting" {
-//            if self.announcementsDataa[indexPath.row].attachment != "" {
-//                if let urls = URL(string: imageBaseUrl + (self.announcementsDataa[indexPath.row].attachment ?? "")) {
-//                    UIApplication.shared.open(urls)
-//                }
-//            }
-            
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "InvoicePdf") as! InvoicePdf
-            vc.invoiceId = 0
-            if let urls = URL(string: imageBaseUrl + (self.announcementsDataa[indexPath.row].attachment ?? "")) {
-                vc.pdfURL = urls
+            if self.announcementsDataa[indexPath.row].attachment ?? "" != "" {
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "InvoicePdf") as! InvoicePdf
+                vc.invoiceId = 0
+                if let urls = URL(string: imageBaseUrl + (self.announcementsDataa[indexPath.row].attachment ?? "")) {
+                    vc.pdfURL = urls
+                }
+                self.navigationController?.pushViewController(vc, animated: true)
             }
-            self.navigationController?.pushViewController(vc, animated: true)
-            
         } else {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "ParentAnnouncement") as! ParentAnnouncement
             let data = announcementsDataa[indexPath.row]

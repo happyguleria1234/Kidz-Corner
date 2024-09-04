@@ -34,19 +34,15 @@ class ClassStats: UIViewController {
         super.viewDidLoad()
         setupTable()
         setupViews()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         let myClass = UserDefaults.standard.integer(forKey: myClass)
-        
         if myClass != 0 {
             self.classId = myClass
             getAttendance(classId: self.classId ?? 0, date: currentDate)
-        }
-        else {
+        } else {
             getClasses()
         }
     }
@@ -114,11 +110,6 @@ class ClassStats: UIViewController {
     }
     
     func setupViews() {
-        
-//        buttonClasses.layer.cornerRadius = 5
-//        buttonClasses.layer.borderColor = UIColor.white.cgColor
-//        buttonClasses.layer.borderWidth = 2
-        
         labelDate.text = "(\(Date().shortDate))"
         buttonDate.addTarget(self, action: #selector(dateSelected), for: .touchUpInside)
         
@@ -145,6 +136,24 @@ class ClassStats: UIViewController {
             }
         }
     }
+    
+    func getAttendance1(classId: Int,date: String) {
+        var params = [String: Any]()
+        params = ["date": date,
+                  "class_id": String(classId)]
+        
+        ApiManager.shared.Request(type: ClassAttendanceModel.self, methodType: .Get, url: baseUrl+apiClassAttendance, parameter: params) { error, myObject, msgString, statusCode in
+            if statusCode == 200 {
+                DispatchQueue.main.async { [self] in
+                    self.classAttendance = myObject
+                    tableStats.reloadData()
+                }
+            }
+            else {
+                Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+            }
+        }
+    }
    
     func getAttendance(classId: Int,date: String) {
         var params = [String: Any]()
@@ -153,20 +162,12 @@ class ClassStats: UIViewController {
         
         ApiManager.shared.Request(type: ClassAttendanceModel.self, methodType: .Get, url: baseUrl+apiClassAttendance, parameter: params) { error, myObject, msgString, statusCode in
             if statusCode == 200 {
-
-                print(myObject)
-
                 DispatchQueue.main.async { [self] in
                     self.classAttendance = myObject
                     tableStats.reloadData()
-                    
                     if myObject?.data?.count != 0 {
                         self.labelClassName.text = myObject?.data?[0].className?.name ?? ""
                     }
-                   
-                   
-                  //  self.labelDate.text = "( \(Date().shortDate) )"
-                    
                 }
             }
             else {
@@ -174,21 +175,18 @@ class ClassStats: UIViewController {
             }
         }
     }
+    
     @objc func selection(sender: UIButton) {
         dropDown.show()
     }
     
     @objc func dateSelected(sender: UIButton) {
-       
-        printt("DateSelected")
         if isPickerPresented {
             isPickerPresented = false
             self.datePicker.removeFromSuperview()
             self.doneButton.removeFromSuperview()
-        }
-        else {
-       // datePicker = nil
-        showPicker()
+        } else {
+            showPicker()
         }
     }
     
@@ -200,7 +198,6 @@ class ClassStats: UIViewController {
         if #available(iOS 13.4, *) {
             picker.preferredDatePickerStyle = .wheels
         } else {
-            // Fallback on earlier versions
         }
         picker.addTarget(self, action: #selector(dueDateChanged(sender:)), for: .valueChanged)
         let pickerSize : CGSize = picker.sizeThatFits(CGSize.zero)
@@ -284,19 +281,14 @@ extension ClassStats: UITableViewDelegate, UITableViewDataSource {
             }
             if let eveningTemperature = data?.attendance?.eveningTemp {
                 cell.labelStatTwo.text = "\(eveningTemperature)"
-            }
-            else {
+            } else {
                 cell.labelStatTwo.text = "-"
             }
-            
-            //For Third Temperature
-            
             if data?.attendance?.thirdTemperature != nil {
                 cell.accessoryType = .disclosureIndicator
                 cell.tintColor = .black
                 printt("Third \(data?.attendance?.thirdTemperature)")
-            }
-            else {
+            } else {
                 cell.accessoryType = .none
             }
         }
@@ -371,8 +363,7 @@ extension ClassStats: UITableViewDelegate, UITableViewDataSource {
             }
             let swipeActions = UISwipeActionsConfiguration(actions: [contextItem])
             return swipeActions
-        }
-        else {
+        } else {
             return nil
         }
     }
@@ -384,7 +375,7 @@ extension ClassStats: classSelected {
             labelClassName.text = className
             UserDefaults.standard.setValue(classId, forKey: myClass)
             self.classId = classId
-            getAttendance(classId: self.classId ?? 0, date: currentDate)
+            getAttendance1(classId: self.classId ?? 0, date: currentDate)
         }
     }
 }
