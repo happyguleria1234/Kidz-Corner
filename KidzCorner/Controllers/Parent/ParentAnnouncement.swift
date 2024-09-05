@@ -1,5 +1,5 @@
 import UIKit
-
+import Lightbox
 class ParentAnnouncement: UIViewController {
     
     var childName: String?
@@ -50,9 +50,25 @@ class ParentAnnouncement: UIViewController {
     }
     
     @IBAction func btnAttachment(_ sender: Any) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "PdfVC") as! PdfVC
-        vc.anouncementData = anouncementData
-        self.navigationController?.pushViewController(vc, animated: true)
+        
+        if anouncementData?.attachment?.contains(".pdf") == true {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "InvoicePdf") as! InvoicePdf
+            vc.invoiceId = 0
+            if let urls = URL(string: imageBaseUrl + (self.anouncementData?.attachment ?? "")) {
+                vc.pdfURL = urls
+            }
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            var images = [LightboxImage]()
+            images.append(LightboxImage(imageURL: URL(string: imageBaseUrl + (self.anouncementData?.attachment ?? ""))!))
+            let controller = LightboxController(images: images,startIndex: 0)
+            controller.dynamicBackground = true
+            self.present(controller, animated: true)
+        }
+        
+//        let vc = self.storyboard?.instantiateViewController(withIdentifier: "PdfVC") as! PdfVC
+//        vc.anouncementData = anouncementData
+//        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func acceptFunc(_ sender: Any) {
@@ -79,13 +95,43 @@ class ParentAnnouncement: UIViewController {
             viewPFD.isHidden = true
         } else {
             if anouncementData?.attachment?.contains(".pdf") == true {
-                lblFile.text = "announcement.pdf"
+                setFileName(attachment: anouncementData?.attachment ?? "")
             } else {
-                lblFile.text = "image.jpg"
+                setFileName(attachment: anouncementData?.attachment ?? "")
             }
             viewPFD.isHidden = false
         }
         setupAnnouncementStatus()
+    }
+    
+    func setFileName(attachment: String?) {
+        guard let attachment = attachment else {
+            lblFile.text = "Unknown file"
+            return
+        }
+        
+        // Get the file extension
+        let fileExtension = (attachment as NSString).pathExtension
+        let baseFileName = (attachment as NSString).deletingPathExtension
+
+        // Define max length for the file name to fit within a single line
+        let maxLength = 10 // Adjust this value based on your label size and font
+
+        // Truncate the file name if it exceeds the max length
+        let truncatedFileName: String
+        if baseFileName.count > maxLength {
+            let prefix = baseFileName.prefix(maxLength / 2)
+            let suffix = baseFileName.suffix(maxLength / 2)
+            truncatedFileName = "\(prefix)...\(suffix)"
+        } else {
+            truncatedFileName = baseFileName
+        }
+
+        // Set the label text with the truncated file name and full extension
+        lblFile.text = "\(truncatedFileName).\(fileExtension)"
+
+        // Show the view containing the file label
+        viewPFD.isHidden = false
     }
     
     func setupViews() {

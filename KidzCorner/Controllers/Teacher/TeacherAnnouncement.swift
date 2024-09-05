@@ -138,12 +138,43 @@ class TeacherAnnouncement: UIViewController {
             viewPFD.isHidden = true
         } else {
             if anouncementData?.attachment?.contains(".pdf") == true {
-                attachmentLabel.text = "announcement.pdf"
+                setFileName(attachment: anouncementData?.attachment ?? "")
+
             } else {
-                attachmentLabel.text = "image.jpg"
+                setFileName(attachment: anouncementData?.attachment ?? "")
             }
             viewPFD.isHidden = false
         }
+    }
+    
+    func setFileName(attachment: String?) {
+        guard let attachment = attachment else {
+            attachmentLabel.text = "Unknown file"
+            return
+        }
+        
+        // Get the file extension
+        let fileExtension = (attachment as NSString).pathExtension
+        let baseFileName = (attachment as NSString).deletingPathExtension
+
+        // Define max length for the file name to fit within a single line
+        let maxLength = 10 // Adjust this value based on your label size and font
+
+        // Truncate the file name if it exceeds the max length
+        let truncatedFileName: String
+        if baseFileName.count > maxLength {
+            let prefix = baseFileName.prefix(maxLength / 2)
+            let suffix = baseFileName.suffix(maxLength / 2)
+            truncatedFileName = "\(prefix)...\(suffix)"
+        } else {
+            truncatedFileName = baseFileName
+        }
+
+        // Set the label text with the truncated file name and full extension
+        attachmentLabel.text = "\(truncatedFileName).\(fileExtension)"
+
+        // Show the view containing the file label
+        viewPFD.isHidden = false
     }
     
     func acceptRejectAnnouncement(status: String) {

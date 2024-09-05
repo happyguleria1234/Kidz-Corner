@@ -99,8 +99,7 @@ class SignIn: UIViewController {
         }
         else if textPassword.text?.count ?? 0 < 8 {
             Toast.toast(message: "Password must be atleast 8 characters", controller: self)
-        }
-        else {
+        } else {
             
             DispatchQueue.main.async {
                 startAnimating(self.view)

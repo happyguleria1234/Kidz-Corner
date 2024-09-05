@@ -31,6 +31,7 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
     private var isFetchingMessages = false
     var currentPage = 1
     
+    @IBOutlet weak var txt_view_height: NSLayoutConstraint!
     @IBOutlet weak var btnSendOutlet: UIButton!
     @IBOutlet weak var bootamView: UIView!
     @IBOutlet weak var topView: GradientView!
@@ -215,22 +216,14 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
                 self.btnSendOutlet.setImage(UIImage(named: "sendGreen"), for: .normal)
             }
         }
+        
+        let size = textView.sizeThatFits(CGSize(width: textView.frame.width, height: CGFloat.greatestFiniteMagnitude))
+        txt_view_height.constant = size.height
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+        }
+        
     }
-    
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        let currentText = textField.text ?? ""
-//        guard let stringRange = Range(range, in: currentText) else { return false }
-//        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-//        let trimmedText = updatedText.trimmingCharacters(in: .whitespacesAndNewlines)
-//        DispatchQueue.main.async {
-//            if trimmedText.isEmpty {
-//                self.btnSendOutlet.setImage(UIImage(named: "sendGray"), for: .normal)
-//            } else {
-//                self.btnSendOutlet.setImage(UIImage(named: "sendGreen"), for: .normal)
-//            }
-//        }
-//        return true
-//    }
     
     override func observeValue(forKeyPath keyPath: String?,
                                of object: Any?,
