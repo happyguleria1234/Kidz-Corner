@@ -48,7 +48,7 @@ class ParentDashboard: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if comesForImages != "Images" {
-            getDashboard()
+//            getDashboard()
             getChildrenList()
             getAllChildsAPI()
         }
@@ -288,7 +288,7 @@ class ParentDashboard: UIViewController {
                 } else {
                     self.dashboardData?.append(contentsOf: myObject?.data?.data ?? [])
                 }
-                
+                self.dashboardData = self.dashboardData?.unique{$0.id == $1.id }
                 DispatchQueue.main.async {
                     self.tableHome.reloadData()
                 }
@@ -431,33 +431,26 @@ extension ParentDashboard {
         }
     }
     
-    func getChildrenList()
-    {
+    func getChildrenList() {
         DispatchQueue.main.async {
             startAnimating((self.tabBarController?.view)!)
         }
-        
         ApiManager.shared.Request(type: AllChildrenModel.self, methodType: .Get, url: baseUrl+apiParentAllChild, parameter: [:]) { error, myObject, msgString, statusCode in
             DispatchQueue.main.async {
                 if statusCode == 200 {
-                    
                     if let data = myObject?.data {
                         let group = DispatchGroup()
-                        
                         let dateFormatter = ISO8601DateFormatter()
                         dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-                        
                         var firstChildData = true
                         for child in data {
                             group.enter()
                             self.getParentPortfolio(for: child.id) { portfolioData in
                                 if let portfolio = portfolioData {
-                                    
                                     if firstChildData {
                                         self.portfolioData = portfolio
                                         firstChildData = false
-                                    }
-                                    else {
+                                    } else {
                                         for newPost in portfolio {
                                             if !(self.portfolioData?.contains(where: { $0.id == newPost.id }) ?? false) {
                                                 self.portfolioData?.append(newPost)
@@ -468,18 +461,14 @@ extension ParentDashboard {
                                 group.leave()
                             }
                         }
-                        
                         group.notify(queue: .main) { [self] in
-                            
                             self.portfolioData?.sort { firstData, secondData in
                                 if let firstDate = dateFormatter.date(from: firstData.createdAt ?? ""),
                                    let secondDate = dateFormatter.date(from: secondData.createdAt ?? "") {
-                                    // Return true if firstDate should come before secondDate
                                     return firstDate > secondDate
                                 }
                                 return false
                             }
-                            
                             if let data = self.portfolioData {
                                 for post in data {
                                     printt("CREATED AT \(post.createdAt ?? "")")
@@ -498,7 +487,6 @@ extension ParentDashboard {
                     else {
                         Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
                     }
-                    
                 }
                 else {
                     Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)

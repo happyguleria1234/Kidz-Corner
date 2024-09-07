@@ -60,7 +60,7 @@ class ActivityVC: UIViewController {
                 } else {
                     self.dashboardData?.append(contentsOf: myObject?.data?.data ?? [])
                 }
-                
+                self.dashboardData = self.dashboardData?.unique{$0.id == $1.id }
                 DispatchQueue.main.async {
                     self.tableHome.reloadData()
                 }
@@ -280,6 +280,18 @@ extension ActivityVC {
                 else {
                     Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
                 }
+            }
+        }
+    }
+}
+
+extension Array {
+    func unique(selector:(Element,Element)->Bool) -> Array<Element> {
+        return reduce(Array<Element>()){
+            if let last = $0.last {
+                return selector(last,$1) ? $0 : $0 + [$1]
+            } else {
+                return [$1]
             }
         }
     }

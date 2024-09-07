@@ -291,40 +291,65 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         viewStudent.isHidden = false
         viewAlbum.isHidden = false
     }
-
-    
     
     @IBAction func shareFunc(_ sender: Any) {
         
-        printt("Sharing Activity Post")
-        
-//        let classIds = allClassesData?.filter({ $0.isSelected == true }).map({ $0.id ?? 0}).map({String($0)}).joined(separator: ",") ?? ""
-//        if (selectedAlbum != -1),(selectedDomain != -1), classIds.isEmpty != true { // ,(selectedSkill != -1)
-
-        if (domainId != -1), classIds.isEmpty != true { // ,(selectedSkill != -1)
-//            if selectedTypes != 1 {
-//                albumId = self.categoriesData?.data?.album?[selectedAlbum].id ?? 1
-//            }
-//            let domainId = self.categoriesData?.data?.domain?[selectedDomain].id ?? 1
+        if selectedType == 1 {
+            
             if textTitle.text == "" {
                 Toast.toast(message: "Please enter a title", controller: self)
-            }
-            else {
-                if textDescription.text == "Write your caption here" {
-                    Toast.toast(message: "Enter a caption to continue", controller: self)
+            } else if textDescription.text == "" {
+                Toast.toast(message: "Enter a caption to continue", controller: self)
+            } else if domainId == 0 {
+                Toast.toast(message: "Please select a Domain", controller: self)
+            } else if classIds.isEmpty {
+                Toast.toast(message: "Please select a class", controller: self)
+            } else {
+                // Proceed with the appropriate API call
+                if isPostImages {
+                    addPortfolioApi(albumId: albumId, domainId: domainId, classIds: classIds)
+                } else {
+                    addPortfolioApiNew(albumId: albumId, domainId: domainId, classIds: classIds)
                 }
-                else {
-                    if isPostImages {
-                        addPortfolioApi(albumId: albumId, domainId: domainId, classIds: classIds)// skillId: skillId)
-                    } else {
-                        addPortfolioApiNew(albumId: albumId, domainId: domainId, classIds: classIds)
-                    }
+            }
+        } else {
+            if textTitle.text == "" {
+                Toast.toast(message: "Please enter a title", controller: self)
+            } else if textDescription.text == "" {
+                Toast.toast(message: "Enter a caption to continue", controller: self)
+            } else if albumId == 0{
+                Toast.toast(message: "Please select a Album", controller: self)
+            } else if domainId == 0 {
+                Toast.toast(message: "Please select a Domain", controller: self)
+            } else if classIds.isEmpty {
+                Toast.toast(message: "Please select a class", controller: self)
+            } else {
+                // Proceed with the appropriate API call
+                if isPostImages {
+                    addPortfolioApi(albumId: albumId, domainId: domainId, classIds: classIds)
+                } else {
+                    addPortfolioApiNew(albumId: albumId, domainId: domainId, classIds: classIds)
                 }
             }
         }
-        else {
-            Toast.toast(message: "Please select class", controller: self)
-        }
+        
+//        if (domainId != -1), classIds.isEmpty != true {
+//            if textTitle.text == "" {
+//                Toast.toast(message: "Please enter a title", controller: self)
+//            } else {
+//                if textDescription.text == "Write your caption here" {
+//                    Toast.toast(message: "Enter a caption to continue", controller: self)
+//                } else {
+//                    if isPostImages {
+//                        addPortfolioApi(albumId: albumId, domainId: domainId, classIds: classIds)
+//                    } else {
+//                        addPortfolioApiNew(albumId: albumId, domainId: domainId, classIds: classIds)
+//                    }
+//                }
+//            }
+//        } else {
+//            Toast.toast(message: "Please select class", controller: self)
+//        }
     }
     
     @IBAction func dashboardSwitched(_ sender: Any) {
@@ -384,9 +409,7 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
         ApiManager.shared.Request(type: CategoryModel.self, methodType: .Get, url: baseUrl+apiActivityCategories, parameter: params) { error, myObject, msgString, statusCode in
             if statusCode == 200 {
                 self.categoriesData = myObject
-                
-                print(myObject)
-                
+                                
                 DispatchQueue.main.async {
                     self.setupDropDown()
                 }
@@ -441,15 +464,6 @@ class ConfirmPost: UIViewController, CollageViewDelegate {
             self.selectedStudents = index
             
         }
-        
-//        studentName.selectionAction = { [weak self] (index, item) in
-//            self?.tf_studentName.text = item
-//            self?.classAttendance?.data?.forEach({ data in
-//                if item == data.name {
-//                    self?.selectedStudentID = data.id ?? 0
-//                }
-//            })
-//        }
         
         domainDropdown.selectionAction = { [weak self] (index, item) in
             self?.textDomain.text = item

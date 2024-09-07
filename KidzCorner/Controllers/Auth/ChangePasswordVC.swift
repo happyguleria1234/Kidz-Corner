@@ -101,11 +101,9 @@ extension ChangePasswordVC {
                     } else {
                         Toast.toast(message: msgString ?? "Something went wrong!!", controller: self)
                     }
-                }
-                else if statusCode == 404 {
+                } else if statusCode == 404 {
                     Toast.toast(message: "Email and password don't match", controller: self)
-                }
-                else {
+                } else {
                     Toast.toast(message: error?.localizedDescription ?? msgString ?? somethingWentWrong, controller: self)
                 }
             }

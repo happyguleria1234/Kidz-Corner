@@ -60,6 +60,7 @@ class BrandVC : UIViewController, UITableViewDelegate, UITableViewDataSource {
         default:
             print("")
         }
+        dataArray.sort { $0.value.localizedCompare($1.value) == .orderedAscending }
         tblData.reloadData()
     }
     

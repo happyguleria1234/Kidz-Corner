@@ -80,12 +80,8 @@ extension ResetPasswordVC {
                     } else {
                         Toast.toast(message: msgString ?? "Something went wrong!!", controller: self)
                     }
-                }
-                else if statusCode == 404 {
-                    Toast.toast(message: "Email and password don't match", controller: self)
-                }
-                else {
-                    Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+                }else {
+                    Toast.toast(message: "The email address you entered is invalid.", controller: self)
                 }
             }
         }
