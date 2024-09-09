@@ -67,6 +67,7 @@ public let apiAddEveningAttendance = "evening_attendance"
 public let apiAddMiddleAttendance = "add_temprature"
 public let apiParentAllChild = "parents_all_classes"
 
+public let apiChildMedication = "medication"
 public let apiLikePortfolio = "like_portfolio"
 public let apiComments = "comments"
 

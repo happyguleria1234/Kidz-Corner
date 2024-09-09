@@ -63,3 +63,10 @@ struct CommonModel: Codable {
     var status: Int?
     var message: String?
 }
+
+struct MedicationData {
+    var date: [String]?
+    var howManyTimeDay: [String]?
+    var beforeLunch: [String]?
+    var afterLunch: [String]?
+}

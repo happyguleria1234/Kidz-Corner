@@ -7,6 +7,7 @@ class InvoicePdf: UIViewController, UIWebViewDelegate, WKUIDelegate, WKNavigatio
     var pdfURL: URL?
     var userID = Int()
     var pdfData: PDFData?
+    var comesFrom = String()
     
     @IBOutlet weak var webViewInvoice: WKWebView!
     @IBOutlet weak var lbl_invoice: UILabel!
@@ -23,6 +24,9 @@ class InvoicePdf: UIViewController, UIWebViewDelegate, WKUIDelegate, WKNavigatio
             }
         } else {
             loadData()
+            lbl_invoice.isHidden = true
+        }
+        if comesFrom == "invoice" {
             lbl_invoice.isHidden = true
         }
     }

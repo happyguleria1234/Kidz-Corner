@@ -173,6 +173,7 @@ class DemoVC2: UIViewController, SelectEvulation {
             let storyboard = UIStoryboard(name: "Parent", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "InvoicePdf") as! InvoicePdf
             vc.userID = userID
+            vc.comesFrom = "invoice"
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
