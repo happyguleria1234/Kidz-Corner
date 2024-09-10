@@ -28,6 +28,9 @@ class InvoicePdf: UIViewController, UIWebViewDelegate, WKUIDelegate, WKNavigatio
         }
         if comesFrom == "invoice" {
             lbl_invoice.isHidden = true
+        } else if comesFrom == "Recipt" {
+            lbl_invoice.isHidden = false
+            lbl_invoice.text = "Recipt"
         }
     }
     

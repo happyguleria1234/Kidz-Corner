@@ -903,13 +903,13 @@ struct PaymentsData: Codable {
         let status, taxPercent: String?
         let note, statusTime: String?
         let createdAt, updatedAt: String?
-        let deletedAt, paidStatusTime: String?
+        let deletedAt, paidStatusTime,invoice_id: String?
         let tax: String?
         let invoiceItems: [InvoiceItem]?
         let student: ChildInfoModel?
 
         enum CodingKeys: String, CodingKey {
-            case id
+            case id, invoice_id
             case studentID = "student_id"
             case amount
             case invoiceStartDate = "invoice_start_date"

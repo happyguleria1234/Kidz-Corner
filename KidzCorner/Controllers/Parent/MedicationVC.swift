@@ -7,6 +7,7 @@
 
 
 import UIKit
+import DropDown
 import Foundation
 
 class MedicationVC : UIViewController {
@@ -21,8 +22,10 @@ class MedicationVC : UIViewController {
     @IBOutlet weak var tblList: UITableView!
     @IBOutlet weak var txt_remarks: UITextView!
     
-    var tableData: [String] = [] // Data source for the table view
+    let dropDown = DropDown()
+    var tableData: [String] = []
     var childrenData = [ChildData]()
+    var datePickerHandler: DatePickerHandler!
 
     //------------------------------------------------------
     
@@ -66,6 +69,8 @@ class MedicationVC : UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    
+    
     @IBAction func btnSendChildsMedication(_ sender: Any) {
         // add Validations
         let medicationData = getAllMedicationData()
@@ -78,10 +83,9 @@ class MedicationVC : UIViewController {
             "before_lunch": medicationData.map { $0["before_lunch"] ?? "" },
             "after_lunch": medicationData.map { $0["after_lunch"] ?? "" },
             "remark": txt_remarks.text ?? ""
-        ]
-        
-        // Send data to API
-        sendChildsMedicationData(params: params)    }
+        ]        
+        sendChildsMedicationData(params: params)
+    }
         
     
     //------------------------------------------------------
@@ -128,17 +132,20 @@ class MedicationVC : UIViewController {
     
     // MARK: Functions
     func getAllChildsAPI() {
-        ApiManager.shared.Request(type: AllChildrenModel.self, methodType: .Get, url: baseUrl+apiParentAllChild, parameter: [:]) { error, myObject, msgString, statusCode in
+        showIndicator()
+        ApiManager.shared.Request(type: AllChildrenModel.self, methodType: .Get, url: baseUrl+apiParentAllChild, parameter: [:]) { [self] error, myObject, msgString, statusCode in
+            stopIndicator()
             DispatchQueue.main.async {
                 if statusCode == 200 {
                     self.childrenData = myObject?.data ?? []
-                   // self.getChildDetailsApi(date: Date().shortDate, childId: self.childrenData.first?.id)
+                    self.coll_childs.reloadData()
                 } else {
                     Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
                 }
             }
         }
     }
+    
     
     func getAllMedicationData() -> [[String: Any]] {
         var dataArray: [[String: Any]] = []
@@ -153,6 +160,18 @@ class MedicationVC : UIViewController {
         return dataArray
     }
  
+    
+    private func showIndicator() {
+        DispatchQueue.main.async {
+            startAnimating(self.view)
+        }
+    }
+    
+    private func stopIndicator() {
+        DispatchQueue.main.async {
+            stopAnimating()
+        }
+    }
 
     func sendChildsMedicationData(params: [String: Any]) {
         for row in 0..<tableData.count {
@@ -169,15 +188,36 @@ class MedicationVC : UIViewController {
                 return
             }
         }
-        ApiManager.shared.Request(type: AllChildrenModel.self, methodType: .Post, url: baseUrl+apiChildMedication, parameter: params) { error, myObject, msgString, statusCode in
-            DispatchQueue.main.async {
-                if statusCode == 200 {
-                    // Handle success
-                } else {
-                    Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
-                }
+        var jsonStr = String()
+        print(params)
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                print("JSON String: \(jsonString)")
+                jsonStr = jsonString
+            }
+        } catch {
+            print("Error converting dictionary to JSON: \(error.localizedDescription)")
+        }
+        
+        ApiManager.shared.Request(type: BaseModel.self, methodType: .Post, url: baseUrl+apiChildMedication, parameter: params) { error, myObject, messageStr, statusCode in
+            debugPrint(error)
+            if statusCode == 200 {
+                print(myObject)
+            } else {
+                Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
             }
         }
+        
+//        ApiManager.shared.Request(type: AllChildrenModel.self, methodType: .Post, url: baseUrl+apiChildMedication, parameter: params) { error, myObject, msgString, statusCode in
+//            DispatchQueue.main.async {
+//                if statusCode == 200 {
+//                    // Handle success
+//                } else {
+//                    Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+//                }
+//            }
+//        }
     }
 
     func validateMedicationCell(_ cell: MedicationCell) -> Bool {
@@ -205,17 +245,22 @@ class MedicationVC : UIViewController {
         
         return isValid
     }
-
-    
 }
 
 extension MedicationVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return childrenData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChildCell", for: indexPath) as! ChildCell
+        cell.lbl_name.text = childrenData[indexPath.row].name?.uppercased()
+        cell.lbl_class.text = childrenData[indexPath.row].studentProfile?.className?.name
+        if let userProfileUrlString = childrenData[indexPath.row].image,
+           let userProfileUrl = URL(string: imageBaseUrl + userProfileUrlString) {
+            cell.img_user.kf.setImage(with: userProfileUrl)
+        }
+        cell.img_user.contentMode = .scaleAspectFill
         return cell
     }
     
@@ -233,10 +278,10 @@ extension MedicationVC: UICollectionViewDelegate, UICollectionViewDataSource {
         let pageIndex = round(scrollView.contentOffset.x / scrollView.frame.width)
         page_control.currentPage = Int(pageIndex)
     }
-    
 }
 
-extension MedicationVC : UITableViewDelegate, UITableViewDataSource {
+extension MedicationVC: UITableViewDelegate, UITableViewDataSource {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableData.count
     }
@@ -244,8 +289,22 @@ extension MedicationVC : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MedicationCell", for: indexPath) as! MedicationCell
         cell.btnDelete.isHidden = (tableData.count == 1)
+        
+        // Set up the tag for identifying the row
         cell.btnDelete.tag = indexPath.row
+        cell.btn_day.tag = indexPath.row
+        cell.btn_before.tag = indexPath.row
+        cell.btn_after.tag = indexPath.row
+        cell.btnDate.tag = indexPath.row
+        
+        // Add actions for buttons
+        cell.btnDate.addTarget(self, action: #selector(showDatePicker(_:)), for: .touchUpInside)
+        cell.btn_day.addTarget(self, action: #selector(loadNumbersOfDay(_:)), for: .touchUpInside)
         cell.btnDelete.addTarget(self, action: #selector(deleteCell(_:)), for: .touchUpInside)
+        
+        // Add actions for before and after buttons
+        cell.btn_before.addTarget(self, action: #selector(toggleBeforeButton(_:)), for: .touchUpInside)
+        cell.btn_after.addTarget(self, action: #selector(toggleAfterButton(_:)), for: .touchUpInside)
         
         return cell
     }
@@ -254,10 +313,76 @@ extension MedicationVC : UITableViewDelegate, UITableViewDataSource {
         return 300
     }
     
+    @objc func toggleBeforeButton(_ sender: UIButton) {
+        let index = sender.tag
+        guard let cell = tblList.cellForRow(at: IndexPath(row: index, section: 0)) as? MedicationCell else { return }
+
+        if cell.btn_before.isSelected {
+            // If 'Before' is already selected, unselect it
+            cell.btn_before.isSelected = false
+        } else {
+            // Select 'Before' and unselect 'After'
+            cell.btn_before.isSelected = true
+            cell.btn_after.isSelected = false
+        }
+    }
+
+    @objc func toggleAfterButton(_ sender: UIButton) {
+        let index = sender.tag
+        guard let cell = tblList.cellForRow(at: IndexPath(row: index, section: 0)) as? MedicationCell else { return }
+
+        if cell.btn_after.isSelected {
+            // If 'After' is already selected, unselect it
+            cell.btn_after.isSelected = false
+        } else {
+            // Select 'After' and unselect 'Before'
+            cell.btn_after.isSelected = true
+            cell.btn_before.isSelected = false
+        }
+    }
+
     @objc func deleteCell(_ sender: UIButton) {
         let index = sender.tag
         tableData.remove(at: index)
         tblList.reloadData()
+    }
+
+    @objc func loadNumbersOfDay(_ sender: UIButton) {
+        guard let indexPath = getIndexPath(for: sender) else { return }
+        let cell = tblList.cellForRow(at: indexPath) as! MedicationCell
+        
+        dropDown.dataSource = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+        dropDown.anchorView = sender
+        dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            print("Selected item: \(item) at index: \(index)")
+            cell.tf_day.text = item
+        }
+        dropDown.direction = .bottom
+        dropDown.show()
+    }
+    
+    @objc func showDatePicker(_ sender: UIButton) {
+        guard let indexPath = getIndexPath(for: sender) else { return }
+        let cell = tblList.cellForRow(at: indexPath) as! MedicationCell
+
+        // Assuming DatePickerHandler handles the presentation of date picker
+        let datePickerHandler = DatePickerHandler(parentView: self.view, textField: cell.tf_day)
+        
+        // Set up the callback for when the date is selected
+        datePickerHandler.onDateSelected = { [weak self] selectedDate in
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium // You can customize the date format here
+            let formattedDate = formatter.string(from: selectedDate)
+            cell.tf_day.text = formattedDate
+        }
+        
+        // Optionally, handle the cancel or done button actions in DatePickerHandler
+        datePickerHandler.showDatePicker() // Assuming showDatePicker() presents the date picker
+    }
+
+    func getIndexPath(for sender: UIButton) -> IndexPath? {
+        let buttonPosition = sender.convert(CGPoint.zero, to: tblList)
+        return tblList.indexPathForRow(at: buttonPosition)
     }
 }
 
@@ -268,7 +393,6 @@ class ChildCell: UICollectionViewCell {
     @IBOutlet weak var lbl_name: UILabel!
     @IBOutlet weak var img_user: UIImageView!
 
-    
     override class func awakeFromNib() {
         super.awakeFromNib()
     }

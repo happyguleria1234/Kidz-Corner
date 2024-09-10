@@ -42,7 +42,7 @@ class ParentDashboard: UIViewController {
         buttonsData.append(ButtonsData(name: "Board", imgName: "broad"))
         buttonsData.append(ButtonsData(name: "Bulleting", imgName: "Bulleting and weekly update"))
         buttonsData.append(ButtonsData(name: "Weekly Update", imgName: "Framessss"))
-//        buttonsData.append(ButtonsData(name: "Medication", imgName: "broad"))
+        buttonsData.append(ButtonsData(name: "Medical", imgName: "health"))
         setupCollectionView()
     }
     
@@ -513,7 +513,7 @@ extension ParentDashboard: UICollectionViewDelegate, UICollectionViewDataSource,
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == buttonCollection {
-            return 4
+            return 5
         } else {
             return childrenData.count
         }
@@ -544,12 +544,12 @@ extension ParentDashboard: UICollectionViewDelegate, UICollectionViewDataSource,
                 cell.iconImg.image = UIImage(named: buttonsData[6].imgName)
                 cell.name2.text = buttonsData[7].name
                 cell.img2.image = UIImage(named: buttonsData[7].imgName)
-//            case 4:
-//                cell.lblName.text = buttonsData[8].name
-//                cell.iconImg.image = UIImage(named: buttonsData[8].imgName)
-//                cell.name2.isHidden = true
-//                cell.img2.isHidden = true
-//                cell.btn2Tap.isHidden = true
+            case 4:
+                cell.lblName.text = buttonsData[8].name
+                cell.iconImg.image = UIImage(named: buttonsData[8].imgName)
+                cell.name2.isHidden = true
+                cell.img2.isHidden = true
+                cell.btn2Tap.isHidden = true
             default:
                 break
             }
@@ -596,10 +596,10 @@ extension ParentDashboard: UICollectionViewDelegate, UICollectionViewDataSource,
             } else if childrenData.count == 1 {
                 gotoVCS(id: self.childrenData.first?.id ?? 0,comesFrom: "5")
             }
-//        case 4:
-//            let vc = self.storyboard?.instantiateViewController(withIdentifier: "MedicationVC") as! MedicationVC
-//            comesForImages = "Images"
-//            self.navigationController?.pushViewController(vc, animated: true)
+        case 4:
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "MedicationVC") as! MedicationVC
+            comesForImages = "Images"
+            self.navigationController?.pushViewController(vc, animated: true)
         default:
             break
         }

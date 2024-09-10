@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,14 +18,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="InvoiceDetailHeader" rowHeight="368" id="h5X-LQ-L2F" customClass="InvoiceDetailHeader" customModule="KidzCorner" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="553" height="368"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="InvoiceDetailHeader" rowHeight="320" id="h5X-LQ-L2F" customClass="InvoiceDetailHeader" customModule="KidzCorner" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="553" height="320"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="h5X-LQ-L2F" id="EWX-YM-7Gv">
-                <rect key="frame" x="0.0" y="0.0" width="553" height="368"/>
+                <rect key="frame" x="0.0" y="0.0" width="553" height="320"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f13-uY-qGi">
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f13-uY-qGi">
                         <rect key="frame" x="10" y="10" width="533" height="175"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Sx1-fY-KC1">
@@ -112,16 +112,16 @@
                         </constraints>
                     </view>
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="d2X-00-IEV">
-                        <rect key="frame" x="20" y="235" width="513" height="128"/>
+                        <rect key="frame" x="20" y="235" width="513" height="80"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FcS-9K-WZ1">
-                                <rect key="frame" x="0.0" y="53" width="256.5" height="22.5"/>
+                                <rect key="frame" x="0.0" y="29" width="256.5" height="22.5"/>
                                 <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="16"/>
                                 <color key="textColor" name="statsColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebb-Vl-acH">
-                                <rect key="frame" x="256.5" y="53" width="256.5" height="22.5"/>
+                                <rect key="frame" x="256.5" y="29" width="256.5" height="22.5"/>
                                 <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="16"/>
                                 <color key="textColor" name="statsColor"/>
                                 <nil key="highlightedColor"/>
@@ -148,7 +148,7 @@
                 <outlet property="labelStatus" destination="2XU-Yu-rnQ" id="IuV-iF-9pj"/>
                 <outlet property="viewDetails" destination="f13-uY-qGi" id="RPQ-4E-iSV"/>
             </connections>
-            <point key="canvasLocation" x="235.50724637681162" y="131.25"/>
+            <point key="canvasLocation" x="235.50724637681162" y="115.17857142857142"/>
         </tableViewCell>
     </objects>
     <resources>
