@@ -82,6 +82,8 @@
 		18B2A0672C67C3DE004383BC /* SelectClassesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B2A0662C67C3DE004383BC /* SelectClassesVC.swift */; };
 		18B2A06A2C722CFF004383BC /* AnnouncementCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B2A0682C722CFE004383BC /* AnnouncementCell2.swift */; };
 		18B2A06B2C722CFF004383BC /* AnnouncementCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18B2A0692C722CFE004383BC /* AnnouncementCell2.xib */; };
+		18BAF2B82C9365BE00F0D3D8 /* ShowMore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BAF2B72C9365BE00F0D3D8 /* ShowMore.swift */; };
+		18BAF2BA2C958BBB00F0D3D8 /* SubmitMedicalReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BAF2B92C958BBB00F0D3D8 /* SubmitMedicalReport.swift */; };
 		18BC90312BF3C92C00F14A43 /* CustomeVieww.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BC90302BF3C92C00F14A43 /* CustomeVieww.swift */; };
 		18BC90352BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18BC90342BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib */; };
 		18BC90362BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BC90332BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift */; };
@@ -316,6 +318,8 @@
 		18B2A0662C67C3DE004383BC /* SelectClassesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectClassesVC.swift; sourceTree = "<group>"; };
 		18B2A0682C722CFE004383BC /* AnnouncementCell2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementCell2.swift; sourceTree = "<group>"; };
 		18B2A0692C722CFE004383BC /* AnnouncementCell2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnnouncementCell2.xib; sourceTree = "<group>"; };
+		18BAF2B72C9365BE00F0D3D8 /* ShowMore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMore.swift; sourceTree = "<group>"; };
+		18BAF2B92C958BBB00F0D3D8 /* SubmitMedicalReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitMedicalReport.swift; sourceTree = "<group>"; };
 		18BC90302BF3C92C00F14A43 /* CustomeVieww.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomeVieww.swift; sourceTree = "<group>"; };
 		18BC90332BF3E35F00F14A43 /* InvoiceHeadCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceHeadCollectionCell.swift; sourceTree = "<group>"; };
 		18BC90342BF3E35F00F14A43 /* InvoiceHeadCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InvoiceHeadCollectionCell.xib; sourceTree = "<group>"; };
@@ -956,6 +960,8 @@
 				18CFC2A02C5A889400A2E25A /* DownloadFile.swift */,
 				181DB6DB2C80D2DE0005BCB4 /* ShowHalfView.swift */,
 				180595FC2C9075B000D90AF2 /* DateManager.swift */,
+				18BAF2B72C9365BE00F0D3D8 /* ShowMore.swift */,
+				18BAF2B92C958BBB00F0D3D8 /* SubmitMedicalReport.swift */,
 			);
 			path = Functions;
 			sourceTree = "<group>";
@@ -1352,7 +1358,9 @@
 				531EDA1827B96F4500CA667A /* AuthModel.swift in Sources */,
 				53FE22122804AA09003AE636 /* InvoicePdf.swift in Sources */,
 				181CD6262BFD0E56006917F3 /* PdfVC.swift in Sources */,
+				18BAF2B82C9365BE00F0D3D8 /* ShowMore.swift in Sources */,
 				1850EF802C4D659E00BE9D42 /* DemoModel.swift in Sources */,
+				18BAF2BA2C958BBB00F0D3D8 /* SubmitMedicalReport.swift in Sources */,
 				B72E68A62ADB0C54003433F2 /* StudentProfileCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1524,7 +1532,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.263;
+				MARKETING_VERSION = 7.265;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1576,7 +1584,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.263;
+				MARKETING_VERSION = 7.265;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";

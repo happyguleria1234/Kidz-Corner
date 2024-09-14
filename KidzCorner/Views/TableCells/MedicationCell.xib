@@ -48,7 +48,7 @@
                                         <rect key="frame" x="5" y="32.666666666666664" width="310" height="44.999999999999993"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" placeholder="DD/MM/YYYY" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="slM-FI-jkk">
-                                                <rect key="frame" x="10" y="5" width="265" height="35"/>
+                                                <rect key="frame" x="10" y="5" width="104.66666666666667" height="35"/>
                                                 <attributedString key="attributedText"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
@@ -60,10 +60,7 @@
                                                 </constraints>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rwt-yF-SVC">
-                                                <rect key="frame" x="270" y="0.0" width="40" height="45"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="40" id="SSe-yT-9Ic"/>
-                                                </constraints>
+                                                <rect key="frame" x="0.0" y="0.0" width="310" height="45"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                             </button>
                                         </subviews>
@@ -71,6 +68,7 @@
                                         <constraints>
                                             <constraint firstItem="rwt-yF-SVC" firstAttribute="top" secondItem="mVy-8Z-t1d" secondAttribute="top" id="3i8-Im-jzW"/>
                                             <constraint firstAttribute="trailing" secondItem="rwt-yF-SVC" secondAttribute="trailing" id="8Ye-ZK-ApW"/>
+                                            <constraint firstItem="rwt-yF-SVC" firstAttribute="leading" secondItem="mVy-8Z-t1d" secondAttribute="leading" id="ECf-Y7-MV5"/>
                                             <constraint firstItem="slM-FI-jkk" firstAttribute="centerY" secondItem="mVy-8Z-t1d" secondAttribute="centerY" id="JMS-CR-XBx"/>
                                             <constraint firstItem="slM-FI-jkk" firstAttribute="top" secondItem="mVy-8Z-t1d" secondAttribute="top" constant="5" id="MoB-ao-ZJ0"/>
                                             <constraint firstItem="slM-FI-jkk" firstAttribute="leading" secondItem="mVy-8Z-t1d" secondAttribute="leading" constant="10" id="RdT-iD-1mp"/>
@@ -78,7 +76,6 @@
                                             <constraint firstAttribute="height" constant="45" id="Shv-CO-NTE"/>
                                             <constraint firstAttribute="bottom" secondItem="slM-FI-jkk" secondAttribute="bottom" constant="5" id="WIS-04-gOY"/>
                                             <constraint firstAttribute="bottom" secondItem="rwt-yF-SVC" secondAttribute="bottom" id="bTg-Nq-GkD"/>
-                                            <constraint firstItem="Fsf-Ay-18X" firstAttribute="leading" secondItem="slM-FI-jkk" secondAttribute="trailing" constant="10" id="fe0-Wt-2X1"/>
                                             <constraint firstAttribute="trailing" secondItem="Fsf-Ay-18X" secondAttribute="trailing" constant="10" id="tfX-m3-qYj"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
@@ -166,7 +163,7 @@
                                         <rect key="frame" x="5" y="29.666666666666657" width="310" height="45"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" placeholder="Select" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="P2w-Vw-Aa0">
-                                                <rect key="frame" x="10" y="5" width="265" height="35"/>
+                                                <rect key="frame" x="10" y="5" width="48" height="35"/>
                                                 <attributedString key="attributedText"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
@@ -178,10 +175,7 @@
                                                 </constraints>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="idK-27-P28">
-                                                <rect key="frame" x="270" y="0.0" width="40" height="45"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="40" id="Cef-C8-tfZ"/>
-                                                </constraints>
+                                                <rect key="frame" x="0.0" y="0.0" width="310" height="45"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                             </button>
                                         </subviews>
@@ -192,7 +186,7 @@
                                             <constraint firstItem="O0d-yl-3oW" firstAttribute="centerY" secondItem="P2w-Vw-Aa0" secondAttribute="centerY" id="4Cf-zA-JmN"/>
                                             <constraint firstItem="P2w-Vw-Aa0" firstAttribute="centerY" secondItem="egA-ft-Cqa" secondAttribute="centerY" id="AAZ-AO-Hpe"/>
                                             <constraint firstItem="idK-27-P28" firstAttribute="top" secondItem="egA-ft-Cqa" secondAttribute="top" id="AH0-UD-SyV"/>
-                                            <constraint firstItem="O0d-yl-3oW" firstAttribute="leading" secondItem="P2w-Vw-Aa0" secondAttribute="trailing" constant="10" id="Giv-KR-FiW"/>
+                                            <constraint firstItem="idK-27-P28" firstAttribute="leading" secondItem="egA-ft-Cqa" secondAttribute="leading" id="D8E-hd-9f3"/>
                                             <constraint firstAttribute="height" constant="45" id="Lpb-r3-Stc"/>
                                             <constraint firstItem="P2w-Vw-Aa0" firstAttribute="leading" secondItem="egA-ft-Cqa" secondAttribute="leading" constant="10" id="ZXH-kg-E5c"/>
                                             <constraint firstAttribute="bottom" secondItem="P2w-Vw-Aa0" secondAttribute="bottom" constant="5" id="bzs-6r-n4y"/>
@@ -222,26 +216,26 @@
                         </constraints>
                     </stackView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Idw-pZ-c7h">
-                        <rect key="frame" x="5" y="270" width="270" height="15"/>
+                        <rect key="frame" x="5" y="270" width="270" height="18"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="u2p-Vb-biW">
-                                <rect key="frame" x="0.0" y="0.0" width="270" height="15"/>
+                                <rect key="frame" x="0.0" y="0.0" width="270" height="18"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="5To-oB-SXr">
-                                        <rect key="frame" x="0.0" y="0.0" width="130" height="15"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="130" height="18"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IbK-RI-iiX">
-                                                <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="18" height="18"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="15" id="4du-qM-DVu"/>
-                                                    <constraint firstAttribute="width" constant="15" id="zUF-kI-uPe"/>
+                                                    <constraint firstAttribute="height" constant="18" id="4du-qM-DVu"/>
+                                                    <constraint firstAttribute="width" constant="18" id="zUF-kI-uPe"/>
                                                 </constraints>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" image="uncheckedBox 1"/>
                                                 <state key="selected" image="checkBoxIcon"/>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Before lunch" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3rj-jU-ksn">
-                                                <rect key="frame" x="22" y="0.0" width="108" height="15"/>
+                                                <rect key="frame" x="25" y="0.0" width="105" height="18"/>
                                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="14"/>
                                                 <color key="textColor" red="0.52941176469999995" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -249,20 +243,20 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="1WR-e8-hba">
-                                        <rect key="frame" x="140" y="0.0" width="130" height="15"/>
+                                        <rect key="frame" x="140" y="0.0" width="130" height="18"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LRB-hL-qxL">
-                                                <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="18" height="18"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="15" id="rDl-J2-jae"/>
-                                                    <constraint firstAttribute="width" constant="15" id="ten-Bu-WFE"/>
+                                                    <constraint firstAttribute="height" constant="18" id="rDl-J2-jae"/>
+                                                    <constraint firstAttribute="width" constant="18" id="ten-Bu-WFE"/>
                                                 </constraints>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" image="uncheckedBox 1"/>
                                                 <state key="selected" image="checkBoxIcon"/>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="After lunch" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qwh-Ac-TQc">
-                                                <rect key="frame" x="22" y="0.0" width="108" height="15"/>
+                                                <rect key="frame" x="25" y="0.0" width="105" height="18"/>
                                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="14"/>
                                                 <color key="textColor" red="0.52941176469999995" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -297,7 +291,7 @@
                 <outlet property="btnDelete" destination="RWa-mT-u0I" id="ONo-lF-98f"/>
                 <outlet property="btn_after" destination="LRB-hL-qxL" id="1pC-GU-d1t"/>
                 <outlet property="btn_before" destination="IbK-RI-iiX" id="hYT-tO-HX0"/>
-                <outlet property="btn_day" destination="idK-27-P28" id="Au8-lg-lgC"/>
+                <outlet property="btn_day" destination="idK-27-P28" id="t5p-Ao-Gvr"/>
                 <outlet property="tf_date" destination="slM-FI-jkk" id="t0p-ek-Mrk"/>
                 <outlet property="tf_day" destination="P2w-Vw-Aa0" id="CGa-ja-Nlc"/>
                 <outlet property="tf_name" destination="9XZ-fT-NUj" id="sVc-Wl-JL1"/>
@@ -315,7 +309,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray6Color">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

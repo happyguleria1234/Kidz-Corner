@@ -70,3 +70,30 @@ struct MedicationData {
     var beforeLunch: [String]?
     var afterLunch: [String]?
 }
+
+
+import Foundation
+
+// MARK: - MedicalModel
+struct MedicalModel: Codable {
+    let status: Int?
+    let message: String?
+    let data: MedicalModelDataClass?
+}
+
+// MARK: - DataClass
+struct MedicalModelDataClass: Codable {
+    let userID, remark: String?
+    let schoolID: Int?
+    let updatedAt, createdAt: String?
+    let id: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case userID = "user_id"
+        case remark
+        case schoolID = "school_id"
+        case updatedAt = "updated_at"
+        case createdAt = "created_at"
+        case id
+    }
+}

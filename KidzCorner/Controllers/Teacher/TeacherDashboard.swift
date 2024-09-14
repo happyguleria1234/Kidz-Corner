@@ -175,7 +175,7 @@ extension TeacherDashboard: UITableViewDelegate, UITableViewDataSource {
         cell.labelName.text = data?.teacher?.name ?? ""
         cell.labelTitle.text = data?.title?.capitalized ?? ""
 //        cell.labelDescription.text = data?.postContent ?? ""
-        cell.configureLabelDescription(text: data?.postContent ?? "")
+//        cell.configureLabelDescription(text: data?.postContent ?? "")
         cell.labelTime.text = data?.postDate ?? ""
         cell.labelDomain.text = data?.domain?.name ?? ""
         cell.buttonLike.setImage(UIImage(named: "likeEmpty"), for: .normal)

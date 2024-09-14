@@ -84,6 +84,9 @@ public let album_posts = "album_posts/"
 public let invoicePdfUrl = "https://kidzcorner.live/generate_invoice_pdf/"
 public let invoicePdfKey = "/5023fa9c3fd7c91f81f9c5bf2bb84368"
 
+public let receipt = "https://kidzcorner.live/receiptsPdf/"
+public let recieptKey = "/5023fa9c3fd7c91f81f9c5bf2bb84368"
+
 public let evaluationList = "evaluations?userId="
 public let eavluationfilterList = "evaluations/"
 public let logout = "signout"

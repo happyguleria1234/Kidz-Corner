@@ -25,9 +25,8 @@ class MedicationVC : UIViewController {
     let dropDown = DropDown()
     var tableData: [String] = []
     var childrenData = [ChildData]()
-    var datePickerHandler: DatePickerHandler!
-
-    //------------------------------------------------------
+    var studentID:Int?
+//    var datePickerHandler: DatePickerHandler!
     
     //MARK: Memory Management Method
     
@@ -52,8 +51,9 @@ class MedicationVC : UIViewController {
         coll_childs.dataSource = self
         tblList.register(UINib(nibName: "MedicationCell", bundle: nil), forCellReuseIdentifier: "MedicationCell")
         tableData = ["Cell 1"]
-        page_control.numberOfPages = 3
+        page_control.numberOfPages = childrenData.count
         coll_childs.isPagingEnabled = true
+        tabBarController?.tabBar.isHidden = true
     }
     
     //------------------------------------------------------
@@ -69,24 +69,244 @@ class MedicationVC : UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    
+//    @IBAction func btnSendChildsMedication(_ sender: Any) {
+//        // add Validations
+//        let medicationData = getAllMedicationData()
+//        
+//        let params: [String: Any] = [
+////            "user_id": "5291",
+//            "user_id":"\(studentID ?? 0)",
+//            "name": medicationData.map { $0["name"] ?? "" },
+//            "date": medicationData.map { $0["date"] ?? "" },
+//            "how_many_time_day": medicationData.map { $0["how_many_time_day"] ?? "" },
+//            "before_lunch": medicationData.map { $0["before_lunch"] ?? "" },
+//            "after_lunch": medicationData.map { $0["after_lunch"] ?? "" },
+//            "remark": txt_remarks.text ?? ""
+//        ]   
+//        print("params is here *******",params)
+//        sendChildsMedicationData(params: params)
+//    }
     
     @IBAction func btnSendChildsMedication(_ sender: Any) {
-        // add Validations
+        // Add Validations if needed
+        showIndicator()
         let medicationData = getAllMedicationData()
         
         let params: [String: Any] = [
-            "user_id": "5291",
-            "name": medicationData.map { $0["name"] ?? "" },
-            "date": medicationData.map { $0["date"] ?? "" },
-            "how_many_time_day": medicationData.map { $0["how_many_time_day"] ?? "" },
-            "before_lunch": medicationData.map { $0["before_lunch"] ?? "" },
-            "after_lunch": medicationData.map { $0["after_lunch"] ?? "" },
+            "user_id": "\(studentID ?? 0)",
+            "name[]": medicationData.map { $0["name"] ?? "" },
+            "date[]": medicationData.map { $0["date"] ?? "" },
+            "how_many_time_day[]": medicationData.map { $0["how_many_time_day"] ?? "" },
+            "before_lunch[]": medicationData.map { $0["before_lunch"] ?? "" },
+            "after_lunch[]": medicationData.map { $0["after_lunch"] ?? "" },
             "remark": txt_remarks.text ?? ""
-        ]        
-        sendChildsMedicationData(params: params)
-    }
+        ]
         
+        print("params is here *******", params)
+        
+        // Construct the parameters for multipart/form-data
+        var parameters: [[String: Any]] = []
+        
+        for (key, value) in params {
+            if let values = value as? [String] {
+                for val in values {
+                    parameters.append([
+                        "key": key,
+                        "value": val,
+                        "type": "text"
+                    ])
+                }
+            } else {
+                parameters.append([
+                    "key": key,
+                    "value": value as! String,
+                    "type": "text"
+                ])
+            }
+        }
+        
+        // Generate boundary string using a unique per-app string
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        
+        for param in parameters {
+            let paramName = param["key"] as! String
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(paramName)\"\r\n".data(using: .utf8)!)
+            
+            if let contentType = param["contentType"] as? String {
+                body.append("Content-Type: \(contentType)\r\n".data(using: .utf8)!)
+            }
+            
+            let paramType = param["type"] as! String
+            if paramType == "text" {
+                let paramValue = param["value"] as! String
+                body.append("\r\n\(paramValue)\r\n".data(using: .utf8)!)
+            }
+        }
+        
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        let postData = body
+        
+        // Set up URL request
+        let url = URL(string: "https://kidzcorner.live/api/medication")!
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
+        
+        request.httpMethod = "POST"
+        request.httpBody = postData
+        
+        // Setting up Basic Authentication if USERNAME and PASSWORD are provided
+        let USERNAME = "yourUsername" // Replace with actual USERNAME
+        let PASSWORD = "yourPassword" // Replace with actual PASSWORD
+        
+        if !USERNAME.isEmpty {
+            let loginString = "\(USERNAME):\(PASSWORD)"
+            guard let loginData = loginString.data(using: .utf8) else {
+                return
+            }
+            let base64LoginString = loginData.base64EncodedString()
+            request.setValue("Basic \(base64LoginString)", forHTTPHeaderField: "Authorization")
+        }
+        
+        // Setting up Bearer Token if available
+        if let myToken = UserDefaults.standard.string(forKey: "myToken") {
+            request.setValue("Bearer \(myToken)", forHTTPHeaderField: "Authorization")
+        }
+        
+        // Setting Content-Type header
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        // Execute the request
+        let task = session.dataTask(with: request) { [weak self] data, response, error in
+            DispatchQueue.main.async {
+                self?.stopIndicator()
+                
+                if let error = error {
+                    print("Error: \(error.localizedDescription)")
+                    self?.showAlert(message: "An error occurred: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let data = data else {
+                    print("No data received")
+                    self?.showAlert(message: "No data received from the server.")
+                    return
+                }
+                
+                if let responseString = String(data: data, encoding: .utf8) {
+                    print("Response: \(responseString)")
+                    
+                    // Show a success message and pop the view controller
+                    self?.showAlert(message: "Data added successfully!") {
+                        self?.navigationController?.popViewController(animated: true)
+                    }
+                } else {
+                    self?.showAlert(message: "Failed to parse response.")
+                }
+            }
+        }
+        
+        task.resume()
+    }
+
+    func showAlert(message: String, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: "Info", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+            completion?()
+        })
+        // Assuming you are calling this from a view controller
+        if let topController = UIApplication.shared.windows.first?.rootViewController {
+            topController.present(alert, animated: true, completion: nil)
+        }
+    }
+
+    
+    func getAllMedicationData() -> [[String: Any]] {
+        var dataArray: [[String: Any]] = []
+        
+        for cell in tblList.visibleCells {
+            if let medicationCell = cell as? MedicationCell {
+                let cellData = medicationCell.getData()
+                dataArray.append(cellData)
+            }
+        }
+        
+        return dataArray
+    }
+    
+    func sendChildsMedicationData(params: [String: Any]) {
+        // Validate all medication cells
+        for row in 0..<tableData.count {
+            let indexPath = IndexPath(row: row, section: 0)
+            guard let medicationCell = tblList.cellForRow(at: indexPath) as? MedicationCell else {
+                continue
+            }
+            
+            if !validateMedicationCell(medicationCell) {
+                return
+            }
+        }
+        
+        // Convert params to the required format for the requestWithSingle function
+        let formattedParams: [[String: Any]] = params.map { key, value in
+            var finalValue: String
+            
+            if let valueArray = value as? [String] {
+                // Join array values into a single string
+                finalValue = valueArray.joined(separator: ", ")
+            } else {
+                // Use value as is, assuming it's already a string
+                finalValue = "\(value)"
+            }
+            
+            return [
+                "key": key,
+                "value": finalValue,
+                "type": "text" // Assuming all parameters are text; adjust if needed
+            ]
+        }
+        
+        // Send the API request
+        ApiManager.shared.requestWithSingle(
+            type: MedicalModel.self,
+            url: baseUrl + apiChildMedication,
+            parameters: formattedParams
+        ) { error, myObject, msgString, statusCode in
+            DispatchQueue.main.async {
+                if statusCode == 200 {
+                    // Handle success
+                    print("Medication data sent successfully")
+                } else {
+                    Toast.show(message: error?.localizedDescription ?? "Something went wrong", controller: self, color: .red)
+                }
+            }
+        }
+    }
+
+//    func sendChildsMedicationData(params: [String: Any]) {
+//        for row in 0..<tableData.count {
+//            let indexPath = IndexPath(row: row, section: 0)
+//            guard let medicationCell = tblList.cellForRow(at: indexPath) as? MedicationCell else {
+//                continue
+//            }
+//            
+//            if !validateMedicationCell(medicationCell) {
+//                return
+//            }
+//        }
+//        ApiManager.shared.Request(type: AllChildrenModel.self, methodType: .Post, url: baseUrl+apiChildMedication, parameter: params) { error, myObject, msgString, statusCode in
+//            DispatchQueue.main.async {
+//                if statusCode == 200 {
+//                    // Handle success
+//                } else {
+//                    Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
+//                }
+//            }
+//        }
+//    }
     
     //------------------------------------------------------
     
@@ -146,21 +366,6 @@ class MedicationVC : UIViewController {
         }
     }
     
-    
-    func getAllMedicationData() -> [[String: Any]] {
-        var dataArray: [[String: Any]] = []
-        
-        for cell in tblList.visibleCells {
-            if let medicationCell = cell as? MedicationCell {
-                let cellData = medicationCell.getData()
-                dataArray.append(cellData)
-            }
-        }
-        
-        return dataArray
-    }
- 
-    
     private func showIndicator() {
         DispatchQueue.main.async {
             startAnimating(self.view)
@@ -171,53 +376,6 @@ class MedicationVC : UIViewController {
         DispatchQueue.main.async {
             stopAnimating()
         }
-    }
-
-    func sendChildsMedicationData(params: [String: Any]) {
-        for row in 0..<tableData.count {
-            let indexPath = IndexPath(row: row, section: 0)
-            
-            // Safely get the cell at the given index path
-            guard let medicationCell = tblList.cellForRow(at: indexPath) as? MedicationCell else {
-                // Skip this iteration if the cell cannot be cast
-                continue
-            }
-            
-            // Validate the cell
-            if !validateMedicationCell(medicationCell) {
-                return
-            }
-        }
-        var jsonStr = String()
-        print(params)
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
-            if let jsonString = String(data: jsonData, encoding: .utf8) {
-                print("JSON String: \(jsonString)")
-                jsonStr = jsonString
-            }
-        } catch {
-            print("Error converting dictionary to JSON: \(error.localizedDescription)")
-        }
-        
-        ApiManager.shared.Request(type: BaseModel.self, methodType: .Post, url: baseUrl+apiChildMedication, parameter: params) { error, myObject, messageStr, statusCode in
-            debugPrint(error)
-            if statusCode == 200 {
-                print(myObject)
-            } else {
-                Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
-            }
-        }
-        
-//        ApiManager.shared.Request(type: AllChildrenModel.self, methodType: .Post, url: baseUrl+apiChildMedication, parameter: params) { error, myObject, msgString, statusCode in
-//            DispatchQueue.main.async {
-//                if statusCode == 200 {
-//                    // Handle success
-//                } else {
-//                    Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
-//                }
-//            }
-//        }
     }
 
     func validateMedicationCell(_ cell: MedicationCell) -> Bool {
@@ -247,7 +405,8 @@ class MedicationVC : UIViewController {
     }
 }
 
-extension MedicationVC: UICollectionViewDelegate, UICollectionViewDataSource {
+extension MedicationVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return childrenData.count
     }
@@ -256,15 +415,18 @@ extension MedicationVC: UICollectionViewDelegate, UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChildCell", for: indexPath) as! ChildCell
         cell.lbl_name.text = childrenData[indexPath.row].name?.uppercased()
         cell.lbl_class.text = childrenData[indexPath.row].studentProfile?.className?.name
+        
         if let userProfileUrlString = childrenData[indexPath.row].image,
            let userProfileUrl = URL(string: imageBaseUrl + userProfileUrlString) {
             cell.img_user.kf.setImage(with: userProfileUrl)
         }
+        
         cell.img_user.contentMode = .scaleAspectFill
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        // Make the cell take the full width of the collection view
         let width = collectionView.frame.size.width
         let height = collectionView.frame.size.height
         return CGSize(width: width, height: height)
@@ -273,6 +435,16 @@ extension MedicationVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row < childrenData.count {
+            self.studentID = childrenData[indexPath.item].studentProfile?.id ?? 0
+            print("its studentID ***", studentID)
+        } else {
+            print("Index out of range")
+        }
+    }
+
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageIndex = round(scrollView.contentOffset.x / scrollView.frame.width)
@@ -301,7 +473,6 @@ extension MedicationVC: UITableViewDelegate, UITableViewDataSource {
         cell.btnDate.addTarget(self, action: #selector(showDatePicker(_:)), for: .touchUpInside)
         cell.btn_day.addTarget(self, action: #selector(loadNumbersOfDay(_:)), for: .touchUpInside)
         cell.btnDelete.addTarget(self, action: #selector(deleteCell(_:)), for: .touchUpInside)
-        
         // Add actions for before and after buttons
         cell.btn_before.addTarget(self, action: #selector(toggleBeforeButton(_:)), for: .touchUpInside)
         cell.btn_after.addTarget(self, action: #selector(toggleAfterButton(_:)), for: .touchUpInside)
@@ -364,20 +535,13 @@ extension MedicationVC: UITableViewDelegate, UITableViewDataSource {
     @objc func showDatePicker(_ sender: UIButton) {
         guard let indexPath = getIndexPath(for: sender) else { return }
         let cell = tblList.cellForRow(at: indexPath) as! MedicationCell
-
-        // Assuming DatePickerHandler handles the presentation of date picker
-        let datePickerHandler = DatePickerHandler(parentView: self.view, textField: cell.tf_day)
-        
-        // Set up the callback for when the date is selected
-        datePickerHandler.onDateSelected = { [weak self] selectedDate in
+        openDatePicker { date in
             let formatter = DateFormatter()
-            formatter.dateStyle = .medium // You can customize the date format here
-            let formattedDate = formatter.string(from: selectedDate)
-            cell.tf_day.text = formattedDate
+            formatter.dateFormat = "dd-MM-yyyy"
+            let formattedDate = formatter.string(from: date)
+            cell.tf_date.text = formattedDate
+            print(date, "Formatted Date: \(formattedDate)")
         }
-        
-        // Optionally, handle the cancel or done button actions in DatePickerHandler
-        datePickerHandler.showDatePicker() // Assuming showDatePicker() presents the date picker
     }
 
     func getIndexPath(for sender: UIButton) -> IndexPath? {

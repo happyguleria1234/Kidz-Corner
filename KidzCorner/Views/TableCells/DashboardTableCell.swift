@@ -23,7 +23,7 @@ class DashboardTableCell: UITableViewCell {
     @IBOutlet weak var labelName: UILabel!
     @IBOutlet weak var labelTime: UILabel!
     @IBOutlet weak var buttonMore: UIButton!
-    @IBOutlet weak var labelDescription: UILabel!
+    @IBOutlet weak var labelDescription: ExpandableLabel!
     @IBOutlet weak var collectionHeight: NSLayoutConstraint!
     @IBOutlet weak var viewDomain: UIView!
     @IBOutlet weak var labelDomain: UILabel!
@@ -45,92 +45,6 @@ class DashboardTableCell: UITableViewCell {
         setupViews()
         setupCollection()
         setupTextField()
-        setupLabelDescription()
-    }
-    
-    private func setupLabelDescription() {
-        // Add tap gesture to the label
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleLabelDescription))
-        labelDescription.isUserInteractionEnabled = true
-        labelDescription.addGestureRecognizer(tapGesture)
-    }
-    
-    func configureLabelDescription(text: String, maxLines: Int = 4) {
-        originalText = text
-        truncatedText = getTruncatedText(for: text, maxLines: maxLines)
-        labelDescription.attributedText = truncatedText // Use attributedText instead of text
-        labelDescription.numberOfLines = isExpanded ? 0 : maxLines
-    }
-    
-    @objc private func toggleLabelDescription() {
-        isExpanded.toggle()
-        
-        if isExpanded {
-            let fullText = originalText as NSString
-            let showLessText = " Show Less"
-            let showLessAttributedString = NSAttributedString(
-                string: showLessText,
-                attributes: [
-                    .foregroundColor: UIColor.blue,
-                    .font: labelDescription.font
-                ]
-            )
-            let fullAttributedString = NSMutableAttributedString(string: originalText)
-            fullAttributedString.append(showLessAttributedString)
-            labelDescription.attributedText = fullAttributedString
-            labelDescription.numberOfLines = 0
-        } else {
-            labelDescription.attributedText = getTruncatedText(for: originalText, maxLines: 4)
-            labelDescription.numberOfLines = 4
-        }
-        
-        if let tableView = self.superview as? UITableView {
-            tableView.beginUpdates()
-            tableView.endUpdates()
-        }
-    }
-    
-    private func getTruncatedText(for text: String, maxLines: Int) -> NSAttributedString {
-        // Create a UILabel to measure text
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = labelDescription.font
-        label.text = text
-        
-        // Calculate the maximum height for the allowed number of lines
-        let maxSize = CGSize(width: labelDescription.frame.width, height: CGFloat.greatestFiniteMagnitude)
-        let fullTextHeight = label.sizeThatFits(maxSize).height
-        
-        let maxLineHeight = label.font.lineHeight * CGFloat(maxLines)
-        
-        // Check if the text exceeds the maximum height for the allowed lines
-        if fullTextHeight > maxLineHeight {
-            var truncatedText = ""
-            var truncatedAttributedString: NSMutableAttributedString
-            
-            // Find where to cut off the text
-            for word in text.split(separator: " ") {
-                truncatedText += "\(word) "
-                label.text = truncatedText + "..."
-                
-                let currentHeight = label.sizeThatFits(maxSize).height
-                if currentHeight > maxLineHeight {
-                    // Append "Show More" at the end
-                    truncatedAttributedString = NSMutableAttributedString(string: truncatedText)
-                    truncatedAttributedString.append(NSAttributedString(
-                        string: "... Show More",
-                        attributes: [
-                            .foregroundColor: UIColor.blue,
-                            .font: labelDescription.font
-                        ]
-                    ))
-                    return truncatedAttributedString
-                }
-            }
-        }
-        
-        // If no truncation is needed, return the full text
-        return NSAttributedString(string: text)
     }
     
     func setupTextField() {
@@ -141,7 +55,6 @@ class DashboardTableCell: UITableViewCell {
         textWriteComment.font = UIFont.systemFont(ofSize: 14)
         textWriteComment.layer.masksToBounds = true
         textWriteComment.layer.borderColor = UIColor.clear.cgColor
-        //        pageControl.isHidden = true
     }
     
     func hideUnreadCommentViews(_ hide: Bool) {

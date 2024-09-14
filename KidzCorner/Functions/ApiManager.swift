@@ -26,6 +26,7 @@ class ApiManager  {
         
     }
     
+    
     //MARK:- REQUEST METHOD
     func Request<T:Decodable>(type: T.Type ,methodType: MethodType,url:String,sessionKey: String? = nil ,parameter: [String:Any],completion:@escaping (_ error: Error?, _ myObject: T? , _ msgString : String? , _ statusCode : Int?) -> ()){
         
@@ -306,6 +307,218 @@ class ApiManager  {
                     }
             }).resume()
         }
+    
+//    public func requestWithSingle<T: Decodable>(
+//        type: T.Type,
+//        url: String,
+//        parameters: [[String: Any]],
+//        sessionKey: String? = nil,
+//        completion: @escaping (_ error: Error?, _ myObject: T?, _ messageStr: String?, _ statusCode: Int?) -> Void
+//    ) {
+//        // CHECKING INTERNET CONNECTIVITY
+//        guard Connectivity.isConnectedToInternet else {
+//            stopAnimating()
+//            callInternetAlert()
+//            return
+//        }
+//        
+//        // CHECKING URL VALIDATION
+//        guard let url = URL(string: url) else {
+//            stopAnimating()
+//            Toast.show(message: "Invalid Url !", controller: (UIApplication.shared.keyWindow?.rootViewController)!, color: UIColor.red)
+//            return
+//        }
+//        
+//        // Generate boundary string using a unique per-app string
+//        let boundary = "Boundary-\(UUID().uuidString)"
+//        var body = Data()
+//        
+//        // Construct the multipart body
+//        for param in parameters {
+//            if param["disabled"] != nil { continue }
+//            
+//            let paramName = param["key"] as! String
+//            let paramType = param["type"] as! String
+//            
+//            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+//            body.append("Content-Disposition: form-data; name=\"\(paramName)\"".data(using: .utf8)!)
+//            
+//            if paramType == "text" {
+//                let paramValue = param["value"] as! String
+//                body.append("\r\n\r\n\(paramValue)\r\n".data(using: .utf8)!)
+//            } else {
+//                let paramSrc = param["src"] as! String
+//                let fileURL = URL(fileURLWithPath: paramSrc)
+//                
+//                if let fileContent = try? Data(contentsOf: fileURL) {
+//                    body.append("; filename=\"\(paramSrc)\"\r\n".data(using: .utf8)!)
+//                    body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!) // Assuming binary file content
+//                    body.append(fileContent)
+//                    body.append("\r\n".data(using: .utf8)!)
+//                }
+//            }
+//        }
+//        
+//        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+//        
+//        // Setup URLRequest
+//        var request = URLRequest(url: url, timeoutInterval: Double.infinity)
+//        request.httpMethod = "POST"
+//        request.httpBody = body
+//        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+//        
+//        // Authentication (if needed)
+//        if let token = sessionKey {
+//            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+//        }
+//        
+//        // Send the request
+//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+//            stopAnimating()
+//            
+//            // CHECKING FOR ERROR
+//            if let error = error {
+//                DispatchQueue.main.async {
+//                    Toast.show(message: "Error: \(error.localizedDescription)", controller: (UIApplication.shared.keyWindow?.rootViewController)!, color: .red)
+//                }
+//                return
+//            }
+//            
+//            // CHECKING FOR RIGHT OUTPUT
+//            guard let httpResponse = response as? HTTPURLResponse else {
+//                DispatchQueue.main.async {
+//                    Toast.show(message: "Something Went Wrong!", controller: (UIApplication.shared.keyWindow?.rootViewController)!, color: .red)
+//                }
+//                return
+//            }
+//            
+//            if httpResponse.statusCode == 200 {
+//                guard let data = data else {
+//                    completion(error, nil, nil, httpResponse.statusCode)
+//                    return
+//                }
+//                guard let decodeData = try? JSONDecoder().decode(T.self, from: data) else {
+//                    DispatchQueue.main.async {
+//                        Toast.show(message: "Unable to decode Model!", controller: (UIApplication.shared.keyWindow?.rootViewController)!, color: .red)
+//                    }
+//                    return
+//                }
+//                completion(nil, decodeData, nil, httpResponse.statusCode)
+//            } else {
+//                do {
+//                    let json = try JSONSerialization.jsonObject(with: data!, options: [.mutableContainers, .allowFragments]) as! [String: Any]
+//                    completion(nil, nil, (json["message"] as? String), httpResponse.statusCode)
+//                    print("Json of Failed multipart request \(json)")
+//                } catch let myJSONError {
+//                    completion(myJSONError, nil, nil, httpResponse.statusCode)
+//                }
+//            }
+//        }
+//        task.resume()
+//    }
+    
+    public func requestWithSingle<T: Decodable>(
+        type: T.Type,
+        url: String,
+        parameters: [[String: Any]]?,
+        sessionKey: String? = nil,
+        completion: @escaping (_ error: Error?, _ myObject: T?, _ messageStr: String?, _ statusCode: Int?) -> Void
+    ) {
+        // CHECKING INTERNET CONNECTIVITY
+        guard Connectivity.isConnectedToInternet else {
+            // IF NOT CONNECTED TO INTERNET, GO OUT OF METHOD, SHOW ALERT, AND STOP INDICATOR
+            stopAnimating()
+            callInternetAlert()
+            return
+        }
+        
+        // CHECKING URL VALIDATION
+        guard let url = URL(string: url) else {
+            // IF NOT A VALID URL, SHOW ALERT, STOP INDICATOR, AND RETURN
+            stopAnimating()
+            Toast.show(message: "Invalid Url !", controller: (UIApplication.shared.keyWindow?.rootViewController)!, color: UIColor.red)
+            return
+        }
+        
+        // Generate boundary string using a unique per-app string
+        let boundary = UUID().uuidString
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
+        
+        request.httpMethod = "POST"
+        
+        // SETTING UP AUTHORIZATION HEADER
+        if let myToken = UserDefaults.standard.string(forKey: "myToken") {
+            request.setValue("Bearer \(myToken)", forHTTPHeaderField: "Authorization")
+        } else {
+            print("Authorization token is missing")
+            stopAnimating()
+            Toast.show(message: "Authorization token is missing", controller: (UIApplication.shared.keyWindow?.rootViewController)!, color: UIColor.red)
+            return
+        }
+        
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        var data = Data()
+        if let parameters = parameters {
+            for param in parameters {
+                if let paramName = param["key"] as? String, let paramValue = param["value"] as? String {
+                    data.append("--\(boundary)\r\n".data(using: .utf8)!)
+                    data.append("Content-Disposition: form-data; name=\"\(paramName)\"\r\n\r\n".data(using: .utf8)!)
+                    data.append("\(paramValue)\r\n".data(using: .utf8)!)
+                }
+            }
+        }
+        
+        // End the raw HTTP request data, note that there is 2 extra dash ("-") at the end, this is to indicate the end of the data
+        data.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        // Send a POST request to the URL, with the data we created earlier
+        session.uploadTask(with: request, from: data, completionHandler: { (data, response, error) in
+            // STOP LOADER AS SOON AS THE RESULT ARRIVES
+            stopAnimating()
+            
+            // CHECKING FOR ERROR
+            guard error == nil else {
+                DispatchQueue.main.async {
+                    Toast.show(message: "Error: \(error!.localizedDescription)", controller: (UIApplication.shared.keyWindow?.rootViewController)!, color: .red)
+                }
+                return
+            }
+            
+            // CHECKING FOR RIGHT OUTPUT
+            guard let httpResponse = response as? HTTPURLResponse else {
+                DispatchQueue.main.async {
+                    Toast.show(message: "Something Went Wrong!", controller: (UIApplication.shared.keyWindow?.rootViewController)!, color: .red)
+                }
+                return
+            }
+            
+            if httpResponse.statusCode == 200 {
+                guard let data = data else {
+                    completion(error, nil, nil, httpResponse.statusCode)
+                    return
+                }
+                guard let decodeData = try? JSONDecoder().decode(T.self, from: data) else {
+                    DispatchQueue.main.async {
+                        Toast.show(message: "Unable to decode Model!", controller: (UIApplication.shared.keyWindow?.rootViewController)!, color: .red)
+                    }
+                    return
+                }
+                completion(nil, decodeData, nil, httpResponse.statusCode)
+            } else {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data!, options: [.mutableContainers, .allowFragments]) as! [String: Any]
+                    completion(nil, nil, (json["message"] as? String), httpResponse.statusCode)
+                    print("Json of Failed multipart request \(json)")
+                } catch let myJSONError {
+                    completion(myJSONError, nil, nil, httpResponse.statusCode)
+                }
+            }
+        }).resume()
+    }
+
     
     public func requestWithSingleImage<T: Decodable>(type: T.Type, url: String, parameter: [String: Any]?, imageName: String, imageKeyName: String, image: Data, sessionKey: String? = nil, completion: @escaping (_ error: Error?, _ myObject: T?, _ messageStr: String?, _ statusCode: Int?) -> Void) {
         

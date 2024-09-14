@@ -20,7 +20,11 @@ class InvoicePdf: UIViewController, UIWebViewDelegate, WKUIDelegate, WKNavigatio
             if userID != 0 {
                 getPDF(studentID:userID)
             } else {
-                showInvoice()
+                if comesFrom == "Recipt" {
+                    showReceipt()
+                } else {
+                    showInvoice()
+                }
             }
         } else {
             loadData()
@@ -30,7 +34,7 @@ class InvoicePdf: UIViewController, UIWebViewDelegate, WKUIDelegate, WKNavigatio
             lbl_invoice.isHidden = true
         } else if comesFrom == "Recipt" {
             lbl_invoice.isHidden = false
-            lbl_invoice.text = "Recipt"
+            lbl_invoice.text = "Receipt"
         }
     }
     
@@ -57,6 +61,15 @@ class InvoicePdf: UIViewController, UIWebViewDelegate, WKUIDelegate, WKNavigatio
             webViewInvoice.load(myRequest)
         }
     }
+    
+    func showReceipt() {
+        if let id = invoiceId {
+            let myURL = URL(string: "\(receipt)\(String(id))")
+            let myRequest = URLRequest(url: myURL!)
+            webViewInvoice.load(myRequest)
+        }
+    }
+
     
     @IBAction func btnDownloadPdf(_ sender: UIButton) {
         guard let urlString = pdfData?.data?.url,
