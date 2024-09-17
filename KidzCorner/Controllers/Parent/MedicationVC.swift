@@ -25,7 +25,7 @@ class MedicationVC : UIViewController {
     let dropDown = DropDown()
     var tableData: [String] = []
     var childrenData = [ChildData]()
-    var studentID:Int?
+    var studentID = Int()
 //    var datePickerHandler: DatePickerHandler!
     
     //MARK: Memory Management Method
@@ -69,31 +69,14 @@ class MedicationVC : UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-//    @IBAction func btnSendChildsMedication(_ sender: Any) {
-//        // add Validations
-//        let medicationData = getAllMedicationData()
-//        
-//        let params: [String: Any] = [
-////            "user_id": "5291",
-//            "user_id":"\(studentID ?? 0)",
-//            "name": medicationData.map { $0["name"] ?? "" },
-//            "date": medicationData.map { $0["date"] ?? "" },
-//            "how_many_time_day": medicationData.map { $0["how_many_time_day"] ?? "" },
-//            "before_lunch": medicationData.map { $0["before_lunch"] ?? "" },
-//            "after_lunch": medicationData.map { $0["after_lunch"] ?? "" },
-//            "remark": txt_remarks.text ?? ""
-//        ]   
-//        print("params is here *******",params)
-//        sendChildsMedicationData(params: params)
-//    }
-    
     @IBAction func btnSendChildsMedication(_ sender: Any) {
-        // Add Validations if needed
         showIndicator()
         let medicationData = getAllMedicationData()
+        var stuArr = [Int]()
+//        stuArr.append(studentID)
         
         let params: [String: Any] = [
-            "user_id": "\(studentID ?? 0)",
+            "user_id[]": [studentID],
             "name[]": medicationData.map { $0["name"] ?? "" },
             "date[]": medicationData.map { $0["date"] ?? "" },
             "how_many_time_day[]": medicationData.map { $0["how_many_time_day"] ?? "" },
@@ -101,12 +84,11 @@ class MedicationVC : UIViewController {
             "after_lunch[]": medicationData.map { $0["after_lunch"] ?? "" },
             "remark": txt_remarks.text ?? ""
         ]
-        
+
         print("params is here *******", params)
-        
-        // Construct the parameters for multipart/form-data
+
         var parameters: [[String: Any]] = []
-        
+
         for (key, value) in params {
             if let values = value as? [String] {
                 for val in values {
@@ -116,15 +98,22 @@ class MedicationVC : UIViewController {
                         "type": "text"
                     ])
                 }
+            } else if let intValues = value as? [Int] { // Handling integer arrays like user_id[]
+                for intVal in intValues {
+                    parameters.append([
+                        "key": key,
+                        "value": "\(intVal)", // Converting int to string for API format
+                        "type": "text"
+                    ])
+                }
             } else {
                 parameters.append([
                     "key": key,
-                    "value": value as! String,
+                    "value": "\(value)", // Handling other non-array values
                     "type": "text"
                 ])
             }
         }
-        
         // Generate boundary string using a unique per-app string
         let boundary = "Boundary-\(UUID().uuidString)"
         var body = Data()
@@ -183,7 +172,6 @@ class MedicationVC : UIViewController {
         let task = session.dataTask(with: request) { [weak self] data, response, error in
             DispatchQueue.main.async {
                 self?.stopIndicator()
-                
                 if let error = error {
                     print("Error: \(error.localizedDescription)")
                     self?.showAlert(message: "An error occurred: \(error.localizedDescription)")
@@ -285,28 +273,6 @@ class MedicationVC : UIViewController {
             }
         }
     }
-
-//    func sendChildsMedicationData(params: [String: Any]) {
-//        for row in 0..<tableData.count {
-//            let indexPath = IndexPath(row: row, section: 0)
-//            guard let medicationCell = tblList.cellForRow(at: indexPath) as? MedicationCell else {
-//                continue
-//            }
-//            
-//            if !validateMedicationCell(medicationCell) {
-//                return
-//            }
-//        }
-//        ApiManager.shared.Request(type: AllChildrenModel.self, methodType: .Post, url: baseUrl+apiChildMedication, parameter: params) { error, myObject, msgString, statusCode in
-//            DispatchQueue.main.async {
-//                if statusCode == 200 {
-//                    // Handle success
-//                } else {
-//                    Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
-//                }
-//            }
-//        }
-//    }
     
     //------------------------------------------------------
     
@@ -358,6 +324,7 @@ class MedicationVC : UIViewController {
             DispatchQueue.main.async {
                 if statusCode == 200 {
                     self.childrenData = myObject?.data ?? []
+                    self.studentID = childrenData.first?.studentProfile?.userID ?? 0
                     self.coll_childs.reloadData()
                 } else {
                     Toast.toast(message: error?.localizedDescription ?? somethingWentWrong, controller: self)
@@ -438,7 +405,7 @@ extension MedicationVC: UICollectionViewDelegate, UICollectionViewDataSource, UI
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row < childrenData.count {
-            self.studentID = childrenData[indexPath.item].studentProfile?.id ?? 0
+            self.studentID = childrenData[indexPath.item].studentProfile?.userID ?? 0
             print("its studentID ***", studentID)
         } else {
             print("Index out of range")

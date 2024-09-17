@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -32,24 +33,37 @@
                                         <rect key="frame" x="0.0" y="61.5" width="243.5" height="22.5"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" name="myDarkGreen"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$300.00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CAj-J7-lXI">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$300.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CAj-J7-lXI">
                                         <rect key="frame" x="243.5" y="61.5" width="243.5" height="22.5"/>
                                         <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" name="myDarkGreen"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tJW-lX-BFK">
+                                <rect key="frame" x="20" y="150" width="487" height="1"/>
+                                <color key="backgroundColor" systemColor="underPageBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="7aw-JN-sPv"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" systemColor="underPageBackgroundColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" name="gradientTop"/>
+                        <color key="backgroundColor" name="myDarkGreen"/>
                         <constraints>
                             <constraint firstItem="tc5-Y0-krG" firstAttribute="leading" secondItem="wZQ-W1-q8c" secondAttribute="leading" constant="20" id="4Wj-y8-l1e"/>
                             <constraint firstAttribute="trailing" secondItem="tc5-Y0-krG" secondAttribute="trailing" constant="20" id="4hk-h8-ojl"/>
+                            <constraint firstItem="tJW-lX-BFK" firstAttribute="leading" secondItem="tc5-Y0-krG" secondAttribute="leading" id="9ke-JM-RoL"/>
+                            <constraint firstItem="tJW-lX-BFK" firstAttribute="trailing" secondItem="tc5-Y0-krG" secondAttribute="trailing" id="Afc-et-g6x"/>
                             <constraint firstAttribute="bottom" secondItem="tc5-Y0-krG" secondAttribute="bottom" constant="5" id="VdE-KO-o5N"/>
+                            <constraint firstItem="tJW-lX-BFK" firstAttribute="top" secondItem="tc5-Y0-krG" secondAttribute="bottom" id="krS-39-fAW"/>
                             <constraint firstItem="tc5-Y0-krG" firstAttribute="top" secondItem="wZQ-W1-q8c" secondAttribute="top" constant="5" id="qec-fa-wdp"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
@@ -73,6 +87,7 @@
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="bottomLine" destination="tJW-lX-BFK" id="I1v-Fx-mxz"/>
                 <outlet property="labelAmount" destination="CAj-J7-lXI" id="AiH-Af-BVO"/>
                 <outlet property="labelDescription" destination="92X-G0-Qgy" id="aMo-iU-qYL"/>
                 <outlet property="viewOuter" destination="wZQ-W1-q8c" id="Ymf-sL-VlQ"/>
@@ -87,5 +102,11 @@
         <namedColor name="gradientTop">
             <color red="0.41176470588235292" green="0.75686274509803919" blue="0.76078431372549016" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="myDarkGreen">
+            <color red="0.21568627450980393" green="0.50980392156862742" blue="0.50980392156862742" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="underPageBackgroundColor">
+            <color red="0.70980392156862748" green="0.71764705882352942" blue="0.74117647058823533" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

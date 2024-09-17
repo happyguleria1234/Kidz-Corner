@@ -907,6 +907,7 @@ struct PaymentsData: Codable {
         let tax: String?
         let invoiceItems: [InvoiceItem]?
         let student: ChildInfoModel?
+        let payment_reciepts: [payment_recieptsData]?
 
         enum CodingKeys: String, CodingKey {
             case id, invoice_id
@@ -926,7 +927,28 @@ struct PaymentsData: Codable {
             case tax
             case invoiceItems = "invoice_items"
             case student
+            case payment_reciepts
+            
         }
+}
+
+struct payment_recieptsData: Codable{
+    var id: Int?
+    var receipt_id: String?
+    var bill_no: String?
+    var ref_no: String?
+    var payment_type: Int?
+    var transition_id: String?
+    var user_id: Int?
+    var invoice_id: String?
+    var total_paid: String?
+    var date: String?
+    var address: String?
+    var phone_number: String?
+    var only_receipt_id: Int?
+    var created_by: Int?
+    var created_at: String?
+    var updated_at: String?
 }
 
 // MARK: - InvoiceItem

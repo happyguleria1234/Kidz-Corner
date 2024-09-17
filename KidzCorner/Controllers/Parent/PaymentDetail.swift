@@ -3,6 +3,8 @@ import UIKit
 class PaymentDetail: UIViewController {
     
     @IBOutlet weak var tableDetails: UITableView!
+    @IBOutlet weak var invoicelistTableViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var btnAction: UIButton!
     
     var taxAmount: String?
     var paymentId: Int?
@@ -20,6 +22,15 @@ class PaymentDetail: UIViewController {
         DispatchQueue.main.async {
             self.tableDetails.reloadData()
         }
+        if comesFrom != "Recipt" {
+            if paymentDetail?.payment_reciepts?.count ?? 0 > 1{
+                self.btnAction.setImage(UIImage(named: "filter"), for: .normal)
+            }else{
+                self.btnAction.setImage(UIImage(named: "downloads"), for: .normal)
+            }
+        }else{
+            self.btnAction.setImage(UIImage(named: "downloads"), for: .normal)
+        }
     }
     
     @IBAction func backFunc(_ sender: Any) {
@@ -27,6 +38,32 @@ class PaymentDetail: UIViewController {
             
         })
     }
+    
+    @IBAction func viewInvoicePDFBtn(_ sender: UIButton) {
+        if comesFrom == "Recipt" {
+            if let invoiceId = self.paymentDetail2?.id {
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "InvoicePdf") as! InvoicePdf
+                vc.invoiceId = invoiceId
+                vc.comesFrom = "Recipt"
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        } else {
+            if paymentDetail?.payment_reciepts?.count ?? 0 > 1{
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "InvoicePaymentRecipeLisVC") as! InvoicePaymentRecipeLisVC
+                vc.modalPresentationStyle = .overFullScreen
+                vc.payment_reciepts = paymentDetail?.payment_reciepts ?? []
+                vc.controller = self
+                self.navigationController?.present(vc, animated: false)
+            }else{
+                if let invoiceId = self.paymentDetail?.id {
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "InvoicePdf") as! InvoicePdf
+                    vc.invoiceId = invoiceId
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+        }
+    }
+    
     
     func registerTable() {
         tableDetails.register(UINib(nibName: "InvoiceDetailCell", bundle: nil), forCellReuseIdentifier: "InvoiceDetailCell")
@@ -74,40 +111,40 @@ extension PaymentDetail: UITableViewDelegate, UITableViewDataSource {
 //        return cell
 //    }
     
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "InvoiceDetailFooter") as! InvoiceDetailFooter
-        cell.viewInvoice.tag = section
-        let data = self.paymentDetail
-        if comesFrom == "Recipt" {
-            cell.viewInvoice.setTitle("View Receipt PDF", for: .normal)
-        } else {
-            cell.viewInvoice.setTitle("View Invoice PDF", for: .normal)
-//            if data?.status == "1" {
-//                cell.viewInvoice.setTitle("View Invoice PDF", for: .normal)
-//            } else {
-//                cell.viewInvoice.setTitle("View Receipt PDF", for: .normal)
-//            }
-        }
-        cell.viewInvoice.addTarget(self, action: #selector(showInvoice), for: .touchUpInside)
-        return cell
-    }
+//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "InvoiceDetailFooter") as! InvoiceDetailFooter
+//        cell.viewInvoice.tag = section
+//        let data = self.paymentDetail
+//        if comesFrom == "Recipt" {
+//            cell.viewInvoice.setTitle("View Receipt PDF", for: .normal)
+//        } else {
+//            cell.viewInvoice.setTitle("View Invoice PDF", for: .normal)
+////            if data?.status == "1" {
+////                cell.viewInvoice.setTitle("View Invoice PDF", for: .normal)
+////            } else {
+////                cell.viewInvoice.setTitle("View Receipt PDF", for: .normal)
+////            }
+//        }
+//        cell.viewInvoice.addTarget(self, action: #selector(showInvoice), for: .touchUpInside)
+//        return cell
+//    }
     
-    @objc func showInvoice(sender: UIButton) {
-        if comesFrom == "Recipt" {
-            if let invoiceId = self.paymentDetail2?.id {
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "InvoicePdf") as! InvoicePdf
-                vc.invoiceId = invoiceId
-                vc.comesFrom = "Recipt"
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-        } else {
-            if let invoiceId = self.paymentDetail?.id {
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "InvoicePdf") as! InvoicePdf
-                vc.invoiceId = invoiceId
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-        }
-    }
+//    @objc func showInvoice(sender: UIButton) {
+//        if comesFrom == "Recipt" {
+//            if let invoiceId = self.paymentDetail2?.id {
+//                let vc = self.storyboard?.instantiateViewController(withIdentifier: "InvoicePdf") as! InvoicePdf
+//                vc.invoiceId = invoiceId
+//                vc.comesFrom = "Recipt"
+//                self.navigationController?.pushViewController(vc, animated: true)
+//            }
+//        } else {
+//            if let invoiceId = self.paymentDetail?.id {
+//                let vc = self.storyboard?.instantiateViewController(withIdentifier: "InvoicePdf") as! InvoicePdf
+//                vc.invoiceId = invoiceId
+//                self.navigationController?.pushViewController(vc, animated: true)
+//            }
+//        }
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "InvoiceDetailCell", for: indexPath) as! InvoiceDetailCell
@@ -120,6 +157,7 @@ extension PaymentDetail: UITableViewDelegate, UITableViewDataSource {
                 cell.viewOuter.firstColor = .clear
                 cell.viewOuter.secondColor = .clear
                 cell.viewOuter.backgroundColor = UIColor.clear
+                cell.bottomLine.isHidden = false
                 cell.labelAmount.text = "$\(String(data?.amount ?? 0))"
                 
             } else {
@@ -127,6 +165,7 @@ extension PaymentDetail: UITableViewDelegate, UITableViewDataSource {
                 cell.labelAmount.text = "$\(self.totalAmount ?? "")"
                 cell.labelDescription.textColor = .white
                 cell.labelAmount.textColor = .white
+                cell.bottomLine.isHidden = true
                 cell.viewOuter.firstColor = UIColor(named: "gradientTop")!
                 cell.viewOuter.secondColor = UIColor(named: "gradientBottom")!
             }
@@ -138,6 +177,7 @@ extension PaymentDetail: UITableViewDelegate, UITableViewDataSource {
                 cell.labelDescription.text = data?.itemName
                 cell.viewOuter.firstColor = .clear
                 cell.viewOuter.secondColor = .clear
+                cell.bottomLine.isHidden = false
                 cell.viewOuter.backgroundColor = UIColor.clear
                 let cost = Int(data?.itemCost ?? "")
                 let quantity = Int(data?.itemQty ?? "")
@@ -149,17 +189,17 @@ extension PaymentDetail: UITableViewDelegate, UITableViewDataSource {
                 cell.labelAmount.text = "$\(self.totalAmount ?? "")"
                 cell.labelDescription.textColor = .white
                 cell.labelAmount.textColor = .white
+                cell.bottomLine.isHidden = true
                 cell.viewOuter.firstColor = UIColor(named: "gradientTop")!
                 cell.viewOuter.secondColor = UIColor(named: "gradientBottom")!
             }
         }
+        DispatchQueue.main.async {
+            self.invoicelistTableViewHeightConstraint.constant = self.tableDetails.contentSize.height
+        }
         return cell
     }
-    
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 300
-//    }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == (self.paymentDetail?.invoiceItems?.count ?? 0) {
             return 75
@@ -168,9 +208,9 @@ extension PaymentDetail: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 60
-    }    
+//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        return 60
+//    }    
 }
 
 extension Sequence where Element: AdditiveArithmetic {

@@ -13,6 +13,7 @@ class Payments: UIViewController {
     var previouslyDisplayedIndexPath: IndexPath?
     
     @IBOutlet weak var pageControl: UIPageControl!
+    
     var total = Int()
     var paymentsData: PaymentsModel?
     var paymentsData2: ReciptModel?
@@ -22,15 +23,16 @@ class Payments: UIViewController {
     var childrenData = [ChildData]()
     var selectedType = 1
     var selectedUserID = Int()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         btn_recipt.cornerRadius = 10
         btn_invoice.cornerRadius = 10
         self.tabBarController?.tabBar.isHidden = true
-        btn_recipt.titleLabel?.textColor =  #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        btn_invoice.setTitleColor(UIColor(named: "myDarkGreen"), for: .normal)
+        btn_invoice.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        btn_recipt.setTitleColor(UIColor.white, for: .normal)
         btn_recipt.backgroundColor = #colorLiteral(red: 0.2741542459, green: 0.6354581118, blue: 0.6397424936, alpha: 1)
-        btn_invoice.titleLabel?.textColor = #colorLiteral(red: 0.2741542459, green: 0.6354581118, blue: 0.6397424936, alpha: 1)
-        btn_invoice.backgroundColor =  #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     }
     
     @IBAction func btnBack(_ sender: UIButton) {
@@ -42,26 +44,20 @@ class Payments: UIViewController {
     }
     
     @IBAction func btnRecipt(_ sender: UIButton) {
-        // Set colors for the receipt button
         selectedType = 2
-        btn_recipt.setTitleColor(#colorLiteral(red: 0.2741542459, green: 0.6354581118, blue: 0.6397424936, alpha: 1), for: .normal)
+        btn_recipt.setTitleColor(UIColor(named: "myDarkGreen"), for: .normal)
         btn_recipt.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        
-        // Set colors for the invoice button
-        btn_invoice.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        btn_invoice.setTitleColor(UIColor.white, for: .normal)
         btn_invoice.backgroundColor = #colorLiteral(red: 0.2741542459, green: 0.6354581118, blue: 0.6397424936, alpha: 1)
         getRecipts(userId: selectedUserID)
     }
 
     @IBAction func btnInvoice(_ sender: UIButton) {
-        // Set colors for the receipt button
         selectedType = 1
-        btn_recipt.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
-        btn_recipt.backgroundColor = #colorLiteral(red: 0.2741542459, green: 0.6354581118, blue: 0.6397424936, alpha: 1)
-        
-        // Set colors for the invoice button
-        btn_invoice.setTitleColor(#colorLiteral(red: 0.2741542459, green: 0.6354581118, blue: 0.6397424936, alpha: 1), for: .normal)
+        btn_invoice.setTitleColor(UIColor(named: "myDarkGreen"), for: .normal)
         btn_invoice.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        btn_recipt.setTitleColor(UIColor.white, for: .normal)
+        btn_recipt.backgroundColor = #colorLiteral(red: 0.2741542459, green: 0.6354581118, blue: 0.6397424936, alpha: 1)
         getPayments(userId: selectedUserID)
     }
     
@@ -124,7 +120,8 @@ class Payments: UIViewController {
     func getPayments(userId: Int = 0) {
         DispatchQueue.main.async {
             if self.comesFrom == "" {
-                startAnimating((self.tabBarController?.view)!)
+                startAnimating(self.view)
+//                startAnimating((self.tabBarController?.view)!)
             }
         }
         total = 0
@@ -141,7 +138,6 @@ class Payments: UIViewController {
                             self.total = self.total + (amount ?? 0)
                         }
                     })
-//                    self.total = myObject?.data?.reduce(0, { $0 + (Int($1.amount ?? "") ?? 0) }) ?? 0
                     self.tablePayments.reloadData()
                     self.amountCollectionView.reloadData()
                 } else {
@@ -210,18 +206,22 @@ extension Payments: UITableViewDelegate, UITableViewDataSource {
             let data = self.paymentsData?.data?[indexPath.row]
             cell.lbl_date.text = convertDateFormat(dateString: data?.invoiceEndDate ?? "")
             cell.lbl_amount.text = "$\(data?.amount ?? "")"
-            cell.lbl_paid.textColor = .white
-            cell.lbl_paid.cornerRadius = 5
+//            cell.lbl_paid.textColor = .white
+            cell.lbl_paid.cornerRadius = 12
             cell.lbl_invoicenumber.text = data?.invoice_id
             if data?.status == "1" {
                 cell.lbl_paid.text = "Due"
-                cell.lbl_paid.backgroundColor = .systemRed
+                cell.lbl_paid.textColor = #colorLiteral(red: 0.85123384, green: 0.4668435454, blue: 0.5514846444, alpha: 1)
+                cell.lbl_paid.backgroundColor = #colorLiteral(red: 1, green: 0.8900536895, blue: 0.9094808102, alpha: 1)
             } else if data?.status == "2" {
                 cell.lbl_paid.text = "Paid"
-                cell.lbl_paid.backgroundColor = UIColor(named: "gradientBottom")!
+                cell.lbl_paid.textColor = #colorLiteral(red: 0.3588545322, green: 0.6942057014, blue: 0.5601734519, alpha: 1)
+                cell.lbl_paid.backgroundColor = #colorLiteral(red: 0.8739464879, green: 0.9999284148, blue: 0.9548007846, alpha: 1)
+//                cell.lbl_paid.backgroundColor = UIColor(named: "gradientBottom")!
             } else if data?.status == "4" {
                 cell.lbl_paid.text = "Partial"
-                cell.lbl_paid.backgroundColor = .systemOrange
+                cell.lbl_paid.textColor = #colorLiteral(red: 0.85123384, green: 0.4668435454, blue: 0.5514846444, alpha: 1)
+                cell.lbl_paid.backgroundColor = #colorLiteral(red: 1, green: 0.8900536895, blue: 0.9094808102, alpha: 1)
             }
         } else {
             let data = self.paymentsData2?.data?[indexPath.row]
@@ -238,7 +238,7 @@ extension Payments: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 85
+        return 100
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -254,7 +254,9 @@ extension Payments: UITableViewDelegate, UITableViewDataSource {
             vc.totalAmount = String(totalAmountInteger ?? 0)
             vc.taxAmount = self.paymentsData?.data?[indexPath.row].tax ?? ""
             self.navigationController?.pushViewController(vc, animated: true)
+            
         } else {
+            
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "PaymentDetail") as! PaymentDetail
             vc.paymentId = self.paymentsData2?.data?[indexPath.row].id
             vc.paymentDetail2 = self.paymentsData2?.data?[indexPath.row]
@@ -267,6 +269,7 @@ extension Payments: UITableViewDelegate, UITableViewDataSource {
             vc.taxAmount = ""
             self.navigationController?.pushViewController(vc, animated: true)
         }
+        
     }
 }
 

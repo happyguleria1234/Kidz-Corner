@@ -23,7 +23,7 @@ class DashboardTableCell: UITableViewCell {
     @IBOutlet weak var labelName: UILabel!
     @IBOutlet weak var labelTime: UILabel!
     @IBOutlet weak var buttonMore: UIButton!
-    @IBOutlet weak var labelDescription: ExpandableLabel!
+    @IBOutlet weak var labelDescription: UILabel!
     @IBOutlet weak var collectionHeight: NSLayoutConstraint!
     @IBOutlet weak var viewDomain: UIView!
     @IBOutlet weak var labelDomain: UILabel!

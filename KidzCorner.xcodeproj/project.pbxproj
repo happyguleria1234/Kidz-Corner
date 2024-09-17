@@ -12,6 +12,7 @@
 		180596042C909B1200D90AF2 /* InvoiceNewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180596022C909B1200D90AF2 /* InvoiceNewCell.swift */; };
 		180596052C909B1200D90AF2 /* InvoiceNewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 180596032C909B1200D90AF2 /* InvoiceNewCell.xib */; };
 		180596072C90C62300D90AF2 /* ReciptModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180596062C90C62300D90AF2 /* ReciptModel.swift */; };
+		180868282C9A10220037E4D0 /* InvoicePaymentRecipeLisVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180868272C9A10220037E4D0 /* InvoicePaymentRecipeLisVC.swift */; };
 		181CD6262BFD0E56006917F3 /* PdfVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CD6252BFD0E56006917F3 /* PdfVC.swift */; };
 		181CD6282BFF9F18006917F3 /* PdfVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CD6272BFF9F18006917F3 /* PdfVC2.swift */; };
 		181DB6D82C7F7CA20005BCB4 /* RemarkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181DB6D72C7F7CA20005BCB4 /* RemarkModel.swift */; };
@@ -248,6 +249,7 @@
 		180596022C909B1200D90AF2 /* InvoiceNewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceNewCell.swift; sourceTree = "<group>"; };
 		180596032C909B1200D90AF2 /* InvoiceNewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InvoiceNewCell.xib; sourceTree = "<group>"; };
 		180596062C90C62300D90AF2 /* ReciptModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReciptModel.swift; sourceTree = "<group>"; };
+		180868272C9A10220037E4D0 /* InvoicePaymentRecipeLisVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoicePaymentRecipeLisVC.swift; sourceTree = "<group>"; };
 		181CD6252BFD0E56006917F3 /* PdfVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfVC.swift; sourceTree = "<group>"; };
 		181CD6272BFF9F18006917F3 /* PdfVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfVC2.swift; sourceTree = "<group>"; };
 		181DB6D72C7F7CA20005BCB4 /* RemarkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemarkModel.swift; sourceTree = "<group>"; };
@@ -842,6 +844,7 @@
 				1850EF832C4DFFAE00BE9D42 /* SelectEvalutions.swift */,
 				18B2A0662C67C3DE004383BC /* SelectClassesVC.swift */,
 				180595FA2C8D9E6700D90AF2 /* MedicationVC.swift */,
+				180868272C9A10220037E4D0 /* InvoicePaymentRecipeLisVC.swift */,
 			);
 			path = Parent;
 			sourceTree = "<group>";
@@ -1223,6 +1226,7 @@
 				18DA02CA2C2C859A00D64805 /* OpenChatData.swift in Sources */,
 				18CFC2A32C5A9A4C00A2E25A /* ShowImages.swift in Sources */,
 				18A79C3D2C1DF96500F08D92 /* UserMessagesList.swift in Sources */,
+				180868282C9A10220037E4D0 /* InvoicePaymentRecipeLisVC.swift in Sources */,
 				53C196D627B17F9200EF16A3 /* DevicesCell.swift in Sources */,
 				7E494F6B2C27221E00348190 /* TeacherChatVC.swift in Sources */,
 				53C1970727B17F9200EF16A3 /* Constants.swift in Sources */,
@@ -1532,7 +1536,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.265;
+				MARKETING_VERSION = 7.266;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1584,7 +1588,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.265;
+				MARKETING_VERSION = 7.266;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colin.KidsCorner;
 				PRODUCT_NAME = "$(TARGET_NAME)";

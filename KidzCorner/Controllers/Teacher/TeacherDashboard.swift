@@ -16,6 +16,8 @@ class TeacherDashboard: UIViewController {
         setupTable()
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTable), name: NSNotification.Name("ToggleDescriptionNotification"), object: nil)
         updateTokens()
+        tableHome.estimatedRowHeight = 44.0
+        tableHome.rowHeight = UITableView.automaticDimension
 //        getDashboard()
      
     }
@@ -174,7 +176,7 @@ extension TeacherDashboard: UITableViewDelegate, UITableViewDataSource {
         cell.postData = data
         cell.labelName.text = data?.teacher?.name ?? ""
         cell.labelTitle.text = data?.title?.capitalized ?? ""
-//        cell.labelDescription.text = data?.postContent ?? ""
+        cell.labelDescription.text = data?.postContent ?? ""
 //        cell.configureLabelDescription(text: data?.postContent ?? "")
         cell.labelTime.text = data?.postDate ?? ""
         cell.labelDomain.text = data?.domain?.name ?? ""
@@ -217,6 +219,10 @@ extension TeacherDashboard: UITableViewDelegate, UITableViewDataSource {
         cell.viewOuter.defaultShadow()
         cell.backgroundColor = .clear
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

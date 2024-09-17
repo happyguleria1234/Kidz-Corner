@@ -325,13 +325,13 @@ extension ParentDashboard: UITableViewDelegate, UITableViewDataSource {
         cell.comesFrom = "Parent"
         cell.labelName.text = data?.teacher?.name ?? ""
         cell.labelTitle.text = data?.title?.capitalized ?? ""
-//        cell.labelDescription.text = data?.postContent ?? ""
+        cell.labelDescription.text = data?.postContent ?? ""
         cell.labelTime.text = data?.postDate ?? ""
         cell.viewComment.isHidden = true
         cell.labelDomain.text = data?.domain?.name ?? ""
         cell.buttonLike.setImage(UIImage(named: "likeEmpty"), for: .normal)
         cell.buttonLike.setImage(UIImage(named: "likeFilled"), for: .selected)
-        cell.labelDescription.configureLabelDescription(text: data?.postContent ?? "")
+//        cell.labelDescription.configureLabelDescription(text: data?.postContent ?? "")
         if data?.isLike == 1 {
             cell.buttonLike.isSelected = true
         }

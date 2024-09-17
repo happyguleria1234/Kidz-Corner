@@ -9,6 +9,7 @@ import UIKit
 
 class InvoiceNewCell: UITableViewCell {
 
+    @IBOutlet weak var paidVIew: UIView!
     @IBOutlet weak var lbl_date: UILabel!
     @IBOutlet weak var lbl_paid: UILabel!
     @IBOutlet weak var lbl_amount: UILabel!

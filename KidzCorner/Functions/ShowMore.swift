@@ -12,7 +12,9 @@ class ExpandableLabel: UILabel {
     private var isExpanded: Bool = false
     private let initialMaxLines: Int = 2
     private let expandedMaxLines: Int = 0 // 0 means no limit
-
+    private let showMoreText = " Show More"
+    private let showLessText = " Show Less"
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLabel()
@@ -36,20 +38,10 @@ class ExpandableLabel: UILabel {
         
         if isTextTruncated(text: text, maxLines: initialMaxLines) {
             let truncatedText = getTruncatedText(for: text, maxLines: initialMaxLines)
-            let showMoreText = " Show More"
-            let showMoreAttributedString = NSAttributedString(
-                string: showMoreText,
-                attributes: [
-                    .foregroundColor: UIColor.blue,
-                    .font: self.font
-                ]
-            )
-            let attributedText = NSMutableAttributedString(attributedString: truncatedText)
-            attributedText.append(showMoreAttributedString)
-            self.attributedText = attributedText
+            self.attributedText = truncatedText
         } else {
             self.text = text
-            self.numberOfLines = 0
+            self.numberOfLines = 0 // Full text since it's not truncated
         }
     }
     
@@ -57,8 +49,9 @@ class ExpandableLabel: UILabel {
         self.isExpanded.toggle()
         
         if self.isExpanded {
+            // Show full text with 'Show Less' at the end
             let fullText = originalText
-            let showLessText = " Show Less"
+            let fullAttributedString = NSMutableAttributedString(string: fullText)
             let showLessAttributedString = NSAttributedString(
                 string: showLessText,
                 attributes: [
@@ -66,94 +59,63 @@ class ExpandableLabel: UILabel {
                     .font: self.font
                 ]
             )
-            let fullAttributedString = NSMutableAttributedString(string: fullText)
             fullAttributedString.append(showLessAttributedString)
             self.attributedText = fullAttributedString
-            self.numberOfLines = 0
+            self.numberOfLines = expandedMaxLines // No limit
         } else {
-            configureLabelDescription(text: originalText)
+            // Collapse back to truncated text with 'Show More'
+            let truncatedText = getTruncatedText(for: originalText, maxLines: initialMaxLines)
+            self.attributedText = truncatedText
+            self.numberOfLines = initialMaxLines
         }
         
         // Trigger a layout update for the containing table view
         if let tableView = self.superview?.superview as? UITableView {
-            let indexPath = tableView.indexPath(for: self.superview as! UITableViewCell)!
-            tableView.beginUpdates()
-            tableView.endUpdates()
+            tableView.beginUpdates()  // Start the update
+            tableView.endUpdates()    // End the update (triggers the height change)
         }
     }
-
-    
-//    @objc private func toggleLabelDescription() {
-//        self.isExpanded.toggle()
-//        
-//        if self.isExpanded {
-//            let fullText = originalText
-//            let showLessText = " Show Less"
-//            let showLessAttributedString = NSAttributedString(
-//                string: showLessText,
-//                attributes: [
-//                    .foregroundColor: UIColor.blue,
-//                    .font: self.font
-//                ]
-//            )
-//            let fullAttributedString = NSMutableAttributedString(string: fullText)
-//            fullAttributedString.append(showLessAttributedString)
-//            self.attributedText = fullAttributedString
-//            self.numberOfLines = expandedMaxLines
-//        } else {
-//            configureLabelDescription(text: originalText)
-//        }
-//        
-//        // Trigger a layout update for the containing table view (if necessary)
-//        if let tableView = self.superview as? UITableView {
-//            tableView.beginUpdates()
-//            tableView.endUpdates()
-//        }
-//    }
     
     private func isTextTruncated(text: String, maxLines: Int) -> Bool {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = self.font
-        label.text = text
-        
         let maxSize = CGSize(width: self.frame.width, height: CGFloat.greatestFiniteMagnitude)
-        let fullTextHeight = label.sizeThatFits(maxSize).height
+        let labelHeight = text.boundingRect(
+            with: maxSize,
+            options: .usesLineFragmentOrigin,
+            attributes: [.font: self.font!],
+            context: nil).height
         
-        let maxLineHeight = self.font.lineHeight * CGFloat(maxLines)
-        
-        return fullTextHeight > maxLineHeight
+        let maxHeight = self.font.lineHeight * CGFloat(maxLines)
+        return labelHeight > maxHeight
     }
     
     private func getTruncatedText(for text: String, maxLines: Int) -> NSAttributedString {
+        let maxSize = CGSize(width: self.frame.width, height: CGFloat.greatestFiniteMagnitude)
         let label = UILabel()
-        label.numberOfLines = 0
         label.font = self.font
+        label.numberOfLines = maxLines
         label.text = text
         
-        let maxSize = CGSize(width: self.frame.width, height: CGFloat.greatestFiniteMagnitude)
-        let maxLineHeight = self.font.lineHeight * CGFloat(maxLines)
-        
-        var truncatedText = ""
-        var truncatedAttributedString: NSMutableAttributedString
-        
         let words = text.split(separator: " ")
-        for (index, word) in words.enumerated() {
-            truncatedText += "\(word) "
-            label.text = truncatedText + "..."
-            
+        var truncatedText = ""
+        
+        for word in words {
+            let testText = truncatedText + "\(word) "
+            label.text = testText
             let currentHeight = label.sizeThatFits(maxSize).height
-            if currentHeight > maxLineHeight {
-                truncatedAttributedString = NSMutableAttributedString(string: truncatedText)
-                truncatedAttributedString.append(NSAttributedString(
-                    string: "... Show More",
+            if currentHeight > self.font.lineHeight * CGFloat(maxLines) {
+                truncatedText += "..."
+                let attributedString = NSMutableAttributedString(string: truncatedText)
+                let showMoreAttributedString = NSAttributedString(
+                    string: showMoreText,
                     attributes: [
                         .foregroundColor: UIColor.blue,
                         .font: self.font
                     ]
-                ))
-                return truncatedAttributedString
+                )
+                attributedString.append(showMoreAttributedString)
+                return attributedString
             }
+            truncatedText += "\(word) "
         }
         
         return NSAttributedString(string: text)
