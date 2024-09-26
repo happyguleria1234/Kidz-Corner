@@ -1,7 +1,8 @@
 import UIKit
 import DropDown
+import AVFoundation
 
-class ClassStats: UIViewController {
+class ClassStats: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
     private var datePicker = UIDatePicker()
     private var doneButton = UIButton()
@@ -12,7 +13,7 @@ class ClassStats: UIViewController {
     
     var classAttendance: ClassAttendanceModel?
     var classesData: AllClassesModel?
-    
+    let session = AVCaptureSession()
     var statHeader: String = "Temperature"
     var stat1: String = "Temp 1"
     var stat2: String = "Temp 2"
@@ -38,6 +39,7 @@ class ClassStats: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
         let myClass = UserDefaults.standard.integer(forKey: myClass)
         if myClass != 0 {
             self.classId = myClass
@@ -46,6 +48,67 @@ class ClassStats: UIViewController {
             getClasses()
         }
     }
+    
+    // MARK: - Constants
+
+    private enum Constants {
+      static let alertTitle = "Scanning is not supported"
+      static let alertMessage = "Your device does not support scanning a code from an item. Please use a device with a camera."
+      static let alertButtonTitle = "OK"
+    }
+
+    // MARK: - set up camera
+
+    func setupCamera() {
+        guard let device = AVCaptureDevice.default(for: .video) else { return }
+        
+        do {
+            let input = try AVCaptureDeviceInput(device: device)
+            
+            let output = AVCaptureMetadataOutput()
+
+            output.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+            
+            session.addInput(input)
+            session.addOutput(output)
+            
+            output.metadataObjectTypes = [.qr]
+            
+            let previewLayer = AVCaptureVideoPreviewLayer(session: session)
+            previewLayer.videoGravity = .resizeAspectFill
+            previewLayer.frame = view.bounds
+            
+            view.layer.addSublayer(previewLayer)
+            
+            session.startRunning()
+        } catch {
+
+            showAlert()
+            print(error)
+        }
+    }
+
+    // MARK: - Alert
+
+    func showAlert() {
+            let alert = UIAlertController(title: Constants.alertTitle,
+                                          message: Constants.alertMessage,
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: Constants.alertButtonTitle,
+                                          style: .default))
+            present(alert, animated: true)
+    }
+    
+    func metadataOutput(_ output: AVCaptureMetadataOutput,
+                            didOutput metadataObjects: [AVMetadataObject],
+                            from connection: AVCaptureConnection) {
+
+            guard let metadataObject = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
+                      metadataObject.type == .qr,
+                      let stringValue = metadataObject.stringValue else { return }
+            
+            print(stringValue)
+        }
     
     @IBAction func bluetoothFunc(_ sender: Any) {
         if let vc = self.storyboard?.instantiateViewController(withIdentifier: "Devices") {
@@ -63,6 +126,59 @@ class ClassStats: UIViewController {
         self.navigationController?.present(vc, animated: false, completion: {
             
         })
+    }
+    
+    
+    @IBAction func qrScannerBtn(_ sender: UIButton) {
+        let vc = ScannerViewController()
+        vc.callBack = { userData in
+            self.getClasses()
+            self.getClassesNew(userID: userData.id,classID: userData.classes)
+        }
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func getStudentData(userID: Int,classID:[Int]) {
+        ApiManager.shared.Request(type: StudentDataScanner.self, methodType: .Get, url: baseUrl+"student/\(userID)/profile", parameter: [:]) { error, myObject, msgString, statusCode in
+            if statusCode == 200 {
+                DispatchQueue.main.async { [self] in
+                    var isAdded = false
+                    for i in 0..<classID.count {
+                        for j in 0..<(classesData?.data?.count ?? 0) {
+                            if classID[i] == classesData?.data?[j].id {
+                                isAdded = true
+                                let vc = self.storyboard?.instantiateViewController(withIdentifier: "TeacherPortfolio") as! TeacherPortfolio
+                                vc.studentId = myObject?.data?.id ?? 0
+                                vc.studentName = myObject?.data?.name ?? ""
+                                vc.studentImage = myObject?.data?.image ?? ""
+                                myObject?.data?.assignedStudentClasses?.forEach({ assignedClass in
+                                    if classID.contains(assignedClass.pivot?.classID ?? 0) {
+                                        vc.studentClass = assignedClass.name ?? ""
+                                    }
+                                })
+                                vc.tempMorning = myObject?.data?.studentAttendace?.morningTemp ?? ""
+                                vc.tempEvening = myObject?.data?.studentAttendace?.eveningTemp ?? ""
+                                vc.middleTemperature = myObject?.data?.studentAttendace?.eveningTemp ?? ""
+                                vc.timeIn = myObject?.data?.studentAttendace?.timeIn ?? ""
+                                vc.timeOut = myObject?.data?.studentAttendace?.timeOut ?? ""
+                                self.navigationController?.pushViewController(vc, animated: true)
+                                break
+                            }
+                        }
+                        if isAdded {
+                            break
+                        }
+                    }
+
+                    if !isAdded {
+                        Toast.show(message: "Class not assigned to you.", controller: (UIApplication.shared.keyWindow?.rootViewController)!, color: UIColor.red)
+                    }
+                }
+            }
+            else {
+                printt("Error fetching classes")
+            }
+        }
     }
     
     @IBAction func changeClassFunc(_ sender: Any) {
@@ -94,6 +210,20 @@ class ClassStats: UIViewController {
                 
                 self.getAttendance(classId: myObject?.data?[0].id ?? 0, date: self.currentDate)
                 
+            }
+            else {
+               printt("Error fetching classes")
+            }
+        }
+    }
+    
+    
+    func getClassesNew(userID: Int,classID:[Int]) {
+        let params = [String: String]()
+        ApiManager.shared.Request(type: AllClassesModel.self, methodType: .Get, url: baseUrl+apiGetAllClasses, parameter: params) { error, myObject, msgString, statusCode in
+            if statusCode == 200 {
+                self.classesData = myObject
+                self.getStudentData(userID: userID,classID: classID)
             }
             else {
                printt("Error fetching classes")
@@ -377,5 +507,178 @@ extension ClassStats: classSelected {
             self.classId = classId
             getAttendance1(classId: self.classId ?? 0, date: currentDate)
         }
+    }
+}
+
+
+
+// MARK: - MedicalModel
+struct StudentDataScanner: Codable {
+    let status: Int?
+    let message: String?
+    let data: StudentDataScannerDataClass?
+}
+
+// MARK: - DataClass
+struct StudentDataScannerDataClass: Codable {
+    let id: Int?
+    let toyyibpayUsername, toyyibpaySecret, toyyibpayCategory, facebookAccessToken: String?
+    let classID, activeChildID: Int?
+    let name: String?
+    let quickbooksID: Int?
+    let createdBy: Int?
+    let status: String?
+    let roleID: Int?
+    let email, emailVerifiedAt: String?
+    let image, document, address: String?
+    let contactNumber: String?
+    let gender: String?
+    let islogin: Int?
+    let userLoginType, adminApprove: String?
+    let createdAt: String?
+    let updatedAt, userStatus, chatToken: String?
+    let active: Int?
+    let dob: String?
+    let leavePlanID: Int?
+    let deviceToken: String?
+    let deviceType, assignedForm, countryID: Int?
+    let assignSchools: String?
+    let isChat: Int?
+    let selectedYear, showSchoolToHeadquarter, supervisorMenu, idCardNo: String?
+    let lastLogin: String?
+    let studentAttendace: StudentDataScannerStudentAttendace?
+    let assignedStudentClasses: [StudentDataScannerAssignedStudentClass]?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case toyyibpayUsername = "toyyibpay_username"
+        case toyyibpaySecret = "toyyibpay_secret"
+        case toyyibpayCategory = "toyyibpay_category"
+        case facebookAccessToken = "facebook_access_token"
+        case classID = "class_id"
+        case activeChildID = "active_child_id"
+        case name
+        case quickbooksID = "quickbooks_id"
+        case createdBy = "created_by"
+        case status
+        case roleID = "role_id"
+        case email
+        case emailVerifiedAt = "email_verified_at"
+        case image, document, address
+        case contactNumber = "contact_number"
+        case gender, islogin
+        case userLoginType = "user_login_type"
+        case adminApprove = "admin_approve"
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+        case userStatus = "user_status"
+        case chatToken = "chat_token"
+        case active, dob
+        case leavePlanID = "leave_plan_id"
+        case deviceToken = "device_token"
+        case deviceType = "device_type"
+        case assignedForm = "assigned_form"
+        case countryID = "country_id"
+        case assignSchools = "assign_schools"
+        case isChat = "is_chat"
+        case selectedYear = "selected_year"
+        case showSchoolToHeadquarter = "show_school_to_headquarter"
+        case supervisorMenu = "supervisor_menu"
+        case idCardNo = "id_card_no"
+        case lastLogin = "last_login"
+        case studentAttendace = "student_attendace"
+        case assignedStudentClasses = "assigned_student_classes"
+    }
+}
+
+// MARK: - AssignedStudentClass
+struct StudentDataScannerAssignedStudentClass: Codable {
+    let id, companyID: Int?
+    let name: String?
+    let isNapsMeals: Int?
+    let ageGroupID: Int?
+    let isactive, createdAt, updatedAt: String?
+    let deletedAt: String?
+    let pivot: StudentDataScannerPivot?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case companyID = "company_id"
+        case name
+        case isNapsMeals = "is_naps_meals"
+        case ageGroupID = "age_group_id"
+        case isactive
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+        case deletedAt = "deleted_at"
+        case pivot
+    }
+}
+
+// MARK: - Pivot
+struct StudentDataScannerPivot: Codable {
+    let userID, classID: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case userID = "user_id"
+        case classID = "class_id"
+    }
+}
+
+// MARK: - StudentAttendace
+struct StudentDataScannerStudentAttendace: Codable {
+    let id, userID: Int?
+    let sendBy: String?
+    let classID, companyID: Int?
+    let sendByImage, pickBy, pickByImage: String?
+    let userType: Int?
+    let checkinHealth, checkoutHealth, reason, checkInBy: String?
+    let checkOutBy, leaveID, leaveStatusBy, leaveStatus: String?
+    let checkinNotes, checkoutNotes: String?
+    let reportStatus: String?
+    let reportSendDate, reportSendTime: String?
+    let date, timeIn: String?
+    let timeOut, morningTemp, eveningTemp, otherTemp: String?
+    let otherTempTime: String?
+    let status: String?
+    let session: String?
+    let classMove, isactive: Int?
+    let createdAt, updatedAt: String?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case userID = "user_id"
+        case sendBy = "send_by"
+        case classID = "class_id"
+        case companyID = "company_id"
+        case sendByImage = "send_by_image"
+        case pickBy = "pick_by"
+        case pickByImage = "pick_by_image"
+        case userType = "user_type"
+        case checkinHealth = "checkin_health"
+        case checkoutHealth = "checkout_health"
+        case reason
+        case checkInBy = "check_in_by"
+        case checkOutBy = "check_out_by"
+        case leaveID = "leave_id"
+        case leaveStatusBy = "leave_status_by"
+        case leaveStatus = "leave_status"
+        case checkinNotes = "checkin_notes"
+        case checkoutNotes = "checkout_notes"
+        case reportStatus = "report_status"
+        case reportSendDate = "report_send_date"
+        case reportSendTime = "report_send_time"
+        case date
+        case timeIn = "time_in"
+        case timeOut = "time_out"
+        case morningTemp = "morning_temp"
+        case eveningTemp = "evening_temp"
+        case otherTemp = "other_temp"
+        case otherTempTime = "other_temp_time"
+        case status, session
+        case classMove = "class_move"
+        case isactive
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
     }
 }

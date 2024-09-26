@@ -178,18 +178,19 @@ extension TeacherChatVC {
             guard let self = self else { return }
             print(messageInfo)
             DispatchQueue.main.async {
-                if !self.isNavigatedToMessageListingVC {
-                    self.isNavigatedToMessageListingVC = true
-                    let sb = UIStoryboard(name: "Parent", bundle: nil)
-                    let vc = sb.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
-                    id = Int(messageInfo.data?.student?.id ?? "") ?? 0
-                    threadIDD = Int(messageInfo.data?.thread?.id ?? "") ?? 0
-                    userNamee = messageInfo.data?.student?.name
-                    userProfileImagee = messageInfo.data?.student?.name
-                    vc.comesFrom = "New Chat"
-                    vc.hidesBottomBarWhenPushed = true
-                    self.navigationController?.pushViewController(vc, animated: true)
+                let sb = UIStoryboard(name: "Parent", bundle: nil)
+                let vc = sb.instantiateViewController(withIdentifier: "MessageListingVC") as! MessageListingVC
+                id = Int(messageInfo.data?.student?.id ?? "") ?? 0
+                threadIDD = Int(messageInfo.data?.thread?.id ?? "") ?? 0
+                userNamee = messageInfo.data?.student?.name
+                userProfileImagee = messageInfo.data?.student?.name
+                vc.comesFrom = "New Chat"
+                vc.callBack = {
+                    self.getClasses()
                 }
+                comesFromNewChat = true
+                vc.hidesBottomBarWhenPushed = true
+                self.navigationController?.pushViewController(vc, animated: true)
             }
         }
     }
@@ -210,8 +211,6 @@ extension TeacherChatVC {
         } else {
             filteredUserList = allCharRoomResp
         }
-
-        // Assign filtered list back to your data source and reload table
         self.charRoomResp = filteredUserList
         self.tblChats.reloadData()
     }

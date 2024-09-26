@@ -198,6 +198,8 @@ extension DemoVC2: UITableViewDelegate, UITableViewDataSource{
         if tableView == tblView {
             let headerCell = tableView.dequeueReusableCell(withIdentifier: "DemoHeaderTVC") as! DemoHeaderTVC
             headerCell.lblStream.text = evaluatiomSkillModel?.data?[section].name ?? ""
+            let ratings = evaluatiomSkillModel?.ratings ?? []
+            headerCell.updateViewsWithRatings(ratings)
             return headerCell
         } else {
             return nil
@@ -215,37 +217,10 @@ extension DemoVC2: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == tblView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DemoTVC") as! DemoTVC
+            if let ratings = evaluatiomSkillModel?.ratings {
+                configureWithRatings(ratings, forCell: cell, at: indexPath)
+            }
             let subjects = evaluatiomSkillModel?.data?[indexPath.section].skills
-            evaluatiomSkillModel?.ratings?.forEach({ data in
-                print("VALUE ********* ",subjects?[indexPath.row].evolution?.remarkType ?? "")
-                let value = subjects?[indexPath.row].evolution?.remarkType ?? ""
-                if Int(subjects?[indexPath.row].evolution?.remarkType ?? "") == data.id {
-                    switch subjects?[indexPath.row].evolution?.remarkType ?? "" {
-                    case "1":
-                        cell.good.image = UIImage(named: "star")
-                        cell.GoodRatingView.isHidden = false
-                    case "2":
-                        cell.improving.image = UIImage(named: "star")
-                        cell.improvingRatingView.isHidden = false
-                    case "3":
-                        cell.bad.image = UIImage(named: "star")
-                        cell.badRatingView.isHidden = false
-                    case "4":
-                        cell.excellent.image = UIImage(named: "star")
-                        cell.excelentRatingView.isHidden = false
-                    case "":
-                        print("")
-                        cell.GoodRatingView.isHidden = true
-                        cell.badRatingView.isHidden = true
-                        cell.improvingRatingView.isHidden = true
-                        cell.excelentRatingView.isHidden = true
-                    default:
-                        print("")
-                    }
-                }else{
-                    
-                }
-            })
             cell.lblSubject.text = subjects?[indexPath.row].name
             return cell
         } else {
@@ -261,6 +236,112 @@ extension DemoVC2: UITableViewDelegate, UITableViewDataSource{
             }
         }
     }
+    
+    func configureWithRatings(_ ratings: [Rating], forCell cell: DemoTVC, at indexPath: IndexPath) {
+        // Initially hide all views
+        cell.GoodRatingView.isHidden = true
+        cell.improvingRatingView.isHidden = true
+        cell.badRatingView.isHidden = true
+        cell.excelentRatingView.isHidden = true
+
+        guard let subjects = evaluatiomSkillModel?.data?[indexPath.section].skills else { return }
+        guard let subject = subjects[indexPath.row].evolution else { return }
+        
+        let remarkType = subject.remarkType ?? ""
+
+        // Loop through the ratings and configure the cell views accordingly
+        for rating in ratings {
+            switch rating.name {
+            case "Good":
+                if remarkType == "1" {
+                    cell.GoodRatingView.isHidden = false
+                    cell.good.image = UIImage(named: "star")
+                }
+            case "Bad":
+                if remarkType == "3" {
+                    cell.badRatingView.isHidden = false
+                    cell.bad.image = UIImage(named: "star")
+                }
+            case "Improvement":
+                if remarkType == "2" {
+                    cell.improvingRatingView.isHidden = false
+                    cell.improving.image = UIImage(named: "star")
+                }
+            case "Excellent":
+                if remarkType == "4" {
+                    cell.excelentRatingView.isHidden = false
+                    cell.excellent.image = UIImage(named: "star")
+                }
+            default:
+                break
+            }
+        }
+    }
+
+    
+//    func configureWithRatings(_ ratings: [Rating], forCell cell: DemoTVC, at indexPath: IndexPath) {
+//        // Initially hide all views
+//        cell.GoodRatingView.isHidden = true
+//        cell.improvingRatingView.isHidden = true
+//        cell.badRatingView.isHidden = true
+//        cell.excelentRatingView.isHidden = true
+//
+//        let subjects = evaluatiomSkillModel?.data?[indexPath.section].skills
+//
+//        // Loop through the ratings and configure the cell views accordingly
+//        for rating in ratings {
+//            guard let subject = subjects?[indexPath.row].evolution else { continue }
+//            
+//            let remarkType = subject.remarkType ?? ""
+//
+//            switch rating.name {
+//            case "Good":
+//                if remarkType == "1" {
+//                    cell.GoodRatingView.isHidden = false
+//                    cell.good.image = UIImage(named: "star")
+//                }
+//            case "Bad":
+//                if remarkType == "3" {
+//                    cell.badRatingView.isHidden = false
+//                    cell.bad.image = UIImage(named: "star")
+//                }
+//            case "Improvement":
+//                if remarkType == "2" {
+//                    cell.improvingRatingView.isHidden = false
+//                    cell.improving.image = UIImage(named: "star")
+//                }
+//            case "Excellent":
+//                if remarkType == "4" {
+//                    cell.excelentRatingView.isHidden = false
+//                    cell.excellent.image = UIImage(named: "star")
+//                }
+//            default:
+//                break
+//            }
+//            
+//            cell.GoodRatingView.isHidden = true
+//            cell.badRatingView.isHidden = true
+//            cell.improvingRatingView.isHidden = true
+//            cell.excelentRatingView.isHidden = true
+//            
+//            // Loop through the ratings array and update views and labels based on rating name
+//            for rating in ratings {
+//                switch rating.name {
+//                case "Good":
+//                    cell.GoodRatingView.isHidden = false
+//                case "Bad":
+//                    cell.badRatingView.isHidden = false
+//                case "Improvement":
+//                    cell.improvingRatingView.isHidden = false
+//                case "Excellent":
+//                    cell.excelentRatingView.isHidden = false
+//                default:
+//                    break
+//                }
+//            }
+//            
+//        }
+//    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if tableView == tblView{

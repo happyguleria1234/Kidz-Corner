@@ -8,12 +8,6 @@
 import UIKit
 
 class DemoTVC: UITableViewCell {
-
-    
-    
-    
-    
-    
     
     @IBOutlet weak var lblSubject: UILabel!
     
@@ -32,10 +26,33 @@ class DemoTVC: UITableViewCell {
         // Initialization code
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+    
+//    func configureWithRatings(_ ratings: [Rating]) {
+//           // Initially hide all views
+//           GoodRatingView.isHidden = true
+//           improvingRatingView.isHidden = true
+//           badRatingView.isHidden = true
+//           excelentRatingView.isHidden = true
+//           
+//           // Loop through the ratings and configure the cell views accordingly
+//           for rating in ratings {
+//               switch rating.name {
+//               case "Good":
+//                   GoodRatingView.isHidden = false
+//                   good.image = UIImage(named: "star")
+//               case "Bad":
+//                   badRatingView.isHidden = false
+//                   bad.image = UIImage(named: "star")
+//               case "Improvement":
+//                   improvingRatingView.isHidden = false
+//                   improving.image = UIImage(named: "star")
+//               case "Excellent":
+//                   excelentRatingView.isHidden = false
+//                   excellent.image = UIImage(named: "star")
+//               default:
+//                   break
+//               }
+//           }
+//       }
 
 }

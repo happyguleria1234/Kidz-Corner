@@ -21,7 +21,7 @@ class TeacherPortfolio: UIViewController {
     var classId = 0
     var studentName: String = ""
     var studentClass: String = ""
-    var studentImage: String = ""
+    var studentImage = String()
     
     var isMorningEvening: String?
     
@@ -468,7 +468,7 @@ class TeacherPortfolio: UIViewController {
     
     func getChildAttendance(date: String) {
         DispatchQueue.main.async {
-            startAnimating((self.tabBarController?.view)!)
+            startAnimating(self.view)
         }
         
         var params = [String: Any]()
@@ -518,8 +518,11 @@ class TeacherPortfolio: UIViewController {
         
         labelName.text = studentName
         labelClass.text = "Class: \(studentClass)"
-        
-        imageProfile.sd_setImage(with: URL(string: imageBaseUrl+(studentImage)), placeholderImage: .placeholderImage)
+        let userProfileUrl = URL(string: imageBaseUrl+(studentImage))
+        DispatchQueue.main.async {
+            self.imageProfile.kf.setImage(with: userProfileUrl, placeholder: UIImage(named: "placeholderImage"))
+        }
+//        imageProfile.sd_setImage(with: URL(string: imageBaseUrl+(studentImage)), placeholderImage: .placeholderImage)
         
         //Data from API kcampus37@gmail.com Kinderc@mpus37
         let data = attendanceData?.data?.studentAttendace

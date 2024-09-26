@@ -1,4 +1,5 @@
 import UIKit
+import Lightbox
 
 class TeacherAnnouncement: UIViewController {
     
@@ -12,7 +13,10 @@ class TeacherAnnouncement: UIViewController {
     var announcementType: Int?
     var announcementPDF: String?
     var comesFrom = String()
+    var attachmentArray = [String]()
     
+    @IBOutlet weak var tblHeight: NSLayoutConstraint!
+    @IBOutlet weak var tblAnnouncement: UITableView!
     @IBOutlet weak var viewPFD: UIStackView!
     @IBOutlet weak var viewOuter: UIView!
     @IBOutlet weak var imageAnnouncement: UIImageView!
@@ -28,6 +32,8 @@ class TeacherAnnouncement: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        tblAnnouncement.register(UINib(nibName: "PaymentAnnouncementCell", bundle: nil), forCellReuseIdentifier: "PaymentAnnouncementCell")
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,6 +109,11 @@ class TeacherAnnouncement: UIViewController {
         }
     }
     
+    func getArray(attachment: String?) {
+        attachmentArray = attachment?.components(separatedBy: ",") ?? []
+        tblAnnouncement.reloadData()
+    }
+    
     func setupAnnouncementStatus() {
         if announcementType == 1 {
             switch announcementStatus {
@@ -134,47 +145,9 @@ class TeacherAnnouncement: UIViewController {
             }
         }
         
-        if anouncementData?.attachment == nil{
-            viewPFD.isHidden = true
-        } else {
-            if anouncementData?.attachment?.contains(".pdf") == true {
-                setFileName(attachment: anouncementData?.attachment ?? "")
-
-            } else {
-                setFileName(attachment: anouncementData?.attachment ?? "")
-            }
-            viewPFD.isHidden = false
+        if anouncementData?.attachment != nil{
+            getArray(attachment: anouncementData?.attachment ?? "")
         }
-    }
-    
-    func setFileName(attachment: String?) {
-        guard let attachment = attachment else {
-            attachmentLabel.text = "Unknown file"
-            return
-        }
-        
-        // Get the file extension
-        let fileExtension = (attachment as NSString).pathExtension
-        let baseFileName = (attachment as NSString).deletingPathExtension
-
-        // Define max length for the file name to fit within a single line
-        let maxLength = 10 // Adjust this value based on your label size and font
-
-        // Truncate the file name if it exceeds the max length
-        let truncatedFileName: String
-        if baseFileName.count > maxLength {
-            let prefix = baseFileName.prefix(maxLength / 2)
-            let suffix = baseFileName.suffix(maxLength / 2)
-            truncatedFileName = "\(prefix)...\(suffix)"
-        } else {
-            truncatedFileName = baseFileName
-        }
-
-        // Set the label text with the truncated file name and full extension
-        attachmentLabel.text = "\(truncatedFileName).\(fileExtension)"
-
-        // Show the view containing the file label
-        viewPFD.isHidden = false
     }
     
     func acceptRejectAnnouncement(status: String) {
@@ -196,4 +169,45 @@ class TeacherAnnouncement: UIViewController {
             }
         }
     }
+}
+
+extension TeacherAnnouncement: UITableViewDelegate, UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return attachmentArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentAnnouncementCell", for: indexPath) as! PaymentAnnouncementCell
+        cell.attachmentLbl.text = extractFileName(from: attachmentArray[indexPath.row])
+        DispatchQueue.main.async {
+            self.tblHeight.constant = self.tblAnnouncement.contentSize.height
+        }
+        cell.attachmentBtn.tag = indexPath.row
+        cell.attachmentBtn.addTarget(self, action: #selector(loadData(sender:)), for: .touchUpInside)
+        return cell
+    }
+    
+    @objc func loadData(sender: UIButton) {
+        if attachmentArray[sender.tag].contains(".pdf") == true {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "InvoicePdf") as! InvoicePdf
+            vc.invoiceId = 0
+            if let urls = URL(string: imageBaseUrl + (self.attachmentArray[sender.tag])) {
+                vc.pdfURL = urls
+            }
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            var images = [LightboxImage]()
+            images.append(LightboxImage(imageURL: URL(string: imageBaseUrl + (self.attachmentArray[sender.tag]))!))
+            let controller = LightboxController(images: images,startIndex: 0)
+            controller.dynamicBackground = true
+            self.present(controller, animated: true)
+        }
+    }
+}
+
+
+func extractFileName(from filePath: String) -> String {
+    // Use NSString to get the last path component
+    let fileName = (filePath as NSString).lastPathComponent
+    return fileName
 }

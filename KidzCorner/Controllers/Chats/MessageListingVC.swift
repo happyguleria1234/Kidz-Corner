@@ -14,6 +14,7 @@ var userNamee:String?
 var userProfileImagee:String?
 var id:Int?
 var threadIDD = Int()
+var comesFromNewChat = false
 
 class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
@@ -30,7 +31,7 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
     private var isLoadingMessages = false
     private var isFetchingMessages = false
     var currentPage = 1
-    
+    var callBack: (()->())?
     @IBOutlet weak var txt_view_height: NSLayoutConstraint!
     @IBOutlet weak var btnSendOutlet: UIButton!
     @IBOutlet weak var bootamView: UIView!
@@ -141,6 +142,7 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
                 gotoHomeTeacher()
             }
         } else {
+            callBack?()
             self.navigationController?.popViewController(animated: true)
         }
     }
@@ -160,6 +162,10 @@ class MessageListingVC: UIViewController, FilePickerManagerDelegate, UITextField
             if messageData != "" {
                 sendMessage(message: messageData,messageType:1) { [weak self] in
                     DispatchQueue.main.async {
+                        if comesFromNewChat == true {
+                            self?.getMessages()
+                            comesFromNewChat = false
+                        }
                         self?.tf_message.text = ""
                         self?.tblMessages.scrollToBottom()
                         self?.tblMessages.reloadData()

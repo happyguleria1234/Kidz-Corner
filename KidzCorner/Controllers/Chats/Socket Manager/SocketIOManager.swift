@@ -104,6 +104,7 @@ extension SocketIOManager{
         }
     }
     
+    
     //MARK: - User Status
     
     func userStatus(){
@@ -208,18 +209,21 @@ extension SocketIOManager{
         }
     }
     
-    func joinRoomListner(onSuccess: @escaping(_ messageInfo:MessageDataModel) -> Void) {
-        socket.on(SocketListeners.chatroomUsers.instance) { arrOfAny, ack  in
+    func joinRoomListner(onSuccess: @escaping(_ messageInfo: MessageDataModel) -> Void) {
+        socket.on(SocketListeners.chatroomUsers.instance) { [weak self] arrOfAny, ack in
             print("User Messages Listing")
-            do{
+            do {
                 let jsonData = try JSONSerialization.data(withJSONObject: arrOfAny[0], options: [])
                 let newMszs = try JSONDecoder().decode(MessageDataModel.self, from: jsonData)
                 onSuccess(newMszs)
-            }catch{
+                self?.socket.off(SocketListeners.chatroomUsers.instance)
+            } catch {
                 print("Error \(error)")
             }
         }
     }
+
+    
     func deleteMessage(threadID: Int, messageID: Int) {
         let param: parameter = ["threadId":threadID,"messageId":messageID]
         let data = try! JSONSerialization.data(withJSONObject: param)

@@ -319,7 +319,7 @@ struct CategoryModelData: Codable {
     }
 
 struct Album: Codable {
-    let id: Int?
+    let id, classId: Int?
     let name: String?
     let createdBy, isactive: Int?
     let createdAt, updatedAt: String?
@@ -328,6 +328,7 @@ struct Album: Codable {
         case id, name
         case createdBy = "created_by"
         case isactive
+        case classId = "class_id"
         case createdAt = "created_at"
         case updatedAt = "updated_at"
     }

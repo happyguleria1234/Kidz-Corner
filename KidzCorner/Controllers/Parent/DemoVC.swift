@@ -58,11 +58,6 @@ class DemoVC: UIViewController, SelectEvulation {
     }
     @IBAction func btnRemarks(_ sender: Any) {
         AlertManager.shared.showAlert(title: "Kidz Corner", message: "The feature will be coming soon.", viewController: self)
-//        DispatchQueue.main.async {
-//            let storyboard = UIStoryboard(name: "Parent", bundle: nil)
-//            let vc = storyboard.instantiateViewController(withIdentifier: "RemarkPopUPVC") as! RemarkPopUPVC
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

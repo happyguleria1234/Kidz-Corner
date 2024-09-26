@@ -12,7 +12,7 @@ class ParentAnnouncement: UIViewController {
     var announcementType: Int?
     var announcementPDF: String?
     var anouncementData: AnnouncementChildrenModelData?
-
+    var attachmentArray = [String]()
     @IBOutlet weak var viewPFD: UIStackView!
     @IBOutlet weak var viewOuter: UIView!
     
@@ -30,8 +30,15 @@ class ParentAnnouncement: UIViewController {
     @IBOutlet weak var buttonAccept: UIButton!
     @IBOutlet weak var buttonDeny: UIButton!
     
+    @IBOutlet weak var announcementTableView: UITableView!
+    @IBOutlet weak var announcementHeightTableView: NSLayoutConstraint!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        announcementTableView.delegate = self
+        announcementTableView.dataSource = self
+        announcementTableView.register(UINib(nibName: "PaymentAnnouncementCell", bundle: nil), forCellReuseIdentifier: "PaymentAnnouncementCell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,9 +73,9 @@ class ParentAnnouncement: UIViewController {
             self.present(controller, animated: true)
         }
         
-//        let vc = self.storyboard?.instantiateViewController(withIdentifier: "PdfVC") as! PdfVC
-//        vc.anouncementData = anouncementData
-//        self.navigationController?.pushViewController(vc, animated: true)
+        //        let vc = self.storyboard?.instantiateViewController(withIdentifier: "PdfVC") as! PdfVC
+        //        vc.anouncementData = anouncementData
+        //        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func acceptFunc(_ sender: Any) {
@@ -92,51 +99,21 @@ class ParentAnnouncement: UIViewController {
         }
         
         if anouncementData?.attachment == nil{
-            viewPFD.isHidden = true
+            //viewPFD.isHidden = true
         } else {
-            if anouncementData?.attachment?.contains(".pdf") == true {
-                setFileName(attachment: anouncementData?.attachment ?? "")
-            } else {
-                setFileName(attachment: anouncementData?.attachment ?? "")
-            }
-            viewPFD.isHidden = false
+            getArray(attachment: anouncementData?.attachment ?? "")
         }
         setupAnnouncementStatus()
     }
     
-    func setFileName(attachment: String?) {
-        guard let attachment = attachment else {
-            lblFile.text = "Unknown file"
-            return
-        }
-        
-        // Get the file extension
-        let fileExtension = (attachment as NSString).pathExtension
-        let baseFileName = (attachment as NSString).deletingPathExtension
-
-        // Define max length for the file name to fit within a single line
-        let maxLength = 10 // Adjust this value based on your label size and font
-
-        // Truncate the file name if it exceeds the max length
-        let truncatedFileName: String
-        if baseFileName.count > maxLength {
-            let prefix = baseFileName.prefix(maxLength / 2)
-            let suffix = baseFileName.suffix(maxLength / 2)
-            truncatedFileName = "\(prefix)...\(suffix)"
-        } else {
-            truncatedFileName = baseFileName
-        }
-
-        // Set the label text with the truncated file name and full extension
-        lblFile.text = "\(truncatedFileName).\(fileExtension)"
-
-        // Show the view containing the file label
-        viewPFD.isHidden = false
+    func getArray(attachment: String?) {
+        attachmentArray = attachment?.components(separatedBy: ",") ?? []
+        announcementTableView.reloadData()
     }
     
     func setupViews() {
         DispatchQueue.main.async { [self] in
-//            viewOuter.giveShadowAndRoundCorners(shadowOffset: CGSize.zero, shadowRadius: 10, opacity: 0.2, shadowColor: .black, cornerRadius: 10)
+            //            viewOuter.giveShadowAndRoundCorners(shadowOffset: CGSize.zero, shadowRadius: 10, opacity: 0.2, shadowColor: .black, cornerRadius: 10)
             imageAnnouncement.layer.cornerRadius = 10
             buttonAccept.layer.cornerRadius = 10
             buttonDeny.layer.cornerRadius = 10
@@ -147,8 +124,8 @@ class ParentAnnouncement: UIViewController {
             labelDescription.attributedText = announcementDescription?.htmlAttributedString()
             let userProfileUrl = URL(string: imageBaseUrl+(anouncementData?.file ?? ""))
             imageAnnouncement.kf.setImage(with: userProfileUrl, placeholder: UIImage(named: "placeholderImage"))
-
-//            imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(anouncementData?.file ?? "")), placeholderImage: .announcementPlaceholder)
+            
+            //            imageAnnouncement.sd_setImage(with: URL(string: imageBaseUrl+(anouncementData?.file ?? "")), placeholderImage: .announcementPlaceholder)
             labelDate.text = announcementDate
             lblTitle2.text = "\(announcementTitle ?? "")"
             
@@ -161,7 +138,7 @@ class ParentAnnouncement: UIViewController {
             case 0:
                 stackButtons.isHidden = false
                 labelStatus.text = ""
-                viewPFD.isHidden = false
+               // viewPFD.isHidden = false
             case 1:
                 //Accepted
                 stackButtons.isHidden = true
@@ -169,33 +146,33 @@ class ParentAnnouncement: UIViewController {
                 labelStatus.text = "Accepted"
                 labelStatus.textColor = UIColor(named: "acceptColor")
                 if announcementPDF != "" {
-                    viewPFD.isHidden = false
+                   // viewPFD.isHidden = false
                 } else if announcementType == 1 {
-                    viewPFD.isHidden = true
+                   // viewPFD.isHidden = true
                 }
             case 2:
                 //Rejected
                 stackButtons.isHidden = true
                 labelStatus.isHidden = false
                 labelStatus.text = "Rejected"
-                viewPFD.isHidden = true
+              //  viewPFD.isHidden = true
                 labelStatus.textColor = UIColor(named: "denyColor")
                 //Not Defined
             case .none:
                 printt("None")
-                viewPFD.isHidden = true
+              //  viewPFD.isHidden = true
             case .some(_):
                 printt("Some")
-                viewPFD.isHidden = true
+             //   viewPFD.isHidden = true
             }
         }
-        if anouncementData?.attachment == nil{
-            viewPFD.isHidden = true
-        } else {
-            viewPFD.isHidden = false
-        }
+//        if anouncementData?.attachment == nil{
+//            viewPFD.isHidden = true
+//        } else {
+//            viewPFD.isHidden = false
+//        }
     }
-
+    
     //Status = 0 - Not Read, 1 - Accept, 2 - Reject
     func acceptRejectAnnouncement(status: String) {
         DispatchQueue.main.async {
@@ -217,9 +194,42 @@ class ParentAnnouncement: UIViewController {
     }
 }
 
+extension ParentAnnouncement: UITableViewDelegate, UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return attachmentArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentAnnouncementCell", for: indexPath) as! PaymentAnnouncementCell
+        cell.attachmentLbl.text = extractFileName(from: attachmentArray[indexPath.row])
+        DispatchQueue.main.async {
+            self.announcementHeightTableView.constant = self.announcementTableView.contentSize.height
+        }
+        cell.attachmentBtn.tag = indexPath.row
+        cell.attachmentBtn.addTarget(self, action: #selector(loadData(sender:)), for: .touchUpInside)
+        return cell
+    }
+    
+    @objc func loadData(sender: UIButton) {
+        if attachmentArray[sender.tag].contains(".pdf") == true {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "InvoicePdf") as! InvoicePdf
+            vc.invoiceId = 0
+            if let urls = URL(string: imageBaseUrl + (self.attachmentArray[sender.tag])) {
+                vc.pdfURL = urls
+            }
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            var images = [LightboxImage]()
+            images.append(LightboxImage(imageURL: URL(string: imageBaseUrl + (self.attachmentArray[sender.tag]))!))
+            let controller = LightboxController(images: images,startIndex: 0)
+            controller.dynamicBackground = true
+            self.present(controller, animated: true)
+        }
+    }
+}
+
 extension String {
     func htmlAttributedString2(fontSize: CGFloat = 13, headingFontSize: CGFloat = 17) -> NSAttributedString? {
-        // Remove <br> tags and any resulting double spaces
         let cleanedHTMLString = self.replacingOccurrences(of: "<br>", with: "")
             .replacingOccurrences(of: "<br/>", with: "")
             .replacingOccurrences(of: "<br />", with: "")

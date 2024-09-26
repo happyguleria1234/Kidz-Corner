@@ -139,7 +139,7 @@ class InvoicePdf: UIViewController, UIWebViewDelegate, WKUIDelegate, WKNavigatio
             if statusCode == 200 {
                 DispatchQueue.main.sync {
                     self.pdfData = myObject
-                    let myURL = URL(string: myObject?.data?.url ?? "")
+                    let myURL = URL(string: generateURL(for: userID))
                     let myRequest = URLRequest(url: myURL!)
                     webViewInvoice.load(myRequest)
                 }
@@ -148,6 +148,16 @@ class InvoicePdf: UIViewController, UIWebViewDelegate, WKUIDelegate, WKNavigatio
             }
         }
     }
+    
+    func generateURL(for userID: Int) -> String {
+        let baseURL = "https://kidzcorner.live/evaluation_child/"
+        let apiDetails = "/pdf?api_key=784b0a765e6f6de215f6&api_value=b7346cbbc2a51cea22696c8612863a03183f66c52e679a6d9bbe70ff94546ce0990316f6e80bdf9c0cd205a6c67e7d7c7bdad313e86baf66a7468ca285af92961f436812e96fb82758fabf3f1f1040fc9ce7b4e661eb81941b607b20c6db926146d49d85"
+        
+        // Construct URL by inserting the userID
+        let fullURL = "\(baseURL)\(userID)\(apiDetails)"
+        return fullURL
+    }
+
     
     // WKNavigationDelegate Methods
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {

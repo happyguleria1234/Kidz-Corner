@@ -68,7 +68,7 @@ import UIKit
         itemCount = dataSource.collageViewNumberOfTotalItem(self)
         layoutDirection = dataSource.collageViewLayoutDirection(self)
         rowOrColoumnCount = dataSource.collageViewNumberOfRowOrColoumn(self)
-        assert(itemCount >= rowOrColoumnCount, "Image count cannot be more than row count")
+//        assert(itemCount >= rowOrColoumnCount, "Image count cannot be more than row count")
         addImageViews()
     }
     

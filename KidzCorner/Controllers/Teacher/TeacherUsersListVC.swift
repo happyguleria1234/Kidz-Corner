@@ -152,7 +152,6 @@ extension TeacherUsersListVC: UITableViewDelegate, UITableViewDataSource {
         } else {
             data = childrenData[indexPath.row]
         }
-
         guard let id = data.id else { return }
         delegate?.openChat(id, data.image, data.name, 0)
         navigationController?.popViewController(animated: false)
